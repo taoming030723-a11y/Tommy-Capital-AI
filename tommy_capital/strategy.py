@@ -73,14 +73,14 @@ def score(row, technical):
     cash = 5.0 if float(row["cfo_per_share_ytd"]) > 0 else 0.0
     ratio = float(row["industry_pe_ratio"])
     valuation = max(0.0, min(25.0, (1.5 - ratio) / 1.5 * 25))
-    trend = sum(10 for key in ["daily_trend", "weekly_trend", "monthly_trend"] if technical[key])
+    trend = sum(5 for key in ["daily_trend", "weekly_trend", "monthly_trend"] if technical.get(key))
     improvement = 5.0 if row["fundamental_improving"] else 0.0
-    low_j = 5.0 if row["fundamental_improving"] and technical["monthly_j"] < 20 else 0.0
-    volume = 5.0 if (technical["volume_ratio20"] or 0) >= 1.2 else 0.0
+    base = 15.0 if technical.get("weekly_base", {}).get("detected") else 0.0
+    volume = 10.0 if technical.get("daily_volume", {}).get("abnormal") else 0.0
     breakdown = {"revenue_growth_10": growth, "profit_growth_15": profit, "positive_cfo_5": cash,
-                 "industry_valuation_25": valuation, "large_timeframe_trend_30": trend,
-                 "profit_growth_acceleration_5": improvement, "monthly_j_bonus_5": low_j,
-                 "volume_confirmation_5": volume}
+                 "industry_valuation_25": valuation, "large_timeframe_trend_15": trend,
+                 "profit_growth_acceleration_5": improvement, "weekly_base_15": base,
+                 "volume_confirmation_10": volume}
     return round(sum(breakdown.values()), 2), {k: round(v, 2) for k, v in breakdown.items()}
 
 
@@ -90,12 +90,18 @@ def evaluate(row, technical, config, today):
         average = numeric(technical.get("average_turnover20_cny"))
         if average is None or average < config["min_turnover_cny"]:
             reasons.append("最近20个完整交易日平均成交额缺失/低于流动性门槛")
-    for field in ["daily_trend", "weekly_trend", "monthly_trend"]:
-        if not technical.get(field):
-            reasons.append(f"{field} 未确认")
+    # Monthly J is a mandatory observation-pool entrance, not a score bonus.
+    # Existing MA trends remain a separate confirmation gate for held-stock T.
+    monthly_j = numeric(technical.get("monthly_j"))
+    if monthly_j is None or monthly_j >= 20:
+        reasons.append("完整月线J缺失/不小于20，未进入月J观察池")
+    strategy_reasons = reasons + [f"{field} 未确认" for field in
+        ["daily_trend", "weekly_trend", "monthly_trend"] if not technical.get(field)]
     total, breakdown = (score(row, technical) if not base_checks(row, config, today) else (None, {}))
     return {"eligible": not reasons, "reasons": reasons, "score": total,
+            "strategic_eligible": not strategy_reasons, "strategy_reasons": strategy_reasons,
+            "selection_rule": "monthly_j_lt_20",
             "score_breakdown": breakdown,
-            "monthly_low_j_watch": bool(technical.get("monthly_j", 100) < 20 and row.get("fundamental_improving", False)),
+            "monthly_low_j_watch": not reasons,
             "manual_review": ["核对扣非净利润及非经常性损益", "核对行业景气、订单及公告原文",
                               "核对财报重述/股本变化、负债及股东减持", "以自身止损和仓位制度作最后决策"]}

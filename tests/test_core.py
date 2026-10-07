@@ -33,7 +33,8 @@ def good_row():
 
 def good_technical():
     return {"daily_trend": True, "weekly_trend": True, "monthly_trend": True,
-            "monthly_j": 30, "volume_ratio20": 1.3}
+            "monthly_j": 10, "volume_ratio20": 1.3,
+            "weekly_base": {"detected": False}, "daily_volume": {"abnormal": False}}
 
 
 def candles(count=80):
@@ -64,7 +65,8 @@ def test_missing_adjacent_report_cannot_claim_improvement():
 
 
 @pytest.mark.parametrize('daily_only', [True, False])
-def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily_only):
+@pytest.mark.parametrize('monthly_low', [True, False])
+def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily_only, monthly_low):
     from tommy_capital.data import FINANCE_COLUMNS
     class RecordedProvider:
         """Synthetic integration fixture; deliberately not a live-data claim."""
@@ -92,10 +94,16 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
             if function == "daily_tx_recent":
                 dates = pd.bdate_range("2018-01-01", "2026-09-30")
                 prices = np.linspace(10, 80, len(dates))
+                if monthly_low:
+                    prices[-126:] = np.linspace(75, 35, 126)
+                # A provider may expose the in-progress day: it must not enter
+                # the completed-day volume baseline or monthly observation.
+                dates = dates.append(pd.DatetimeIndex(["2026-10-08"]))
+                prices = np.append(prices, 90)
                 return pd.DataFrame({"日期": dates, "开盘": prices, "收盘": prices, "最高": prices+1,
-                                     "最低": prices-1, "成交量": [100]*len(dates), "成交额": [5e7]*len(dates)})
+                                     "最低": prices-1, "成交量": [100]*(len(dates)-1)+[100000], "成交额": [5e7]*len(dates)})
             if function == 'minute_sina_raw':
-                assert not daily_only and kwargs['period'] == '15'
+                assert monthly_low and not daily_only and kwargs['period'] == '15'
                 times = [pd.Timestamp(day) + pd.Timedelta(hours=h, minutes=m)
                          for day in pd.bdate_range('2026-08-01','2026-09-30')
                          for h,m in [(9,45),(10,0),(10,15),(10,30),(10,45),(11,0),(11,15),(11,30),
@@ -109,13 +117,22 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
     report = json.loads((tmp_path / "report.json").read_text())
     assert report["status"] == "partial" and not report["scan_complete"]
     assert report["coverage"]["unscanned"] == 5
-    assert len(report["rankings"]) == 1
-    assert report["rankings"][0]["pe_ttm"] == 20
-    assert report["rankings"][0]["tactical"]["status"] == ('not_requested' if daily_only else 'not_held')
-    if not daily_only:
+    assert len(report["rankings"]) == int(monthly_low)
+    assert report["selection_rule"] == "monthly_j_lt_20"
+    card = report["rankings"][0] if monthly_low else report["observations"][0]
+    assert (card["technical"]["monthly_j"] < 20) is monthly_low
+    assert not card["strategic_eligible"]
+    assert card["pe_ttm"] == 20
+    assert card["technical"]["daily_volume"]["confirmed_at"] == "2026-09-30"
+    assert card["technical"]["daily_volume"]["ratio20"] == 1
+    assert card["tactical"]["status"] == ('not_requested' if daily_only else 'not_held')
+    if not daily_only and monthly_low:
         assert report['rankings'][0]['minute15']['last_bar'] == '2026-10-08T09:45:00'
         assert report['coverage']['minute15_completed'] == 1
         assert report['session'] == '2026-09-30'
+    if not monthly_low:
+        assert report["coverage"]["minute15_requested"] == 0
+        assert card["minute15"]["status"] == "not_requested"
     assert report["lineage"]
 
 
@@ -128,12 +145,13 @@ def test_staleness_missing_and_negative_earnings_excluded():
         assert base_checks(row, DEFAULTS, today)
 
 
-def test_low_monthly_j_never_overrides_large_timeframe():
+def test_low_monthly_j_enters_observation_without_overriding_trend_confirmation():
     technical = good_technical(); technical.update(monthly_trend=False, monthly_j=10)
     result = evaluate(good_row(), technical, DEFAULTS, date(2026, 10, 5))
     assert result["monthly_low_j_watch"]
-    assert not result["eligible"]
-    assert "monthly_trend 未确认" in result["reasons"]
+    assert result["eligible"]
+    assert not result["strategic_eligible"]
+    assert "monthly_trend 未确认" in result["strategy_reasons"]
 
 
 def test_small_timeframe_only_runs_on_eligible_holdings():

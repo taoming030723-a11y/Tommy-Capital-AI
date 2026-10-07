@@ -21,7 +21,9 @@ LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
             "max_pe_ttm": 60, "max_pb": 8, "max_industry_pe_ratio": 1.2,
             "min_industry_pe_samples": 5, "max_finance_age_days": 225,
-            "daily_history_years": 8, "request_timeout_seconds": 180, "request_attempts": 2}
+            "daily_history_years": 8, "request_timeout_seconds": 180, "request_attempts": 2,
+            "daily_volume_abnormal_ratio": 2.0, "weekly_base_max_range_pct": 20.0,
+            "weekly_base_low_tolerance_pct": 3.0, "weekly_base_max_volume_ratio": 1.1}
 
 
 def clean(value):
@@ -48,8 +50,10 @@ def validate_config(config):
     for key, value in config.items():
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
             raise ValueError(f"配置 {key} 需为有限数值")
-        if key not in ["min_revenue_yoy_pct", "min_profit_yoy_pct"] and value <= 0:
+        if key not in ["min_revenue_yoy_pct", "min_profit_yoy_pct", "weekly_base_low_tolerance_pct"] and value <= 0:
             raise ValueError(f"配置 {key} 需大于0")
+    if config["daily_volume_abnormal_ratio"] <= 1 or not 0 <= config["weekly_base_low_tolerance_pct"] < 100:
+        raise ValueError("异常放量倍数需大于1；周线低点容差需在0到100之间")
     for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days"]:
         if not isinstance(config[key], int):
             raise ValueError(f"配置 {key} 需为整数")
@@ -94,22 +98,24 @@ def write_outputs(out, report):
                      f"15分钟检查 {coverage.get('minute15_completed', 0)}/{coverage.get('minute15_requested', 0)}只；"
                      f"未扫初筛合格股 {coverage.get('unscanned', 0)}只")
     cards = []
-    display_rows = report.get("rankings", []) + [r for r in report.get("observations", []) if r.get("monthly_low_j_watch")]
+    display_rows = report.get("rankings", [])
     for index, row in enumerate(display_rows, 1):
-        category = '战略候选' if row['eligible'] else '月线低J观察：未通过全部战略条件'
+        category = '月J＜20观察候选；趋势确认' if row['strategic_eligible'] else '月J＜20观察候选；趋势待确认'
         card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分 · {category}"
         details = [f"行业：{row.get('industry')}；PE TTM：{row.get('pe_ttm'):.2f}；PB：{row.get('pb'):.2f}",
                    f"报告期：{row.get('period')}；公告日期：{row.get('announced_at')}",
                    f"累计营收同比：{row.get('revenue_yoy')}%；累计净利润同比：{row.get('profit_yoy')}%",
                    "日线背离：" + signal_label(row['technical']['daily_divergences']),
                    "15分钟背离：" + signal_label(row.get('minute15', {})),
+                   '周线筑底蓄力代理：' + ('满足' if row['technical']['weekly_base']['detected'] else '暂未满足') + f"；6周振幅：{row['technical']['weekly_base']['range_pct']:.2f}%",
+                   f"日线量比：{row['technical']['volume_ratio20']:.2f}倍（此前20个交易日均量，不含检测当日）；异常放量门槛：{row['technical']['daily_volume']['threshold']:.2f}倍；确认日：{row['technical']['daily_bar_date']}",
                    '日/周/月趋势：' + '/'.join('确认' if row['technical'][k] else '未确认' for k in ['daily_trend','weekly_trend','monthly_trend']) + f"；月线J：{row['technical']['monthly_j']:.2f}",
                    '持仓战术：' + {'not_held':'未确认持仓，仅作行情观察', 'strategy_not_passed':'未通过战略条件', 'watch_only':'可查看持仓战术观察', 'not_requested':'本次未请求'}.get(row['tactical']['status'],row['tactical']['status']) + '；仍需支撑阻力、量价与价格结构确认',
                    "人工核对：" + "；".join(row['manual_review'])]
         cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
                      "".join("<p>" + html.escape(s) + "</p>" for s in details) + "</section>")
     if not cards:
-        cards.append("<p>本次没有符合全部规则的候选。请查阅 report.json 中的覆盖情况和排除原因。</p>")
+        cards.append("<p>本次未列出月J＜20且通过基本面/估值/流动性检查的观察候选。请结合覆盖情况和数据缺失判断。</p>")
     (out / "report.md").write_text(render_markdown(report, github_run_url()), encoding="utf-8")
     error_html = "".join("<p class='error'>" + html.escape(e) + "</p>" for e in report.get("errors", []))
     (out / "report.html").write_text(
@@ -124,7 +130,9 @@ def signal_label(observation):
     if observation.get('status') == 'unavailable':
         return '数据不可用：' + observation.get('error', '')
     if observation.get('status') == 'not_requested':
-        return '未通过战略条件，未请求分时' if observation.get('reason') == 'strategy_not_passed' else '日线预检模式，未请求分时'
+        return '未进入月J观察池，未请求分时' if observation.get('reason') == 'outside_monthly_pool' else '日线预检模式，未请求分时'
+    if observation.get('status') == 'insufficient_bars':
+        return 'K线不足，无法判断有无背离'
     label = '、'.join(('底背离' if s['direction'] == 'bullish' else '顶背离') + '/' + s['indicator'] +
                      '（确认：' + s['confirmed_at'] + '）' for s in observation.get('signals', [])) or '无已确认背离'
     return label + ('；完整K线：' + observation['last_bar'] if observation.get('last_bar') else '')
@@ -150,9 +158,10 @@ def run(args, provider=None, now=None):
     holdings = load_holdings(args.holdings)
     workers = getattr(args, "workers", 4)
     daily_only = getattr(args, "daily_only", False)
-    minute_scope = getattr(args, "minute_scope", "strategic")
+    minute_scope = getattr(args, "minute_scope", "monthly")
+    minute_scope = "monthly" if minute_scope == "strategic" else minute_scope
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
-    report = {"system": "Tommy Capital 1.1", "mode": "live", "generated_at": now.isoformat(),
+    report = {"system": "Tommy Capital 1.2", "selection_rule": "monthly_j_lt_20", "mode": "live", "generated_at": now.isoformat(),
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
               "limitations": ["规则引擎，无订单执行；基本面改善为累计同比加速代理",
@@ -224,6 +233,8 @@ def run(args, provider=None, now=None):
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(universe),
                               "financial_period_counts": financial_period_counts, "financially_eligible": len(eligible_rows),
                               "technical_requested": len(selected), "technical_completed": 0,
+                              "monthly_pool_count": 0, "weekly_base_count": 0, "daily_abnormal_volume_count": 0,
+                              "strategic_confirmed_count": 0, "monthly_pool_minute15_completed": 0,
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "unscanned": len(eligible_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
@@ -233,13 +244,13 @@ def run(args, provider=None, now=None):
             daily = bars(raw)
             daily = daily[daily.index.date <= session]
             period_cutoff = today if (now.hour, now.minute) >= (15, 10) else today - timedelta(days=1)
-            technical = strategic_technical(daily, session, period_cutoff)
+            technical = strategic_technical(daily, session, period_cutoff, config)
             decision = evaluate(row, technical, config, today)
-            need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"] or decision["monthly_low_j_watch"])
+            need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
             minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
-                "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "strategy_not_passed"}
+                "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}
             card = {**row, **decision, "technical": technical, "minute15": minute,
-                    "tactical": tactical(provider, row["code"], decision["eligible"], row["code"] in holdings, session,
+                    "tactical": tactical(provider, row["code"], decision["strategic_eligible"], row["code"] in holdings, session,
                                          now=now, calendar=calendar, daily_qfq=daily, minute15=minute) if not daily_only else
                                 {"status": "not_requested", "signals": []}}
             return card, warning
@@ -254,10 +265,16 @@ def run(args, provider=None, now=None):
                     if warning:
                         report["warnings"].append(warning)
                     report["coverage"]["technical_completed"] += 1
+                    if card["eligible"]:
+                        report["coverage"]["monthly_pool_count"] += 1
+                        report["coverage"]["weekly_base_count"] += int(card["technical"]["weekly_base"]["detected"])
+                        report["coverage"]["daily_abnormal_volume_count"] += int(card["technical"]["daily_volume"]["abnormal"])
+                        report["coverage"]["strategic_confirmed_count"] += int(card["strategic_eligible"])
                     if card["minute15"]["status"] != "not_requested":
                         report["coverage"]["minute15_requested"] += 1
                         if card["minute15"]["status"] == "ok":
                             report["coverage"]["minute15_completed"] += 1
+                            report["coverage"]["monthly_pool_minute15_completed"] += int(card["eligible"])
                         else:
                             report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
                     else:
@@ -269,14 +286,14 @@ def run(args, provider=None, now=None):
                     for timeframe, observation in [("daily", card["technical"]["daily_divergences"]), ("15m", card["minute15"])]:
                         for signal in observation["signals"]:
                             report["divergences"].append({"code": row["code"], "name": row["name"], "timeframe": timeframe,
-                                "strategic_eligible": card["eligible"], **signal})
+                                "monthly_pool_eligible": card["eligible"], "strategic_eligible": card["strategic_eligible"], **signal})
                     report["rankings" if card["eligible"] else "observations"].append(card)
                 except DataError as exc:
                     report["errors"].append(f"{row['code']}: {exc}")
                     report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "technical_data", "reasons": [str(exc)]})
                 if count % 25 == 0 or count == len(selected):
                     report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-                    LOG.info("技术进度 %s/%s；战略候选 %s", count, len(selected), len(report["rankings"]))
+                    LOG.info("技术进度 %s/%s；月J＜20观察候选 %s", count, len(selected), len(report["rankings"]))
                     write_outputs(Path(args.output), report)
         report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
         report["scan_complete"] = report["coverage"]["unscanned"] == 0 and not report["errors"]
@@ -288,8 +305,8 @@ def run(args, provider=None, now=None):
         report["lineage"] = provider.lineage
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
-    summary = {k: report.get(k) for k in ["status", "scan_complete", "scan_type", "generated_at", "session", "minute15_cutoff", "coverage"]}
-    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "score", "technical", "minute15"]} for r in report["rankings"][:15]]
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "generated_at", "session", "minute15_cutoff", "coverage", "config"]}
+    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "score", "strategic_eligible", "technical", "minute15"]} for r in report["rankings"][:15]]
     summary["candidate_count"] = len(report["rankings"])
     summary["observation_count"] = len(report["observations"])
     summary["divergences"] = report["divergences"]
@@ -306,7 +323,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部初筛合格股票")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
-    parser.add_argument("--minute-scope", choices=["strategic", "screened"], default="strategic", help="15分钟默认检查战略候选/月线低J观察；screened=全部基本面估值初筛合格股票")
+    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查全部月J＜20观察池；screened扩展至全部基本面估值初筛合格股票；strategic是monthly旧别名")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

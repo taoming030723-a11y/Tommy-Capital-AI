@@ -58,7 +58,54 @@ def indicators(df):
     return result
 
 
-def strategic_technical(daily, session, period_cutoff=None):
+def daily_volume_observation(daily, threshold=2.0):
+    """Latest completed day divided by the *preceding* 20 trading bars."""
+    if len(daily) < 21:
+        raise DataError("日线放量检查缺少前20个完整交易日")
+    baseline = daily.volume.iloc[-21:-1]
+    if not np.isfinite(baseline).all() or baseline.mean() <= 0 or not np.isfinite(daily.volume.iloc[-1]):
+        raise DataError("日线前20个交易日平均成交量缺失/非正，无法判断放量")
+    ratio = float(daily.volume.iloc[-1] / baseline.mean())
+    return {"status": "ok", "abnormal": ratio >= threshold, "ratio20": ratio,
+            "threshold": threshold, "volume": float(daily.volume.iloc[-1]),
+            "previous20_mean_volume": float(baseline.mean()), "baseline_bars": 20,
+            "baseline_start": baseline.index[0].date().isoformat(),
+            "baseline_end": baseline.index[-1].date().isoformat(),
+            "confirmed_at": daily.index[-1].date().isoformat(),
+            "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"}
+
+
+def weekly_base_observation(weekly, daily, max_range_pct=20.0, low_tolerance_pct=3.0,
+                            max_volume_ratio=1.1):
+    """Observable six-week base proxy; no claim about hidden investor intent."""
+    recent = weekly.tail(6)
+    if len(recent) < 6:
+        raise DataError("周线筑底观察不足6个完整周")
+    previous, current = recent.iloc[:3], recent.iloc[3:]
+    range_pct = float((recent.high.max() / recent.low.min() - 1) * 100)
+    low_change_pct = float((current.low.min() / previous.low.min() - 1) * 100)
+    # Holiday weeks have fewer sessions: compare daily average volume within
+    # each completed week instead of interpreting fewer days as quiet trading.
+    days = daily.close.resample("W-FRI").count().reindex(recent.index)
+    daily_mean_volume = recent.volume / days
+    if days.isna().any() or (days <= 0).any() or daily_mean_volume.iloc[:3].mean() <= 0:
+        raise DataError("周线筑底的交易日数/成交量基准缺失")
+    volume_ratio = float(daily_mean_volume.iloc[3:].mean() / daily_mean_volume.iloc[:3].mean())
+    conditions = {"range_compressed": range_pct <= max_range_pct,
+                  "lows_stable": low_change_pct >= -low_tolerance_pct,
+                  "close_holds_base": bool(recent.close.iloc[-1] >= recent.close.mean()),
+                  "volume_quiet": volume_ratio <= max_volume_ratio}
+    last_trading = daily.loc[daily.index <= recent.index[-1]].index[-1].date().isoformat()
+    return {"status": "ok", "detected": all(conditions.values()), "conditions": conditions,
+            "window_weeks": 6, "range_pct": range_pct, "low_change_pct": low_change_pct,
+            "daily_average_volume_ratio": volume_ratio,
+            "max_range_pct": max_range_pct, "low_tolerance_pct": low_tolerance_pct,
+            "max_volume_ratio": max_volume_ratio,
+            "period_end": recent.index[-1].date().isoformat(), "last_trading_day": last_trading,
+            "basis": "6个完整周窄幅、低点稳定、收盘守住区间均值、日均量平稳；仅为筑底蓄力观察代理"}
+
+
+def strategic_technical(daily, session, period_cutoff=None, config=None):
     if len(daily) < 250 or daily.index[-1].date() != session:
         raise DataError("日线不足250根，或最新K线未覆盖已收盘交易日（可能停牌/数据滞后）")
     d = indicators(daily)
@@ -73,6 +120,12 @@ def strategic_technical(daily, session, period_cutoff=None):
     daily_ok = bool(last_d.close > last_d.ma60 and last_d.ma20 > d.ma20.iloc[-6])
     weekly_ok = bool(last_w.close > last_w.ma20 and last_w.ma20 >= w.ma20.iloc[-4])
     monthly_ok = bool(last_m.close > last_m.ma20)
+    config = config or {}
+    volume = daily_volume_observation(daily, config.get("daily_volume_abnormal_ratio", 2.0))
+    weekly_base = weekly_base_observation(w, daily,
+        config.get("weekly_base_max_range_pct", 20.0),
+        config.get("weekly_base_low_tolerance_pct", 3.0),
+        config.get("weekly_base_max_volume_ratio", 1.1))
     return {"daily_trend": daily_ok, "weekly_trend": weekly_ok, "monthly_trend": monthly_ok,
             "average_turnover20_cny": float(pd.to_numeric(daily.amount, errors="coerce").tail(20).mean())
                                       if "amount" in daily and daily.amount.tail(20).notna().all() else None,
@@ -81,8 +134,8 @@ def strategic_technical(daily, session, period_cutoff=None):
             "daily_close_qfq": float(last_d.close), "daily_ma60_qfq": float(last_d.ma60),
             "daily_bar_date": daily.index[-1].date().isoformat(),
             "daily_divergences": confirmed_divergences(daily, window=120),
-            "volume_ratio20": float(last_d.volume / daily.volume.iloc[-21:-1].mean())
-                              if daily.volume.iloc[-21:-1].mean() > 0 else None}
+            "weekly_base": weekly_base, "daily_volume": volume,
+            "volume_ratio20": volume["ratio20"]}
 
 
 def confirmed_divergences(frame, window=60, radius=3):
