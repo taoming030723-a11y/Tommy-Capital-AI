@@ -50,8 +50,8 @@ def test_qfq_client_does_not_silently_accept_raw_prices(monkeypatch):
 def sina_responses(monkeypatch, factors):
     """Protocol fixtures validate adjustment; they are never scan inputs."""
     from py_mini_racer import py_mini_racer
-    records = [dict(date='2026-09-28',open=20,close=20,high=21,low=19,volume=100,amount=2000),
-               dict(date='2026-09-30',open=10,close=10,high=11,low=9,volume=200,amount=2000)]
+    records = [dict(date='2026-09-28T00:00:00.000Z',open=20,close=20,high=21,low=19,volume=100,amount=2000),
+               dict(date='2026-09-30T00:00:00.000Z',open=10,close=10,high=11,low=9,volume=200,amount=2000)]
     class Decoder:
         def eval(self, code): pass
         def call(self, function, encoded): return copy.deepcopy(records)

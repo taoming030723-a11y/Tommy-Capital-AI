@@ -189,7 +189,9 @@ def daily_sina(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None
     if not required.issubset(raw.columns) or raw.empty:
         raise ValueError("新浪日线缺少真实价格或成交额字段")
     raw = raw[list(required)].copy()
-    raw["date"] = pd.to_datetime(raw["date"], errors="coerce").dt.normalize()
+    # The decoder serializes JS dates as UTC strings; these are exchange
+    # session labels, matched to the timezone-free factor event dates.
+    raw["date"] = pd.to_datetime(raw["date"], errors="coerce").dt.tz_localize(None).dt.normalize()
     if raw["date"].isna().any() or raw["date"].duplicated().any():
         raise ValueError("新浪日线日期缺失或重复")
     raw = raw.sort_values("date")
@@ -204,7 +206,7 @@ def daily_sina(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None
         if not isinstance(factors, list) or not factors or any(not isinstance(r, list) or len(r) != 2 for r in factors):
             raise ValueError("新浪前复权因子为空或格式变化")
         factors = pd.DataFrame(factors, columns=["date", "factor"])
-        factors["date"] = pd.to_datetime(factors["date"], errors="coerce").dt.normalize()
+        factors["date"] = pd.to_datetime(factors["date"], errors="coerce").dt.tz_localize(None).dt.normalize()
         factors["factor"] = pd.to_numeric(factors["factor"], errors="coerce")
         anchor = pd.Timestamp(anchor_date or end_date).normalize()
         if factors.isna().any().any() or factors["date"].duplicated().any() or (factors["date"] > anchor).any():
