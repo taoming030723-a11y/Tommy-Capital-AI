@@ -9,6 +9,9 @@ import math
 import re
 import threading
 import time
+import os
+import uuid
+from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
 import pandas as pd
@@ -36,6 +39,27 @@ def get_json(url, params):
     return request(url, params).json()
 
 
+def financial_page(url, params):
+    """Retain successful pages briefly so a retry repairs only missing pages."""
+    key = hashlib.sha256(json.dumps([url, params], sort_keys=True).encode()).hexdigest()
+    root = Path(os.environ.get("TOMMY_PAGE_CACHE", ".cache/tommy/finance-pages"))
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / (key + ".json")
+    if path.exists():
+        try:
+            cached = json.loads(path.read_text())
+            if 0 <= time.time() - cached["fetched_epoch"] < 600:
+                return cached["data"]
+        except (ValueError, KeyError):
+            pass
+    item = get_json(url, params)
+    if item.get("code") == 0 and item.get("result") is not None:
+        temporary = path.with_suffix('.' + uuid.uuid4().hex + '.tmp')
+        temporary.write_text(json.dumps({"fetched_epoch": time.time(), "data": item}), encoding="utf-8")
+        temporary.replace(path)
+    return item
+
+
 FIN_FIELDS = {
     "SECURITY_CODE": "股票代码", "SECURITY_NAME_ABBR": "股票简称", "BASIC_EPS": "每股收益",
     "TOTAL_OPERATE_INCOME": "营业总收入-营业总收入", "YSTZ": "营业总收入-同比增长",
@@ -48,10 +72,10 @@ FIN_FIELDS = {
 def finance(date):
     period = pd.Timestamp(date).strftime("%Y-%m-%d")
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
-    params = {"reportName": "RPT_LICO_FN_CPD", "columns": ",".join([*FIN_FIELDS, "REPORTDATE", "SECUCODE", "UPDATE_DATE"]), "pageSize": 500,
-              "sortColumns": "SECURITY_CODE,UPDATE_DATE", "sortTypes": "1,-1",
+    params = {"reportName": "RPT_LICO_FN_CPD", "columns": "ALL", "pageSize": 500,
+              "sortColumns": "UPDATE_DATE,SECURITY_CODE", "sortTypes": "-1,-1", "source": "WEB", "client": "WEB",
               "filter": f"(REPORTDATE='{period}')"}
-    first = get_json(url, {**params, "pageNumber": 1})
+    first = financial_page(url, {**params, "pageNumber": 1})
     result = first.get("result")
     if result is None:
         # This API explicitly distinguishes a valid query with no records.
@@ -64,7 +88,7 @@ def finance(date):
     rows = list(result["data"])
     seen = {hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()}
     def page(number):
-        item = get_json(url, {**params, "pageNumber": number})["result"]
+        item = financial_page(url, {**params, "pageNumber": number})["result"]
         if int(item["pages"]) != pages:
             raise ValueError("财报数据在分页中变化，请重试")
         return item["data"]

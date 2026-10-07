@@ -170,7 +170,8 @@ def run(args, provider=None, now=None):
         spot = normalize_spot(spot_raw)
         histories, financial_period_counts = [], {}
         def load_period(period):
-            raw = provider.fetch("finance_em_named", ttl=86400, allow_empty=True, date=period.strftime("%Y%m%d"))
+            ttl = 900 if period == report_periods(today)[0] else 86400
+            raw = provider.fetch("finance_em_named", ttl=ttl, allow_empty=True, date=period.strftime("%Y%m%d"))
             return normalize_finance(raw, period, today) if not raw.empty else raw
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = {executor.submit(load_period, p): p for p in report_periods(today)}

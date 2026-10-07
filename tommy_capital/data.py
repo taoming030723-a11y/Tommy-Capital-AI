@@ -182,7 +182,7 @@ def normalize_spot(frame):
     result = frame.rename(columns=SPOT_COLUMNS)[list(SPOT_COLUMNS.values())].copy()
     result.code = codes(result.code)
     # Include Shanghai, Shenzhen and Beijing A shares; exclude B shares.
-    result = result[result.code.str.match(r"^(600|601|603|605|688|000|001|002|003|300|301|43\d|83\d|87\d|88\d|92\d)\d{3}$")]
+    result = result[result.code.str.match(r"^(60\d|68\d|00\d|30\d|43\d|83\d|87\d|88\d|92\d)\d{3}$")]
     for col in ["price", "market_cap", "turnover", "pb", "pe_dynamic"]:
         result[col] = pd.to_numeric(result[col], errors="coerce")
     return result.drop_duplicates("code")

@@ -160,11 +160,11 @@ def test_calendar_holiday_and_before_close():
 
 
 def test_ttm_pe_not_dynamic_and_symbol_filter():
-    raw = pd.DataFrame({"代码": [1, "600001", "900001", "920001"], "名称": ["A", "B", "C", "D"],
-                        "最新价": [12]*4, "总市值": [2400]*4, "成交额": [5e7]*4,
-                        "市净率": [2]*4, "市盈率-动态": [99]*4})
+    raw = pd.DataFrame({"代码": [1, "600001", "900001", "920001", "302132"], "名称": ["A", "B", "C", "D", "E"],
+                        "最新价": [12]*5, "总市值": [2400]*5, "成交额": [5e7]*5,
+                        "市净率": [2]*5, "市盈率-动态": [99]*5})
     normalized = normalize_spot(raw)
-    assert set(normalized.code) == {"000001", "600001", "920001"}
+    assert set(normalized.code) == {"000001", "600001", "920001", "302132"}
     finance = pd.DataFrame({"code": ["000001", "600001"], "name": ["A", "B"],
                             "profit_ttm": [120, 120], "industry": ["测试", "测试"]})
     universe = prepare_universe(normalized, finance, DEFAULTS)
