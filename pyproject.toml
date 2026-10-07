@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tommy-capital"
+version = "1.1.0"
+description = "Auditable live A-share research screener"
+requires-python = ">=3.11"
+dependencies = ["akshare==1.19.1", "pandas>=2.2,<3", "numpy>=1.26,<3", "requests>=2.31,<3"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+tommy-capital = "tommy_capital.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["tommy_capital*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

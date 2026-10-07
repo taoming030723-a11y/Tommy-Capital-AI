@@ -1,0 +1,9 @@
+.venv/
+.cache/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+reports/
+holdings.json
+.env
+*.log

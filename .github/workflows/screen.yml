@@ -1,0 +1,104 @@
+name: A-share live screen
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['results/**', '**.md']
+  schedule:
+    # One requested opening scan: 2026-10-08 09:50 China/Singapore (UTC+8).
+    # GitHub cron has no year; the job guard prevents execution next year.
+    - cron: '50 1 8 10 *'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Technical scan cap (0 scans every qualified stock)'
+        required: true
+        default: '0'
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tommy-market-scan
+  cancel-in-progress: false
+
+jobs:
+  screen:
+    if: github.event_name != 'schedule' || startsWith(github.event.schedule, '50 1 8 10')
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Check one-time schedule date
+        id: date
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" != schedule ] || [ "$(TZ=Asia/Shanghai date +%F)" = 2026-10-08 ]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.date.outputs.run == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.date.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+      - name: Install
+        if: steps.date.outputs.run == 'true'
+        run: python -m pip install -e .
+      - uses: actions/cache/restore@v4
+        if: steps.date.outputs.run == 'true'
+        with:
+          path: .cache/tommy
+          key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: tommy-v2-${{ runner.os }}-
+      - name: Fetch real A-share data and screen
+        if: steps.date.outputs.run == 'true'
+        env:
+          SCAN_LIMIT: ${{ inputs.limit }}
+        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4
+      - name: Publish readable result summary
+        if: always() && steps.date.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import base64, json, os, pathlib, urllib.request, urllib.error
+          report = pathlib.Path('reports/latest/summary.json')
+          if not report.exists():
+              raise SystemExit('No result summary: the scan did not finish; inspect failure diagnostics.')
+          url = 'https://api.github.com/repos/' + os.environ['REPO_NAME'] + '/contents/results/latest-summary.json'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'}
+          body = {'message': 'Update market scan summary [skip ci]', 'branch': 'main',
+                  'content': base64.b64encode(report.read_bytes()).decode()}
+          try:
+              with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
+                  body['sha'] = json.load(response)['sha']
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404:
+                  raise
+          request = urllib.request.Request(url, data=json.dumps(body).encode(), headers={**headers, 'Content-Type': 'application/json'}, method='PUT')
+          with urllib.request.urlopen(request) as response:
+              json.load(response)
+          summary = json.loads(report.read_text())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write('# Tommy Capital scan\n\n')
+              output.write('Status: ' + summary['status'] + '\n\n')
+              output.write('Full coverage: ' + str(summary['scan_complete']) + '\n\n')
+              output.write('Daily session: ' + str(summary['session']) + '\n\n')
+              output.write('15-minute cutoff: ' + str(summary['minute15_cutoff']) + '\n\n')
+              output.write('Download the report artifact for all candidates, signals and missing-data diagnostics.\n')
+          PY
+      - uses: actions/cache/save@v4
+        if: always() && steps.date.outputs.run == 'true'
+        with:
+          path: .cache/tommy
+          key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
+      - name: Upload report, including failure diagnostics
+        if: always() && steps.date.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tommy-capital-report
+          path: reports/latest/
+          if-no-files-found: warn
+          retention-days: 14

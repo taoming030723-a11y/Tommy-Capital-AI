@@ -1,0 +1,13 @@
+{
+  "min_turnover_cny": 30000000,
+  "min_revenue_yoy_pct": 0,
+  "min_profit_yoy_pct": 0,
+  "max_pe_ttm": 60,
+  "max_pb": 8,
+  "max_industry_pe_ratio": 1.2,
+  "min_industry_pe_samples": 5,
+  "max_finance_age_days": 225,
+  "daily_history_years": 8,
+  "request_timeout_seconds": 180,
+  "request_attempts": 2
+}
