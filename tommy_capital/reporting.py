@@ -9,6 +9,8 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .technical import minute_execution_status
+
 
 def cell(value):
     text = html.escape(str(value if value is not None else "未取得"))
@@ -320,9 +322,10 @@ def render_dual_report(report, run_url=None):
                 "当前超卖" if row.get("monthly_low_j_watch") else "恢复路径",
                 number(recovery.get("min_j_3_months" if row.get("route") == "A" else "min_j_6_months")), week_label,
                 number(technical.get("volume_ratio20")), first.get("confirmed_at", "未检测"),
-                "确认" if row.get("strategic_eligible") else "等待", minute_label(row.get("minute15", {})), number(row.get("score"))])
+                "确认" if row.get("strategic_eligible") else "等待", minute_execution_status(row.get("minute15", {})), number(row.get("score"))])
         return output
-    headers = ["股票", "代码", "路线", "当前月J", "月J状态", "近3/6月最低J", "周线结构", "最新RVOL20", "首次突破日", "战略量价", "15分钟", "评分"]
+    headers = ["股票", "代码", "路线", "当前月J", "月J状态", "近3/6月最低J", "周线结构", "最新RVOL20", "首次突破日", "战略量价", "15分钟观察状态", "评分"]
+    lines += ["15分钟观察状态显示背离、金叉、回踩反弹、过热或无信号，均不决定选股资格。回踩反弹要求上一根收于MA20上、本根触及MA20后收回其上且收盘高于上一根；正式执行观察及持仓做T资格在后面的独立栏目核对。", ""]
     lines += ["## ⭐ 战略量价确认候选 TOP 10", "", f"共{len(confirmed)}只；只是研究候选，仍需原均线与执行确认。", ""]
     lines += expandable(headers, pool_rows(confirmed), 10, "其余战略量价确认候选") if confirmed else ["本次尚无全部满足战略量价确认的候选；观察池见下方。", ""]
     lines += ["## 👀 双路线观察池 TOP 10", "", f"全部{len(pool)}只均已通过各自基本面／估值／流动性与月J路径。按研究评分排序，评分不代表收益概率。", ""]
@@ -345,10 +348,11 @@ def render_dual_report(report, run_url=None):
     pending = [r for r in observations if r.get("financial_routes", {}).get("route_b_prequalified") and
                r.get("technical", {}).get("monthly_recovery", {}).get("route_b_path") and
                r.get("technical", {}).get("price_compression", {}).get("experienced")]
-    pending.sort(key=lambda r: (not r.get("technical", {}).get("first_volume_breakout", {}).get("active"),
+    pending.sort(key=lambda r: (not r.get("leading", {}).get("leading_indicator_confirmed"),
+                              not r.get("technical", {}).get("first_volume_breakout", {}).get("active"),
                               not r.get("technical", {}).get("weekly_structure", {}).get("confirmed"), r.get("code", "")))
     if pending:
-        lines += [f"其中已检查技术且满足B月J恢复与价格压缩的待核实股{len(pending)}只，以下仅列前10，均未通关：", ""]
+        lines += [f"其中已检查技术且满足B月J恢复与价格压缩的待核实股{len(pending)}只，以下仅列前10，优先列已核对领先指标、其次有首次突破与周结构者，均未通关：", ""]
         lines += table(["股票", "代码", "月J", "首次突破", "未通过原因"], [[r.get("name"), r.get("code"),
             number(r["technical"].get("monthly_j")), (r["technical"].get("first_volume_breakout", {}).get("first_event") or {}).get("confirmed_at", "未检测"),
             "；".join(r.get("leading", {}).get("reasons", []))] for r in pending[:10]])
@@ -369,13 +373,13 @@ def render_dual_report(report, run_url=None):
     execution_rows = [r for r in pool if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
     lines += ["## 🎯 基本面、大周期通过的15分钟执行／做T观察", "",
         "只有基本面／估值、月J路径、周日量价和原日／周／月均线全部确认的股票才列入本节。小周期背离仅有执行观察权，不能独立选股或成为新开仓理由。", "",
-        f"底背离还须确认支撑附近反弹、价格结构收复、15分钟量比≥{number(config.get('execution_volume_ratio', 1.2))}、当日已完成60分钟结构在MA20上及30分钟无顶背离冲突；支撑距离≤{number(config.get('execution_support_distance_pct', 3))}%。开盘时当日60分钟尚未完成，会标等待。顶背离列为减仓／过热风险观察。", ""]
+        f"底背离还须确认支撑附近反弹、价格结构收复、15分钟量比≥{number(config.get('execution_volume_ratio', 1.2))}、当日已完成60分钟结构在MA20上及30分钟无顶背离冲突；支撑距离≤{number(config.get('execution_support_distance_pct', 3))}%。15分钟J>100且收盘超过MA20的1.03倍时标过热，等待降温确认。开盘时当日60分钟尚未完成，会标等待。顶背离列为减仓／过热风险观察。", ""]
     if execution_rows:
         rows = []
         for row in execution_rows:
             execution = row.get("execution", {})
             confirmed_at = "；".join(date_label(s.get("confirmed_at")) for s in row["minute15"]["signals"])
-            labels = {"bottom_divergence": "底背离", "no_15m_top_conflict": "无15分钟顶背离冲突",
+            labels = {"bottom_divergence": "底背离", "no_15m_top_conflict": "无15分钟顶背离冲突", "not_overheated": "过热降温",
                 "near_confirmed_support_and_rebound": "支撑附近反弹", "price_structure_reclaimed": "价格结构收复",
                 "volume_confirmation": "量能确认", "same_session_60m_structure": "当日60分钟结构",
                 "30m_without_top_conflict": "30分钟无顶背离冲突"}

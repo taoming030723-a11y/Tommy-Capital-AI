@@ -324,6 +324,22 @@ def minute_frame(provider, code, period, cutoff, daily_qfq):
     return data
 
 
+def minute_execution_status(observation):
+    """Describe a completed 15m observation, without granting execution rights."""
+    status = observation.get("status")
+    if status != "ok":
+        return {"unavailable": "数据缺失", "insufficient_bars": "K线不足，未能判断",
+                "not_requested": "未请求"}.get(status, "未检查")
+    directions = {s.get("direction") for s in observation.get("signals", [])}
+    labels = [label for direction, label in [("bullish", "底背离"), ("bearish", "顶背离")]
+              if direction in directions]
+    structure = observation.get("structure", {})
+    for key, label in [("overheated", "过热"), ("golden_cross", "金叉"), ("pullback_rebound", "回踩反弹")]:
+        if structure.get(key):
+            labels.append(label)
+    return "／".join(labels) or "无信号"
+
+
 def minute_observation(provider, code, cutoff, daily_qfq):
     try:
         data = minute_frame(provider, code, 15, cutoff, daily_qfq)
@@ -343,10 +359,14 @@ def minute_observation(provider, code, cutoff, daily_qfq):
                      "resistance_qfq": float(data.high.iloc[-21:-1].max()), "ratio20": volume_ratio,
                      "golden_cross": golden,
                      "overheated": bool(latest.j > 100 and latest.close > latest.ma20 * 1.03),
+                     "pullback_rebound": bool(previous.close >= previous.ma20 and latest.low <= latest.ma20 and
+                                              latest.close > latest.ma20 and latest.close > previous.close),
                      "price_reclaimed": bool(latest.close > previous.high or latest.close > latest.ma20)}
-        return {**confirmed_divergences(data, window=120), "last_bar": data.index[-1].isoformat(),
-                "structure": structure,
-                "purpose": "观察标记；不改变战略资格，不作为新开仓理由"}
+        observation = {**confirmed_divergences(data, window=120), "last_bar": data.index[-1].isoformat(),
+                       "structure": structure,
+                       "purpose": "观察标记；不改变战略资格，不作为新开仓理由"}
+        observation["execution_status"] = minute_execution_status(observation)
+        return observation
     except DataError as exc:
         return {"status": "unavailable", "signals": [], "error": str(exc)}
 
@@ -362,9 +382,7 @@ def execution_observation(provider, code, trend_confirmed, now, calendar, daily_
     signals = minute15.get("signals", [])
     directions = {s["direction"] for s in signals}
     structure = minute15.get("structure", {})
-    label = ("顶底背离并存" if len(directions) > 1 else "底背离" if "bullish" in directions else
-             "顶背离" if "bearish" in directions else "过热" if structure.get("overheated") else
-             "金叉" if structure.get("golden_cross") else "回踩" if structure.get("price_reclaimed") else "无信号")
+    label = minute_execution_status(minute15)
     result = {"status": "no_signal", "entry_watch": False, "execution_status": label,
               "signals": signals, "frames": {"15": minute15}, "reduce_watch": "bearish" in directions,
               "message": "执行观察不构成新开仓/下单授权；持仓资格单独核对"}
@@ -392,6 +410,7 @@ def execution_observation(provider, code, trend_confirmed, now, calendar, daily_
     fresh60 = frame60.get("last_bar", "").startswith(now.date().isoformat())
     no30top = frame30.get("status") == "ok" and not any(s["direction"] == "bearish" for s in frame30.get("signals", []))
     conditions = {"bottom_divergence": bool(bottoms), "no_15m_top_conflict": "bearish" not in directions,
+                  "not_overheated": not structure.get("overheated", False),
                   "near_confirmed_support_and_rebound": bool(near and rebound),
                   "price_structure_reclaimed": bool(structure.get("price_reclaimed")),
                   "volume_confirmation": structure.get("ratio20") is not None and structure["ratio20"] >= config.get("execution_volume_ratio", 1.2),

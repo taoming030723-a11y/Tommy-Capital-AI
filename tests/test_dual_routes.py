@@ -186,7 +186,7 @@ def test_t_requires_confirmed_holding_even_if_all_execution_checks_pass():
     assert technical.tactical(provider, "600001", True, True, TODAY, execution=review)["entry_eligible"]
 
 
-@pytest.mark.parametrize("problem", [None, "early_60m", "no_volume", "not_reclaimed", "far_from_support", "top_conflict"])
+@pytest.mark.parametrize("problem", [None, "early_60m", "no_volume", "not_reclaimed", "far_from_support", "top_conflict", "overheated"])
 def test_divergence_execution_requires_structure_volume_support_and_current60m(monkeypatch, problem):
     now = datetime(2026, 10, 8, 9 if problem == "early_60m" else 14, 50, tzinfo=SHANGHAI)
     calendar = pd.DataFrame({"trade_date": ["2026-09-30", "2026-10-08"]})
@@ -201,6 +201,8 @@ def test_divergence_execution_requires_structure_volume_support_and_current60m(m
         minute["structure"]["low_qfq"] = 105
     elif problem == "top_conflict":
         minute["signals"].append({"direction": "bearish", "price_current": 105})
+    elif problem == "overheated":
+        minute["structure"]["overheated"] = True
     def frame(provider, code, period, cutoff, daily):
         close = np.linspace(90, 100, 80)
         return pd.DataFrame({"open": close, "close": close, "high": close + 1, "low": close - 1,
@@ -209,6 +211,20 @@ def test_divergence_execution_requires_structure_volume_support_and_current60m(m
     monkeypatch.setattr(technical, "confirmed_divergences", lambda *a, **k: {"status": "ok", "signals": []})
     result = technical.execution_observation(None, "600001", True, now, calendar, None, minute, DEFAULTS)
     assert result["entry_watch"] is (problem is None)
+
+
+@pytest.mark.parametrize("low,close,expected", [(101, 102, False), (99, 102, True), (99, 100.4, False)])
+def test_minute_status_does_not_call_every_ma_reclaim_a_pullback(monkeypatch, low, close, expected):
+    index = pd.date_range(end="2026-09-30 15:00", periods=40, freq="15min")
+    data = pd.DataFrame({"open": 100.5, "close": 100.5, "high": 103., "low": 99., "volume": 100.}, index=index)
+    data.loc[index[-1], ["low", "close"]] = [low, close]
+    monkeypatch.setattr(technical, "minute_frame", lambda *a, **k: data)
+    monkeypatch.setattr(technical, "indicators", lambda frame: frame.assign(ma20=100., dif=0., dea=1., k=20., d=30., j=40.))
+    monkeypatch.setattr(technical, "confirmed_divergences", lambda *a, **k: {"status": "ok", "signals": []})
+    result = technical.minute_observation(None, "600001", index[-1], None)
+    assert result["structure"]["price_reclaimed"]
+    assert result["structure"]["pullback_rebound"] is expected
+    assert ("回踩反弹" in result["execution_status"]) is expected
 
 
 def test_closing_phase_cannot_publish_old_session_or_premarket_as_current_close(tmp_path):
@@ -225,7 +241,7 @@ def test_closing_phase_cannot_publish_old_session_or_premarket_as_current_close(
 
 def test_new_report_is_honest_about_recovering_high_j_evidence_missing_and_t_empty():
     card = {**good_row(), **evaluate(good_row(), recovering_technical(), DEFAULTS, TODAY),
-            "technical": recovering_technical(), "minute15": {"status": "ok", "signals": []}}
+            "technical": recovering_technical(), "minute15": {"status": "ok", "signals": [], "structure": {"golden_cross": True}}}
     report = {"selection_rule": "dual_route_monthly_recovery", "scan_phase": "pre_run", "scan_type": "closed_session",
               "generated_at": "2026-10-07T21:00:00+08:00", "session": "2026-09-30", "status": "partial",
               "scan_complete": False, "rankings": [card], "observations": [], "errors": [], "divergences": [],
@@ -234,3 +250,4 @@ def test_new_report_is_honest_about_recovering_high_j_evidence_missing_and_t_emp
     assert "27.00" in markdown and "恢复路径" in markdown and "B证据未齐20只" in markdown
     assert "不是10月8日开盘或收盘结果" in markdown and "scan_complete=false" in markdown
     assert "已确认持仓且做T底背离进场观察合格：0只" in markdown
+    assert "15分钟观察状态" in markdown and "金叉" in markdown
