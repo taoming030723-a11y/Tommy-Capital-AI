@@ -8,6 +8,12 @@ import pytest
 from tommy_capital.publish import publish
 
 
+@pytest.fixture(autouse=True)
+def isolate_actions_summary(monkeypatch):
+    # Protocol fixtures must never appear as market reports in a real CI job.
+    monkeypatch.delenv('GITHUB_STEP_SUMMARY', raising=False)
+
+
 def files(directory, summary_date="2026-10-07T13:25:30+08:00", report_date=None):
     report_date = report_date or summary_date
     report = {"generated_at": report_date, "status": "partial", "scan_complete": False,
