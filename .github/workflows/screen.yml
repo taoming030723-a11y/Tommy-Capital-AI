@@ -4,9 +4,10 @@ on:
     branches: [main]
     paths-ignore: ['results/**', '**.md']
   schedule:
-    # One requested opening scan: 2026-10-08 09:50 China/Singapore (UTC+8).
+    # Opening 09:50 and after-close 15:20 on 2026-10-08 (China/Singapore).
     # GitHub cron has no year; the job guard prevents execution next year.
     - cron: '50 1 8 10 *'
+    - cron: '20 7 8 10 *'
   workflow_dispatch:
     inputs:
       limit:
@@ -24,7 +25,6 @@ concurrency:
 
 jobs:
   screen:
-    if: github.event_name != 'schedule' || startsWith(github.event.schedule, '50 1 8 10')
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
@@ -55,19 +55,15 @@ jobs:
         if: steps.date.outputs.run == 'true'
         env:
           SCAN_LIMIT: ${{ inputs.limit }}
-        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4
-      - name: 发布中文报告与机器摘要
-        if: always() && steps.date.outputs.run == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO_NAME: ${{ github.repository }}
-        run: python -m tommy_capital.publish
+          SCAN_PHASE: ${{ github.event_name == 'schedule' && github.event.schedule == '20 7 8 10 *' && 'closing' || github.event_name == 'schedule' && 'opening' || 'auto' }}
+        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4 --scan-phase "$SCAN_PHASE"
       - uses: actions/cache/save@v4
         if: always() && steps.date.outputs.run == 'true'
         with:
           path: .cache/tommy
           key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
       - name: Upload report, including failure diagnostics
+        id: artifact
         if: always() && steps.date.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
@@ -75,3 +71,10 @@ jobs:
           path: reports/latest/
           if-no-files-found: warn
           retention-days: 14
+      - name: 发布中文报告与机器摘要及日期归档
+        if: always() && steps.date.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          REPORT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: python -m tommy_capital.publish

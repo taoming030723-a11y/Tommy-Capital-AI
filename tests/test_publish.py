@@ -19,7 +19,8 @@ def files(directory, summary_date="2026-10-07T13:25:30+08:00", report_date=None)
     report = {"generated_at": report_date, "status": "partial", "scan_complete": False,
               "scan_type": "closed_session", "session": "2026-09-30", "rankings": [],
               "observations": [], "divergences": [], "errors": ["测试网络不可用"], "coverage": {}}
-    summary = {"generated_at": summary_date, "status": "partial", "candidate_count": 0}
+    summary = {"generated_at": summary_date, "status": "partial", "candidate_count": 0,
+               **{k: report.get(k) for k in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage"]}}
     (directory / "report.json").write_text(json.dumps(report), encoding="utf-8")
     (directory / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
 
@@ -88,3 +89,42 @@ def test_concurrent_push_is_preserved_by_rebuilding_from_new_head(tmp_path, monk
     monkeypatch.setattr('urllib.request.urlopen',respond)
     assert publish(tmp_path,'test-token','owner/repo')=='commit-2'
     assert parents==[['head-1'],['head-2']]
+
+
+def test_opening_snapshot_is_archived_separately_from_latest(tmp_path, monkeypatch):
+    files(tmp_path, summary_date="2026-10-08T09:50:00+08:00")
+    report=json.loads((tmp_path/'report.json').read_text())
+    summary=json.loads((tmp_path/'summary.json').read_text())
+    for data in [report, summary]:
+        data.update(scan_phase='opening',scan_type='intraday',minute15_cutoff='2026-10-08T09:45:00')
+    (tmp_path/'report.json').write_text(json.dumps(report))
+    (tmp_path/'summary.json').write_text(json.dumps(summary))
+    entries=[]
+    def respond(request, **kwargs):
+        payload=json.loads(request.data) if request.data else None
+        if request.method=='GET' and '/git/ref/' in request.full_url:
+            data={'object':{'sha':'parent'}}
+        elif request.method=='GET':
+            data={'tree':{'sha':'base'}}
+        elif '/git/trees' in request.full_url:
+            entries.extend(payload['tree']);data={'sha':'tree'}
+        else:
+            data={'sha':'commit'}
+        return io.BytesIO(json.dumps(data).encode())
+    monkeypatch.setattr('urllib.request.urlopen',respond)
+    publish(tmp_path,'test-token','owner/repo')
+    by_path={e['path']:e['content'] for e in entries}
+    assert set(by_path)=={'results/latest-report.md','results/latest-summary.json',
+        'results/2026-10-08/opening-report.md','results/2026-10-08/opening-summary.json'}
+    assert by_path['results/latest-report.md']==by_path['results/2026-10-08/opening-report.md']
+    assert not any('closing' in path for path in by_path)
+
+
+def test_phase_mismatch_is_never_published(tmp_path, monkeypatch):
+    files(tmp_path)
+    report=json.loads((tmp_path/'report.json').read_text())
+    report['scan_phase']='closing'
+    (tmp_path/'report.json').write_text(json.dumps(report))
+    monkeypatch.setattr('urllib.request.urlopen',lambda *a,**k:pytest.fail('must not publish'))
+    with pytest.raises(ValueError,match='scan_phase'):
+        publish(tmp_path,'test-token','owner/repo')

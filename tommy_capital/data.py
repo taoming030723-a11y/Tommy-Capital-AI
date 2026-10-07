@@ -170,16 +170,28 @@ def latest_finance(history):
             pd.notna(row["profit_yoy"]) and pd.notna(row["previous_profit_yoy"]) and
             row["profit_yoy"] > 0 and row["profit_yoy"] > row["previous_profit_yoy"])
         row["profit_ttm"] = float("nan")
+        row["revenue_ttm"] = float("nan")
         row["eps_ttm_approx"] = float("nan")
+        same = pd.Timestamp(period.year - 1, period.month, period.day)
+        for source, dest in [("cfo_per_share_ytd", "previous_same_cfo_per_share_ytd"),
+                             ("gross_margin", "previous_same_gross_margin")]:
+            row[dest] = (indexed.loc[same, source] if same in indexed.index and source in indexed
+                         else float("nan"))
+        row["cfo_not_deteriorating"] = bool(pd.notna(row.get("cfo_per_share_ytd")) and
+            pd.notna(row["previous_same_cfo_per_share_ytd"]) and
+            row["cfo_per_share_ytd"] >= row["previous_same_cfo_per_share_ytd"])
         if period.month == 12:
             row["profit_ttm"] = row["profit_ytd"]
+            row["revenue_ttm"] = row.get("revenue_ytd", float("nan"))
             row["eps_ttm_approx"] = row["eps_ytd"]
         else:
             annual = pd.Timestamp(period.year - 1, 12, 31)
             same = pd.Timestamp(period.year - 1, period.month, period.day)
             if annual in indexed.index and same in indexed.index:
-                for source, dest in [("profit_ytd", "profit_ttm"), ("eps_ytd", "eps_ttm_approx")]:
-                    row[dest] = indexed.loc[annual, source] + row[source] - indexed.loc[same, source]
+                for source, dest in [("profit_ytd", "profit_ttm"), ("revenue_ytd", "revenue_ttm"),
+                                     ("eps_ytd", "eps_ttm_approx")]:
+                    if source in indexed:
+                        row[dest] = indexed.loc[annual, source] + row[source] - indexed.loc[same, source]
         output.append(row)
     return pd.DataFrame(output)
 

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "companies": {
+    "600418": {
+      "name": "江淮汽车",
+      "official_domains": ["jac.com.cn", "cninfo.com.cn"],
+      "facts": [
+        {
+          "id": "jac-s800-scale-delivery-20260822",
+          "field": "new_product_mass_delivery",
+          "value": true,
+          "published_at": "2026-08-22",
+          "url": "https://www.jac.com.cn/news/20260822/10607.html",
+          "match_all": ["规模交付", "累计交付超1.9万辆"],
+          "description": "公司官网披露尊界S800已规模交付且累计超过1.9万辆；不将累计数冒充同比增长率。"
+        }
+      ],
+      "valuation_model": null,
+      "notes": "同一通用规则适用于所有证券，未设置白名单。V800/V680已在2026-08-05上市，不作为未来催化。历史讨论的2027利润及PE区间缺少完整可复核假设来源，不能自动通关；未来催化与估值证据仍待齐。"
+    }
+  }
+}

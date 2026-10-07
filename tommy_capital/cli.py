@@ -4,6 +4,7 @@ import html
 import json
 import logging
 import math
+import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -13,8 +14,10 @@ import pandas as pd
 
 from .data import (Provider, DataError, SHANGHAI, completed_session, report_periods,
                    normalize_spot, normalize_finance, latest_finance, daily_history)
-from .strategy import prepare_universe, base_checks, evaluate
-from .technical import bars, strategic_technical, tactical, closed_minute_cutoff, minute_observation
+from .strategy import prepare_universe, financial_routes, evaluate, numeric, SELECTION_RULE
+from .technical import (bars, strategic_technical, tactical, closed_minute_cutoff,
+                        minute_observation, execution_observation)
+from .inflection import load_evidence
 from .reporting import render_markdown, github_run_url
 
 LOG = logging.getLogger(__name__)
@@ -23,7 +26,14 @@ DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_
             "min_industry_pe_samples": 5, "max_finance_age_days": 225,
             "daily_history_years": 8, "request_timeout_seconds": 180, "request_attempts": 2,
             "daily_volume_abnormal_ratio": 2.0, "weekly_base_max_range_pct": 20.0,
-            "weekly_base_low_tolerance_pct": 3.0, "weekly_base_max_volume_ratio": 1.1}
+            "weekly_base_low_tolerance_pct": 3.0, "weekly_base_max_volume_ratio": 1.1,
+            "daily_breakout_rvol": 1.5, "daily_breakout_close_location": 0.65,
+            "daily_breakout_lookback": 20, "daily_breakout_platform_range_pct": 20.0,
+            "leading_min_revenue_growth_pct": 10.0, "leading_min_business_growth_pct": 30.0,
+            "leading_price_compression_pct": 20.0, "max_forward_pe": 30.0,
+            "max_forward_ev_sales": 4.0, "min_forward_margin_pct": 20.0,
+            "max_bear_downside_pct": 30.0, "execution_support_distance_pct": 3.0,
+            "execution_volume_ratio": 1.2}
 
 
 def clean(value):
@@ -54,7 +64,14 @@ def validate_config(config):
             raise ValueError(f"配置 {key} 需大于0")
     if config["daily_volume_abnormal_ratio"] <= 1 or not 0 <= config["weekly_base_low_tolerance_pct"] < 100:
         raise ValueError("异常放量倍数需大于1；周线低点容差需在0到100之间")
-    for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days"]:
+    if config["daily_breakout_rvol"] <= 1 or not 0 < config["daily_breakout_close_location"] <= 1:
+        raise ValueError("平台突破量比需大于1，收盘位置需在(0,1]之间")
+    for key in ["min_forward_margin_pct", "max_bear_downside_pct", "leading_price_compression_pct"]:
+        if not 0 < config[key] < 100:
+            raise ValueError(f"配置 {key} 需在0到100之间")
+    if config["execution_volume_ratio"] < 1:
+        raise ValueError("执行量价确认量比不能小于1")
+    for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days", "daily_breakout_lookback"]:
         if not isinstance(config[key], int):
             raise ValueError(f"配置 {key} 需为整数")
 
@@ -88,7 +105,7 @@ def write_outputs(out, report):
             frame[col] = frame[col].map(lambda v: "'" + v if isinstance(v, str) and v.startswith(("=", "+", "-", "@")) else v)
         frame.to_csv(out / filename, index=False, encoding="utf-8-sig")
     status_label = {'complete':'完成', 'partial':'部分完成', 'failed':'失败', 'running':'扫描中'}.get(report['status'], report['status'])
-    mode_label = {'intraday':'盘中', 'closed_session':'最近完整交易日', 'daily_baseline':'日线预检'}.get(report.get('scan_type'), '待确定')
+    mode_label = {'intraday':'盘中', 'after_close':'收盘后', 'closed_session':'最近完整交易日', 'daily_baseline':'日线预检'}.get(report.get('scan_type'), '待确定')
     title = f"Tommy Capital · {status_label}"
     intro = f"扫描启动：{report['generated_at']}；模式：{mode_label}；完整日线截至：{report.get('session', '未确定')}；15分钟截至：{report.get('minute15_cutoff', '未请求')}。"
     intro += " 规则筛选候选不代表买入建议；排名分数不代表收益概率。"
@@ -100,9 +117,9 @@ def write_outputs(out, report):
     cards = []
     display_rows = report.get("rankings", [])
     for index, row in enumerate(display_rows, 1):
-        category = '月J＜20观察候选；趋势确认' if row['strategic_eligible'] else '月J＜20观察候选；趋势待确认'
+        category = f"{row.get('route', '—')}路线观察候选；" + ('战略量价确认' if row['strategic_eligible'] else '等待战略确认')
         card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分 · {category}"
-        details = [f"行业：{row.get('industry')}；PE TTM：{row.get('pe_ttm'):.2f}；PB：{row.get('pb'):.2f}",
+        details = [f"行业：{row.get('industry')}；PE TTM：{numeric(row.get('pe_ttm'))}；PB：{numeric(row.get('pb'))}",
                    f"报告期：{row.get('period')}；公告日期：{row.get('announced_at')}",
                    f"累计营收同比：{row.get('revenue_yoy')}%；累计净利润同比：{row.get('profit_yoy')}%",
                    "日线背离：" + signal_label(row['technical']['daily_divergences']),
@@ -115,7 +132,7 @@ def write_outputs(out, report):
         cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
                      "".join("<p>" + html.escape(s) + "</p>" for s in details) + "</section>")
     if not cards:
-        cards.append("<p>本次未列出月J＜20且通过基本面/估值/流动性检查的观察候选。请结合覆盖情况和数据缺失判断。</p>")
+        cards.append("<p>本次未列出通过双路线基本面/估值/流动性及月J路径的观察候选。请结合覆盖情况和证据缺失判断。</p>")
     (out / "report.md").write_text(render_markdown(report, github_run_url()), encoding="utf-8")
     error_html = "".join("<p class='error'>" + html.escape(e) + "</p>" for e in report.get("errors", []))
     (out / "report.html").write_text(
@@ -161,11 +178,13 @@ def run(args, provider=None, now=None):
     minute_scope = getattr(args, "minute_scope", "monthly")
     minute_scope = "monthly" if minute_scope == "strategic" else minute_scope
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
-    report = {"system": "Tommy Capital 1.2", "selection_rule": "monthly_j_lt_20", "mode": "live", "generated_at": now.isoformat(),
+    report = {"system": "Tommy Capital 2.0", "selection_rule": SELECTION_RULE, "mode": "live", "generated_at": now.isoformat(),
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
+              "workflow_run_url": github_run_url(), "source_commit": os.environ.get("GITHUB_SHA"),
               "limitations": ["规则引擎，无订单执行；基本面改善为累计同比加速代理",
-                              "扣非、负债、订单、公告事件与股东信息仍需人工复核",
+                              "领先订单/销量/催化及估值覆盖依赖可核对的官方证据，不存在全市场自动补齐的可靠免费接口",
+                              "远期盈利/分部/EV-Sales三情景为研究假设，证据缺失不通过；扣非、负债、股本仍需复核",
                               "公开接口可能限流/滞后；抓取时间不是交易所逐股报价时间",
                               "15分钟与日线背离只作观察；做T提示仅用于确认持仓且通过战略规则的股票"]}
     try:
@@ -174,13 +193,22 @@ def run(args, provider=None, now=None):
         report["session"] = session.isoformat()
         trading_today = today in set(pd.to_datetime(calendar.trade_date).dt.date)
         intraday = trading_today and (9, 30) <= (now.hour, now.minute) < (15, 10)
-        report["scan_type"] = "daily_baseline" if daily_only else "intraday" if intraday else "closed_session"
+        after_close = trading_today and (now.hour, now.minute) >= (15, 10)
+        report["scan_type"] = "daily_baseline" if daily_only else "intraday" if intraday else "after_close" if after_close else "closed_session"
+        phase = getattr(args, "scan_phase", "auto")
+        if phase == "auto":
+            phase = "pre_run" if daily_only else "closing" if after_close else "opening" if intraday and (now.hour, now.minute) < (10, 30) else "intraday" if intraday else "pre_run"
+        report["scan_phase"] = phase
         cutoff = None if daily_only else closed_minute_cutoff(calendar, now, 15)
         if cutoff is not None:
             report["minute15_cutoff"] = cutoff.isoformat()
             report["minute15_current_session"] = cutoff.date() == today
         if intraday and cutoff is not None and cutoff.date() != today:
             raise DataError("今日首根15分钟K线尚未完成，请于09:45:30之后扫描")
+        if phase == "opening" and (not intraday or cutoff is None or cutoff.date() != today or cutoff.time() < datetime.strptime("09:45", "%H:%M").time()):
+            raise DataError("开盘任务未处于当天盘中或首根09:45完整15分钟K线未确认")
+        if phase == "closing" and (not after_close or session != today or cutoff is None or cutoff.date() != today or cutoff.hour < 15):
+            raise DataError("收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果")
         spot_raw = provider.fetch("spot_sina_full", ttl=60)
         spot = normalize_spot(spot_raw)
         if intraday:
@@ -195,6 +223,15 @@ def run(args, provider=None, now=None):
                 raise DataError(f"盘中行情时刻异常 {rejected}/{len(spot)}；数据可能未更新，停止排名")
             if rejected:
                 report["errors"].append(f"{rejected}只股票报价时刻未确认当前盘中时段，已排除；源未提供完整报价日期")
+        elif after_close:
+            clocks = pd.to_timedelta(spot.quote_clock_time, errors="coerce")
+            spot["quote_clock_ok"] = (clocks >= pd.Timedelta(hours=14, minutes=55)) & (clocks <= pd.Timedelta(hours=15, minutes=31))
+            rejected = int((~spot.quote_clock_ok).sum())
+            report["quote_clock_rejected"] = rejected
+            if rejected > len(spot) / 10:
+                raise DataError(f"收盘报价时刻异常 {rejected}/{len(spot)}，不能发布为当日收盘扫描")
+            if rejected:
+                report["errors"].append(f"{rejected}只报价时刻未确认收盘时段，已排除；已检查股票另与当天完整日线收盘价核对")
         histories, financial_period_counts = [], {}
         def load_period(period):
             ttl = 900 if period == report_periods(today)[0] else 86400
@@ -215,26 +252,47 @@ def run(args, provider=None, now=None):
             raise DataError("没有可用已公告财报，停止排名")
         finance = latest_finance(pd.concat(histories, ignore_index=True))
         universe = prepare_universe(spot, finance, config)
+        evidence, evidence_stats = load_evidence(getattr(args, "leading_evidence", None), today)
+        report["leading_evidence_coverage"] = evidence_stats
+        report["errors"] += evidence_stats["source_failures"]
+        route_a_count = route_b_pre_count = route_b_count = missing_evidence = 0
         eligible_rows = []
         for row in universe.to_dict("records"):
             row["liquidity_deferred"] = True
-            reasons = base_checks(row, config, today)
-            if reasons:
+            row["leading_evidence"] = evidence.get(row["code"], {})
+            routes = financial_routes(row, config, today)
+            row["financial_routes"] = routes
+            route_a_count += int(routes["route_a_passed"])
+            route_b_pre_count += int(routes["route_b_prequalified"])
+            route_b_count += int(routes["route_b_passed"])
+            missing_evidence += int(routes["route_b_prequalified"] and not routes["route_b_passed"])
+            if not routes["route_a_passed"] and not routes["route_b_prequalified"]:
+                reasons = ["A：" + r for r in routes["route_a_reasons"]] + ["B：" + r for r in routes["route_b_reasons"]]
                 report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "fundamental_valuation", "reasons": reasons})
                 if row["code"] in holdings:
                     report["observations"].append({**row, "eligible": False, "reasons": reasons,
                         "tactical": tactical(provider, row["code"], False, True, session)})
             else:
                 eligible_rows.append(row)
-        eligible_rows.sort(key=lambda r: (-float(r["profit_yoy"]), r["code"]))
+        eligible_rows.sort(key=lambda r: (not r["financial_routes"]["route_a_passed"], -(numeric(r.get("profit_yoy")) or 0), r["code"]))
         selected = eligible_rows[:] if args.limit == 0 else eligible_rows[:args.limit]
         selected_codes = {r["code"] for r in selected}
         selected += [r for r in eligible_rows if r["code"] in holdings and r["code"] not in selected_codes]
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(universe),
-                              "financial_period_counts": financial_period_counts, "financially_eligible": len(eligible_rows),
+                              "financial_period_counts": financial_period_counts,
+                              "financially_evaluated": len(universe), "financial_data_available": int(universe.period.notna().sum()),
+                              "financially_eligible": sum(r["financial_routes"]["route_a_passed"] or r["financial_routes"]["route_b_passed"] for r in eligible_rows),
+                              "route_a_fundamental_passed": route_a_count, "route_b_prequalified": route_b_pre_count,
+                              "route_b_fundamental_passed": route_b_count, "leading_evidence_missing": missing_evidence,
+                              "technical_prefilter_count": len(eligible_rows),
                               "technical_requested": len(selected), "technical_completed": 0,
                               "monthly_pool_count": 0, "weekly_base_count": 0, "daily_abnormal_volume_count": 0,
                               "strategic_confirmed_count": 0, "monthly_pool_minute15_completed": 0,
+                              "route_a_pool_count": 0, "route_b_pool_count": 0, "monthly_current_low_count": 0,
+                              "monthly_recovery_count": 0, "weekly_structure_count": 0,
+                              "daily_first_breakout_count": 0, "legacy_ma_confirmed_count": 0,
+                              "t_trend_confirmed_count": 0, "execution_divergence_count": 0,
+                              "execution_entry_watch_count": 0, "confirmed_holding_t_entry_count": 0,
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "unscanned": len(eligible_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
@@ -243,15 +301,20 @@ def run(args, provider=None, now=None):
                                          session.strftime("%Y%m%d"), today.strftime("%Y%m%d"))
             daily = bars(raw)
             daily = daily[daily.index.date <= session]
+            if after_close and (daily.empty or daily.index[-1].date() != today or
+                                abs(float(daily.close.iloc[-1]) - float(row["price"])) > 0.011):
+                raise DataError("收盘现价与当天最新完整前复权日线收盘价不一致，行情可能滞后/复权锚点未确认")
             period_cutoff = today if (now.hour, now.minute) >= (15, 10) else today - timedelta(days=1)
             technical = strategic_technical(daily, session, period_cutoff, config)
             decision = evaluate(row, technical, config, today)
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
             minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
                 "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}
-            card = {**row, **decision, "technical": technical, "minute15": minute,
-                    "tactical": tactical(provider, row["code"], decision["strategic_eligible"], row["code"] in holdings, session,
-                                         now=now, calendar=calendar, daily_qfq=daily, minute15=minute) if not daily_only else
+            execution = execution_observation(provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config) if not daily_only else {"status": "not_requested", "entry_watch": False}
+            card = {**row, **decision, "technical": technical, "minute15": minute, "execution": execution,
+                    "confirmed_holding": row["code"] in holdings,
+                    "tactical": tactical(provider, row["code"], decision["t_trend_confirmed"], row["code"] in holdings, session,
+                                         now=now, calendar=calendar, daily_qfq=daily, minute15=minute, execution=execution) if not daily_only else
                                 {"status": "not_requested", "signals": []}}
             return card, warning
         report["status"] = "running"
@@ -270,6 +333,15 @@ def run(args, provider=None, now=None):
                         report["coverage"]["weekly_base_count"] += int(card["technical"]["weekly_base"]["detected"])
                         report["coverage"]["daily_abnormal_volume_count"] += int(card["technical"]["daily_volume"]["abnormal"])
                         report["coverage"]["strategic_confirmed_count"] += int(card["strategic_eligible"])
+                        for key, value in [("route_a_pool_count", card["route"] == "A"), ("route_b_pool_count", card["route"] == "B"),
+                            ("monthly_current_low_count", card["monthly_low_j_watch"]), ("monthly_recovery_count", card["monthly_recovery_watch"]),
+                            ("weekly_structure_count", card["technical"]["weekly_structure"]["confirmed"]),
+                            ("daily_first_breakout_count", card["technical"]["first_volume_breakout"]["active"]),
+                            ("legacy_ma_confirmed_count", card["legacy_ma_confirmed"]), ("t_trend_confirmed_count", card["t_trend_confirmed"]),
+                            ("execution_divergence_count", card["t_trend_confirmed"] and bool(card["minute15"]["signals"])),
+                            ("execution_entry_watch_count", card["execution"].get("entry_watch", False)),
+                            ("confirmed_holding_t_entry_count", card["tactical"].get("entry_eligible", False))]:
+                            report["coverage"][key] += int(value)
                     if card["minute15"]["status"] != "not_requested":
                         report["coverage"]["minute15_requested"] += 1
                         if card["minute15"]["status"] == "ok":
@@ -279,51 +351,56 @@ def run(args, provider=None, now=None):
                             report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
                     else:
                         report["coverage"]["minute15_not_required"] += 1
-                    for period, frame in card["tactical"].get("frames", {}).items():
+                    for period, frame in card["execution"].get("frames", {}).items():
                         if frame["status"] == "unavailable":
                             report["coverage"]["tactical_failed_frames"] += 1
-                            report["errors"].append(f"{row['code']} 持仓{period}分钟：{frame.get('error')}")
+                            report["errors"].append(f"{row['code']} 执行观察{period}分钟：{frame.get('error')}")
                     for timeframe, observation in [("daily", card["technical"]["daily_divergences"]), ("15m", card["minute15"])]:
                         for signal in observation["signals"]:
                             report["divergences"].append({"code": row["code"], "name": row["name"], "timeframe": timeframe,
-                                "monthly_pool_eligible": card["eligible"], "strategic_eligible": card["strategic_eligible"], **signal})
+                                "monthly_pool_eligible": card["eligible"], "strategy_pool_eligible": card["eligible"],
+                                "route": card["route"], "strategic_eligible": card["strategic_eligible"], **signal})
                     report["rankings" if card["eligible"] else "observations"].append(card)
                 except DataError as exc:
                     report["errors"].append(f"{row['code']}: {exc}")
                     report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "technical_data", "reasons": [str(exc)]})
                 if count % 25 == 0 or count == len(selected):
                     report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-                    LOG.info("技术进度 %s/%s；月J＜20观察候选 %s", count, len(selected), len(report["rankings"]))
+                    LOG.info("技术进度 %s/%s；双路线观察候选 %s", count, len(selected), len(report["rankings"]))
                     write_outputs(Path(args.output), report)
         report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-        report["scan_complete"] = report["coverage"]["unscanned"] == 0 and not report["errors"]
+        report["scan_complete"] = report["coverage"]["unscanned"] == 0 and not report["errors"] and missing_evidence == 0
         report["status"] = "complete" if report["scan_complete"] else "partial"
     except DataError as exc:
         report["errors"].append(str(exc))
     finally:
         report["finished_at"] = datetime.now(SHANGHAI).isoformat()
-        report["lineage"] = provider.lineage
+        report["lineage"] = provider.lineage + report.get("leading_evidence_coverage", {}).get("lineage", [])
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "generated_at", "session", "minute15_cutoff", "coverage", "config"]}
-    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "score", "strategic_eligible", "technical", "minute15"]} for r in report["rankings"][:15]]
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit"]}
+    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "execution", "tactical", "confirmed_holding"]} for r in report["rankings"][:15]]
+    summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
+        for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
     summary["candidate_count"] = len(report["rankings"])
     summary["observation_count"] = len(report["observations"])
     summary["divergences"] = report["divergences"]
     summary["errors"] = report["errors"]
     (Path(args.output) / "summary.json").write_text(json.dumps(clean(summary), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     print("TOMMY_RESULT_JSON=" + json.dumps(clean(summary), ensure_ascii=False, allow_nan=False))
-    return 2 if report["status"] == "failed" else 1 if report["errors"] else 0
+    return 2 if report["status"] == "failed" else 1 if report["status"] == "partial" else 0
 
 
 def main():
     parser = argparse.ArgumentParser(description="Tommy Capital 真实沪深北A股扫描；开盘后使用完整15分钟K线")
     parser.add_argument("--config", help="JSON阈值配置")
     parser.add_argument("--holdings", help="确认持仓JSON")
+    parser.add_argument("--leading-evidence", default="evidence/leading-inflections.json", help="官方领先指标与已复核三情景估值证据文件")
+    parser.add_argument("--scan-phase", choices=["auto", "opening", "intraday", "closing", "pre_run"], default="auto")
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部初筛合格股票")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
-    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查全部月J＜20观察池；screened扩展至全部基本面估值初筛合格股票；strategic是monthly旧别名")
+    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查全部双路线月J路径观察池；screened扩展至全部初筛请求技术检查的股票")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

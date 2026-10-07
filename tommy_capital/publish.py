@@ -19,6 +19,9 @@ def publish(directory, token, repository):
             summary.get("status") != report.get("status") or report.get("status") == "running" or
             summary.get("candidate_count") != len(report.get("rankings", []))):
         raise ValueError("完整报告与机器摘要不匹配，不能发布为最终结果")
+    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage"]:
+        if summary.get(key) != report.get(key):
+            raise ValueError(f"中文报告与机器摘要的{key}不一致")
     markdown = render_markdown(report, github_run_url())
     (directory / "report.md").write_text(markdown, encoding="utf-8")
     if os.environ.get("GITHUB_STEP_SUMMARY"):
@@ -35,6 +38,13 @@ def publish(directory, token, repository):
     entries = [{"path": "results/latest-summary.json", "mode": "100644", "type": "blob",
                 "content": json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False)},
                {"path": "results/latest-report.md", "mode": "100644", "type": "blob", "content": markdown}]
+    phase = report.get("scan_phase")
+    if phase in {"opening", "closing", "intraday", "pre_run"}:
+        day = str(report["generated_at"])[:10]
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
+            raise ValueError("归档报告缺少有效扫描日期")
+        entries += [{**entries[0], "path": f"results/{day}/{phase}-summary.json"},
+                    {**entries[1], "path": f"results/{day}/{phase}-report.md"}]
     for attempt in range(3):
         parent = api("GET", "/git/ref/heads/main")["object"]["sha"]
         previous = api("GET", "/git/commits/" + parent)

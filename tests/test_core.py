@@ -26,15 +26,18 @@ def history_frame():
 def good_row():
     return {"code": "000001", "name": "测试公司", "price": 12, "market_cap": 2400,
             "turnover": 50_000_000, "profit_ytd": 60, "profit_ttm": 120, "revenue_yoy": 10,
-            "profit_yoy": 20, "cfo_per_share_ytd": .5, "pe_ttm": 20, "pb": 2,
+            "profit_yoy": 20, "cfo_per_share_ytd": .5, "previous_same_cfo_per_share_ytd": .4,
+            "revenue_ytd": 1000, "revenue_ttm": 2000, "pe_ttm": 20, "pb": 2,
             "industry_pe_samples": 12, "industry_pe_ratio": .8,
             "period": pd.Timestamp("2026-06-30"), "fundamental_improving": True}
 
 
 def good_technical():
     return {"daily_trend": True, "weekly_trend": True, "monthly_trend": True,
-            "monthly_j": 10, "volume_ratio20": 1.3,
-            "weekly_base": {"detected": False}, "daily_volume": {"abnormal": False}}
+            "monthly_j": 10, "volume_ratio20": 2,
+            "monthly_recovery": {"previous_j": 5, "min_j_3_months": 5, "min_j_6_months": 5},
+            "weekly_structure": {"confirmed": True},
+            "weekly_base": {"detected": True}, "daily_volume": {"abnormal": True}}
 
 
 def candles(count=80):
@@ -113,12 +116,12 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                 return pd.DataFrame({'时间':times, '开盘':values, '收盘':values, '最高':values+1, '最低':values-1, '成交量':[100]*len(times)})
             pytest.fail('unexpected provider call')
     args = argparse.Namespace(config=None, holdings=None, refresh=False, limit=1, daily_only=daily_only, output=str(tmp_path))
-    assert run(args, provider=RecordedProvider(), now=datetime(2026, 10, 8, 9, 50, tzinfo=SHANGHAI)) == 0
+    assert run(args, provider=RecordedProvider(), now=datetime(2026, 10, 8, 9, 50, tzinfo=SHANGHAI)) == 1
     report = json.loads((tmp_path / "report.json").read_text())
     assert report["status"] == "partial" and not report["scan_complete"]
     assert report["coverage"]["unscanned"] == 5
     assert len(report["rankings"]) == int(monthly_low)
-    assert report["selection_rule"] == "monthly_j_lt_20"
+    assert report["selection_rule"] == "dual_route_monthly_recovery"
     card = report["rankings"][0] if monthly_low else report["observations"][0]
     assert (card["technical"]["monthly_j"] < 20) is monthly_low
     assert not card["strategic_eligible"]
@@ -150,8 +153,8 @@ def test_low_monthly_j_enters_observation_without_overriding_trend_confirmation(
     result = evaluate(good_row(), technical, DEFAULTS, date(2026, 10, 5))
     assert result["monthly_low_j_watch"]
     assert result["eligible"]
-    assert not result["strategic_eligible"]
-    assert "monthly_trend 未确认" in result["strategy_reasons"]
+    assert result["strategic_eligible"] and not result["t_trend_confirmed"]
+    assert "monthly_trend 未确认" in result["t_reasons"]
 
 
 def test_small_timeframe_only_runs_on_eligible_holdings():

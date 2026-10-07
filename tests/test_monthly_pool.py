@@ -18,10 +18,11 @@ from test_core import good_row, good_technical
     (75, False), (None, False), (np.nan, False), (np.inf, False)])
 def test_monthly_j_is_strict_entrance_even_with_all_trends_confirmed(j, expected):
     technical = {**good_technical(), "monthly_j": j}
+    technical.pop("monthly_recovery")
     result = evaluate(good_row(), technical, DEFAULTS, date(2026, 10, 7))
     assert result["eligible"] is expected
     assert result["monthly_low_j_watch"] is expected
-    assert result["strategic_eligible"] is expected
+    assert not result["strategic_eligible"]  # no confirmed J recovery history
 
 
 def test_low_j_observation_needs_neither_profit_acceleration_nor_ma_uptrend():
@@ -29,11 +30,11 @@ def test_low_j_observation_needs_neither_profit_acceleration_nor_ma_uptrend():
     technical = {**good_technical(), "daily_trend": False, "weekly_trend": False,
                  "monthly_trend": False}
     result = evaluate(row, technical, DEFAULTS, date(2026, 10, 7))
-    assert result["eligible"] and not result["strategic_eligible"]
+    assert result["eligible"] and not result["t_trend_confirmed"]
     class NoRequests:
         def fetch(self, *args, **kwargs):
             pytest.fail("observation alone must not generate held-stock T checks")
-    assert tactical(NoRequests(), "000001", result["strategic_eligible"], True,
+    assert tactical(NoRequests(), "000001", result["t_trend_confirmed"], True,
                     date(2026, 9, 30))["status"] == "strategy_not_passed"
     row["pe_ttm"] = 61
     assert not evaluate(row, technical, DEFAULTS, date(2026, 10, 7))["eligible"]
