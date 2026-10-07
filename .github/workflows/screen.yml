@@ -20,7 +20,7 @@ permissions:
 
 concurrency:
   group: tommy-market-scan
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   screen:

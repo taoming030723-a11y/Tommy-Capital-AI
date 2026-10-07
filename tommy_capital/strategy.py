@@ -15,6 +15,8 @@ def prepare_universe(spot, finance, config):
     universe["pe_ttm"] = universe.market_cap / universe.profit_ttm.where(universe.profit_ttm > 0)
     valid = universe[(universe.pe_ttm > 0) & (universe.pe_ttm <= 200) &
                      universe.industry.notna() & ~universe.name.str.contains("ST|退", case=False, na=False)]
+    if "quote_clock_ok" in valid:
+        valid = valid[valid.quote_clock_ok]
     peers = valid.groupby("industry").pe_ttm.agg(["median", "count"])
     universe["industry_pe_median"] = universe.industry.map(peers["median"])
     universe["industry_pe_samples"] = universe.industry.map(peers["count"])
@@ -39,6 +41,8 @@ def base_checks(row, config, today):
             reasons.append(f"{field} 超过上限 {bound}")
     if "ST" in str(row.get("name", "")).upper() or "退" in str(row.get("name", "")):
         reasons.append("风险警示/退市名称")
+    if row.get("quote_clock_ok") is False:
+        reasons.append("行情时刻未确认当前盘中报价（可能停牌/数据滞后）")
     minimum("price", 0, True)
     minimum("market_cap", 0, True)
     # During market hours, partial-day turnover is not a full-day liquidity

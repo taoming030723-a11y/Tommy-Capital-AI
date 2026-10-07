@@ -82,24 +82,31 @@ def write_outputs(out, report):
         for col in frame.select_dtypes("object").columns:
             frame[col] = frame[col].map(lambda v: "'" + v if isinstance(v, str) and v.startswith(("=", "+", "-", "@")) else v)
         frame.to_csv(out / filename, index=False, encoding="utf-8-sig")
-    title = f"Tommy Capital · {report['status']}"
-    intro = f"扫描启动：{report['generated_at']}；模式：{report.get('scan_type', '未确定')}；完整日线截至：{report.get('session', '未确定')}；15分钟截至：{report.get('minute15_cutoff', '未请求')}。"
+    status_label = {'complete':'完成', 'partial':'部分完成', 'failed':'失败', 'running':'扫描中'}.get(report['status'], report['status'])
+    mode_label = {'intraday':'盘中', 'closed_session':'最近完整交易日', 'daily_baseline':'日线预检'}.get(report.get('scan_type'), '待确定')
+    title = f"Tommy Capital · {status_label}"
+    intro = f"扫描启动：{report['generated_at']}；模式：{mode_label}；完整日线截至：{report.get('session', '未确定')}；15分钟截至：{report.get('minute15_cutoff', '未请求')}。"
     intro += " 规则筛选候选不代表买入建议；排名分数不代表收益概率。"
-    coverage_text = json.dumps(report.get('coverage', {}), ensure_ascii=False)
+    coverage = report.get('coverage', {})
+    coverage_text = (f"行情 {coverage.get('universe', 0)}只；基本面/估值通过 {coverage.get('financially_eligible', 0)}只；"
+                     f"日线检查 {coverage.get('technical_completed', 0)}/{coverage.get('technical_requested', 0)}只；"
+                     f"15分钟检查 {coverage.get('minute15_completed', 0)}/{coverage.get('minute15_requested', 0)}只；"
+                     f"未扫初筛合格股 {coverage.get('unscanned', 0)}只")
     lines = [f"# {title}", "", intro, "", f"完整扫描：{report.get('scan_complete', False)}；候选数量：{len(report.get('rankings', []))}", "", "覆盖：" + coverage_text, ""]
     for err in report.get("errors", []):
         lines.append(f"- 数据问题：{err}")
     cards = []
-    for index, row in enumerate(report.get("rankings", []), 1):
-        card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分"
+    display_rows = report.get("rankings", []) + [r for r in report.get("observations", []) if r.get("monthly_low_j_watch")]
+    for index, row in enumerate(display_rows, 1):
+        category = '战略候选' if row['eligible'] else '月线低J观察：未通过全部战略条件'
+        card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分 · {category}"
         details = [f"行业：{row.get('industry')}；PE TTM：{row.get('pe_ttm'):.2f}；PB：{row.get('pb'):.2f}",
                    f"报告期：{row.get('period')}；公告日期：{row.get('announced_at')}",
                    f"累计营收同比：{row.get('revenue_yoy')}%；累计净利润同比：{row.get('profit_yoy')}%",
-                   f"分数分解：{json.dumps(row['score_breakdown'], ensure_ascii=False)}",
                    "日线背离：" + signal_label(row['technical']['daily_divergences']),
                    "15分钟背离：" + signal_label(row.get('minute15', {})),
-                   f"日/周/月趋势：{row['technical']['daily_trend']}/{row['technical']['weekly_trend']}/{row['technical']['monthly_trend']}；月线J：{row['technical']['monthly_j']:.2f}",
-                   f"战术观察：{row['tactical']['status']}；仍需支撑阻力、量价与价格结构确认",
+                   '日/周/月趋势：' + '/'.join('确认' if row['technical'][k] else '未确认' for k in ['daily_trend','weekly_trend','monthly_trend']) + f"；月线J：{row['technical']['monthly_j']:.2f}",
+                   '持仓战术：' + {'not_held':'未确认持仓，仅作行情观察', 'strategy_not_passed':'未通过战略条件', 'watch_only':'可查看持仓战术观察', 'not_requested':'本次未请求'}.get(row['tactical']['status'],row['tactical']['status']) + '；仍需支撑阻力、量价与价格结构确认',
                    "人工核对：" + "；".join(row['manual_review'])]
         lines += [f"## {card_title}", ""] + details + [""]
         cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
@@ -112,7 +119,7 @@ def write_outputs(out, report):
     (out / "report.html").write_text(
         "<!doctype html><html lang='zh-CN'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<title>Tommy Capital</title><style>body{font:16px system-ui;background:#10202e;color:#e9f1f7;max-width:1100px;margin:40px auto;padding:20px}"
-        "section{background:#193245;padding:20px;margin:20px 0;border-radius:12px}p{line-height:1.7;overflow-wrap:anywhere}.error{color:#ffba86}</style>"
+        "section{background:#193245;padding:20px;margin:20px 0;border-radius:12px}p{line-height:1.7;overflow-wrap:anywhere}.error{color:#ffba86}td,th{padding:8px;text-align:left;border-bottom:1px solid #486070}table{border-collapse:collapse}</style>"
         f"<h1>{html.escape(title)}</h1><p>{html.escape(intro)}</p><p>完整扫描：{report.get('scan_complete', False)}；覆盖：{html.escape(coverage_text)}</p>"
         + error_html + "".join(cards) + divergence_table(report.get('divergences', [])) + "</html>", encoding="utf-8")
 
@@ -121,9 +128,10 @@ def signal_label(observation):
     if observation.get('status') == 'unavailable':
         return '数据不可用：' + observation.get('error', '')
     if observation.get('status') == 'not_requested':
-        return '日线预检模式，未请求分时'
-    return '、'.join(('底背离' if s['direction'] == 'bullish' else '顶背离') + '/' + s['indicator']
-                    for s in observation.get('signals', [])) or '无已确认背离'
+        return '未通过战略条件，未请求分时' if observation.get('reason') == 'strategy_not_passed' else '日线预检模式，未请求分时'
+    label = '、'.join(('底背离' if s['direction'] == 'bullish' else '顶背离') + '/' + s['indicator'] +
+                     '（确认：' + s['confirmed_at'] + '）' for s in observation.get('signals', [])) or '无已确认背离'
+    return label + ('；完整K线：' + observation['last_bar'] if observation.get('last_bar') else '')
 
 
 def divergence_table(rows):
@@ -131,7 +139,8 @@ def divergence_table(rows):
     headers = ['代码', '名称', '周期', '方向', '指标', '确认时间', '战略资格']
     body = ''
     for row in rows:
-        body += '<tr>' + ''.join('<td>' + html.escape(str(row[k])) + '</td>' for k in columns) + '</tr>'
+        body += '<tr>' + ''.join('<td>' + html.escape(('底背离' if row[k] == 'bullish' else '顶背离')
+                              if k == 'direction' else str(row[k])) + '</td>' for k in columns) + '</tr>'
     return '<h2>全部初筛合格股票的日线/15分钟背离</h2><div style="overflow:auto"><table><tr>' + ''.join('<th>' + h + '</th>' for h in headers) + '</tr>' + body + '</table></div>'
 
 
@@ -145,6 +154,7 @@ def run(args, provider=None, now=None):
     holdings = load_holdings(args.holdings)
     workers = getattr(args, "workers", 4)
     daily_only = getattr(args, "daily_only", False)
+    minute_scope = getattr(args, "minute_scope", "strategic")
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
     report = {"system": "Tommy Capital 1.1", "mode": "live", "generated_at": now.isoformat(),
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
@@ -168,6 +178,18 @@ def run(args, provider=None, now=None):
             raise DataError("今日首根15分钟K线尚未完成，请于09:45:30之后扫描")
         spot_raw = provider.fetch("spot_sina_full", ttl=60)
         spot = normalize_spot(spot_raw)
+        if intraday:
+            clocks = pd.to_timedelta(spot.quote_clock_time, errors="coerce")
+            acquired = datetime.now(SHANGHAI)
+            acquired = acquired if acquired.date() == today and acquired >= now else now
+            upper = pd.Timedelta(hours=acquired.hour, minutes=acquired.minute, seconds=acquired.second) + pd.Timedelta(minutes=1)
+            spot["quote_clock_ok"] = (clocks >= pd.Timedelta(hours=9, minutes=30)) & (clocks <= upper)
+            rejected = int((~spot.quote_clock_ok).sum())
+            report["quote_clock_rejected"] = rejected
+            if rejected > len(spot) / 10:
+                raise DataError(f"盘中行情时刻异常 {rejected}/{len(spot)}；数据可能未更新，停止排名")
+            if rejected:
+                report["errors"].append(f"{rejected}只股票报价时刻未确认当前盘中时段，已排除；源未提供完整报价日期")
         histories, financial_period_counts = [], {}
         def load_period(period):
             ttl = 900 if period == report_periods(today)[0] else 86400
@@ -206,7 +228,7 @@ def run(args, provider=None, now=None):
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(universe),
                               "financial_period_counts": financial_period_counts, "financially_eligible": len(eligible_rows),
                               "technical_requested": len(selected), "technical_completed": 0,
-                              "minute15_requested": 0, "minute15_completed": 0, "tactical_failed_frames": 0,
+                              "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "unscanned": len(eligible_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         def inspect_stock(row):
@@ -216,7 +238,9 @@ def run(args, provider=None, now=None):
             daily = daily[daily.index.date <= session]
             technical = strategic_technical(daily, session)
             decision = evaluate(row, technical, config, today)
-            minute = {"status": "not_requested", "signals": []} if daily_only else minute_observation(provider, row["code"], cutoff, daily)
+            need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"] or decision["monthly_low_j_watch"])
+            minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
+                "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "strategy_not_passed"}
             card = {**row, **decision, "technical": technical, "minute15": minute,
                     "tactical": tactical(provider, row["code"], decision["eligible"], row["code"] in holdings, session,
                                          now=now, calendar=calendar, daily_qfq=daily, minute15=minute) if not daily_only else
@@ -233,12 +257,14 @@ def run(args, provider=None, now=None):
                     if warning:
                         report["warnings"].append(warning)
                     report["coverage"]["technical_completed"] += 1
-                    if not daily_only:
+                    if card["minute15"]["status"] != "not_requested":
                         report["coverage"]["minute15_requested"] += 1
                         if card["minute15"]["status"] == "ok":
                             report["coverage"]["minute15_completed"] += 1
                         else:
                             report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
+                    else:
+                        report["coverage"]["minute15_not_required"] += 1
                     for period, frame in card["tactical"].get("frames", {}).items():
                         if frame["status"] == "unavailable":
                             report["coverage"]["tactical_failed_frames"] += 1
@@ -281,6 +307,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部初筛合格股票")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
+    parser.add_argument("--minute-scope", choices=["strategic", "screened"], default="strategic", help="15分钟默认检查战略候选/月线低J观察；screened=全部基本面估值初筛合格股票")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

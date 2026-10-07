@@ -76,7 +76,7 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
             if function == "spot_sina_full":
                 return pd.DataFrame({"代码": [f"60000{i}" for i in range(1, 7)], "名称": ["测试"]*6,
                                      "最新价": [20]*6, "总市值": [2400]*6, "成交额": [5e7]*6,
-                                     "市净率": [2]*6, "市盈率-动态": [99]*6})
+                                     "市净率": [2]*6, "市盈率-动态": [99]*6, "行情时刻": ['09:49:59']*6})
             if function == "finance_em_named":
                 period = kwargs["date"]
                 # Not-yet-announced September result is empty, not fabricated.

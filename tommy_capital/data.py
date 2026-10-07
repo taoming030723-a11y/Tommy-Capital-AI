@@ -180,6 +180,7 @@ SPOT_COLUMNS = {"代码": "code", "名称": "name", "最新价": "price", "总�
 def normalize_spot(frame):
     require(frame, SPOT_COLUMNS, "A股行情")
     result = frame.rename(columns=SPOT_COLUMNS)[list(SPOT_COLUMNS.values())].copy()
+    result["quote_clock_time"] = frame["行情时刻"] if "行情时刻" in frame else None
     result.code = codes(result.code)
     # Include Shanghai, Shenzhen and Beijing A shares; exclude B shares.
     result = result[result.code.str.match(r"^(60\d|68\d|00\d|30\d|43\d|83\d|87\d|88\d|92\d)\d{3}$")]

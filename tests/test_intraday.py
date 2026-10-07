@@ -65,6 +65,27 @@ def test_historical_liquidity_avoids_partial_morning_turnover_cutoff():
     assert not evaluate(row, tech, DEFAULTS, date(2026, 10, 8))['eligible']
 
 
+def test_stale_intraday_quote_cannot_enter_strategy():
+    row = {**good_row(), 'quote_clock_ok': False}
+    assert not evaluate(row, good_technical(), DEFAULTS, date(2026,10,8))['eligible']
+
+
+def test_previous_close_snapshot_is_rejected_after_open(tmp_path):
+    class OldQuotes:
+        lineage = []
+        def fetch(self, function, **kwargs):
+            if function == 'tool_trade_date_hist_sina':
+                return pd.DataFrame({'trade_date': ['2026-09-30','2026-10-08','2026-12-31']})
+            assert function == 'spot_sina_full'
+            return pd.DataFrame({'代码':['600001'], '名称':['测试'], '最新价':[20], '总市值':[2400],
+                                 '成交额':[5e7], '市净率':[2], '市盈率-动态':[20], '行情时刻':['15:00:00']})
+    args = SimpleNamespace(config=None,holdings=None,refresh=False,limit=0,output=str(tmp_path))
+    assert run(args,provider=OldQuotes(),now=datetime(2026,10,8,9,50,tzinfo=SHANGHAI)) == 2
+    report=json.loads((tmp_path/'report.json').read_text())
+    assert report['quote_clock_rejected']==1 and report['status']=='failed'
+    assert any('盘中行情时刻异常' in e for e in report['errors'])
+
+
 def test_early_open_fails_before_requesting_market_data(tmp_path):
     class CalendarOnly:
         lineage = []

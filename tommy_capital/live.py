@@ -134,7 +134,7 @@ def spot_sina():
     if len(raw) != count:
         raise ValueError(f"行情覆盖不全：{len(raw)}/{count}，请重试")
     mapping = {"code": "代码", "name": "名称", "trade": "最新价", "amount": "成交额",
-               "pb": "市净率", "per": "市盈率-动态", "mktcap": "总市值"}
+               "pb": "市净率", "per": "市盈率-动态", "mktcap": "总市值", "ticktime": "行情时刻"}
     if not set(mapping).issubset(raw.columns):
         raise ValueError("新浪行情字段变化")
     frame = raw.rename(columns=mapping)[list(mapping.values())].copy()
