@@ -128,18 +128,26 @@ def normalize_finance(frame, period, today):
                   (result.announced_at >= result.period)].sort_values("announced_at").drop_duplicates("code", keep="last")
 
 
-def daily_history(provider, code, start, end, asof_day=None):
-    """Both providers return actual market data; record any source switch."""
+def daily_history(provider, code, start, end, asof_day=None, adjust="qfq"):
+    """Use real providers in order and preserve every failed source's cause."""
     try:
-        return provider.fetch("daily_tx_recent", ttl=86400, symbol=code, adjust="qfq",
-                              start_date=start, end_date=end, anchor_date=asof_day or end), None
+        kwargs = {"symbol": code, "adjust": adjust, "end_date": end, "anchor_date": asof_day or end}
+        if start is not None:
+            kwargs["start_date"] = start
+        return provider.fetch("daily_tx_recent", ttl=86400, **kwargs), None
     except DataError as primary:
         LOG.warning("%s 腾讯近期日线失败，尝试东财日线", code)
         try:
-            frame = provider.fetch("stock_zh_a_hist", ttl=86400, symbol=code, period="daily", adjust="qfq",
-                                   start_date=start, end_date=end, timeout=30)
+            frame = provider.fetch("stock_zh_a_hist", ttl=86400, symbol=code, period="daily", adjust=adjust,
+                                   start_date=start or "19900101", end_date=end, timeout=30)
         except DataError as backup:
-            raise DataError(f"腾讯与东财日线均不可用；腾讯：{primary}；东财：{backup}") from backup
+            LOG.warning("%s 东财日线失败，尝试带真实因子的新浪日线", code)
+            try:
+                frame = provider.fetch("daily_sina_adjusted", ttl=86400, symbol=code, adjust=adjust,
+                                       start_date=start, end_date=end, anchor_date=asof_day or end)
+            except DataError as third:
+                raise DataError(f"三路日线均不可用；腾讯：{primary}；东财：{backup}；新浪：{third}") from third
+            return frame, f"{code}: 腾讯/东财日线失败后切换新浪；腾讯：{primary}；东财：{backup}"
         return frame, f"{code}: 腾讯近期日线失败后切换东财；{primary}"
 
 

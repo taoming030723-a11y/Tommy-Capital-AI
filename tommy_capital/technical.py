@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 
-from .data import DataError, require
+from .data import DataError, require, daily_history
 
 
 def bars(raw, timestamp="日期"):
@@ -152,8 +152,8 @@ def minute_frame(provider, code, period, cutoff, daily_qfq):
     # Ratios come from full raw vs adjusted daily closes, not a partial
     # intraday close. Today's latest adjusted prices have factor 1.
     last_complete_day = daily_qfq.index[-1].date()
-    raw_daily = provider.fetch("daily_tx_recent", ttl=86400, symbol=code, adjust="",
-                               end_date=last_complete_day.strftime("%Y%m%d"), anchor_date=cutoff.strftime("%Y%m%d"))
+    raw_daily, _ = daily_history(provider, code, None,
+                                last_complete_day.strftime("%Y%m%d"), cutoff.strftime("%Y%m%d"), adjust="")
     raw_daily = bars(raw_daily)
     aligned = daily_qfq.close / raw_daily.close
     for day in set(data.index.date):

@@ -163,6 +163,66 @@ def daily_tx(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None, 
     return frame[pd.to_datetime(frame["日期"]) <= pd.Timestamp(end_date)]
 
 
+def daily_sina(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None):
+    """Decode received daily bars and apply the source's dated qfq factors.
+
+    Unlike the upstream helper, this does not merge/forward-fill daily prices
+    with share-count or factor event dates. Only actual received bars survive.
+    Missing factors never imply an adjustment factor of one.
+    """
+    if adjust not in ("", "qfq"):
+        raise ValueError("新浪备用日线仅支持原始或前复权价格")
+    market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
+    symbol = symbol if symbol.startswith(("sh", "sz", "bj")) else market + symbol
+    base = f"https://finance.sina.com.cn/realstock/company/{symbol}/"
+    response = request(base + "hisdata_klc2/klc_kl.js", {})
+    encoded = re.search(r'=\s*"([^"\n]+)"\s*;', response.text)
+    if not encoded:
+        raise ValueError("新浪日线压缩数据不可用")
+    # AKShare supplies the decoder for Sina's documented compressed format.
+    from akshare.stock.cons import hk_js_decode
+    from py_mini_racer import py_mini_racer
+    decoder = py_mini_racer.MiniRacer()
+    decoder.eval(hk_js_decode)
+    raw = pd.DataFrame(decoder.call("d", encoded.group(1)))
+    required = {"date", "open", "close", "high", "low", "volume", "amount"}
+    if not required.issubset(raw.columns) or raw.empty:
+        raise ValueError("新浪日线缺少真实价格或成交额字段")
+    raw = raw[list(required)].copy()
+    raw["date"] = pd.to_datetime(raw["date"], errors="coerce").dt.normalize()
+    if raw["date"].isna().any() or raw["date"].duplicated().any():
+        raise ValueError("新浪日线日期缺失或重复")
+    raw = raw.sort_values("date")
+    for column in required - {"date"}:
+        raw[column] = pd.to_numeric(raw[column], errors="coerce")
+    if adjust == "qfq":
+        response = request(base + "qfq.js", {})
+        match = re.search(r'=\s*(\{.*\})\s*;?\s*$', response.text, re.DOTALL)
+        if not match:
+            raise ValueError("新浪未提供可验证的前复权因子")
+        factors = json.loads(match.group(1)).get("data")
+        if not isinstance(factors, list) or not factors or any(not isinstance(r, list) or len(r) != 2 for r in factors):
+            raise ValueError("新浪前复权因子为空或格式变化")
+        factors = pd.DataFrame(factors, columns=["date", "factor"])
+        factors["date"] = pd.to_datetime(factors["date"], errors="coerce").dt.normalize()
+        factors["factor"] = pd.to_numeric(factors["factor"], errors="coerce")
+        anchor = pd.Timestamp(anchor_date or end_date).normalize()
+        if factors.isna().any().any() or factors["date"].duplicated().any() or (factors["date"] > anchor).any():
+            raise ValueError("新浪前复权因子日期缺失、重复或超出扫描日期")
+        if not factors["factor"].map(math.isfinite).all() or (factors["factor"] <= 0).any():
+            raise ValueError("新浪前复权因子不是有限正数")
+        raw = pd.merge_asof(raw, factors.sort_values("date"), on="date", direction="backward")
+        if raw["factor"].isna().any():
+            raise ValueError("新浪前复权因子未覆盖实际日线，不能按未复权价格计算")
+        raw[["open", "close", "high", "low"]] = raw[["open", "close", "high", "low"]].div(raw["factor"], axis=0)
+    raw = raw[raw["date"] <= pd.Timestamp(end_date)]
+    if start_date:
+        raw = raw[raw["date"] >= pd.Timestamp(start_date)]
+    return raw.rename(columns={"date": "日期", "open": "开盘", "close": "收盘", "high": "最高",
+                               "low": "最低", "volume": "成交量", "amount": "成交额"})[
+        ["日期", "开盘", "收盘", "最高", "最低", "成交量", "成交额"]]
+
+
 def minute_sina(symbol, period="15"):
     market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
     symbol = symbol if symbol.startswith(("sh", "sz", "bj")) else market + symbol

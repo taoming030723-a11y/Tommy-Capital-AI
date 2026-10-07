@@ -260,10 +260,28 @@ def test_daily_fallback_keeps_real_source_and_column_mapping():
     assert len(bars(frame)) == 80
 
 
-def test_daily_failure_preserves_both_provider_causes():
+def test_daily_failure_preserves_all_provider_causes():
     from tommy_capital.data import daily_history
-    class BothMissing:
+    class AllMissing:
         def fetch(self,function,**kwargs):
-            raise DataError('requested qfq missing' if function=='daily_tx_recent' else 'connection closed')
-    with pytest.raises(DataError,match='requested qfq missing.*connection closed'):
-        daily_history(BothMissing(),'920193','20180101','20260930')
+            raise DataError({'daily_tx_recent':'requested qfq missing', 'stock_zh_a_hist':'connection closed',
+                             'daily_sina_adjusted':'missing real factor'}[function])
+    with pytest.raises(DataError,match='requested qfq missing.*connection closed.*missing real factor'):
+        daily_history(AllMissing(),'920193','20180101','20260930')
+
+
+def test_daily_third_source_keeps_requested_adjustment_and_warnings():
+    from tommy_capital.data import daily_history
+    calls=[]
+    class ThirdSource:
+        def fetch(self,function,**kwargs):
+            calls.append((function,kwargs))
+            assert kwargs['adjust']=='qfq'
+            if function!='daily_sina_adjusted':
+                raise DataError(function+' unavailable')
+            return candles().reset_index(names='日期').rename(columns={'open':'开盘','close':'收盘',
+                                    'high':'最高','low':'最低','volume':'成交量'})
+    frame, warning=daily_history(ThirdSource(),'600001','20180101','20260930','20261007')
+    assert len(bars(frame))==80
+    assert [c[0] for c in calls]==['daily_tx_recent','stock_zh_a_hist','daily_sina_adjusted']
+    assert calls[-1][1]['anchor_date']=='20261007' and '腾讯' in warning and '东财' in warning and '新浪' in warning
