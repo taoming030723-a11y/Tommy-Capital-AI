@@ -258,3 +258,12 @@ def test_daily_fallback_keeps_real_source_and_column_mapping():
     frame, warning = daily_history(Backup(), "600001", "20180101", "20260930")
     assert warning and "腾讯" in warning
     assert len(bars(frame)) == 80
+
+
+def test_daily_failure_preserves_both_provider_causes():
+    from tommy_capital.data import daily_history
+    class BothMissing:
+        def fetch(self,function,**kwargs):
+            raise DataError('requested qfq missing' if function=='daily_tx_recent' else 'connection closed')
+    with pytest.raises(DataError,match='requested qfq missing.*connection closed'):
+        daily_history(BothMissing(),'920193','20180101','20260930')

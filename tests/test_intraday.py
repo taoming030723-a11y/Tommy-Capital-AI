@@ -114,3 +114,19 @@ def test_minute_adjustment_discards_unfinished_bar_and_removes_split_jump():
     qfq[['open', 'close', 'high', 'low']] /= 2
     actual = technical.minute_frame(Source(), '600001', 15, dates[1], qfq)
     assert len(actual) == 2 and actual.close.tolist() == [50., 50.]
+
+
+def test_completed_holiday_week_is_included_after_the_calendar_week_ends():
+    frame=candles(700)
+    frame.index=pd.bdate_range(end='2026-09-30',periods=700)
+    result=technical.strategic_technical(frame,date(2026,9,30),date(2026,10,7))
+    assert result['daily_bar_date']=='2026-09-30'
+    assert result['weekly_bar_date']=='2026-10-02'
+    assert result['monthly_bar_date']=='2026-09-30'
+
+
+def test_friday_intraday_does_not_include_unfinished_current_week():
+    frame=candles(700)
+    frame.index=pd.bdate_range(end='2026-10-08',periods=700)
+    result=technical.strategic_technical(frame,date(2026,10,8),date(2026,10,8))
+    assert result['weekly_bar_date']=='2026-10-02'

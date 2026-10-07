@@ -5,7 +5,7 @@ import json
 import logging
 import math
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -236,7 +236,8 @@ def run(args, provider=None, now=None):
                                          session.strftime("%Y%m%d"), today.strftime("%Y%m%d"))
             daily = bars(raw)
             daily = daily[daily.index.date <= session]
-            technical = strategic_technical(daily, session)
+            period_cutoff = today if (now.hour, now.minute) >= (15, 10) else today - timedelta(days=1)
+            technical = strategic_technical(daily, session, period_cutoff)
             decision = evaluate(row, technical, config, today)
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"] or decision["monthly_low_j_watch"])
             minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
@@ -293,6 +294,8 @@ def run(args, provider=None, now=None):
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
     summary = {k: report.get(k) for k in ["status", "scan_complete", "scan_type", "generated_at", "session", "minute15_cutoff", "coverage"]}
     summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "score", "technical", "minute15"]} for r in report["rankings"][:15]]
+    summary["candidate_count"] = len(report["rankings"])
+    summary["observation_count"] = len(report["observations"])
     summary["divergences"] = report["divergences"]
     summary["errors"] = report["errors"]
     (Path(args.output) / "summary.json").write_text(json.dumps(clean(summary), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")

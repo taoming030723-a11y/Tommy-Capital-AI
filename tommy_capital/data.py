@@ -135,8 +135,11 @@ def daily_history(provider, code, start, end, asof_day=None):
                               start_date=start, end_date=end, anchor_date=asof_day or end), None
     except DataError as primary:
         LOG.warning("%s 腾讯近期日线失败，尝试东财日线", code)
-        frame = provider.fetch("stock_zh_a_hist", ttl=86400, symbol=code, period="daily", adjust="qfq",
-                               start_date=start, end_date=end, timeout=30)
+        try:
+            frame = provider.fetch("stock_zh_a_hist", ttl=86400, symbol=code, period="daily", adjust="qfq",
+                                   start_date=start, end_date=end, timeout=30)
+        except DataError as backup:
+            raise DataError(f"腾讯与东财日线均不可用；腾讯：{primary}；东财：{backup}") from backup
         return frame, f"{code}: 腾讯近期日线失败后切换东财；{primary}"
 
 

@@ -58,12 +58,15 @@ def indicators(df):
     return result
 
 
-def strategic_technical(daily, session):
+def strategic_technical(daily, session, period_cutoff=None):
     if len(daily) < 250 or daily.index[-1].date() != session:
         raise DataError("日线不足250根，或最新K线未覆盖已收盘交易日（可能停牌/数据滞后）")
     d = indicators(daily)
-    w = indicators(aggregate(daily, "W-FRI", session))
-    m = indicators(aggregate(daily, "ME", session))
+    # A holiday week/month can end after the last trading session. Use the
+    # known calendar cutoff while still restricting actual bars to session.
+    cutoff = period_cutoff or session
+    w = indicators(aggregate(daily, "W-FRI", cutoff))
+    m = indicators(aggregate(daily, "ME", cutoff))
     if len(w) < 60 or len(m) < 24:
         raise DataError("周/月线不足（至少60周、24个完整月份）")
     last_d, last_w, last_m = d.iloc[-1], w.iloc[-1], m.iloc[-1]
