@@ -56,39 +56,12 @@ jobs:
         env:
           SCAN_LIMIT: ${{ inputs.limit }}
         run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4
-      - name: Publish readable result summary
+      - name: 发布中文报告与机器摘要
         if: always() && steps.date.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_NAME: ${{ github.repository }}
-        run: |
-          python - <<'PY'
-          import base64, json, os, pathlib, urllib.request, urllib.error
-          report = pathlib.Path('reports/latest/summary.json')
-          if not report.exists():
-              raise SystemExit('No result summary: the scan did not finish; inspect failure diagnostics.')
-          url = 'https://api.github.com/repos/' + os.environ['REPO_NAME'] + '/contents/results/latest-summary.json'
-          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'}
-          body = {'message': 'Update market scan summary [skip ci]', 'branch': 'main',
-                  'content': base64.b64encode(report.read_bytes()).decode()}
-          try:
-              with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
-                  body['sha'] = json.load(response)['sha']
-          except urllib.error.HTTPError as exc:
-              if exc.code != 404:
-                  raise
-          request = urllib.request.Request(url, data=json.dumps(body).encode(), headers={**headers, 'Content-Type': 'application/json'}, method='PUT')
-          with urllib.request.urlopen(request) as response:
-              json.load(response)
-          summary = json.loads(report.read_text())
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
-              output.write('# Tommy Capital scan\n\n')
-              output.write('Status: ' + summary['status'] + '\n\n')
-              output.write('Full coverage: ' + str(summary['scan_complete']) + '\n\n')
-              output.write('Daily session: ' + str(summary['session']) + '\n\n')
-              output.write('15-minute cutoff: ' + str(summary['minute15_cutoff']) + '\n\n')
-              output.write('Download the report artifact for all candidates, signals and missing-data diagnostics.\n')
-          PY
+        run: python -m tommy_capital.publish
       - uses: actions/cache/save@v4
         if: always() && steps.date.outputs.run == 'true'
         with:

@@ -15,6 +15,7 @@ from .data import (Provider, DataError, SHANGHAI, completed_session, report_peri
                    normalize_spot, normalize_finance, latest_finance, daily_history)
 from .strategy import prepare_universe, base_checks, evaluate
 from .technical import bars, strategic_technical, tactical, closed_minute_cutoff, minute_observation
+from .reporting import render_markdown, github_run_url
 
 LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
@@ -92,9 +93,6 @@ def write_outputs(out, report):
                      f"日线检查 {coverage.get('technical_completed', 0)}/{coverage.get('technical_requested', 0)}只；"
                      f"15分钟检查 {coverage.get('minute15_completed', 0)}/{coverage.get('minute15_requested', 0)}只；"
                      f"未扫初筛合格股 {coverage.get('unscanned', 0)}只")
-    lines = [f"# {title}", "", intro, "", f"完整扫描：{report.get('scan_complete', False)}；候选数量：{len(report.get('rankings', []))}", "", "覆盖：" + coverage_text, ""]
-    for err in report.get("errors", []):
-        lines.append(f"- 数据问题：{err}")
     cards = []
     display_rows = report.get("rankings", []) + [r for r in report.get("observations", []) if r.get("monthly_low_j_watch")]
     for index, row in enumerate(display_rows, 1):
@@ -108,13 +106,11 @@ def write_outputs(out, report):
                    '日/周/月趋势：' + '/'.join('确认' if row['technical'][k] else '未确认' for k in ['daily_trend','weekly_trend','monthly_trend']) + f"；月线J：{row['technical']['monthly_j']:.2f}",
                    '持仓战术：' + {'not_held':'未确认持仓，仅作行情观察', 'strategy_not_passed':'未通过战略条件', 'watch_only':'可查看持仓战术观察', 'not_requested':'本次未请求'}.get(row['tactical']['status'],row['tactical']['status']) + '；仍需支撑阻力、量价与价格结构确认',
                    "人工核对：" + "；".join(row['manual_review'])]
-        lines += [f"## {card_title}", ""] + details + [""]
         cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
                      "".join("<p>" + html.escape(s) + "</p>" for s in details) + "</section>")
     if not cards:
         cards.append("<p>本次没有符合全部规则的候选。请查阅 report.json 中的覆盖情况和排除原因。</p>")
-    lines += ["数据来源：新浪行情/分时、腾讯日线、东方财富财报、AKShare交易日历；哈希及缓存时点见report.json。", ""]
-    (out / "report.md").write_text("\n".join(lines), encoding="utf-8")
+    (out / "report.md").write_text(render_markdown(report, github_run_url()), encoding="utf-8")
     error_html = "".join("<p class='error'>" + html.escape(e) + "</p>" for e in report.get("errors", []))
     (out / "report.html").write_text(
         "<!doctype html><html lang='zh-CN'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"

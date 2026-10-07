@@ -6,7 +6,9 @@
 
 2026年10月8日 **09:50，北京/新加坡时间**，GitHub Actions自动开始扫描。09:45的第一根15分钟K线完成后留出5分钟数据更新余量；开始时间不等于整批报告完成时间。GitHub定时任务可能延迟，公开行情也可能限流，报告会给出实际截点和覆盖数。定时工作流有日期保护，只执行这一次；以后可手动启动。
 
-查看 [Actions](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/workflows/screen.yml)，下载运行底部的 `tommy-capital-report`，打开 `report.html`。也可查看仓库自动更新的 `results/latest-summary.json`；摘要只列前15个战略候选，完整排名与所有排除原因在报告附件。
+**直接阅读 [最新中文扫描报告](results/latest-report.md)**：仓库 → results → latest-report.md。GitHub会显示排版后的中文报告，包含战略候选TOP 10、日线与15分钟顶底背离及确认时间、月线低J观察池、逐股数据缺失。其余候选和背离可在报告中展开查看。
+
+每次扫描结束后，报告与 `results/latest-summary.json` 在同一次提交中更新，[Actions](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/workflows/screen.yml) 的运行摘要也直接显示这份中文报告。需要详细数据时，下载运行底部的 `tommy-capital-report`；JSON、CSV、HTML和Markdown均保留在附件中。前10/15名只是摘要，不等于候选总数。预跑、盘中扫描、部分完成和失败均标明实际数据日期与覆盖数。
 
 ## 电脑上一条命令运行
 
@@ -59,6 +61,8 @@ MACD为12/26/9 EMA；KDJ为9期RSV、K/D以1/3递推并初始化50、J=3K−2D�
 
 ## 报告与完整性
 
+- `results/latest-report.md`：仓库中直接阅读的最新中文报告，Actions自动发布。
+- `report.md`：同一版中文报告，包含全部候选与已发现背离的可展开明细。
 - `report.html`：候选卡片、覆盖情况及全部已发现背离明细。
 - `rankings.csv`：全部战略候选，不是默认前100只。
 - `observations.csv`：未通过全部趋势规则的观察股。
