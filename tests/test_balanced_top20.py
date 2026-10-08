@@ -6,7 +6,7 @@ from datetime import date, datetime
 import pandas as pd
 import pytest
 
-from tommy_capital.cli import DEFAULTS, make_summary, write_outputs
+from tommy_capital.cli import DEFAULTS, make_summary, write_outputs, scan_is_complete, signal_label
 from tommy_capital.data import SHANGHAI
 from tommy_capital.reporting import render_markdown, github_run_url
 from tommy_capital.scoring import (balanced_score, ranked_top20, SCORING_VERSION,
@@ -95,6 +95,12 @@ def test_short_complete_monthly_history_is_not_reported_as_no_divergence():
     result = balanced_score(good_row(), tech, "A", minute_frames=frames())
     assert not result["score_inputs_complete"]
     assert "technical.monthly.macd_divergence_history" in result["score_missing_inputs"]
+    assert "无法判断" in signal_label(tech['timeframes']['monthly'])
+    report = {"errors": [], "coverage": {"unscanned": 0, "leading_evidence_missing": 0,
+               "monthly_pool_count": 1, "score_inputs_completed": 0}}
+    assert not scan_is_complete(report)
+    report['coverage']['score_inputs_completed'] = 1
+    assert scan_is_complete(report)
 
 
 def test_loss_route_retains_verified_evidence_and_valuation_and_no_positive_cash_bonus():

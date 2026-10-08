@@ -157,6 +157,8 @@ def signal_label(observation):
         return '未进入月J观察池，未请求分时' if observation.get('reason') == 'outside_monthly_pool' else '日线预检模式，未请求分时'
     if observation.get('status') == 'insufficient_bars':
         return 'K线不足，无法判断有无背离'
+    if observation.get('divergence_status') == 'insufficient_bars':
+        return '背离历史不足，无法判断有无背离'
     label = '、'.join(('底背离' if s['direction'] == 'bullish' else '顶背离') + '/' + s['indicator'] +
                      '（确认：' + s['confirmed_at'] + '）' for s in observation.get('signals', [])) or '无已确认背离'
     return label + ('；完整K线：' + observation['last_bar'] if observation.get('last_bar') else '')
@@ -409,7 +411,7 @@ def run(args, provider=None, now=None):
                     LOG.info("技术进度 %s/%s；双路线观察候选 %s", count, len(selected), len(report["rankings"]))
                     write_outputs(Path(args.output), report)
         report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-        report["scan_complete"] = report["coverage"]["unscanned"] == 0 and not report["errors"] and missing_evidence == 0
+        report["scan_complete"] = scan_is_complete(report)
         report["status"] = "complete" if report["scan_complete"] else "partial"
     except DataError as exc:
         report["errors"].append(str(exc))
@@ -422,6 +424,12 @@ def run(args, provider=None, now=None):
     (Path(args.output) / "summary.json").write_text(json.dumps(clean(summary), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     print("TOMMY_RESULT_JSON=" + json.dumps(clean(summary), ensure_ascii=False, allow_nan=False))
     return 2 if report["status"] == "failed" else 1 if report["status"] == "partial" else 0
+
+
+def scan_is_complete(report):
+    coverage = report["coverage"]
+    return (coverage["unscanned"] == 0 and not report["errors"] and coverage["leading_evidence_missing"] == 0
+            and coverage["score_inputs_completed"] == coverage["monthly_pool_count"])
 
 
 def make_summary(report):
