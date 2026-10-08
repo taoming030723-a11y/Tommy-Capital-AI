@@ -47,6 +47,28 @@ def test_qfq_client_does_not_silently_accept_raw_prices(monkeypatch):
         live.daily_tx('600001','20260930',adjust='qfq')
 
 
+def test_latest_qfq_session_request_keeps_only_received_bars_through_scan_date(monkeypatch):
+    day = live.pd.Timestamp.now(tz='Asia/Shanghai').tz_localize(None).normalize()
+    calls = []
+    def source(url, params):
+        calls.append(params['param'])
+        records = [[d.strftime('%Y-%m-%d'), '10', '11', '12', '9', '100', '0', '0', '12']
+                   for d in [day - live.pd.Timedelta(days=1), day, day + live.pd.Timedelta(days=1)]]
+        return {'data': {'sh600001': {'qfqday': records}}}
+    monkeypatch.setattr(live, 'get_json', source)
+    frame = live.daily_tx('600001', day.strftime('%Y%m%d'), anchor_date=day.strftime('%Y%m%d'),
+                          include_current_session=True)
+    assert calls == ['sh600001,day,,,640,qfq']
+    assert frame['日期'].tolist() == [(day-live.pd.Timedelta(days=1)).strftime('%Y-%m-%d'), day.strftime('%Y-%m-%d')]
+    assert frame['成交额'].tolist() == [120000, 120000]
+
+
+def test_latest_session_endpoint_cannot_be_used_for_historical_adjustment(monkeypatch):
+    monkeypatch.setattr(live, 'get_json', lambda *a, **k: pytest.fail('must not fetch current adjusted data'))
+    with pytest.raises(ValueError, match='历史复权回放'):
+        live.daily_tx('600001', '20200101', anchor_date='20200101', include_current_session=True)
+
+
 def sina_responses(monkeypatch, factors):
     """Protocol fixtures validate adjustment; they are never scan inputs."""
     from py_mini_racer import py_mini_racer

@@ -144,12 +144,18 @@ def spot_sina():
     return frame
 
 
-def daily_tx(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None, **unused):
+def daily_tx(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None, include_current_session=False, **unused):
     market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
     symbol = symbol if symbol.startswith(("sh", "sz", "bj")) else market + symbol
     endpoint = "https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get"
     anchor = pd.Timestamp(anchor_date or end_date).strftime('%Y-%m-%d')
-    data = get_json(endpoint, {"param": f"{symbol},day,,{anchor},640,{adjust}"})
+    # A dated historical request omits the provider's appended current session.
+    # Use its latest-session response only for today's closing scan, then still
+    # clip received bars to end_date. No unfinished/future bar is synthesized.
+    if include_current_session and anchor != pd.Timestamp.now(tz="Asia/Shanghai").strftime('%Y-%m-%d'):
+        raise ValueError("最新日线请求只能用于当前扫描日期，不能用于历史复权回放")
+    request_end = "" if include_current_session else anchor
+    data = get_json(endpoint, {"param": f"{symbol},day,,{request_end},640,{adjust}"})
     body = data["data"][symbol]
     # Never quietly use raw bars when adjusted bars were requested.
     key = "qfqday" if adjust == "qfq" else "hfqday" if adjust == "hfq" else "day"

@@ -148,6 +148,10 @@ def daily_history(provider, code, start, end, asof_day=None, adjust="qfq", requi
     ttl = 60 if required_session is not None else 86400
     try:
         kwargs = {"symbol": code, "adjust": adjust, "end_date": end, "anchor_date": asof_day or end}
+        if required_session is not None:
+            # Also changes the cache key so an older historical-only response
+            # cannot hide the provider's newly appended current-day bar.
+            kwargs["include_current_session"] = pd.Timestamp(required_session).date() == datetime.now(SHANGHAI).date()
         if start is not None:
             kwargs["start_date"] = start
         return validated(provider.fetch("daily_tx_recent", ttl=ttl, **kwargs)), None

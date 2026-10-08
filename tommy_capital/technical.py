@@ -308,8 +308,12 @@ def minute_frame(provider, code, period, cutoff, daily_qfq):
     # Ratios come from full raw vs adjusted daily closes, not a partial
     # intraday close. Today's latest adjusted prices have factor 1.
     last_complete_day = daily_qfq.index[-1].date()
+    same_complete_session = last_complete_day == cutoff.date()
+    current_close = same_complete_session and last_complete_day == pd.Timestamp.now(tz="Asia/Shanghai").date()
     raw_daily, _ = daily_history(provider, code, None,
-                                last_complete_day.strftime("%Y%m%d"), cutoff.strftime("%Y%m%d"), adjust="")
+                                last_complete_day.strftime("%Y%m%d"), cutoff.strftime("%Y%m%d"), adjust="",
+                                required_session=last_complete_day if same_complete_session else None,
+                                expected_close=float(daily_qfq.close.iloc[-1]) if current_close else None)
     raw_daily = bars(raw_daily)
     aligned = daily_qfq.close / raw_daily.close
     for day in set(data.index.date):

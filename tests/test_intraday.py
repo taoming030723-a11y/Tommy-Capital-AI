@@ -178,6 +178,23 @@ def test_minute_adjustment_discards_unfinished_bar_and_removes_split_jump():
     assert len(actual) == 2 and actual.close.tolist() == [50., 50.]
 
 
+def test_closing_minute_adjustment_checks_current_complete_raw_daily():
+    day = pd.Timestamp.now(tz='Asia/Shanghai').tz_localize(None).normalize()
+    times = pd.DatetimeIndex([day + pd.Timedelta(hours=14, minutes=45), day + pd.Timedelta(hours=15)])
+    raw = pd.DataFrame({'时间': times, '开盘': [10, 10], '收盘': [10, 10],
+                        '最高': [11, 11], '最低': [9, 9], '成交量': [100, 100]})
+    daily = pd.DataFrame({'日期': [day], '开盘': [10], '收盘': [10], '最高': [11], '最低': [9], '成交量': [200]})
+    class Source:
+        def fetch(self, function, **kwargs):
+            if function == 'minute_sina_raw':
+                return raw
+            assert function == 'daily_tx_recent' and kwargs['adjust'] == ''
+            assert kwargs['include_current_session'] and kwargs['ttl'] == 60
+            return daily
+    actual = technical.minute_frame(Source(), '600001', 15, times[-1], technical.bars(daily))
+    assert actual.close.tolist() == [10, 10] and actual.index[-1] == times[-1]
+
+
 def test_completed_holiday_week_is_included_after_the_calendar_week_ends():
     frame=candles(700)
     frame.index=pd.bdate_range(end='2026-09-30',periods=700)
