@@ -8,8 +8,8 @@ import pandas as pd
 import pytest
 
 from tommy_capital import technical
-from tommy_capital.cli import run, DEFAULTS
-from tommy_capital.data import SHANGHAI, DataError
+from tommy_capital.cli import run, DEFAULTS, quote_clock_check
+from tommy_capital.data import SHANGHAI, DataError, daily_history
 from tommy_capital.strategy import evaluate
 from test_core import good_row, good_technical, candles
 
@@ -70,7 +70,10 @@ def test_stale_intraday_quote_cannot_enter_strategy():
     assert not evaluate(row, good_technical(), DEFAULTS, date(2026,10,8))['eligible']
 
 
-def test_previous_close_snapshot_is_rejected_after_open(tmp_path):
+def test_previous_close_snapshot_is_rejected_after_open(tmp_path, monkeypatch):
+    # This is a replay at 09:50, not an acquisition at the test runner's clock.
+    monkeypatch.setattr('tommy_capital.cli.quote_clock_check',
+                        lambda spot, now, intraday: quote_clock_check(spot, now, intraday, now))
     class OldQuotes:
         lineage = []
         def fetch(self, function, **kwargs):
@@ -84,6 +87,65 @@ def test_previous_close_snapshot_is_rejected_after_open(tmp_path):
     report=json.loads((tmp_path/'report.json').read_text())
     assert report['quote_clock_rejected']==1 and report['status']=='failed'
     assert any('盘中行情时刻异常' in e for e in report['errors'])
+
+
+def test_closing_provider_update_after_1531_is_not_a_future_quote():
+    spot = pd.DataFrame({'quote_clock_time': ['15:00:00', '15:30:02', '15:34:59', '15:35:45',
+                                             '14:54:59', '15:41:01', None, 'invalid']})
+    now = datetime(2026, 10, 8, 15, 34, tzinfo=SHANGHAI)
+    acquired = datetime(2026, 10, 8, 15, 40, tzinfo=SHANGHAI)
+    valid, diagnostics = quote_clock_check(spot, now, False, acquired)
+    assert valid.tolist() == [True, True, True, True, False, False, False, False]
+    assert diagnostics['rejected'] == 4
+    assert diagnostics['acquired_at'] == acquired.isoformat()
+
+
+def test_opening_still_rejects_later_close_update_times():
+    spot = pd.DataFrame({'quote_clock_time': ['09:49:59', '15:35:45']})
+    now = datetime(2026, 10, 8, 9, 50, tzinfo=SHANGHAI)
+    valid, _ = quote_clock_check(spot, now, True, now)
+    assert valid.tolist() == [True, False]
+
+
+def test_failed_report_does_not_present_unchecked_stocks_as_zero_candidates():
+    from tommy_capital.reporting import render_markdown
+    report = {'selection_rule': 'dual_route_monthly_recovery', 'status': 'failed', 'scan_complete': False,
+              'coverage': {'source_universe': 5571, 'universe': 5571}, 'errors': ['收盘报价时刻异常'],
+              'generated_at': '2026-10-08T15:34:19+08:00', 'finished_at': '2026-10-08T15:34:39+08:00',
+              'session': '2026-10-08', 'minute15_cutoff': '2026-10-08T15:00:00', 'rankings': []}
+    text = render_markdown(report)
+    assert '候选数量无法判断' in text and '5571只' in text
+    assert '目标日线日期（未完成逐股核验）' in text
+    assert '共0只' not in text and '没有同时通过' not in text
+
+
+@pytest.mark.parametrize('primary_date,primary_close', [('2026-09-30', 20), ('2026-10-08', 19)])
+def test_closing_stale_or_mismatched_primary_uses_verified_backup(primary_date, primary_close):
+    class ProtocolFixture:
+        calls = []
+        def fetch(self, function, **kwargs):
+            self.calls.append(function)
+            assert kwargs['adjust'] == 'qfq' and kwargs['ttl'] == 60
+            day, close = (primary_date, primary_close) if function == 'daily_tx_recent' else ('2026-10-08', 20)
+            return pd.DataFrame({'日期': [day], '收盘': [close]})
+    source = ProtocolFixture()
+    frame, warning = daily_history(source, '600001', '20180101', '20261008', '20261008',
+                                  required_session=date(2026, 10, 8), expected_close=20)
+    assert source.calls == ['daily_tx_recent', 'stock_zh_a_hist']
+    assert frame['日期'].tolist() == ['2026-10-08'] and warning
+
+
+def test_closing_cannot_fall_back_to_old_daily_data_when_all_sources_are_stale():
+    class StaleFixture:
+        calls = []
+        def fetch(self, function, **kwargs):
+            self.calls.append(function)
+            return pd.DataFrame({'日期': ['2026-09-30'], '收盘': [20]})
+    source = StaleFixture()
+    with pytest.raises(DataError, match='三路日线均不可用'):
+        daily_history(source, '600001', '20180101', '20261008', '20261008',
+                      required_session=date(2026, 10, 8), expected_close=20)
+    assert source.calls == ['daily_tx_recent', 'stock_zh_a_hist', 'daily_sina_adjusted']
 
 
 def test_early_open_fails_before_requesting_market_data(tmp_path):

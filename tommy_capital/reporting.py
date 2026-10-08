@@ -283,6 +283,21 @@ def render_dual_report(report, run_url=None):
         lines += ["> 这是2026年10月7日预跑，不是10月8日开盘或收盘结果。", ""]
     if not report.get("scan_complete", False):
         lines += ["> **完整性：scan_complete=false。报价目录扫描与逐股技术、领先证据的完整覆盖不同，不能把本报告称为全部市场检查完成。**", ""]
+    if report.get("status") == "failed":
+        lines += ["> **扫描失败，未形成可用选股结论。候选、背离与做T名单尚未完成检查，不能解读为全市场没有合格股票。**", "",
+                  f"扫描启动：{date_label(report.get('generated_at'))}  ", f"扫描停止：{date_label(report.get('finished_at'))}  ",
+                  f"目标日线日期（未完成逐股核验）：{date_label(report.get('session'), True)}  ",
+                  f"目标15分钟截止（未完成逐股核验）：{date_label(report.get('minute15_cutoff'))}  ", "",
+                  "## 实际读取与停止原因", ""]
+        lines += table(["项目", "实际结果"], [
+            ["报价目录读取", f"{coverage.get('universe', '未取得')}只；源列表{coverage.get('source_universe', '未取得')}只"],
+            ["选股与执行结论", "未完成，候选数量无法判断"]])
+        lines += table(["环节", "原因"], [["扫描", failure_reason(e)] for e in report.get("errors", [])])
+        if run_url:
+            lines += [f"[本次 Actions 与日志]({run_url})", ""]
+        if os.environ.get("REPORT_ARTIFACT_URL"):
+            lines += [f"[下载本次失败诊断附件]({os.environ['REPORT_ARTIFACT_URL']})", ""]
+        return "\n".join(lines)
     lines += [f"扫描启动：{date_label(report.get('generated_at'))}  ", f"扫描完成：{date_label(report.get('finished_at'))}  ",
               f"最新完整日线：{date_label(report.get('session'), True)}  ", f"15分钟完整K线：{date_label(report.get('minute15_cutoff'))}  ",
               "时间为北京时间／新加坡时间。完整月线／周线不包含未结束周期；日线信号在对应交易日收盘后确认。", ""]

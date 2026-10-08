@@ -128,23 +128,39 @@ def normalize_finance(frame, period, today):
                   (result.announced_at >= result.period)].sort_values("announced_at").drop_duplicates("code", keep="last")
 
 
-def daily_history(provider, code, start, end, asof_day=None, adjust="qfq"):
+def daily_history(provider, code, start, end, asof_day=None, adjust="qfq", required_session=None, expected_close=None):
     """Use real providers in order and preserve every failed source's cause."""
+    def validated(frame):
+        if required_session is not None:
+            require(frame, ["日期", "收盘"], "完整日线")
+            dates = pd.to_datetime(frame["日期"], errors="coerce").dt.date
+            latest = dates.max() if not frame.empty and dates.notna().all() else None
+            target = pd.Timestamp(required_session).date()
+            if latest != target:
+                raise DataError(f"最新完整日线缺少{target}，最后为{latest}；数据源尚未更新或日期异常")
+            closes = pd.to_numeric(frame.loc[dates == target, "收盘"], errors="coerce")
+            if len(closes) != 1 or closes.isna().any():
+                raise DataError("当天日线收盘价缺失或日期重复")
+            if expected_close is not None and abs(float(closes.iloc[0]) - float(expected_close)) > 0.011:
+                raise DataError("当天最新完整前复权日线收盘价与现价不一致，复权锚点/源更新未确认")
+        return frame
+    # A temporarily stale closing response must not be cached for a full day.
+    ttl = 60 if required_session is not None else 86400
     try:
         kwargs = {"symbol": code, "adjust": adjust, "end_date": end, "anchor_date": asof_day or end}
         if start is not None:
             kwargs["start_date"] = start
-        return provider.fetch("daily_tx_recent", ttl=86400, **kwargs), None
+        return validated(provider.fetch("daily_tx_recent", ttl=ttl, **kwargs)), None
     except DataError as primary:
         LOG.warning("%s 腾讯近期日线失败，尝试东财日线", code)
         try:
-            frame = provider.fetch("stock_zh_a_hist", ttl=86400, symbol=code, period="daily", adjust=adjust,
-                                   start_date=start or "19900101", end_date=end, timeout=30)
+            frame = validated(provider.fetch("stock_zh_a_hist", ttl=ttl, symbol=code, period="daily", adjust=adjust,
+                                             start_date=start or "19900101", end_date=end, timeout=30))
         except DataError as backup:
             LOG.warning("%s 东财日线失败，尝试带真实因子的新浪日线", code)
             try:
-                frame = provider.fetch("daily_sina_adjusted", ttl=86400, symbol=code, adjust=adjust,
-                                       start_date=start, end_date=end, anchor_date=asof_day or end)
+                frame = validated(provider.fetch("daily_sina_adjusted", ttl=ttl, symbol=code, adjust=adjust,
+                                                 start_date=start, end_date=end, anchor_date=asof_day or end))
             except DataError as third:
                 raise DataError(f"三路日线均不可用；腾讯：{primary}；东财：{backup}；新浪：{third}") from third
             return frame, f"{code}: 腾讯/东财日线失败后切换新浪；腾讯：{primary}；东财：{backup}"

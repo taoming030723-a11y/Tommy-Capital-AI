@@ -165,6 +165,26 @@ def divergence_table(rows):
     return '<h2>全部初筛合格股票的日线/15分钟背离</h2><div style="overflow:auto"><table><tr>' + ''.join('<th>' + h + '</th>' for h in headers) + '</tr>' + body + '</table></div>'
 
 
+def quote_clock_check(spot, now, intraday, acquired=None):
+    """Check provider update times, which may continue after the market closes.
+
+    The source supplies a clock without a date. A valid clock alone does not
+    confirm today's close; inspect_stock still requires today's qfq daily bar
+    and its close to match the received spot price.
+    """
+    acquired = acquired or datetime.now(SHANGHAI)
+    acquired = acquired if acquired.date() == now.date() and acquired >= now else now
+    lower = pd.Timedelta(hours=9, minutes=30) if intraday else pd.Timedelta(hours=14, minutes=55)
+    upper = pd.Timedelta(hours=acquired.hour, minutes=acquired.minute, seconds=acquired.second) + pd.Timedelta(minutes=1)
+    clocks = pd.to_timedelta(spot.quote_clock_time, errors="coerce")
+    valid = (clocks >= lower) & (clocks <= upper)
+    diagnostics = {"source_clock_semantics": "provider_update_time_without_date",
+                   "acquired_at": acquired.isoformat(), "window_start": str(lower), "window_end": str(upper),
+                   "rejected": int((~valid).sum()),
+                   "clock_counts": spot.quote_clock_time.fillna("missing").value_counts().head(20).to_dict()}
+    return valid, diagnostics
+
+
 def run(args, provider=None, now=None):
     now = now or datetime.now(SHANGHAI)
     today = now.date()
@@ -211,23 +231,18 @@ def run(args, provider=None, now=None):
             raise DataError("收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果")
         spot_raw = provider.fetch("spot_sina_full", ttl=60)
         spot = normalize_spot(spot_raw)
-        if intraday:
-            clocks = pd.to_timedelta(spot.quote_clock_time, errors="coerce")
-            acquired = datetime.now(SHANGHAI)
-            acquired = acquired if acquired.date() == today and acquired >= now else now
-            upper = pd.Timedelta(hours=acquired.hour, minutes=acquired.minute, seconds=acquired.second) + pd.Timedelta(minutes=1)
-            spot["quote_clock_ok"] = (clocks >= pd.Timedelta(hours=9, minutes=30)) & (clocks <= upper)
-            rejected = int((~spot.quote_clock_ok).sum())
+        # Preserve actual quote coverage even if a later global guard stops us.
+        report["coverage"] = {"source_universe": len(spot_raw), "universe": len(spot)}
+        if intraday or after_close:
+            spot["quote_clock_ok"], report["quote_clock_validation"] = quote_clock_check(spot, now, intraday)
+            rejected = report["quote_clock_validation"]["rejected"]
             report["quote_clock_rejected"] = rejected
+        if intraday:
             if rejected > len(spot) / 10:
                 raise DataError(f"盘中行情时刻异常 {rejected}/{len(spot)}；数据可能未更新，停止排名")
             if rejected:
                 report["errors"].append(f"{rejected}只股票报价时刻未确认当前盘中时段，已排除；源未提供完整报价日期")
         elif after_close:
-            clocks = pd.to_timedelta(spot.quote_clock_time, errors="coerce")
-            spot["quote_clock_ok"] = (clocks >= pd.Timedelta(hours=14, minutes=55)) & (clocks <= pd.Timedelta(hours=15, minutes=31))
-            rejected = int((~spot.quote_clock_ok).sum())
-            report["quote_clock_rejected"] = rejected
             if rejected > len(spot) / 10:
                 raise DataError(f"收盘报价时刻异常 {rejected}/{len(spot)}，不能发布为当日收盘扫描")
             if rejected:
@@ -298,7 +313,9 @@ def run(args, provider=None, now=None):
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         def inspect_stock(row):
             raw, warning = daily_history(provider, row["code"], f"{today.year - config['daily_history_years']}0101",
-                                         session.strftime("%Y%m%d"), today.strftime("%Y%m%d"))
+                                         session.strftime("%Y%m%d"), today.strftime("%Y%m%d"),
+                                         required_session=today if after_close else None,
+                                         expected_close=row["price"] if after_close else None)
             daily = bars(raw)
             daily = daily[daily.index.date <= session]
             if after_close and (daily.empty or daily.index[-1].date() != today or
@@ -378,7 +395,7 @@ def run(args, provider=None, now=None):
         report["lineage"] = provider.lineage + report.get("leading_evidence_coverage", {}).get("lineage", [])
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit"]}
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation"]}
     summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "execution", "tactical", "confirmed_holding"]} for r in report["rankings"][:15]]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
