@@ -1,15 +1,18 @@
 name: A-share live screen
 on:
-  push:
-    branches: [main]
-    paths-ignore: ['results/**', '**.md']
   schedule:
-    # Opening 09:50 and after-close 15:20 on 2026-10-08 (China/Singapore).
-    # GitHub cron has no year; the job guard prevents execution next year.
+    # Keep the requested one-time opening scan; recurring close is 15:05 UTC+8.
+    # Holidays are checked against the real calendar after dependency install.
     - cron: '50 1 8 10 *'
-    - cron: '20 7 8 10 *'
+    - cron: '5 7 * * 1-5'
   workflow_dispatch:
     inputs:
+      phase:
+        description: 'Scan phase (closing requires today complete daily/15:00 bars)'
+        required: true
+        default: 'closing'
+        type: choice
+        options: [closing, opening, auto]
       limit:
         description: 'Technical scan cap (0 scans every qualified stock)'
         required: true
@@ -21,50 +24,44 @@ permissions:
 
 concurrency:
   group: tommy-market-scan
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  cancel-in-progress: false
 
 jobs:
   screen:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
-      - name: Check one-time schedule date
-        id: date
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-        run: |
-          if [ "$EVENT_NAME" != schedule ] || [ "$(TZ=Asia/Shanghai date +%F)" = 2026-10-08 ]; then
-            echo 'run=true' >> "$GITHUB_OUTPUT"
-          fi
       - uses: actions/checkout@v4
-        if: steps.date.outputs.run == 'true'
       - uses: actions/setup-python@v5
-        if: steps.date.outputs.run == 'true'
         with:
           python-version: '3.12'
       - name: Install
-        if: steps.date.outputs.run == 'true'
         run: python -m pip install -e .
       - uses: actions/cache/restore@v4
-        if: steps.date.outputs.run == 'true'
         with:
           path: .cache/tommy
           key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
           restore-keys: tommy-v2-${{ runner.os }}-
+      - name: Check actual A-share trading day
+        id: trading
+        env:
+          SCHEDULE_CRON: ${{ github.event.schedule }}
+          MANUAL_PHASE: ${{ inputs.phase }}
+        run: python -m tommy_capital.market_schedule --phase "${MANUAL_PHASE:-auto}"
       - name: Fetch real A-share data and screen
-        if: steps.date.outputs.run == 'true'
+        if: steps.trading.outputs.run == 'true'
         env:
           SCAN_LIMIT: ${{ inputs.limit }}
-          SCAN_PHASE: ${{ github.event_name == 'schedule' && github.event.schedule == '20 7 8 10 *' && 'closing' || github.event_name == 'schedule' && 'opening' || 'auto' }}
-        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4 --scan-phase "$SCAN_PHASE"
+          SCAN_PHASE: ${{ steps.trading.outputs.phase }}
+        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4 --scan-phase "$SCAN_PHASE" --closing-retries 2
       - uses: actions/cache/save@v4
-        if: always() && steps.date.outputs.run == 'true'
+        if: always()
         with:
           path: .cache/tommy
           key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
       - name: Upload report, including failure diagnostics
         id: artifact
-        if: always() && steps.date.outputs.run == 'true'
+        if: always() && steps.trading.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: tommy-capital-report
@@ -72,7 +69,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: 发布中文报告与机器摘要及日期归档
-        if: always() && steps.date.outputs.run == 'true'
+        if: always() && steps.trading.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_NAME: ${{ github.repository }}

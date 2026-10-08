@@ -5,14 +5,16 @@ import json
 import logging
 import math
 import os
+import shutil
 import sys
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from .data import (Provider, DataError, SHANGHAI, completed_session, report_periods,
+from .data import (Provider, DataError, SHANGHAI, CLOSE_REPORT_START, completed_session, report_periods,
                    normalize_spot, normalize_finance, latest_finance, daily_history)
 from .strategy import prepare_universe, financial_routes, evaluate, numeric, SELECTION_RULE
 from .technical import (bars, strategic_technical, tactical, closed_minute_cutoff,
@@ -212,8 +214,8 @@ def run(args, provider=None, now=None):
         session = completed_session(calendar, now)
         report["session"] = session.isoformat()
         trading_today = today in set(pd.to_datetime(calendar.trade_date).dt.date)
-        intraday = trading_today and (9, 30) <= (now.hour, now.minute) < (15, 10)
-        after_close = trading_today and (now.hour, now.minute) >= (15, 10)
+        intraday = trading_today and (9, 30) <= (now.hour, now.minute) < CLOSE_REPORT_START
+        after_close = trading_today and (now.hour, now.minute) >= CLOSE_REPORT_START
         report["scan_type"] = "daily_baseline" if daily_only else "intraday" if intraday else "after_close" if after_close else "closed_session"
         phase = getattr(args, "scan_phase", "auto")
         if phase == "auto":
@@ -321,7 +323,7 @@ def run(args, provider=None, now=None):
             if after_close and (daily.empty or daily.index[-1].date() != today or
                                 abs(float(daily.close.iloc[-1]) - float(row["price"])) > 0.011):
                 raise DataError("收盘现价与当天最新完整前复权日线收盘价不一致，行情可能滞后/复权锚点未确认")
-            period_cutoff = today if (now.hour, now.minute) >= (15, 10) else today - timedelta(days=1)
+            period_cutoff = today if (now.hour, now.minute) >= CLOSE_REPORT_START else today - timedelta(days=1)
             technical = strategic_technical(daily, session, period_cutoff, config)
             decision = evaluate(row, technical, config, today)
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
@@ -408,12 +410,33 @@ def run(args, provider=None, now=None):
     return 2 if report["status"] == "failed" else 1 if report["status"] == "partial" else 0
 
 
+def run_with_closing_retries(args):
+    retries = getattr(args, "closing_retries", 0) if args.scan_phase == "closing" else 0
+    for attempt in range(retries + 1):
+        code = run(args)
+        # A partial scan is a usable report with explicitly recorded gaps.
+        # Do not rerun thousands of stocks just to conceal those gaps.
+        if code != 2 or attempt == retries:
+            return code
+        output = Path(args.output)
+        previous = output / "attempts" / f"{attempt + 1:02d}"
+        previous.mkdir(parents=True, exist_ok=True)
+        for path in output.iterdir():
+            if path.is_file():
+                shutil.copy2(path, previous / path.name)
+        LOG.warning("收盘全局数据校验失败，保留本次诊断；60秒后重新获取真实数据（重试%s/%s）", attempt + 1, retries)
+        # Current quotes/day responses have a 60-second TTL; stale responses
+        # cannot be reused by the next attempt. All original guards stay on.
+        time.sleep(60)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Tommy Capital 真实沪深北A股扫描；开盘后使用完整15分钟K线")
     parser.add_argument("--config", help="JSON阈值配置")
     parser.add_argument("--holdings", help="确认持仓JSON")
     parser.add_argument("--leading-evidence", default="evidence/leading-inflections.json", help="官方领先指标与已复核三情景估值证据文件")
     parser.add_argument("--scan-phase", choices=["auto", "opening", "intraday", "closing", "pre_run"], default="auto")
+    parser.add_argument("--closing-retries", type=int, default=0, help="收盘全局校验失败时的重试次数（0到2，间隔60秒；partial不重试）")
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部初筛合格股票")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
@@ -421,11 +444,11 @@ def main():
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()
-    if args.limit < 0 or not 1 <= args.workers <= 8:
-        parser.error("--limit 必须非负；--workers 为1到8")
+    if args.limit < 0 or not 1 <= args.workers <= 8 or not 0 <= args.closing_retries <= 2:
+        parser.error("--limit 必须非负；--workers 为1到8；--closing-retries 为0到2")
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     try:
-        return run(args)
+        return run_with_closing_retries(args)
     except (ValueError, OSError) as exc:
         LOG.error("配置/文件错误：%s", exc)
         return 2

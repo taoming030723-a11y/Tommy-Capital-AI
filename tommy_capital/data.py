@@ -13,6 +13,8 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
+# Earliest reporting start; each source must still prove today's full bar.
+CLOSE_REPORT_START = (15, 5)
 LOG = logging.getLogger(__name__)
 
 
@@ -93,7 +95,7 @@ def completed_session(calendar, now):
     # A stale calendar must not make an old price appear current.
     if dates.empty or max(dates).year < now.year:
         raise DataError("交易日历未覆盖当前年份，请更新 AKShare")
-    cutoff = now.date() if (now.hour, now.minute) >= (15, 10) else now.date() - timedelta(days=1)
+    cutoff = now.date() if (now.hour, now.minute) >= CLOSE_REPORT_START else now.date() - timedelta(days=1)
     eligible = dates[dates <= cutoff]
     if eligible.empty:
         raise DataError("无法确定已收盘交易日")
