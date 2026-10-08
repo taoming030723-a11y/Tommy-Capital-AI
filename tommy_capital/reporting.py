@@ -399,7 +399,9 @@ def render_dual_report(report, run_url=None):
     lines += ["## 数据缺失与复核", ""]
     error_counts = {}
     for message in report.get("errors", []):
-        if "分钟" in message:
+        if "独立长历史月线" in message:
+            kind = "独立月线历史或复权价格未通过"
+        elif "分钟" in message:
             kind = "分时缺失／完整K线／复权校验"
         elif "周/月" in message:
             kind = "完整周／月历史不足"
