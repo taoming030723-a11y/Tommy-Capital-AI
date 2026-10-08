@@ -310,6 +310,7 @@ def render_dual_report(report, run_url=None):
         ["A基本面估值通过／B预检与证据估值通过", f"{count('route_a_fundamental_passed')}；{count('route_b_prequalified')} / {count('route_b_fundamental_passed')}只"],
         ["B领先证据、催化或估值待齐", f"B证据未齐{count('leading_evidence_missing')}只；缺失不通过"],
         ["日／周／月成功／请求", f"{count('technical_completed')} / {count('technical_requested')}只"],
+        ["独立长历史月线成功／请求", f"{count('extended_monthly_completed')} / {count('extended_monthly_requested')}只；全部完整重叠月的前复权OHLC与日线聚合核对"],
         ["60分钟成功／请求", f"{count('minute60_completed')} / {count('minute60_requested')}只"],
         ["30分钟成功／请求", f"{count('minute30_completed')} / {count('minute30_requested')}只"],
         ["15分钟成功／请求", f"{count('minute15_completed')} / {count('minute15_requested')}只"],

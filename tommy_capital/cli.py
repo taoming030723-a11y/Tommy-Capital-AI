@@ -17,7 +17,8 @@ import pandas as pd
 from .data import (Provider, DataError, SHANGHAI, CLOSE_REPORT_START, completed_session, report_periods,
                    normalize_spot, normalize_finance, latest_finance, daily_history)
 from .strategy import prepare_universe, financial_routes, evaluate, numeric, SELECTION_RULE
-from .technical import (bars, strategic_technical, tactical, closed_minute_cutoff,
+from threading import Lock
+from .technical import (bars, strategic_technical, extended_monthly_history, tactical, closed_minute_cutoff,
                         minute_observation, execution_observation)
 from .inflection import load_evidence
 from .reporting import render_markdown, github_run_url
@@ -320,9 +321,10 @@ def run(args, provider=None, now=None):
                               "execution_entry_watch_count": 0, "confirmed_holding_t_entry_count": 0,
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "minute60_requested": 0, "minute60_completed": 0, "minute30_requested": 0, "minute30_completed": 0,
-                              "score_inputs_completed": 0,
+                              "score_inputs_completed": 0, "extended_monthly_requested": 0, "extended_monthly_completed": 0,
                               "unscanned": len(eligible_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
+        monthly_counts_lock = Lock()
         def inspect_stock(row):
             raw, warning = daily_history(provider, row["code"], f"{today.year - config['daily_history_years']}0101",
                                          session.strftime("%Y%m%d"), today.strftime("%Y%m%d"),
@@ -334,7 +336,21 @@ def run(args, provider=None, now=None):
                                 abs(float(daily.close.iloc[-1]) - float(row["price"])) > 0.011):
                 raise DataError("收盘现价与当天最新完整前复权日线收盘价不一致，行情可能滞后/复权锚点未确认")
             period_cutoff = today if (now.hour, now.minute) >= CLOSE_REPORT_START else today - timedelta(days=1)
-            technical = strategic_technical(daily, session, period_cutoff, config)
+            monthly_history, monthly_error = None, None
+            routes = row["financial_routes"]
+            if len(daily) >= 250 and (routes["route_a_passed"] or routes["route_b_passed"]):
+                with monthly_counts_lock:
+                    report["coverage"]["extended_monthly_requested"] += 1
+                try:
+                    monthly_history = extended_monthly_history(provider, row["code"], daily, period_cutoff, today)
+                    with monthly_counts_lock:
+                        report["coverage"]["extended_monthly_completed"] += 1
+                except DataError as exc:
+                    monthly_error = str(exc)
+                    with monthly_counts_lock:
+                        report["errors"].append(f"{row['code']} 独立长历史月线：{monthly_error}")
+            technical = strategic_technical(daily, session, period_cutoff, config, monthly_history)
+            technical["monthly_history_error"] = monthly_error
             decision = evaluate(row, technical, config, today)
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
             minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {

@@ -199,7 +199,32 @@ def compression_observation(daily, threshold_pct=20.0):
             "end": recent.index[-1].date().isoformat(), "basis": "近126个交易日从此前峰值到其后低点的价格压缩代理，前复权；不等同估值压缩"}
 
 
-def strategic_technical(daily, session, period_cutoff=None, config=None):
+def extended_monthly_history(provider, code, daily, period_cutoff, anchor_date):
+    """Pair genuine native monthly prices with all complete overlapping daily periods."""
+    raw = provider.fetch("monthly_tx_qfq", ttl=86400, symbol=code,
+                         end_date=period_cutoff.isoformat(), anchor_date=anchor_date.isoformat())
+    monthly = bars(raw)
+    monthly = monthly[monthly.index.normalize() <= pd.Timestamp(period_cutoff)]
+    reference = aggregate(daily, "ME", period_cutoff)
+    if len(reference) < 3 or len(monthly) < 24 or monthly.index[-1] != reference.index[-1]:
+        raise DataError("独立长历史月线不足或未覆盖最新完整月份")
+    # The first daily-aggregate month can be truncated by the daily source's cap.
+    # Every subsequent overlapping month must share the same qfq OHLC prices.
+    matched = reference.iloc[1:]
+    if not matched.index.isin(monthly.index).all():
+        raise DataError("独立月线缺少日线已覆盖的完整月份")
+    paired = monthly.reindex(matched.index)
+    for column in ["open", "close", "high", "low"]:
+        if ((paired[column] - matched[column]).abs() > 0.011).any():
+            raise DataError(f"独立月线{column}与日线前复权聚合价格不一致")
+    monthly.attrs["price_validation"] = {
+        "matched_complete_months": len(matched), "columns": ["open", "close", "high", "low"],
+        "tolerance_cny": 0.011, "latest_complete_period": reference.index[-1].date().isoformat(),
+        "anchor_date": anchor_date.isoformat(), "forming_period_excluded": True}
+    return monthly
+
+
+def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None):
     if len(daily) < 250 or daily.index[-1].date() != session:
         raise DataError("日线不足250根，或最新K线未覆盖已收盘交易日（可能停牌/数据滞后）")
     d = indicators(daily)
@@ -207,7 +232,7 @@ def strategic_technical(daily, session, period_cutoff=None, config=None):
     # known calendar cutoff while still restricting actual bars to session.
     cutoff = period_cutoff or session
     w = indicators(aggregate(daily, "W-FRI", cutoff))
-    m = indicators(aggregate(daily, "ME", cutoff))
+    m = indicators(monthly_history if monthly_history is not None else aggregate(daily, "ME", cutoff))
     if len(w) < 60 or len(m) < 24:
         raise DataError("周/月线不足（至少60周、24个完整月份）")
     last_d, last_w, last_m = d.iloc[-1], w.iloc[-1], m.iloc[-1]
@@ -230,6 +255,8 @@ def strategic_technical(daily, session, period_cutoff=None, config=None):
             "average_turnover20_cny": float(pd.to_numeric(daily.amount, errors="coerce").tail(20).mean())
                                       if "amount" in daily and daily.amount.tail(20).notna().all() else None,
             "monthly_j": float(last_m.j), "monthly_bar_date": m.index[-1].date().isoformat(),
+            "monthly_history_source": "validated_native_qfqmonth" if monthly_history is not None else "daily_aggregate",
+            "monthly_history_validation": monthly_history.attrs.get("price_validation") if monthly_history is not None else None,
             "weekly_bar_date": w.index[-1].date().isoformat(),
             "daily_close_qfq": float(last_d.close), "daily_ma60_qfq": float(last_d.ma60),
             "daily_bar_date": daily.index[-1].date().isoformat(),

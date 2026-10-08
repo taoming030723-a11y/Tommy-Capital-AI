@@ -3,7 +3,7 @@ on:
   # Explicitly marked code pushes only; this is not a recurring schedule.
   push:
     branches: [main]
-    paths: [tommy_capital/scoring.py, tests/test_balanced_top20.py, .github/workflows/verify-top20.yml]
+    paths: [tommy_capital/scoring.py, tommy_capital/live.py, tests/test_balanced_top20.py, .github/workflows/verify-top20.yml]
   workflow_dispatch:
 permissions:
   contents: write
@@ -33,6 +33,67 @@ jobs:
       - name: Verify full universe and all six ranking timeframes
         if: steps.trading.outputs.run == 'true'
         run: python -u -m tommy_capital.cli --config config.json --limit 0 --workers 4 --scan-phase closing --closing-retries 2
+      - name: Audit actual TOP20 and six complete ranking timeframes
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        run: |
+          python - <<'PY'
+          import csv, json
+          from datetime import datetime
+          from pathlib import Path
+          from tommy_capital.scoring import ranked_top20, balanced_score
+          root = Path("reports/latest")
+          report = json.loads((root / "report.json").read_text())
+          assert report["status"] in ("complete", "partial")
+          assert report["scan_phase"] == "closing" and report["scan_type"] == "after_close"
+          assert report["selection_rule"] == "dual_route_monthly_recovery"
+          assert report["session"] == report["generated_at"][:10]
+          assert report["minute15_cutoff"][:10] == report["session"]
+          assert report["minute15_cutoff"][11:16] >= "15:00"
+          summary = json.loads((root / "summary.json").read_text())
+          pool = report["rankings"]
+          top = ranked_top20(pool)
+          assert len(top) == min(20, len(pool))
+          assert summary["candidate_count"] == len(pool)
+          assert [r["code"] for r in summary["top_candidates"]] == [r["code"] for r in top]
+          assert len(list(csv.DictReader((root / "rankings.csv").open()))) == len(pool)
+          for row in pool:
+              assert row["eligible"]
+              actual = balanced_score(row, row["technical"], row["route"], row["leading"], row["minute_frames"])
+              assert (row["score"], row["fundamental_score"], row["technical_score"]) == (
+                  actual["score"], actual["fundamental_score"], actual["technical_score"])
+              assert row["fundamental_score"] <= 50 and row["technical_score"] <= 50
+              path = row["technical"]["monthly_recovery"]
+              if row["route"] == "A":
+                  assert path["current_j"] < 20 or (path["min_j_3_months"] < 20 and path["rising"])
+              else:
+                  assert row["financial_routes"]["route_b_passed"] and path["route_b_path"]
+              volume = row["technical"]["daily_volume"]
+              assert volume["baseline_end"] < volume["confirmed_at"] == report["session"]
+              for period in ("60", "30", "15"):
+                  frame = row["minute_frames"][period]
+                  if frame["status"] == "ok":
+                      assert frame["last_bar"][:10] == report["session"]
+                      assert frame["last_bar"][11:16] >= "15:00"
+              tech = row["technical"]
+              if tech["monthly_history_source"] == "validated_native_qfqmonth":
+                  validation = tech["monthly_history_validation"]
+                  assert validation["matched_complete_months"] >= 2
+                  assert validation["forming_period_excluded"]
+                  assert validation["latest_complete_period"] == tech["monthly_bar_date"]
+              assert not row["confirmed_holding"]
+          proof = {"generated_at": report["generated_at"], "session": report["session"],
+              "selection_rule": report["selection_rule"], "scoring_version": report["scoring_version"],
+              "status": report["status"], "scan_complete": report["scan_complete"],
+              "displayed": len(top), "coverage": report["coverage"],
+              "top20": [{"code": r["code"], "name": r["name"], "score": r["score"],
+                  "fundamental_score": r["fundamental_score"], "technical_score": r["technical_score"],
+                  "monthly_j": r["technical"]["monthly_j"],
+                  "monthly_history_source": r["technical"]["monthly_history_source"],
+                  "monthly_bars": r["technical"]["timeframes"]["monthly"]["bar_count"],
+                  "score_inputs_complete": r["score_inputs_complete"]} for r in top]}
+          (root / "verification.json").write_text(json.dumps(proof, ensure_ascii=False, indent=2))
+          print("TOP20_AUDIT=" + json.dumps(proof, ensure_ascii=False))
+          PY
       - uses: actions/cache/save@v4
         if: always()
         with:
