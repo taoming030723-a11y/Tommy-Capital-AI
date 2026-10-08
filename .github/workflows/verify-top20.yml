@@ -3,7 +3,7 @@ on:
   # Explicitly marked code pushes only; this is not a recurring schedule.
   push:
     branches: [main]
-    paths: [tommy_capital/scoring.py, .github/workflows/verify-top20.yml]
+    paths: [tommy_capital/scoring.py, tests/test_balanced_top20.py, .github/workflows/verify-top20.yml]
   workflow_dispatch:
 permissions:
   contents: write

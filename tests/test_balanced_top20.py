@@ -8,7 +8,7 @@ import pytest
 
 from tommy_capital.cli import DEFAULTS, make_summary, write_outputs
 from tommy_capital.data import SHANGHAI
-from tommy_capital.reporting import render_markdown
+from tommy_capital.reporting import render_markdown, github_run_url
 from tommy_capital.scoring import (balanced_score, ranked_top20, SCORING_VERSION,
                                    SCORE_WEIGHTS, TECHNICAL_WEIGHTS, FUNDAMENTAL_WEIGHTS)
 from tommy_capital.strategy import evaluate
@@ -134,7 +134,7 @@ def report_fixture(count=30):
 def test_human_report_top20_from_global_ranking_with_no_other_stock_lists(tmp_path):
     report = report_fixture()
     report["rankings"].reverse()  # Renderer sorts, rather than trusting first20.
-    markdown = render_markdown(report)
+    markdown = render_markdown(report, github_run_url())
     for index in range(10):
         assert f"报告测试股{index:02d}" not in markdown
     for index in range(10, 30):
