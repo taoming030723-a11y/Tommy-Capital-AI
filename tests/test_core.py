@@ -103,15 +103,19 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                 # the completed-day volume baseline or monthly observation.
                 dates = dates.append(pd.DatetimeIndex(["2026-10-08"]))
                 prices = np.append(prices, 90)
-                return pd.DataFrame({"日期": dates, "开盘": prices, "收盘": prices, "最高": prices+1,
+                frame = pd.DataFrame({"日期": dates, "开盘": prices, "收盘": prices, "最高": prices+1,
                                      "最低": prices-1, "成交量": [100]*(len(dates)-1)+[100000], "成交额": [5e7]*len(dates)})
+                return frame[frame['日期'] <= pd.Timestamp(kwargs['end_date'])] if kwargs.get('adjust') == '' else frame
             if function == 'minute_sina_raw':
-                assert monthly_low and not daily_only and kwargs['period'] == '15'
+                assert monthly_low and not daily_only and kwargs['period'] in ['15', '30', '60']
+                period = int(kwargs['period'])
                 times = [pd.Timestamp(day) + pd.Timedelta(hours=h, minutes=m)
                          for day in pd.bdate_range('2026-08-01','2026-09-30')
                          for h,m in [(9,45),(10,0),(10,15),(10,30),(10,45),(11,0),(11,15),(11,30),
-                                     (13,15),(13,30),(13,45),(14,0),(14,15),(14,30),(14,45),(15,0)]]
-                times += [pd.Timestamp('2026-10-08 09:45'), pd.Timestamp('2026-10-08 10:00')]
+                                     (13,15),(13,30),(13,45),(14,0),(14,15),(14,30),(14,45),(15,0)]
+                         if ((h * 60 + m - (9 * 60 + 30 if h < 12 else 13 * 60)) % period == 0)]
+                if period == 15:
+                    times += [pd.Timestamp('2026-10-08 09:45'), pd.Timestamp('2026-10-08 10:00')]
                 values = np.linspace(10, 20, len(times))
                 return pd.DataFrame({'时间':times, '开盘':values, '收盘':values, '最高':values+1, '最低':values-1, '成交量':[100]*len(times)})
             pytest.fail('unexpected provider call')
@@ -132,6 +136,11 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
     if not daily_only and monthly_low:
         assert report['rankings'][0]['minute15']['last_bar'] == '2026-10-08T09:45:00'
         assert report['coverage']['minute15_completed'] == 1
+        assert report['coverage']['minute60_completed'] == 1
+        assert report['coverage']['minute30_completed'] == 1
+        assert card['minute_frames']['60']['last_bar'] == '2026-09-30T15:00:00'
+        assert not card['t_trend_confirmed']  # Every pool member is still scored.
+        assert card['score'] == pytest.approx(card['fundamental_score'] + card['technical_score'])
         assert report['session'] == '2026-09-30'
     if not monthly_low:
         assert report["coverage"]["minute15_requested"] == 0

@@ -21,6 +21,7 @@ from .technical import (bars, strategic_technical, tactical, closed_minute_cutof
                         minute_observation, execution_observation)
 from .inflection import load_evidence
 from .reporting import render_markdown, github_run_url
+from .scoring import balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT
 
 LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
@@ -117,11 +118,12 @@ def write_outputs(out, report):
                      f"15分钟检查 {coverage.get('minute15_completed', 0)}/{coverage.get('minute15_requested', 0)}只；"
                      f"未扫初筛合格股 {coverage.get('unscanned', 0)}只")
     cards = []
-    display_rows = report.get("rankings", [])
+    display_rows = ranked_top20(report.get("rankings", []))
     for index, row in enumerate(display_rows, 1):
         category = f"{row.get('route', '—')}路线观察候选；" + ('战略量价确认' if row['strategic_eligible'] else '等待战略确认')
         card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分 · {category}"
-        details = [f"行业：{row.get('industry')}；PE TTM：{numeric(row.get('pe_ttm'))}；PB：{numeric(row.get('pb'))}",
+        details = [f"基本面 {row.get('fundamental_score')} / 50；技术面 {row.get('technical_score')} / 50；{row.get('profit_status', '')}",
+                   f"行业：{row.get('industry')}；PE TTM：{numeric(row.get('pe_ttm'))}；PB：{numeric(row.get('pb'))}",
                    f"报告期：{row.get('period')}；公告日期：{row.get('announced_at')}",
                    f"累计营收同比：{row.get('revenue_yoy')}%；累计净利润同比：{row.get('profit_yoy')}%",
                    "日线背离：" + signal_label(row['technical']['daily_divergences']),
@@ -131,18 +133,21 @@ def write_outputs(out, report):
                    '日/周/月趋势：' + '/'.join('确认' if row['technical'][k] else '未确认' for k in ['daily_trend','weekly_trend','monthly_trend']) + f"；月线J：{row['technical']['monthly_j']:.2f}",
                    '持仓战术：' + {'not_held':'未确认持仓，仅作行情观察', 'strategy_not_passed':'未通过战略条件', 'watch_only':'可查看持仓战术观察', 'not_requested':'本次未请求'}.get(row['tactical']['status'],row['tactical']['status']) + '；仍需支撑阻力、量价与价格结构确认',
                    "人工核对：" + "；".join(row['manual_review'])]
+        for period, frame in {**row['technical'].get('timeframes', {}), **row.get('minute_frames', {})}.items():
+            details.append(f"{period}周期：" + signal_label(frame))
         cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
                      "".join("<p>" + html.escape(s) + "</p>" for s in details) + "</section>")
     if not cards:
         cards.append("<p>本次未列出通过双路线基本面/估值/流动性及月J路径的观察候选。请结合覆盖情况和证据缺失判断。</p>")
     (out / "report.md").write_text(render_markdown(report, github_run_url()), encoding="utf-8")
-    error_html = "".join("<p class='error'>" + html.escape(e) + "</p>" for e in report.get("errors", []))
+    error_html = f"<p class='error'>数据错误 {len(report.get('errors', []))}条；逐股原因保留在完整JSON/CSV附件。</p>"
+    displayed_codes = {r['code'] for r in display_rows}
     (out / "report.html").write_text(
         "<!doctype html><html lang='zh-CN'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<title>Tommy Capital</title><style>body{font:16px system-ui;background:#10202e;color:#e9f1f7;max-width:1100px;margin:40px auto;padding:20px}"
         "section{background:#193245;padding:20px;margin:20px 0;border-radius:12px}p{line-height:1.7;overflow-wrap:anywhere}.error{color:#ffba86}td,th{padding:8px;text-align:left;border-bottom:1px solid #486070}table{border-collapse:collapse}</style>"
         f"<h1>{html.escape(title)}</h1><p>{html.escape(intro)}</p><p>完整扫描：{report.get('scan_complete', False)}；覆盖：{html.escape(coverage_text)}</p>"
-        + error_html + "".join(cards) + divergence_table(report.get('divergences', [])) + "</html>", encoding="utf-8")
+        + error_html + "".join(cards) + divergence_table([r for r in report.get('divergences', []) if r['code'] in displayed_codes]) + "</html>", encoding="utf-8")
 
 
 def signal_label(observation):
@@ -164,7 +169,7 @@ def divergence_table(rows):
     for row in rows:
         body += '<tr>' + ''.join('<td>' + html.escape(('底背离' if row[k] == 'bullish' else '顶背离')
                               if k == 'direction' else str(row[k])) + '</td>' for k in columns) + '</tr>'
-    return '<h2>全部初筛合格股票的日线/15分钟背离</h2><div style="overflow:auto"><table><tr>' + ''.join('<th>' + h + '</th>' for h in headers) + '</tr>' + body + '</table></div>'
+    return '<h2>综合TOP20的多周期背离</h2><div style="overflow:auto"><table><tr>' + ''.join('<th>' + h + '</th>' for h in headers) + '</tr>' + body + '</table></div>'
 
 
 def quote_clock_check(spot, now, intraday, acquired=None):
@@ -201,6 +206,7 @@ def run(args, provider=None, now=None):
     minute_scope = "monthly" if minute_scope == "strategic" else minute_scope
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
     report = {"system": "Tommy Capital 2.0", "selection_rule": SELECTION_RULE, "mode": "live", "generated_at": now.isoformat(),
+              "scoring_version": SCORING_VERSION, "score_weights": SCORE_WEIGHTS, "display_limit": DISPLAY_LIMIT,
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
               "workflow_run_url": github_run_url(), "source_commit": os.environ.get("GITHUB_SHA"),
@@ -311,6 +317,8 @@ def run(args, provider=None, now=None):
                               "t_trend_confirmed_count": 0, "execution_divergence_count": 0,
                               "execution_entry_watch_count": 0, "confirmed_holding_t_entry_count": 0,
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
+                              "minute60_requested": 0, "minute60_completed": 0, "minute30_requested": 0, "minute30_completed": 0,
+                              "score_inputs_completed": 0,
                               "unscanned": len(eligible_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         def inspect_stock(row):
@@ -329,8 +337,14 @@ def run(args, provider=None, now=None):
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
             minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
                 "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}
-            execution = execution_observation(provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config) if not daily_only else {"status": "not_requested", "entry_watch": False}
-            card = {**row, **decision, "technical": technical, "minute15": minute, "execution": execution,
+            frames = {"15": minute}
+            for period in [60, 30]:
+                frames[str(period)] = minute_observation(provider, row["code"], closed_minute_cutoff(calendar, now, period), daily, period) if not daily_only and decision["eligible"] else {
+                    "status": "not_requested", "signals": []}
+            if decision["eligible"]:
+                decision.update(balanced_score(row, technical, decision["route"], decision["leading"], frames))
+            execution = execution_observation(provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config, frames) if not daily_only else {"status": "not_requested", "entry_watch": False}
+            card = {**row, **decision, "technical": technical, "minute15": minute, "minute_frames": frames, "execution": execution,
                     "confirmed_holding": row["code"] in holdings,
                     "tactical": tactical(provider, row["code"], decision["t_trend_confirmed"], row["code"] in holdings, session,
                                          now=now, calendar=calendar, daily_qfq=daily, minute15=minute, execution=execution) if not daily_only else
@@ -348,6 +362,7 @@ def run(args, provider=None, now=None):
                         report["warnings"].append(warning)
                     report["coverage"]["technical_completed"] += 1
                     if card["eligible"]:
+                        report["coverage"]["score_inputs_completed"] += int(card["score_inputs_complete"])
                         report["coverage"]["monthly_pool_count"] += 1
                         report["coverage"]["weekly_base_count"] += int(card["technical"]["weekly_base"]["detected"])
                         report["coverage"]["daily_abnormal_volume_count"] += int(card["technical"]["daily_volume"]["abnormal"])
@@ -370,11 +385,17 @@ def run(args, provider=None, now=None):
                             report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
                     else:
                         report["coverage"]["minute15_not_required"] += 1
-                    for period, frame in card["execution"].get("frames", {}).items():
-                        if frame["status"] == "unavailable":
+                    for period in ["60", "30"]:
+                        frame = card["minute_frames"][period]
+                        if frame["status"] != "not_requested":
+                            report["coverage"][f"minute{period}_requested"] += 1
+                            report["coverage"][f"minute{period}_completed"] += int(frame["status"] == "ok")
+                        if frame["status"] in ["unavailable", "insufficient_bars"]:
                             report["coverage"]["tactical_failed_frames"] += 1
-                            report["errors"].append(f"{row['code']} 执行观察{period}分钟：{frame.get('error')}")
-                    for timeframe, observation in [("daily", card["technical"]["daily_divergences"]), ("15m", card["minute15"])]:
+                            report["errors"].append(f"{row['code']} {period}分钟评分：{frame.get('error', frame.get('purpose', frame['status']))}")
+                    all_frames = {**card["technical"].get("timeframes", {}),
+                                  **{k + "m": v for k, v in card["minute_frames"].items()}}
+                    for timeframe, observation in all_frames.items():
                         for signal in observation["signals"]:
                             report["divergences"].append({"code": row["code"], "name": row["name"], "timeframe": timeframe,
                                 "monthly_pool_eligible": card["eligible"], "strategy_pool_eligible": card["eligible"],
@@ -397,17 +418,22 @@ def run(args, provider=None, now=None):
         report["lineage"] = provider.lineage + report.get("leading_evidence_coverage", {}).get("lineage", [])
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation"]}
-    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "execution", "tactical", "confirmed_holding"]} for r in report["rankings"][:15]]
+    summary = make_summary(report)
+    (Path(args.output) / "summary.json").write_text(json.dumps(clean(summary), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    print("TOMMY_RESULT_JSON=" + json.dumps(clean(summary), ensure_ascii=False, allow_nan=False))
+    return 2 if report["status"] == "failed" else 1 if report["status"] == "partial" else 0
+
+
+def make_summary(report):
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit"]}
+    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding"]} for r in ranked_top20(report["rankings"])]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
     summary["candidate_count"] = len(report["rankings"])
     summary["observation_count"] = len(report["observations"])
     summary["divergences"] = report["divergences"]
     summary["errors"] = report["errors"]
-    (Path(args.output) / "summary.json").write_text(json.dumps(clean(summary), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
-    print("TOMMY_RESULT_JSON=" + json.dumps(clean(summary), ensure_ascii=False, allow_nan=False))
-    return 2 if report["status"] == "failed" else 1 if report["status"] == "partial" else 0
+    return summary
 
 
 def run_with_closing_retries(args):

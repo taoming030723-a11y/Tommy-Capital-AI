@@ -219,7 +219,7 @@ def test_minute_status_does_not_call_every_ma_reclaim_a_pullback(monkeypatch, lo
     data = pd.DataFrame({"open": 100.5, "close": 100.5, "high": 103., "low": 99., "volume": 100.}, index=index)
     data.loc[index[-1], ["low", "close"]] = [low, close]
     monkeypatch.setattr(technical, "minute_frame", lambda *a, **k: data)
-    monkeypatch.setattr(technical, "indicators", lambda frame: frame.assign(ma20=100., dif=0., dea=1., k=20., d=30., j=40.))
+    monkeypatch.setattr(technical, "indicators", lambda frame: frame.assign(ma20=100., dif=0., dea=1., macd=-2., k=20., d=30., j=40.))
     monkeypatch.setattr(technical, "confirmed_divergences", lambda *a, **k: {"status": "ok", "signals": []})
     result = technical.minute_observation(None, "600001", index[-1], None)
     assert result["structure"]["price_reclaimed"]

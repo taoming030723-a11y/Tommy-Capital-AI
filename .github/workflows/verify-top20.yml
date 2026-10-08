@@ -1,0 +1,55 @@
+name: Verify TOP20 model with real market data
+on:
+  # Explicitly marked code pushes only; this is not a recurring schedule.
+  push:
+    branches: [main]
+    paths: [tommy_capital/scoring.py, .github/workflows/verify-top20.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tommy-market-scan
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-top20]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - run: python -m pytest -q
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/tommy
+          key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: tommy-v2-${{ runner.os }}-
+      - name: Check real trading calendar
+        id: trading
+        run: python -m tommy_capital.market_schedule --phase closing
+      - name: Verify full universe and all six ranking timeframes
+        if: steps.trading.outputs.run == 'true'
+        run: python -u -m tommy_capital.cli --config config.json --limit 0 --workers 4 --scan-phase closing --closing-retries 2
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/tommy
+          key: tommy-v2-${{ runner.os }}-${{ github.run_id }}
+      - uses: actions/upload-artifact@v4
+        id: artifact
+        if: always() && steps.trading.outputs.run == 'true'
+        with:
+          name: tommy-capital-top20-report
+          path: reports/latest/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publish matching TOP20 Chinese report and machine audit
+        if: always() && steps.trading.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          REPORT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: python -m tommy_capital.publish

@@ -237,6 +237,8 @@ def strategic_technical(daily, session, period_cutoff=None, config=None):
             "weekly_base": weekly_base, "daily_volume": volume,
             "monthly_recovery": monthly_recovery, "weekly_structure": weekly_structure,
             "first_volume_breakout": breakout,
+            "timeframes": {"monthly": timeframe_observation(m), "weekly": timeframe_observation(w),
+                           "daily": timeframe_observation(d)},
             "price_compression": compression_observation(daily, config.get("leading_price_compression_pct", 20.0)),
             "volume_ratio20": volume["ratio20"]}
 
@@ -276,6 +278,32 @@ def confirmed_divergences(frame, window=60, radius=3):
                               "price_previous": float(a[price_col]), "price_current": float(b[price_col]),
                               "indicator_previous": float(a[oscillator]), "indicator_current": float(b[oscillator])})
     return {"status": "ok", "signals": found}
+
+
+def timeframe_observation(frame):
+    """Auditable indicators and confirmed pivots from already complete bars."""
+    calculated = indicators(frame)
+    latest, previous = calculated.iloc[-1], calculated.iloc[-2]
+    baseline = frame.volume.iloc[-21:-1]
+    ratio = float(latest.volume / baseline.mean()) if len(baseline) == 20 and baseline.mean() > 0 else None
+    divergence = confirmed_divergences(frame, window=120)
+    structure = {"close_qfq": float(latest.close), "low_qfq": float(latest.low),
+                 "high_qfq": float(latest.high), "previous_close_qfq": float(previous.close),
+                 "previous_high_qfq": float(previous.high), "ma20_qfq": float(latest.ma20),
+                 "ma20_rising": bool(latest.ma20 > calculated.ma20.iloc[-6]) if len(calculated) >= 25 else False,
+                 "support_qfq": float(frame.low.tail(20).min()),
+                 "resistance_qfq": float(frame.high.iloc[-21:-1].max()), "ratio20": ratio,
+                 "golden_cross": bool((latest.dif > latest.dea and previous.dif <= previous.dea) or
+                                      (latest.k > latest.d and previous.k <= previous.d)),
+                 "overheated": bool(latest.j > 100 and latest.close > latest.ma20 * 1.03),
+                 "pullback_rebound": bool(previous.close >= previous.ma20 and latest.low <= latest.ma20 and
+                                          latest.close > latest.ma20 and latest.close > previous.close),
+                 "price_reclaimed": bool(latest.close > previous.high or latest.close > latest.ma20)}
+    return {"status": "ok", "signals": divergence["signals"], "divergence_status": divergence["status"],
+            "last_bar": frame.index[-1].isoformat(), "bar_count": len(frame),
+            "above_ma20": bool(latest.close > latest.ma20), "structure": structure,
+            "macd": {"dif": float(latest.dif), "dea": float(latest.dea),
+                     "histogram": float(latest.macd), "previous_histogram": float(previous.macd)}}
 
 
 def closed_minute_cutoff(calendar, now, period):
@@ -344,38 +372,21 @@ def minute_execution_status(observation):
     return "／".join(labels) or "无信号"
 
 
-def minute_observation(provider, code, cutoff, daily_qfq):
+def minute_observation(provider, code, cutoff, daily_qfq, period=15):
     try:
-        data = minute_frame(provider, code, 15, cutoff, daily_qfq)
-        if len(data) < 35:
+        data = minute_frame(provider, code, period, cutoff, daily_qfq)
+        minimum = 35 if period == 15 else 60
+        if len(data) < minimum:
             return {"status": "insufficient_bars", "signals": [], "last_bar": data.index[-1].isoformat(),
-                    "purpose": "分时历史不足，不解释为无背离"}
-        calculated = indicators(data)
-        latest, previous = calculated.iloc[-1], calculated.iloc[-2]
-        baseline = data.volume.iloc[-21:-1]
-        volume_ratio = float(latest.volume / baseline.mean()) if len(baseline) == 20 and baseline.mean() > 0 else None
-        golden = bool((latest.dif > latest.dea and previous.dif <= previous.dea) or
-                      (latest.k > latest.d and previous.k <= previous.d))
-        structure = {"close_qfq": float(latest.close), "low_qfq": float(latest.low),
-                     "high_qfq": float(latest.high), "previous_close_qfq": float(previous.close),
-                     "previous_high_qfq": float(previous.high), "ma20_qfq": float(latest.ma20),
-                     "support_qfq": float(data.low.tail(20).min()),
-                     "resistance_qfq": float(data.high.iloc[-21:-1].max()), "ratio20": volume_ratio,
-                     "golden_cross": golden,
-                     "overheated": bool(latest.j > 100 and latest.close > latest.ma20 * 1.03),
-                     "pullback_rebound": bool(previous.close >= previous.ma20 and latest.low <= latest.ma20 and
-                                              latest.close > latest.ma20 and latest.close > previous.close),
-                     "price_reclaimed": bool(latest.close > previous.high or latest.close > latest.ma20)}
-        observation = {**confirmed_divergences(data, window=120), "last_bar": data.index[-1].isoformat(),
-                       "structure": structure,
-                       "purpose": "观察标记；不改变战略资格，不作为新开仓理由"}
+                    "purpose": f"{period}分钟K线不足{minimum}根，不解释为无背离"}
+        observation = {**timeframe_observation(data), "purpose": "观察与评分；不改变入池资格，不作为新开仓理由"}
         observation["execution_status"] = minute_execution_status(observation)
         return observation
     except DataError as exc:
         return {"status": "unavailable", "signals": [], "error": str(exc)}
 
 
-def execution_observation(provider, code, trend_confirmed, now, calendar, daily_qfq, minute15, config=None):
+def execution_observation(provider, code, trend_confirmed, now, calendar, daily_qfq, minute15, config=None, minute_frames=None):
     """Execution study for qualified securities, before any holding eligibility."""
     config = config or {}
     if not trend_confirmed:
@@ -393,6 +404,9 @@ def execution_observation(provider, code, trend_confirmed, now, calendar, daily_
     if not signals:
         return result
     for period in [60, 30]:
+        if minute_frames is not None and str(period) in minute_frames:
+            result["frames"][str(period)] = minute_frames[str(period)]
+            continue
         try:
             cutoff = closed_minute_cutoff(calendar, now, period)
             data = minute_frame(provider, code, period, cutoff, daily_qfq)

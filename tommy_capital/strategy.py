@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 from .inflection import leading_check
+from .scoring import balanced_score
 
 SELECTION_RULE = "dual_route_monthly_recovery"
 
@@ -113,25 +114,6 @@ def financial_routes(row, config, today):
             "route_b_reasons": b + leading["reasons"], "leading": leading}
 
 
-def score(row, technical):
-    # All scores are research heuristics, not return forecasts or fair values.
-    growth = min(max(numeric(row.get("revenue_yoy")) or 0, 0), 40) / 40 * 10
-    profit = min(max(numeric(row.get("profit_yoy")) or 0, 0), 60) / 60 * 15
-    cash = 5.0 if (numeric(row.get("cfo_per_share_ytd")) or 0) > 0 else 0.0
-    ratio = numeric(row.get("industry_pe_ratio"))
-    valuation = max(0.0, min(25.0, (1.5 - ratio) / 1.5 * 25)) if ratio is not None else 0.0
-    trend = sum(5 for key in ["daily_trend", "weekly_trend", "monthly_trend"] if technical.get(key))
-    improvement = 5.0 if row.get("fundamental_improving") else 0.0
-    base = 15.0 if technical.get("weekly_structure", {}).get("confirmed") else 0.0
-    volume = 10.0 if (technical.get("daily_volume", {}).get("abnormal") or
-                     technical.get("first_volume_breakout", {}).get("active")) else 0.0
-    breakdown = {"revenue_growth_10": growth, "profit_growth_15": profit, "positive_cfo_5": cash,
-                 "industry_valuation_25": valuation, "large_timeframe_trend_15": trend,
-                 "profit_growth_acceleration_5": improvement, "weekly_base_15": base,
-                 "volume_confirmation_10": volume}
-    return round(sum(breakdown.values()), 2), {k: round(v, 2) for k, v in breakdown.items()}
-
-
 def evaluate(row, technical, config, today):
     finance = row.get("financial_routes") or financial_routes(row, config, today)
     liquidity_reasons = []
@@ -166,22 +148,15 @@ def evaluate(row, technical, config, today):
         strategy_reasons.append("B首次平台放量突破未确认" if route == "B" else "日线量价确认未满足")
     trend_reasons = [f"{field} 未确认" for field in ["daily_trend", "weekly_trend", "monthly_trend"] if not technical.get(field)]
     t_reasons = strategy_reasons + trend_reasons
-    total, breakdown = score(row, technical) if eligible else (None, {})
-    if route == "B":
-        margin = finance["leading"]["valuation"].get("base_margin_pct") or 0
-        breakdown.pop("industry_valuation_25")
-        breakdown.pop("profit_growth_15")
-        breakdown["scenario_margin_25"] = round(min(25.0, max(0.0, margin / 2)), 2)
-        breakdown["leading_indicator_15"] = 15.0 if finance["leading"]["leading_indicator_confirmed"] else 0.0
-        total = round(sum(breakdown.values()), 2)
-    return {"eligible": eligible, "reasons": reasons, "score": total, "route": route, "qualified_routes": routes,
+    scoring = balanced_score(row, technical, route, finance["leading"]) if eligible else {
+        "score": None, "score_breakdown": {}, "fundamental_score": None, "technical_score": None}
+    return {"eligible": eligible, "reasons": reasons, **scoring, "route": route, "qualified_routes": routes,
             "route_a_reasons": a_reasons, "route_b_reasons": b_reasons,
             "financial_routes": finance, "leading": finance["leading"],
             "strategic_eligible": not strategy_reasons, "strategy_reasons": strategy_reasons,
             "t_trend_confirmed": not t_reasons, "t_reasons": t_reasons,
             "legacy_ma_confirmed": not trend_reasons,
             "selection_rule": SELECTION_RULE,
-            "score_breakdown": breakdown,
             "monthly_low_j_watch": eligible and low,
             "monthly_recovery_watch": eligible and not low,
             "manual_review": ["核对扣非净利润及非经常性损益", "核对行业景气、订单及公告原文",
