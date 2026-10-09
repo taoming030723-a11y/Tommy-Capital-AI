@@ -26,5 +26,11 @@
   "min_forward_margin_pct": 20.0,
   "max_bear_downside_pct": 30.0,
   "execution_support_distance_pct": 3.0,
-  "execution_volume_ratio": 1.2
+  "execution_volume_ratio": 1.2,
+  "technical_retry_passes": 1,
+  "macd_min_pivot_spacing": 5,
+  "macd_min_price_extension_pct": 0.2,
+  "macd_min_price_extension_atr": 0.15,
+  "macd_min_dif_improvement_atr": 0.1,
+  "macd_min_confirmation_rebound_atr": 0.3
 }

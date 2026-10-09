@@ -190,7 +190,7 @@ def test_t_requires_confirmed_holding_even_if_all_execution_checks_pass():
 def test_divergence_execution_requires_structure_volume_support_and_current60m(monkeypatch, problem):
     now = datetime(2026, 10, 8, 9 if problem == "early_60m" else 14, 50, tzinfo=SHANGHAI)
     calendar = pd.DataFrame({"trade_date": ["2026-09-30", "2026-10-08"]})
-    minute = {"status": "ok", "signals": [{"direction": "bullish", "price_current": 100}],
+    minute = {"status": "ok", "signals": [{"direction": "bullish", "indicator": "MACD_DIF", "quality_passed": True, "price_current": 100}],
               "structure": {"low_qfq": 101, "close_qfq": 103, "previous_close_qfq": 102,
                             "price_reclaimed": True, "ratio20": 1.5}}
     if problem == "no_volume":
@@ -219,7 +219,7 @@ def test_minute_status_does_not_call_every_ma_reclaim_a_pullback(monkeypatch, lo
     data = pd.DataFrame({"open": 100.5, "close": 100.5, "high": 103., "low": 99., "volume": 100.}, index=index)
     data.loc[index[-1], ["low", "close"]] = [low, close]
     monkeypatch.setattr(technical, "minute_frame", lambda *a, **k: data)
-    monkeypatch.setattr(technical, "indicators", lambda frame: frame.assign(ma20=100., dif=0., dea=1., macd=-2., k=20., d=30., j=40.))
+    monkeypatch.setattr(technical, "indicators", lambda frame: frame.assign(atr14=1., ma20=100., dif=0., dea=1., macd=-2., k=20., d=30., j=40.))
     monkeypatch.setattr(technical, "confirmed_divergences", lambda *a, **k: {"status": "ok", "signals": []})
     result = technical.minute_observation(None, "600001", index[-1], None)
     assert result["structure"]["price_reclaimed"]
@@ -240,8 +240,12 @@ def test_closing_phase_cannot_publish_old_session_or_premarket_as_current_close(
 
 
 def test_new_report_is_honest_about_recovering_high_j_evidence_missing_and_t_empty():
-    card = {**good_row(), **evaluate(good_row(), recovering_technical(), DEFAULTS, TODAY),
-            "technical": recovering_technical(), "minute15": {"status": "ok", "signals": [], "structure": {"golden_cross": True}}}
+    from test_balanced_top20 import full_technical, frames
+    from tommy_capital.scoring import balanced_score
+    tech = {**full_technical(), **recovering_technical()}
+    card = {**good_row(), **evaluate(good_row(), tech, DEFAULTS, TODAY),
+            **balanced_score(good_row(), tech, "A", minute_frames=frames()),
+            "technical": tech, "minute15": {"status": "ok", "signals": [], "structure": {"golden_cross": True}}}
     report = {"selection_rule": "dual_route_monthly_recovery", "scan_phase": "pre_run", "scan_type": "closed_session",
               "generated_at": "2026-10-07T21:00:00+08:00", "session": "2026-09-30", "status": "partial",
               "scan_complete": False, "rankings": [card], "observations": [], "errors": [], "divergences": [],

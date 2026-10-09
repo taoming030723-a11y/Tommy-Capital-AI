@@ -39,6 +39,9 @@ def indicators(df):
     result["dif"] = close.ewm(span=12, adjust=False).mean() - close.ewm(span=26, adjust=False).mean()
     result["dea"] = result.dif.ewm(span=9, adjust=False).mean()
     result["macd"] = 2 * (result.dif - result.dea)
+    true_range = pd.concat([df.high - df.low, (df.high - close.shift()).abs(),
+                            (df.low - close.shift()).abs()], axis=1).max(axis=1)
+    result["atr14"] = true_range.rolling(14).mean()
     low, high = df.low.rolling(9).min(), df.high.rolling(9).max()
     rsv = 100 * (close - low) / (high - low).replace(0, np.nan)
     # Seed at 50; carry 50 on an entirely flat window.
@@ -260,17 +263,17 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
             "weekly_bar_date": w.index[-1].date().isoformat(),
             "daily_close_qfq": float(last_d.close), "daily_ma60_qfq": float(last_d.ma60),
             "daily_bar_date": daily.index[-1].date().isoformat(),
-            "daily_divergences": confirmed_divergences(daily, window=120),
+            "daily_divergences": confirmed_divergences(daily, window=120, config=config),
             "weekly_base": weekly_base, "daily_volume": volume,
             "monthly_recovery": monthly_recovery, "weekly_structure": weekly_structure,
             "first_volume_breakout": breakout,
-            "timeframes": {"monthly": timeframe_observation(m), "weekly": timeframe_observation(w),
-                           "daily": timeframe_observation(d)},
+            "timeframes": {"monthly": timeframe_observation(m, config), "weekly": timeframe_observation(w, config),
+                           "daily": timeframe_observation(d, config)},
             "price_compression": compression_observation(daily, config.get("leading_price_compression_pct", 20.0)),
             "volume_ratio20": volume["ratio20"]}
 
 
-def confirmed_divergences(frame, window=60, radius=3):
+def confirmed_divergences(frame, window=60, radius=3, config=None):
     """Two confirmed price pivots; no future bars beyond current input.
 
     A pivot requires `radius` subsequent bars. MACD uses DIF; KDJ uses J.
@@ -279,7 +282,8 @@ def confirmed_divergences(frame, window=60, radius=3):
     data = indicators(frame).iloc[-window:]
     if len(data) < 35:
         return {"status": "insufficient_bars", "signals": []}
-    found = []
+    config = config or {}
+    found, weak = [], []
     for direction, price_col in [("bullish", "low"), ("bearish", "high")]:
         points = []
         values = data[price_col].to_numpy()
@@ -298,22 +302,50 @@ def confirmed_divergences(frame, window=60, radius=3):
             ok = ((b[price_col] < a[price_col] and b[oscillator] > a[oscillator]) if direction == "bullish"
                   else (b[price_col] > a[price_col] and b[oscillator] < a[oscillator]))
             if ok:
-                found.append({"direction": direction, "indicator": label,
+                signal = {"direction": direction, "indicator": label,
                               "previous_pivot": data.index[previous].isoformat(),
                               "current_pivot": data.index[current].isoformat(),
                               "confirmed_at": data.index[current + radius].isoformat(),
                               "price_previous": float(a[price_col]), "price_current": float(b[price_col]),
-                              "indicator_previous": float(a[oscillator]), "indicator_current": float(b[oscillator])})
-    return {"status": "ok", "signals": found}
+                              "indicator_previous": float(a[oscillator]), "indicator_current": float(b[oscillator])}
+                if label == "MACD_DIF":
+                    atr = float(b.atr14)
+                    price_move = abs(float(b[price_col] - a[price_col]))
+                    dif_move = abs(float(b.dif - a.dif))
+                    confirmation = data.iloc[current + radius]
+                    sign = 1 if direction == "bullish" else -1
+                    rebound = sign * float(confirmation.close - b.close)
+                    conditions = {
+                        "pivot_spacing": current - previous >= config.get("macd_min_pivot_spacing", 5),
+                        "price_extension": price_move / float(a[price_col]) * 100 >= config.get("macd_min_price_extension_pct", .2),
+                        "price_extension_atr": atr > 0 and price_move / atr >= config.get("macd_min_price_extension_atr", .15),
+                        "dif_improvement_atr": atr > 0 and dif_move / atr >= config.get("macd_min_dif_improvement_atr", .1),
+                        "same_zero_region": bool(a.dif < 0 and b.dif < 0) if direction == "bullish" else bool(a.dif > 0 and b.dif > 0),
+                        "confirmation_rebound": atr > 0 and rebound / atr >= config.get("macd_min_confirmation_rebound_atr", .3),
+                        "not_invalidated": bool(data.low.iloc[current + radius:].min() >= b.low) if direction == "bullish" else bool(data.high.iloc[current + radius:].max() <= b.high),
+                    }
+                    signal["strength"] = {"conditions": conditions, "pivot_spacing_bars": current - previous,
+                        "price_extension_pct": price_move / float(a[price_col]) * 100,
+                        "price_extension_atr": price_move / atr if atr > 0 else None,
+                        "dif_improvement_atr": dif_move / atr if atr > 0 else None,
+                        "confirmation_rebound_atr": rebound / atr if atr > 0 else None,
+                        "atr14": atr}
+                    signal["quality_passed"] = all(conditions.values())
+                    if not signal["quality_passed"]:
+                        weak.append(signal)
+                        continue
+                found.append(signal)
+    return {"status": "ok", "signals": found, "weak_signals": weak,
+            "macd_quality_version": "atr_pivot_confirmation_v1"}
 
 
-def timeframe_observation(frame):
+def timeframe_observation(frame, config=None):
     """Auditable indicators and confirmed pivots from already complete bars."""
     calculated = indicators(frame)
     latest, previous = calculated.iloc[-1], calculated.iloc[-2]
     baseline = frame.volume.iloc[-21:-1]
     ratio = float(latest.volume / baseline.mean()) if len(baseline) == 20 and baseline.mean() > 0 else None
-    divergence = confirmed_divergences(frame, window=120)
+    divergence = confirmed_divergences(frame, window=120, config=config)
     structure = {"close_qfq": float(latest.close), "low_qfq": float(latest.low),
                  "high_qfq": float(latest.high), "previous_close_qfq": float(previous.close),
                  "previous_high_qfq": float(previous.high), "ma20_qfq": float(latest.ma20),
@@ -326,10 +358,11 @@ def timeframe_observation(frame):
                  "pullback_rebound": bool(previous.close >= previous.ma20 and latest.low <= latest.ma20 and
                                           latest.close > latest.ma20 and latest.close > previous.close),
                  "price_reclaimed": bool(latest.close > previous.high or latest.close > latest.ma20)}
-    return {"status": "ok", "signals": divergence["signals"], "divergence_status": divergence["status"],
+    return {"status": "ok", "signals": divergence["signals"], "weak_signals": divergence.get("weak_signals", []),
+            "macd_quality_version": divergence.get("macd_quality_version"), "divergence_status": divergence["status"],
             "last_bar": frame.index[-1].isoformat(), "bar_count": len(frame),
             "above_ma20": bool(latest.close > latest.ma20), "structure": structure,
-            "macd": {"dif": float(latest.dif), "dea": float(latest.dea),
+            "macd": {"dif": float(latest.dif), "dea": float(latest.dea), "atr14": float(latest.atr14),
                      "histogram": float(latest.macd), "previous_histogram": float(previous.macd)}}
 
 
@@ -399,14 +432,14 @@ def minute_execution_status(observation):
     return "／".join(labels) or "无信号"
 
 
-def minute_observation(provider, code, cutoff, daily_qfq, period=15):
+def minute_observation(provider, code, cutoff, daily_qfq, period=15, config=None):
     try:
         data = minute_frame(provider, code, period, cutoff, daily_qfq)
         minimum = 35 if period == 15 else 60
         if len(data) < minimum:
             return {"status": "insufficient_bars", "signals": [], "last_bar": data.index[-1].isoformat(),
                     "purpose": f"{period}分钟K线不足{minimum}根，不解释为无背离"}
-        observation = {**timeframe_observation(data), "purpose": "观察与评分；不改变入池资格，不作为新开仓理由"}
+        observation = {**timeframe_observation(data, config), "purpose": "观察与评分；不改变入池资格，不作为新开仓理由"}
         observation["execution_status"] = minute_execution_status(observation)
         return observation
     except DataError as exc:
@@ -440,13 +473,13 @@ def execution_observation(provider, code, trend_confirmed, now, calendar, daily_
             if len(data) < 60:
                 raise DataError(f"{period}分钟K线不足60根")
             calculated = indicators(data)
-            result["frames"][str(period)] = {**confirmed_divergences(data, window=120),
+            result["frames"][str(period)] = {**confirmed_divergences(data, window=120, config=config),
                 "last_bar": data.index[-1].isoformat(),
                 "above_ma20": bool(calculated.close.iloc[-1] > calculated.ma20.iloc[-1]),
                 "support_qfq": float(data.low.tail(20).min()), "resistance_qfq": float(data.high.tail(20).max())}
         except DataError as exc:
             result["frames"][str(period)] = {"status": "unavailable", "error": str(exc)}
-    bottoms = [s for s in signals if s["direction"] == "bullish"]
+    bottoms = [s for s in signals if s["direction"] == "bullish" and s.get("indicator") == "MACD_DIF" and s.get("quality_passed") is True]
     support = min((s["price_current"] for s in bottoms), default=structure.get("support_qfq"))
     low, close = structure.get("low_qfq"), structure.get("close_qfq")
     near = support is not None and support > 0 and low is not None and 0 <= (low / support - 1) * 100 <= config.get("execution_support_distance_pct", 3.0)

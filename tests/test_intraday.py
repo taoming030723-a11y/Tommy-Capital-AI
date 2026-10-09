@@ -34,12 +34,15 @@ def test_two_confirmed_pivots_produce_both_macd_and_kdj_evidence(monkeypatch, di
     frame = candles(60)
     frame['low'] = 100.0
     frame['high'] = 110.0
+    frame['close'] = 105.0
+    frame.loc[frame.index[52], 'close'] = 100. if direction == 'bullish' else 110.
     price = 'low' if direction == 'bullish' else 'high'
     frame.loc[frame.index[35], price] = 90 if direction == 'bullish' else 120
     frame.loc[frame.index[52], price] = 85 if direction == 'bullish' else 125
     def oscillators(data):
         out = data.copy()
-        out['dif'], out['j'] = 0.0, 50.0
+        out['dif'], out['j'], out['atr14'] = 0.0, 50.0, 1.0
+        out.loc[out.index[55], 'close'] = 105.
         out.loc[out.index[35], ['dif', 'j']] = [-2, 10] if direction == 'bullish' else [2, 90]
         out.loc[out.index[52], ['dif', 'j']] = [-1, 20] if direction == 'bullish' else [1, 80]
         return out

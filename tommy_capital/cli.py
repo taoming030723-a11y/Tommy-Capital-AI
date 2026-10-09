@@ -15,14 +15,15 @@ import numpy as np
 import pandas as pd
 
 from .data import (Provider, DataError, SHANGHAI, CLOSE_REPORT_START, completed_session, report_periods,
-                   normalize_spot, normalize_finance, latest_finance, daily_history)
+                   normalize_spot, normalize_finance, merge_finance_quality, latest_finance, daily_history)
 from .strategy import prepare_universe, financial_routes, evaluate, numeric, SELECTION_RULE
 from threading import Lock
-from .technical import (bars, strategic_technical, extended_monthly_history, tactical, closed_minute_cutoff,
+from .technical import (bars, aggregate, strategic_technical, extended_monthly_history, tactical, closed_minute_cutoff,
                         minute_observation, execution_observation)
 from .inflection import load_evidence
 from .reporting import render_markdown, github_run_url
-from .scoring import balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT
+from .scoring import balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT, ranking_eligible
+from .coverage import technical_results, ranking_completeness
 
 LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
@@ -37,7 +38,10 @@ DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_
             "leading_price_compression_pct": 20.0, "max_forward_pe": 30.0,
             "max_forward_ev_sales": 4.0, "min_forward_margin_pct": 20.0,
             "max_bear_downside_pct": 30.0, "execution_support_distance_pct": 3.0,
-            "execution_volume_ratio": 1.2}
+            "execution_volume_ratio": 1.2, "technical_retry_passes": 1,
+            "macd_min_pivot_spacing": 5, "macd_min_price_extension_pct": .2,
+            "macd_min_price_extension_atr": .15, "macd_min_dif_improvement_atr": .1,
+            "macd_min_confirmation_rebound_atr": .3}
 
 
 def clean(value):
@@ -75,7 +79,7 @@ def validate_config(config):
             raise ValueError(f"配置 {key} 需在0到100之间")
     if config["execution_volume_ratio"] < 1:
         raise ValueError("执行量价确认量比不能小于1")
-    for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days", "daily_breakout_lookback"]:
+    for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days", "daily_breakout_lookback", "technical_retry_passes", "macd_min_pivot_spacing"]:
         if not isinstance(config[key], int):
             raise ValueError(f"配置 {key} 需为整数")
 
@@ -212,8 +216,10 @@ def run(args, provider=None, now=None):
               "scoring_version": SCORING_VERSION, "score_weights": SCORE_WEIGHTS, "display_limit": DISPLAY_LIMIT,
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
+              "data_gaps": [], "ranking_complete": False, "ranking_incomplete_reasons": [],
+              "ranking_policy": "monthly_selection_weekly_daily_confirmation",
               "workflow_run_url": github_run_url(), "source_commit": os.environ.get("GITHUB_SHA"),
-              "limitations": ["规则引擎，无订单执行；基本面改善为累计同比加速代理",
+              "limitations": ["规则引擎，无订单执行；财务质量按扣非盈利、现金流总额和同报告期比较",
                               "领先订单/销量/催化及估值覆盖依赖可核对的官方证据，不存在全市场自动补齐的可靠免费接口",
                               "远期盈利/分部/EV-Sales三情景为研究假设，证据缺失不通过；扣非、负债、股本仍需复核",
                               "公开接口可能限流/滞后；抓取时间不是交易所逐股报价时间",
@@ -244,6 +250,7 @@ def run(args, provider=None, now=None):
         spot = normalize_spot(spot_raw)
         # Preserve actual quote coverage even if a later global guard stops us.
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(spot)}
+        report["quoted_codes"] = sorted(spot.code.tolist())
         if intraday or after_close:
             spot["quote_clock_ok"], report["quote_clock_validation"] = quote_clock_check(spot, now, intraday)
             rejected = report["quote_clock_validation"]["rejected"]
@@ -261,7 +268,7 @@ def run(args, provider=None, now=None):
         histories, financial_period_counts = [], {}
         def load_period(period):
             ttl = 900 if period == report_periods(today)[0] else 86400
-            raw = provider.fetch("finance_em_named", ttl=ttl, allow_empty=True, date=period.strftime("%Y%m%d"))
+            raw = provider.fetch("finance_em_named", ttl=ttl, allow_empty=True, date=period.strftime("%Y%m%d"), schema_version=2)
             return normalize_finance(raw, period, today) if not raw.empty else raw
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = {executor.submit(load_period, p): p for p in report_periods(today)}
@@ -276,18 +283,35 @@ def run(args, provider=None, now=None):
                     report["errors"].append(f"财报 {period}: {exc}")
         if not histories:
             raise DataError("没有可用已公告财报，停止排名")
-        finance = latest_finance(pd.concat(histories, ignore_index=True))
+        quality = {"income": [], "cashflow": []}
+        quality_counts = {}
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = {executor.submit(provider.fetch, "finance_quality_em", ttl=900,
+                       allow_empty=True, date=p.strftime("%Y%m%d"), statement=kind): (kind, p)
+                       for p in report_periods(today) for kind in quality}
+            for future in as_completed(futures):
+                kind, p = futures[future]
+                try:
+                    frame = future.result()
+                    quality_counts[f"{kind}:{p}"] = len(frame)
+                    if not frame.empty:
+                        quality[kind].append(frame)
+                except DataError as exc:
+                    report["errors"].append(f"财务质量 {kind} {p}: {exc}")
+        financial_history = merge_finance_quality(pd.concat(histories, ignore_index=True), quality, today)
+        finance = latest_finance(financial_history)
         universe = prepare_universe(spot, finance, config)
         evidence, evidence_stats = load_evidence(getattr(args, "leading_evidence", None), today)
         report["leading_evidence_coverage"] = evidence_stats
         report["errors"] += evidence_stats["source_failures"]
         route_a_count = route_b_pre_count = route_b_count = missing_evidence = 0
-        eligible_rows = []
+        eligible_rows, all_rows = [], []
         for row in universe.to_dict("records"):
             row["liquidity_deferred"] = True
             row["leading_evidence"] = evidence.get(row["code"], {})
             routes = financial_routes(row, config, today)
             row["financial_routes"] = routes
+            all_rows.append(row)
             route_a_count += int(routes["route_a_passed"])
             route_b_pre_count += int(routes["route_b_prequalified"])
             route_b_count += int(routes["route_b_passed"])
@@ -295,23 +319,24 @@ def run(args, provider=None, now=None):
             if not routes["route_a_passed"] and not routes["route_b_prequalified"]:
                 reasons = ["A：" + r for r in routes["route_a_reasons"]] + ["B：" + r for r in routes["route_b_reasons"]]
                 report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "fundamental_valuation", "reasons": reasons})
-                if row["code"] in holdings:
-                    report["observations"].append({**row, "eligible": False, "reasons": reasons,
-                        "tactical": tactical(provider, row["code"], False, True, session)})
             else:
                 eligible_rows.append(row)
-        eligible_rows.sort(key=lambda r: (not r["financial_routes"]["route_a_passed"], -(numeric(r.get("profit_yoy")) or 0), r["code"]))
-        selected = eligible_rows[:] if args.limit == 0 else eligible_rows[:args.limit]
+        all_rows.sort(key=lambda r: (not r["financial_routes"]["route_a_passed"],
+                                    not r["financial_routes"]["route_b_prequalified"], r["code"]))
+        selected = all_rows[:] if args.limit == 0 else all_rows[:args.limit]
         selected_codes = {r["code"] for r in selected}
-        selected += [r for r in eligible_rows if r["code"] in holdings and r["code"] not in selected_codes]
+        selected += [r for r in all_rows if r["code"] in holdings and r["code"] not in selected_codes]
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(universe),
-                              "financial_period_counts": financial_period_counts,
+                              "financial_period_counts": financial_period_counts, "quality_period_counts": quality_counts,
+                              "quality_statement_available": int(universe.get("quality_statement_matched", pd.Series(False)).sum()),
                               "financially_evaluated": len(universe), "financial_data_available": int(universe.period.notna().sum()),
                               "financially_eligible": sum(r["financial_routes"]["route_a_passed"] or r["financial_routes"]["route_b_passed"] for r in eligible_rows),
                               "route_a_fundamental_passed": route_a_count, "route_b_prequalified": route_b_pre_count,
                               "route_b_fundamental_passed": route_b_count, "leading_evidence_missing": missing_evidence,
                               "technical_prefilter_count": len(eligible_rows),
-                              "technical_requested": len(selected), "technical_completed": 0,
+                              "technical_requested": len(selected), "technical_attempted": 0, "technical_completed": 0,
+                              "technical_scope": "all_quoted_a_shares", "technical_recovered": 0,
+                              "technical_failed": 0, "technical_history_shortfall": 0, "ranking_eligible_count": 0,
                               "monthly_pool_count": 0, "weekly_base_count": 0, "daily_abnormal_volume_count": 0,
                               "strategic_confirmed_count": 0, "monthly_pool_minute15_completed": 0,
                               "route_a_pool_count": 0, "route_b_pool_count": 0, "monthly_current_low_count": 0,
@@ -322,11 +347,13 @@ def run(args, provider=None, now=None):
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "minute60_requested": 0, "minute60_completed": 0, "minute30_requested": 0, "minute30_completed": 0,
                               "score_inputs_completed": 0, "extended_monthly_requested": 0, "extended_monthly_completed": 0,
-                              "unscanned": len(eligible_rows) - len(selected),
+                              "unscanned": len(all_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         monthly_counts_lock = Lock()
-        def inspect_stock(row):
-            raw, warning = daily_history(provider, row["code"], f"{today.year - config['daily_history_years']}0101",
+        def inspect_stock(row, fresh=False):
+            stock_provider = (Provider(cache=provider.cache, timeout=provider.timeout, retries=provider.retries, refresh=True)
+                              if fresh and isinstance(provider, Provider) else provider)
+            raw, warning = daily_history(stock_provider, row["code"], f"{today.year - config['daily_history_years']}0101",
                                          session.strftime("%Y%m%d"), today.strftime("%Y%m%d"),
                                          required_session=today if after_close else None,
                                          expected_close=row["price"] if after_close else None)
@@ -338,95 +365,111 @@ def run(args, provider=None, now=None):
             period_cutoff = today if (now.hour, now.minute) >= CLOSE_REPORT_START else today - timedelta(days=1)
             monthly_history, monthly_error = None, None
             routes = row["financial_routes"]
-            if len(daily) >= 250 and (routes["route_a_passed"] or routes["route_b_passed"]):
+            need_long_monthly = (routes["route_a_passed"] or routes["route_b_passed"] or
+                                 len(aggregate(daily, "ME", period_cutoff)) < 24)
+            if len(daily) >= 250 and need_long_monthly:
                 with monthly_counts_lock:
                     report["coverage"]["extended_monthly_requested"] += 1
                 try:
-                    monthly_history = extended_monthly_history(provider, row["code"], daily, period_cutoff, today)
+                    monthly_history = extended_monthly_history(stock_provider, row["code"], daily, period_cutoff, today)
                     with monthly_counts_lock:
                         report["coverage"]["extended_monthly_completed"] += 1
                 except DataError as exc:
                     monthly_error = str(exc)
                     with monthly_counts_lock:
-                        report["errors"].append(f"{row['code']} 独立长历史月线：{monthly_error}")
+                        report["warnings"].append(f"{row['code']} 独立长历史月线：{monthly_error}；保留可核验日线聚合历史，未补造月份")
             technical = strategic_technical(daily, session, period_cutoff, config, monthly_history)
             technical["monthly_history_error"] = monthly_error
             decision = evaluate(row, technical, config, today)
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
-            minute = minute_observation(provider, row["code"], cutoff, daily) if need_minute else {
+            minute = minute_observation(stock_provider, row["code"], cutoff, daily, config=config) if need_minute else {
                 "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}
             frames = {"15": minute}
             for period in [60, 30]:
-                frames[str(period)] = minute_observation(provider, row["code"], closed_minute_cutoff(calendar, now, period), daily, period) if not daily_only and decision["eligible"] else {
+                frames[str(period)] = minute_observation(stock_provider, row["code"], closed_minute_cutoff(calendar, now, period), daily, period, config) if not daily_only and decision["eligible"] else {
                     "status": "not_requested", "signals": []}
             if decision["eligible"]:
                 decision.update(balanced_score(row, technical, decision["route"], decision["leading"], frames))
-            execution = execution_observation(provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config, frames) if not daily_only else {"status": "not_requested", "entry_watch": False}
+            execution = execution_observation(stock_provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config, frames) if not daily_only else {"status": "not_requested", "entry_watch": False}
             card = {**row, **decision, "technical": technical, "minute15": minute, "minute_frames": frames, "execution": execution,
                     "confirmed_holding": row["code"] in holdings,
                     "tactical": tactical(provider, row["code"], decision["t_trend_confirmed"], row["code"] in holdings, session,
                                          now=now, calendar=calendar, daily_qfq=daily, minute15=minute, execution=execution) if not daily_only else
                                 {"status": "not_requested", "signals": []}}
+            card["ranking_eligible"] = ranking_eligible(card)
+            if stock_provider is not provider:
+                with monthly_counts_lock:
+                    provider.lineage.extend(stock_provider.lineage)
             return card, warning
         report["status"] = "running"
         write_outputs(Path(args.output), report)
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {executor.submit(inspect_stock, r): r for r in selected}
-            for count, future in enumerate(as_completed(futures), 1):
-                row = futures[future]
-                try:
-                    card, warning = future.result()
-                    if warning:
-                        report["warnings"].append(warning)
-                    report["coverage"]["technical_completed"] += 1
-                    if card["eligible"]:
-                        report["coverage"]["score_inputs_completed"] += int(card["score_inputs_complete"])
-                        report["coverage"]["monthly_pool_count"] += 1
-                        report["coverage"]["weekly_base_count"] += int(card["technical"]["weekly_base"]["detected"])
-                        report["coverage"]["daily_abnormal_volume_count"] += int(card["technical"]["daily_volume"]["abnormal"])
-                        report["coverage"]["strategic_confirmed_count"] += int(card["strategic_eligible"])
-                        for key, value in [("route_a_pool_count", card["route"] == "A"), ("route_b_pool_count", card["route"] == "B"),
-                            ("monthly_current_low_count", card["monthly_low_j_watch"]), ("monthly_recovery_count", card["monthly_recovery_watch"]),
-                            ("weekly_structure_count", card["technical"]["weekly_structure"]["confirmed"]),
-                            ("daily_first_breakout_count", card["technical"]["first_volume_breakout"]["active"]),
-                            ("legacy_ma_confirmed_count", card["legacy_ma_confirmed"]), ("t_trend_confirmed_count", card["t_trend_confirmed"]),
-                            ("execution_divergence_count", card["t_trend_confirmed"] and bool(card["minute15"]["signals"])),
-                            ("execution_entry_watch_count", card["execution"].get("entry_watch", False)),
-                            ("confirmed_holding_t_entry_count", card["tactical"].get("entry_eligible", False))]:
-                            report["coverage"][key] += int(value)
-                    if card["minute15"]["status"] != "not_requested":
-                        report["coverage"]["minute15_requested"] += 1
-                        if card["minute15"]["status"] == "ok":
-                            report["coverage"]["minute15_completed"] += 1
-                            report["coverage"]["monthly_pool_minute15_completed"] += int(card["eligible"])
-                        else:
-                            report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
+        results = technical_results(selected, inspect_stock, workers, config["technical_retry_passes"])
+        for count, (row, card, warning, prior_failures) in enumerate(results, 1):
+            report["coverage"]["technical_attempted"] += 1
+            if card is not None:
+                if prior_failures:
+                    report["coverage"]["technical_recovered"] += 1
+                    report["warnings"].append(f"{row['code']}：仅重抓该股票后恢复；原失败记录见审计")
+                    report["data_gaps"].append({"code": row["code"], "resolved": True, "attempt_errors": prior_failures})
+                if warning:
+                    report["warnings"].append(warning)
+                report["coverage"]["technical_completed"] += 1
+                if card["eligible"]:
+                    report["coverage"]["score_inputs_completed"] += int(card["score_inputs_complete"])
+                    report["coverage"]["monthly_pool_count"] += 1
+                    report["coverage"]["weekly_base_count"] += int(card["technical"]["weekly_base"]["detected"])
+                    report["coverage"]["daily_abnormal_volume_count"] += int(card["technical"]["daily_volume"]["abnormal"])
+                    report["coverage"]["strategic_confirmed_count"] += int(card["strategic_eligible"])
+                    for key, value in [("route_a_pool_count", card["route"] == "A"), ("route_b_pool_count", card["route"] == "B"),
+                        ("monthly_current_low_count", card["monthly_low_j_watch"]), ("monthly_recovery_count", card["monthly_recovery_watch"]),
+                        ("weekly_structure_count", card["technical"]["weekly_structure"]["confirmed"]),
+                        ("daily_first_breakout_count", card["technical"]["first_volume_breakout"]["active"]),
+                        ("legacy_ma_confirmed_count", card["legacy_ma_confirmed"]), ("t_trend_confirmed_count", card["t_trend_confirmed"]),
+                        ("execution_divergence_count", card["t_trend_confirmed"] and bool(card["minute15"]["signals"])),
+                        ("execution_entry_watch_count", card["execution"].get("entry_watch", False)),
+                        ("confirmed_holding_t_entry_count", card["tactical"].get("entry_eligible", False))]:
+                        report["coverage"][key] += int(value)
+                if card["minute15"]["status"] != "not_requested":
+                    report["coverage"]["minute15_requested"] += 1
+                    if card["minute15"]["status"] == "ok":
+                        report["coverage"]["minute15_completed"] += 1
+                        report["coverage"]["monthly_pool_minute15_completed"] += int(card["eligible"])
                     else:
-                        report["coverage"]["minute15_not_required"] += 1
-                    for period in ["60", "30"]:
-                        frame = card["minute_frames"][period]
-                        if frame["status"] != "not_requested":
-                            report["coverage"][f"minute{period}_requested"] += 1
-                            report["coverage"][f"minute{period}_completed"] += int(frame["status"] == "ok")
-                        if frame["status"] in ["unavailable", "insufficient_bars"]:
-                            report["coverage"]["tactical_failed_frames"] += 1
-                            report["errors"].append(f"{row['code']} {period}分钟评分：{frame.get('error', frame.get('purpose', frame['status']))}")
-                    all_frames = {**card["technical"].get("timeframes", {}),
-                                  **{k + "m": v for k, v in card["minute_frames"].items()}}
-                    for timeframe, observation in all_frames.items():
-                        for signal in observation["signals"]:
-                            report["divergences"].append({"code": row["code"], "name": row["name"], "timeframe": timeframe,
-                                "monthly_pool_eligible": card["eligible"], "strategy_pool_eligible": card["eligible"],
-                                "route": card["route"], "strategic_eligible": card["strategic_eligible"], **signal})
-                    report["rankings" if card["eligible"] else "observations"].append(card)
-                except DataError as exc:
-                    report["errors"].append(f"{row['code']}: {exc}")
-                    report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "technical_data", "reasons": [str(exc)]})
-                if count % 25 == 0 or count == len(selected):
-                    report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-                    LOG.info("技术进度 %s/%s；双路线观察候选 %s", count, len(selected), len(report["rankings"]))
-                    write_outputs(Path(args.output), report)
+                        report["errors"].append(f"{row['code']} 15分钟：{card['minute15'].get('error', card['minute15']['status'])}")
+                else:
+                    report["coverage"]["minute15_not_required"] += 1
+                for period in ["60", "30"]:
+                    frame = card["minute_frames"][period]
+                    if frame["status"] != "not_requested":
+                        report["coverage"][f"minute{period}_requested"] += 1
+                        report["coverage"][f"minute{period}_completed"] += int(frame["status"] == "ok")
+                    if frame["status"] in ["unavailable", "insufficient_bars"]:
+                        report["coverage"]["tactical_failed_frames"] += 1
+                        report["errors"].append(f"{row['code']} {period}分钟评分：{frame.get('error', frame.get('purpose', frame['status']))}")
+                all_frames = {**card["technical"].get("timeframes", {}),
+                              **{k + "m": v for k, v in card["minute_frames"].items()}}
+                for timeframe, observation in all_frames.items():
+                    for signal in observation["signals"]:
+                        report["divergences"].append({"code": row["code"], "name": row["name"], "timeframe": timeframe,
+                            "monthly_pool_eligible": card["eligible"], "strategy_pool_eligible": card["eligible"],
+                            "route": card["route"], "strategic_eligible": card["strategic_eligible"], **signal})
+                report["rankings" if card["eligible"] else "observations"].append(card)
+            else:
+                report["errors"].append(f"{row['code']}: {warning}")
+                historical = "日线不足250根" in warning or "周/月线不足" in warning
+                report["coverage"]["technical_failed"] += 1
+                report["coverage"]["technical_history_shortfall"] += int(historical)
+                report["data_gaps"].append({"code": row["code"], "name": row["name"], "resolved": False,
+                    "kind": "history_shortfall" if historical else "source_or_validation", "attempt_errors": prior_failures})
+                report["excluded"].append({"code": row["code"], "name": row["name"], "stage": "technical_data_unresolved", "reasons": [warning]})
+            report["coverage"]["ranking_eligible_count"] = sum(ranking_eligible(r) for r in report["rankings"])
+            if count % 200 == 0 or count == len(selected):
+                report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
+                LOG.info("全市场技术进度 %s/%s；月线观察池 %s；主榜确认 %s", count, len(selected),
+                         len(report["rankings"]), report["coverage"]["ranking_eligible_count"])
+                write_outputs(Path(args.output), report)
         report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
+        report["ranking_complete"], report["ranking_incomplete_reasons"] = ranking_completeness(report)
         report["scan_complete"] = scan_is_complete(report)
         report["status"] = "complete" if report["scan_complete"] else "partial"
     except DataError as exc:
@@ -444,16 +487,18 @@ def run(args, provider=None, now=None):
 
 def scan_is_complete(report):
     coverage = report["coverage"]
-    return (coverage["unscanned"] == 0 and not report["errors"] and coverage["leading_evidence_missing"] == 0
+    return (coverage.get("universe", 0) > 0 and coverage["unscanned"] == 0 and coverage.get("technical_completed") == coverage.get("technical_requested")
+            and coverage.get("technical_requested") == coverage.get("universe") and not report["errors"] and coverage["leading_evidence_missing"] == 0
             and coverage["score_inputs_completed"] == coverage["monthly_pool_count"])
 
 
 def make_summary(report):
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit"]}
-    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding"]} for r in ranked_top20(report["rankings"])]
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy"]}
+    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible"]} for r in ranked_top20(report["rankings"])]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
     summary["candidate_count"] = len(report["rankings"])
+    summary["ranking_eligible_count"] = sum(ranking_eligible(r) for r in report["rankings"])
     summary["observation_count"] = len(report["observations"])
     summary["divergences"] = report["divergences"]
     summary["errors"] = report["errors"]
@@ -487,10 +532,10 @@ def main():
     parser.add_argument("--leading-evidence", default="evidence/leading-inflections.json", help="官方领先指标与已复核三情景估值证据文件")
     parser.add_argument("--scan-phase", choices=["auto", "opening", "intraday", "closing", "pre_run"], default="auto")
     parser.add_argument("--closing-retries", type=int, default=0, help="收盘全局校验失败时的重试次数（0到2，间隔60秒；partial不重试）")
-    parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部初筛合格股票")
+    parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部报价A股，基本面不通过也检查日周月")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
-    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查全部双路线月J路径观察池；screened扩展至全部初筛请求技术检查的股票")
+    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查双路线月线观察池；screened扩展至所有已完成技术检查股票")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

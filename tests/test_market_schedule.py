@@ -122,8 +122,8 @@ def write_closing_archive(root, **changes):
         'session': '2026-10-09', 'scan_type': 'after_close', 'scan_phase': 'closing',
         'minute15_cutoff': '2026-10-09T15:00:00',
         'selection_rule': 'dual_route_monthly_recovery',
-        'scoring_version': 'balanced_50_50_v1', 'display_limit': 20,
-        'candidate_count': 261, 'top_candidates': [{'code': str(i).zfill(6)} for i in range(20)],
+        'scoring_version': 'quality_50_50_v2', 'display_limit': 20,
+        'candidate_count': 261, 'ranking_eligible_count': 30, 'top_candidates': [{'code': str(i).zfill(6)} for i in range(20)],
         'coverage': {'universe': 5571},
     }
     summary.update(changes)
@@ -185,7 +185,7 @@ def test_recovery_requires_matching_human_report_and_readable_json(tmp_path):
 
 
 def test_complete_and_true_zero_candidates_are_also_final(tmp_path):
-    write_closing_archive(tmp_path, status='complete', scan_complete=True, candidate_count=0, top_candidates=[])
+    write_closing_archive(tmp_path, status='complete', scan_complete=True, candidate_count=0, ranking_eligible_count=0, top_candidates=[])
     now = datetime(2026, 10, 9, 15, 35, tzinfo=SHANGHAI)
     assert published_closing_report(tmp_path, now)
     # An explicit manual rerun remains available even with today's valid archive.

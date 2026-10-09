@@ -69,7 +69,7 @@ FIN_FIELDS = {
 }
 
 
-def finance(date):
+def finance(date, schema_version=2):
     period = pd.Timestamp(date).strftime("%Y-%m-%d")
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
     params = {"reportName": "RPT_LICO_FN_CPD", "columns": "ALL", "pageSize": 500,
@@ -112,6 +112,54 @@ def finance(date):
     if "SECUCODE" in raw:
         raw = raw[raw.SECUCODE.astype(str).str.endswith((".SH", ".SZ", ".BJ"))]
     return raw.rename(columns=FIN_FIELDS)[list(FIN_FIELDS.values())]
+
+
+def finance_quality(date, statement):
+    """Received statement totals, never CFO/share divided by a different EPS basis."""
+    report, fields = {
+        "income": ("RPT_DMSK_FN_INCOME", {"DEDUCT_PARENT_NETPROFIT": "core_profit_ytd",
+                     "PARENT_NETPROFIT": "statement_profit_ytd", "TOTAL_OPERATE_INCOME": "statement_revenue_ytd"}),
+        "cashflow": ("RPT_DMSK_FN_CASHFLOW", {"NETCASH_OPERATE": "cfo_ytd"}),
+    }[statement]
+    period = pd.Timestamp(date).strftime("%Y-%m-%d")
+    params = {"reportName": report, "columns": "ALL", "pageSize": 500,
+              "sortColumns": "NOTICE_DATE,SECURITY_CODE", "sortTypes": "-1,-1",
+              "source": "WEB", "client": "WEB", "filter": f"(REPORT_DATE='{period}')"}
+    url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
+    first = financial_page(url, {**params, "pageNumber": 1})
+    result = first.get("result")
+    columns = ["code", "period", "quality_announced_at", *fields.values()]
+    if result is None:
+        if first.get("code") == 9201:
+            return pd.DataFrame(columns=columns)
+        raise ValueError(f"财务质量报表未返回结果：{first.get('code')} {first.get('message')}")
+    pages = int(result["pages"])
+    if not 1 <= pages <= 100:
+        raise ValueError("财务质量报表分页异常")
+    rows, seen = [], set()
+    def page(number):
+        item = result if number == 1 else financial_page(url, {**params, "pageNumber": number}).get("result")
+        if not item or int(item["pages"]) != pages:
+            raise ValueError("财务质量分页数量变化")
+        return item["data"]
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        for records in executor.map(page, range(1, pages + 1)):
+            digest = hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
+            if not records or digest in seen:
+                raise ValueError("财务质量分页为空或重复")
+            seen.add(digest)
+            rows.extend(records)
+    if len(rows) != int(result["count"]):
+        raise ValueError("财务质量报表实际行数与源声明不符")
+    raw = pd.DataFrame(rows)
+    required = {"SECURITY_CODE", "SECUCODE", "REPORT_DATE", "NOTICE_DATE", *fields}
+    if not required.issubset(raw):
+        raise ValueError("财务质量报表字段变化")
+    if (pd.to_datetime(raw.REPORT_DATE).dt.strftime("%Y-%m-%d") != period).any():
+        raise ValueError("财务质量报表报告期不匹配")
+    raw = raw[raw.SECUCODE.astype(str).str.endswith((".SH", ".SZ", ".BJ"))]
+    return raw.rename(columns={"SECURITY_CODE": "code", "REPORT_DATE": "period",
+                              "NOTICE_DATE": "quality_announced_at", **fields})[columns]
 
 
 def spot_sina():

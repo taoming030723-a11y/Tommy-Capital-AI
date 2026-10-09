@@ -19,8 +19,8 @@ from test_dual_routes import losing_row, recovering_technical
 
 def observation():
     return {"status": "ok", "last_bar": "2026-10-08T15:00:00", "above_ma20": True,
-            "macd": {"dif": 1., "dea": .5, "histogram": 1., "previous_histogram": .5},
-            "signals": [{"direction": "bullish", "indicator": "MACD_DIF", "price_current": 10.,
+            "macd": {"dif": 1., "dea": .5, "histogram": 1., "previous_histogram": .5, "atr14": 1.},
+            "signals": [{"direction": "bullish", "indicator": "MACD_DIF", "price_current": 10., "quality_passed": True,
                          "confirmed_at": "2026-10-08T15:00:00"}],
             "structure": {"ma20_rising": True}}
 
@@ -39,7 +39,8 @@ def frames():
 def test_exact_half_weights_and_auditable_bounded_scores():
     assert sum(FUNDAMENTAL_WEIGHTS.values()) == sum(TECHNICAL_WEIGHTS.values()) == 50
     row = {**good_row(), "revenue_yoy": 40, "profit_yoy": 60, "cfo_per_share_ytd": 1.,
-           "previous_same_cfo_per_share_ytd": .5, "pe_ttm": .00001, "pb": .00001, "industry_pe_ratio": .00001}
+           "previous_same_cfo_per_share_ytd": .5, "roe_ytd": 15, "core_profit_ttm": 200,
+           "core_profit_ytd": 100, "previous_same_core_profit_ytd": 40, "cfo_ttm": 120, "pe_ttm": .00001, "pb": .00001, "industry_pe_ratio": .00001}
     result = balanced_score(row, full_technical(), "A", minute_frames=frames())
     assert result["score_inputs_complete"]
     assert result["score"] == 100 and result["fundamental_score"] == result["technical_score"] == 50
@@ -66,8 +67,8 @@ def test_small_period_observations_change_ranking_without_granting_eligibility()
     assert before["eligible"] and not before["t_trend_confirmed"]
     better = balanced_score(good_row(), tech, "A", minute_frames=frames())
     missing = balanced_score(good_row(), tech, "A", minute_frames={"15": observation()})
-    rows = [{"code": "000001", **missing}, {"code": "000002", **better}]
-    assert ranked_top20(rows)[0]["code"] == "000002"
+    rows = [{"code": "000001", **before, **missing, "technical": tech}, {"code": "000002", **before, **better, "technical": tech}]
+    assert [r["code"] for r in ranked_top20(rows)] == ["000002"]
     assert not missing["score_inputs_complete"]
     assert missing["score_breakdown"]["technical"]["60"]["score"] == 0
     assert better["fundamental_score"] == missing["fundamental_score"]
@@ -96,7 +97,7 @@ def test_short_complete_monthly_history_is_not_reported_as_no_divergence():
     assert not result["score_inputs_complete"]
     assert "technical.monthly.macd_divergence_history" in result["score_missing_inputs"]
     assert "无法判断" in signal_label(tech['timeframes']['monthly'])
-    report = {"errors": [], "coverage": {"unscanned": 0, "leading_evidence_missing": 0,
+    report = {"errors": [], "coverage": {"universe": 1, "technical_requested": 1, "technical_completed": 1, "unscanned": 0, "leading_evidence_missing": 0,
                "monthly_pool_count": 1, "score_inputs_completed": 0}}
     assert not scan_is_complete(report)
     report['coverage']['score_inputs_completed'] = 1
@@ -105,12 +106,15 @@ def test_short_complete_monthly_history_is_not_reported_as_no_divergence():
 
 def test_loss_route_retains_verified_evidence_and_valuation_and_no_positive_cash_bonus():
     row = losing_row()
+    row.update(core_profit_ytd=-100, core_profit_ttm=-200, previous_same_core_profit_ytd=-80,
+               previous_same_profit_ytd=-90, previous_same_revenue_ytd=1000, roe_ytd=-5,
+               cfo_ytd=-80, cfo_ttm=-100, previous_same_cfo_ytd=-60)
     technical = {**full_technical(), **recovering_technical()}
     decision = evaluate(row, technical, DEFAULTS, date(2026, 10, 8))
     assert decision["eligible"] and decision["route"] == "B"
     result = balanced_score(row, technical, "B", decision["leading"], frames())
     assert "TTM亏损" in result["profit_status"]
-    assert result["score_breakdown"]["fundamental"]["earnings_or_leading"] == 8
+    assert result["score_breakdown"]["fundamental"]["earnings_quality_or_leading"] == 11
     assert result["score_breakdown"]["fundamental"]["cash_quality"] == 0
     assert result["score_breakdown"]["fundamental"]["valuation"] > 0
     row["leading_evidence"]["valuation_model"] = None

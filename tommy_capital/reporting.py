@@ -10,7 +10,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .technical import minute_execution_status
-from .scoring import ranked_top20, TECHNICAL_WEIGHTS, SCORING_VERSION
+from .scoring import ranked_top20, TECHNICAL_WEIGHTS, SCORING_VERSION, ranking_eligible
 
 
 def cell(value):
@@ -279,7 +279,7 @@ def render_dual_report(report, run_url=None):
     status = {"complete": "完成", "partial": "部分完成", "failed": "失败", "running": "扫描中"}.get(report.get("status"), "未确定")
     mode = {"intraday": "盘中", "after_close": "收盘后", "closed_session": "最近完整交易日", "daily_baseline": "日线预检"}.get(report.get("scan_type"), "待确定")
     phase = {"opening": "开盘报告", "closing": "收盘报告", "intraday": "盘中报告", "pre_run": "预跑报告"}.get(report.get("scan_phase"), "扫描报告")
-    lines = ["# Tommy Capital A股扫描报告", "", f"**{phase} · {status} · {mode} · 双路线模型2.0**", ""]
+    lines = ["# Tommy Capital A股扫描报告", "", f"**{phase} · {status} · {mode} · 盈利质量与全市场覆盖升级版**", ""]
     if str(report.get("generated_at", "")).startswith("2026-10-07"):
         lines += ["> 这是2026年10月7日预跑，不是10月8日开盘或收盘结果。", ""]
     if not report.get("scan_complete", False):
@@ -299,6 +299,10 @@ def render_dual_report(report, run_url=None):
         if os.environ.get("REPORT_ARTIFACT_URL"):
             lines += [f"[下载本次失败诊断附件]({os.environ['REPORT_ARTIFACT_URL']})", ""]
         return "\n".join(lines)
+    if not report.get("ranking_complete", False):
+        lines += ["> **排名完整性：ranking_complete=false。以下为已核验范围内、通过月线战略入口及周日确认的暂定排名，不是全市场完整排名。**", ""]
+        if report.get("ranking_incomplete_reasons"):
+            lines += ["未完成项：" + "；".join(report["ranking_incomplete_reasons"]) + "。", ""]
     lines += [f"扫描启动：{date_label(report.get('generated_at'))}  ", f"扫描完成：{date_label(report.get('finished_at'))}  ",
               f"最新完整日线：{date_label(report.get('session'), True)}；15分钟完整K线：{date_label(report.get('minute15_cutoff'))}。", "",
               "时间为北京时间／新加坡时间。月／周只使用已完成周期，不把当月未完成K线当成完整月线。", ""]
@@ -309,32 +313,34 @@ def render_dual_report(report, run_url=None):
         ["基本面评估／已公告财报", f"{count('financially_evaluated')} / {count('financial_data_available')}只"],
         ["A基本面估值通过／B预检与证据估值通过", f"{count('route_a_fundamental_passed')}；{count('route_b_prequalified')} / {count('route_b_fundamental_passed')}只"],
         ["B领先证据、催化或估值待齐", f"B证据未齐{count('leading_evidence_missing')}只；缺失不通过"],
-        ["日／周／月成功／请求", f"{count('technical_completed')} / {count('technical_requested')}只"],
+        ["日／周／月成功／全部报价请求", f"{count('technical_completed')} / {count('technical_requested')}只；已尝试{count('technical_attempted')}只"],
+        ["选择性重抓恢复／未解决；其中历史不足", f"{count('technical_recovered')} / {count('technical_failed')}；{count('technical_history_shortfall')}只"],
+        ["财务质量报表匹配", f"{count('quality_statement_available')}只；缺失不按零利润或零现金流处理"],
         ["独立长历史月线成功／请求", f"{count('extended_monthly_completed')} / {count('extended_monthly_requested')}只；全部完整重叠月的前复权OHLC与日线聚合核对"],
         ["60分钟成功／请求", f"{count('minute60_completed')} / {count('minute60_requested')}只"],
         ["30分钟成功／请求", f"{count('minute30_completed')} / {count('minute30_requested')}只"],
         ["15分钟成功／请求", f"{count('minute15_completed')} / {count('minute15_requested')}只"],
-        ["观察池总数（candidate_count）／本报告展示", f"{len(pool)} / {len(displayed)}只；按整个合格池的综合评分选前20名"],
+        ["观察池总数（candidate_count）／本报告展示", f"{len(pool)} / {len(displayed)}只；周日确认并且评分输入齐全者才进入主榜，最多20只"],
         ["A池／B池；当前月J<20／恢复路径", f"{count('route_a_pool_count')} / {count('route_b_pool_count')}；{count('monthly_current_low_count')} / {count('monthly_recovery_count')}只"],
         ["周线筑底／扩展结构；普通异常量／首次突破", f"{count('weekly_base_count')} / {count('weekly_structure_count')}；{count('daily_abnormal_volume_count')} / {count('daily_first_breakout_count')}只"],
         ["战略量价确认／再通过原日周月均线", f"{count('strategic_confirmed_count')} / {count('t_trend_confirmed_count')}只"],
-        ["评分输入完整／未请求深度日线", f"{count('score_inputs_completed')} / {count('unscanned')}只"],
+        ["观察池评分输入完整／全报价未请求日周月", f"{count('score_inputs_completed')} / {count('unscanned')}只"],
         ["数据源及历史错误", f"{len(report.get('errors', []))}条；完整逐股原因见JSON/CSV附件"]])
     lines += ["## 综合评分：基本面50分＋技术面50分", ""]
     lines += table(["部分", "满分", "评分内容"], [
-        ["基本面", "50", "营收10；盈利或已验证领先指标10；现金流质量10；估值15；改善5"],
+        ["基本面", "50", "营收4；扣非盈利质量或已验证领先指标14；现金流及利润转化14；估值14；同期核心改善4"],
         ["月线", "12", "超卖／恢复路径5；J上升3；趋势2；MACD动量1；已确认MACD底背离1"],
         ["周线", "10", "筑底／低点抬高／收敛／突破4；趋势2；MACD动量2；MACD底背离2"],
         ["日线", "10", "放量／首次突破4；趋势2；MACD动量2；MACD底背离2"],
         ["60分钟", "8", "价格／MA20结构3；MACD动量2；MACD底背离3"],
         ["30分钟", "5", "价格／MA20结构2；MACD动量1；MACD底背离2"],
         ["15分钟", "5", "价格／MA20结构2；MACD动量1；MACD底背离2"]])
-    lines += ["各周期顶背离扣除该周期底背离项的满分，分时过热再扣1分，各周期最低0分。缺失数据对应分项不加分、不重分配权重，排名标记输入未齐。分数是研究优先级，不是收益预测；财务质量与大周期优先于小周期信号。", "",
+    lines += ["强MACD顶背离或KDJ顶背离扣该周期底背离项，分时过热再扣1分。MACD须通过价格延伸、ATR归一化DIF改善、至少5根拐点间距、同侧零轴、右侧反弹与未破坏确认；微弱背离保留审计但不加分。缺失分项不重分配权重，评分未齐不进入主榜。分数是研究优先级，不是收益预测；财务质量与大周期优先于小周期信号。", "",
         "**A 已兑现型**：保留原盈利、现金流、TTM PE、PB、行业相对估值和流动性规则；当前完整月J<20，或近3个完整月曾<20且最新完整月J上升（恢复路径）。", "",
         "**B 领先拐点型**：保留近6个完整月超卖恢复、价格压缩、营收>10%、已验证销量／订单增长或规模交付、核心业务改善、未来6个月催化与有安全边际的三情景估值。TTM亏损允许通过此路线，强制标“盈利尚未兑现”；证据或估值缺失仍不入池。两路统一排名，不为某股票或类别预留名额。", "",
         f"日线量比＝最新完整交易日成交量／此前20个完整交易日平均量，排除检测日。普通异常门槛{number(config.get('daily_volume_abnormal_ratio', 2))}倍；首次平台突破独立门槛{number(config.get('daily_breakout_rvol', 1.5))}倍、收盘位置≥{number(config.get('daily_breakout_close_location', .65))}。", "",
         "## ⭐ 综合评分 TOP 20", "",
-        "只呈现以下股票。名单来自全市场初筛后的合格观察池；TOP20数量不等于全市场扫描完整。15分钟无背离不会淘汰入池资格。", ""]
+        "只呈现月线入口、基本面估值、周线结构及周日趋势、日线量价已确认且六周期评分齐全的股票，按50/50总分排序。不足20只按实际数量列出。其余月线观察股票保留在完整附件，60/30/15分钟不能赋予选股资格，15分钟无背离不会单独淘汰。", ""]
     rows = []
     week_labels = {"base": "筑底", "higher_low": "低点抬高", "volatility_contraction": "收敛", "platform_breakout": "平台突破"}
     for index, row in enumerate(displayed, 1):
@@ -347,7 +353,7 @@ def render_dual_report(report, run_url=None):
             number(tech.get("monthly_j")), "当前超卖" if row.get("monthly_low_j_watch") else "恢复路径", week,
             number(tech.get("volume_ratio20")) + "倍", minute_execution_status(row.get("minute15", {})),
             "齐全" if row.get("score_inputs_complete") else "输入未齐"])
-    lines += table(["名次", "股票", "代码", "路线", "综合/100", "基本面/50", "技术/50", "TTM状态", "完整月J", "月J路径", "周结构", "20日量比", "15分钟观察状态", "评分数据"], rows) if rows else ["暂无可评分合格候选；不填充名单。", ""]
+    lines += table(["名次", "股票", "代码", "路线", "综合/100", "基本面/50", "技术/50", "TTM状态", "完整月J", "月J路径", "周结构", "20日量比", "15分钟观察状态", "评分数据"], rows) if rows else ["当前已核验范围内暂无同时完成周日确认与完整评分的主榜候选；月线观察池仍见覆盖计数，不解释为全市场无机会。", ""]
     if report.get("scoring_version") != SCORING_VERSION:
         lines += ["> 此文件为旧版扫描，50/50多周期评分尚未重算；未取得的新分项不视作已检查。", ""]
     if displayed:
@@ -373,7 +379,17 @@ def render_dual_report(report, run_url=None):
                 cells.append(number(part.get("score")) + f"/{maximum}；" + signal_text)
             detail_rows.append([row.get("name") + " " + row.get("code"), *cells])
         lines += table(["股票", *labels.values()], detail_rows)
-        lines += ["## TOP20月J路径、首次突破与执行限制", ""]
+        lines += ["## TOP20盈利质量", ""]
+        quality_rows = []
+        for row in displayed:
+            quality = row.get("fundamental_quality", {})
+            quality_rows.append([row.get("name") + " " + row.get("code"),
+                number(quality.get("core_profit_share_ttm")), number(quality.get("cash_conversion_ttm")),
+                "低基数，增速加分受限" if quality.get("low_base_flag") else "非低基数／需核对",
+                "通过" if quality.get("core_margin_improving") else "未确认"])
+        lines += table(["股票", "TTM扣非／归母利润", "TTM经营现金流／归母利润", "同比基数", "同期核心利润率改善"], quality_rows)
+        lines += ["现金流比率使用报表总额；亏损企业不对负利润计算转化率，B路线按现金流／营收及已核验业务证据评分。", "",
+                  "## TOP20月J路径、首次突破与执行限制", ""]
         review_rows = []
         t_rows = []
         for row in displayed:
@@ -383,7 +399,7 @@ def render_dual_report(report, run_url=None):
             first = tech.get("first_volume_breakout", {}).get("first_event") or {}
             execution = row.get("execution", {})
             if not row.get("t_trend_confirmed"):
-                execution_text = "基本面／大周期未全部确认，分时仅作评分观察"
+                execution_text = "尚未通过全部做T趋势条件，分时仅作执行研究"
             elif not row.get("minute15", {}).get("signals"):
                 execution_text = "基本面及大周期通过，无15分钟已确认背离"
             else:

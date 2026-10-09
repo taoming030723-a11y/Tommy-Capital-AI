@@ -29,7 +29,10 @@ def good_row():
             "profit_yoy": 20, "cfo_per_share_ytd": .5, "previous_same_cfo_per_share_ytd": .4,
             "revenue_ytd": 1000, "revenue_ttm": 2000, "pe_ttm": 20, "pb": 2,
             "industry_pe_samples": 12, "industry_pe_ratio": .8,
-            "period": pd.Timestamp("2026-06-30"), "fundamental_improving": True}
+            "period": pd.Timestamp("2026-06-30"), "fundamental_improving": True,
+            "core_profit_ytd": 60, "core_profit_ttm": 120, "previous_same_core_profit_ytd": 40,
+            "previous_same_profit_ytd": 40, "previous_same_revenue_ytd": 900, "roe_ytd": 10,
+            "cfo_ytd": 60, "cfo_ttm": 120, "previous_same_cfo_ytd": 50}
 
 
 def good_technical():
@@ -67,9 +70,10 @@ def test_missing_adjacent_report_cannot_claim_improvement():
     assert not latest_finance(history).iloc[0].fundamental_improving
 
 
+@pytest.mark.parametrize('full_market', [True, False])
 @pytest.mark.parametrize('daily_only', [True, False])
 @pytest.mark.parametrize('monthly_low', [True, False])
-def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily_only, monthly_low):
+def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily_only, monthly_low, full_market):
     from tommy_capital.data import FINANCE_COLUMNS
     class RecordedProvider:
         """Synthetic integration fixture; deliberately not a live-data claim."""
@@ -79,7 +83,7 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
             if function == "tool_trade_date_hist_sina":
                 return pd.DataFrame({"trade_date": ["2026-09-30", "2026-10-08", "2026-12-31"]})
             if function == "spot_sina_full":
-                return pd.DataFrame({"代码": [f"60000{i}" for i in range(1, 7)], "名称": ["测试"]*6,
+                return pd.DataFrame({"代码": [f"60000{i}" for i in range(1, 7)], "名称": ["测试"]*5+["ST测试" if full_market else "测试"],
                                      "最新价": [20]*6, "总市值": [2400]*6, "成交额": [5e7]*6,
                                      "市净率": [2]*6, "市盈率-动态": [99]*6, "行情时刻": ['09:49:59']*6})
             if function == "finance_em_named":
@@ -94,6 +98,16 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                                "所处行业": ["测试行业"]*6, "净利润-净利润": [net]*6,
                                "每股收益": [net/100]*6, "每股经营现金流量": [.5]*6})
                 return pd.DataFrame(source)
+            if function == "finance_quality_em":
+                period = kwargs["date"]
+                if period == "20260930":
+                    return pd.DataFrame()
+                net = 100 if period.endswith("1231") else (60 if period == "20260630" else 40)
+                data = {"code": [f"60000{i}" for i in range(1, 7)], "period": [pd.Timestamp(period)]*6,
+                        "quality_announced_at": [pd.Timestamp(period)+pd.Timedelta(days=20)]*6}
+                data.update({"core_profit_ytd": [net]*6, "statement_profit_ytd": [net]*6,
+                             "statement_revenue_ytd": [20]*6} if kwargs["statement"] == "income" else {"cfo_ytd": [net]*6})
+                return pd.DataFrame(data)
             if function == "daily_tx_recent":
                 dates = pd.bdate_range("2018-01-01", "2026-09-30")
                 prices = np.linspace(10, 80, len(dates))
@@ -124,12 +138,17 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                 values = np.linspace(10, 20, len(times))
                 return pd.DataFrame({'时间':times, '开盘':values, '收盘':values, '最高':values+1, '最低':values-1, '成交量':[100]*len(times)})
             pytest.fail('unexpected provider call')
-    args = argparse.Namespace(config=None, holdings=None, refresh=False, limit=1, daily_only=daily_only, output=str(tmp_path))
+    args = argparse.Namespace(config=None, holdings=None, refresh=False, limit=0 if full_market else 1, daily_only=daily_only, output=str(tmp_path))
     assert run(args, provider=RecordedProvider(), now=datetime(2026, 10, 8, 9, 50, tzinfo=SHANGHAI)) == 1
     report = json.loads((tmp_path / "report.json").read_text())
     assert report["status"] == "partial" and not report["scan_complete"]
-    assert report["coverage"]["unscanned"] == 5
-    assert len(report["rankings"]) == int(monthly_low)
+    assert report["coverage"]["unscanned"] == (0 if full_market else 5)
+    assert report["coverage"]["technical_requested"] == (6 if full_market else 1)
+    assert report["coverage"]["technical_attempted"] == report["coverage"]["technical_completed"] == (6 if full_market else 1)
+    if full_market:
+        assert any(r["code"] == "600006" for r in report["observations"])
+        assert not report["ranking_complete"]
+    assert len(report["rankings"]) == int(monthly_low) * (5 if full_market else 1)
     assert report["selection_rule"] == "dual_route_monthly_recovery"
     card = report["rankings"][0] if monthly_low else report["observations"][0]
     assert (card["technical"]["monthly_j"] < 20) is monthly_low
@@ -140,9 +159,9 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
     assert card["tactical"]["status"] == ('not_requested' if daily_only else 'not_held')
     if not daily_only and monthly_low:
         assert report['rankings'][0]['minute15']['last_bar'] == '2026-10-08T09:45:00'
-        assert report['coverage']['minute15_completed'] == 1
-        assert report['coverage']['minute60_completed'] == 1
-        assert report['coverage']['minute30_completed'] == 1
+        assert report['coverage']['minute15_completed'] == (5 if full_market else 1)
+        assert report['coverage']['minute60_completed'] == (5 if full_market else 1)
+        assert report['coverage']['minute30_completed'] == (5 if full_market else 1)
         assert card['minute_frames']['60']['last_bar'] == '2026-09-30T15:00:00'
         assert not card['t_trend_confirmed']  # Every pool member is still scored.
         assert card['score'] == pytest.approx(card['fundamental_score'] + card['technical_score'])
@@ -286,6 +305,16 @@ def test_daily_fallback_keeps_real_source_and_column_mapping():
     from tommy_capital.data import daily_history
     class Backup:
         def fetch(self, function, **kwargs):
+            if function == "finance_quality_em":
+                period = kwargs["date"]
+                if period == "20260930":
+                    return pd.DataFrame()
+                net = 100 if period.endswith("1231") else (60 if period == "20260630" else 40)
+                data = {"code": [f"60000{i}" for i in range(1, 7)], "period": [pd.Timestamp(period)]*6,
+                        "quality_announced_at": [pd.Timestamp(period)+pd.Timedelta(days=20)]*6}
+                data.update({"core_profit_ytd": [net]*6, "statement_profit_ytd": [net]*6,
+                             "statement_revenue_ytd": [20]*6} if kwargs["statement"] == "income" else {"cfo_ytd": [net]*6})
+                return pd.DataFrame(data)
             if function == "daily_tx_recent":
                 raise DataError("primary unavailable")
             assert function == "stock_zh_a_hist"

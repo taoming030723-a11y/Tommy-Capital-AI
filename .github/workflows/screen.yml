@@ -59,7 +59,11 @@ jobs:
         env:
           SCAN_LIMIT: ${{ inputs.limit }}
           SCAN_PHASE: ${{ steps.trading.outputs.phase }}
-        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 4 --scan-phase "$SCAN_PHASE" --closing-retries 2
+        run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 8 --scan-phase "$SCAN_PHASE" --closing-retries 2
+      - name: Audit coverage and confirmed rankings before publishing
+        id: audit
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        run: python -m tommy_capital.audit
       - uses: actions/cache/save@v4
         if: always()
         with:
@@ -75,7 +79,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: 发布中文报告与机器摘要及日期归档
-        if: always() && steps.trading.outputs.run == 'true'
+        if: always() && steps.trading.outputs.run == 'true' && steps.audit.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_NAME: ${{ github.repository }}

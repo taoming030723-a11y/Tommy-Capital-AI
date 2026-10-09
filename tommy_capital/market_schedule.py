@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from .data import DataError, Provider, SHANGHAI, completed_session
+from .scoring import SCORING_VERSION
 
 OPENING_CRON = "50 1 8 10 *"
 CLOSING_CRON = "5 7 * * 1-5"
@@ -37,11 +38,13 @@ def published_closing_report(results_directory, now):
                 summary.get("scan_type") != "after_close" or
                 summary.get("session") != day or
                 summary.get("selection_rule") != "dual_route_monthly_recovery" or
-                summary.get("scoring_version") != "balanced_50_50_v1" or
+                summary.get("scoring_version") != SCORING_VERSION or
                 summary.get("display_limit") != 20 or
                 not isinstance(count, int) or isinstance(count, bool) or count < 0 or
                 not isinstance(summary.get("top_candidates"), list) or
-                len(summary["top_candidates"]) != min(20, count) or
+                not isinstance(summary.get("ranking_eligible_count"), int) or
+                not 0 <= summary["ranking_eligible_count"] <= count or
+                len(summary["top_candidates"]) != min(20, summary["ranking_eligible_count"]) or
                 not isinstance(coverage, dict) or coverage.get("universe", 0) <= 0):
             return False
         started = datetime.fromisoformat(summary["generated_at"])

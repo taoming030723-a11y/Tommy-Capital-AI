@@ -130,6 +130,40 @@ def normalize_finance(frame, period, today):
                   (result.announced_at >= result.period)].sort_values("announced_at").drop_duplicates("code", keep="last")
 
 
+def merge_finance_quality(finance, quality, today):
+    """Join exact periods and known publication dates; reject inconsistent statements."""
+    result = finance.copy()
+    result["quality_statement_matched"] = False
+    for statement in ("income", "cashflow"):
+        frames = quality.get(statement, [])
+        if not frames:
+            continue
+        source = pd.concat(frames, ignore_index=True)
+        if source.empty:
+            continue
+        require(source, ["code", "period", "quality_announced_at"], "财务质量报表")
+        source.code = codes(source.code)
+        source.period = pd.to_datetime(source.period)
+        source.quality_announced_at = pd.to_datetime(source.quality_announced_at, errors="coerce")
+        source = source[(source.quality_announced_at.dt.date <= today) &
+                        (source.quality_announced_at >= source.period)]
+        source = source.sort_values("quality_announced_at").drop_duplicates(["code", "period"], keep="last")
+        source = source.rename(columns={"quality_announced_at": statement + "_announced_at"})
+        for col in set(source) - {"code", "period", statement + "_announced_at"}:
+            source[col] = pd.to_numeric(source[col], errors="coerce")
+        result = result.merge(source, on=["code", "period"], how="left", validate="one_to_one")
+    if {"statement_profit_ytd", "statement_revenue_ytd"}.issubset(result):
+        matched = pd.Series(True, index=result.index)
+        for original, statement in [("profit_ytd", "statement_profit_ytd"), ("revenue_ytd", "statement_revenue_ytd")]:
+            matched &= (result[original] - result[statement]).abs() <= result[original].abs().mul(1e-6).clip(lower=.011)
+        result["quality_statement_matched"] = matched
+        result.loc[~matched, "core_profit_ytd"] = float("nan")
+        # Do not bridge cash from a restatement/version we could not reconcile.
+        if "cfo_ytd" in result:
+            result.loc[~matched, "cfo_ytd"] = float("nan")
+    return result
+
+
 def daily_history(provider, code, start, end, asof_day=None, adjust="qfq", required_session=None, expected_close=None):
     """Use real providers in order and preserve every failed source's cause."""
     def validated(frame):
@@ -195,8 +229,8 @@ def latest_finance(history):
         row["revenue_ttm"] = float("nan")
         row["eps_ttm_approx"] = float("nan")
         same = pd.Timestamp(period.year - 1, period.month, period.day)
-        for source, dest in [("cfo_per_share_ytd", "previous_same_cfo_per_share_ytd"),
-                             ("gross_margin", "previous_same_gross_margin")]:
+        for source in ["cfo_per_share_ytd", "gross_margin", "profit_ytd", "revenue_ytd", "core_profit_ytd", "cfo_ytd"]:
+            dest = "previous_same_" + source
             row[dest] = (indexed.loc[same, source] if same in indexed.index and source in indexed
                          else float("nan"))
         row["cfo_not_deteriorating"] = bool(pd.notna(row.get("cfo_per_share_ytd")) and
@@ -206,14 +240,24 @@ def latest_finance(history):
             row["profit_ttm"] = row["profit_ytd"]
             row["revenue_ttm"] = row.get("revenue_ytd", float("nan"))
             row["eps_ttm_approx"] = row["eps_ytd"]
+            for source, dest in [("core_profit_ytd", "core_profit_ttm"), ("cfo_ytd", "cfo_ttm")]:
+                row[dest] = row.get(source, float("nan"))
         else:
             annual = pd.Timestamp(period.year - 1, 12, 31)
             same = pd.Timestamp(period.year - 1, period.month, period.day)
             if annual in indexed.index and same in indexed.index:
                 for source, dest in [("profit_ytd", "profit_ttm"), ("revenue_ytd", "revenue_ttm"),
-                                     ("eps_ytd", "eps_ttm_approx")]:
+                                     ("eps_ytd", "eps_ttm_approx"), ("core_profit_ytd", "core_profit_ttm"),
+                                     ("cfo_ytd", "cfo_ttm")]:
                     if source in indexed:
                         row[dest] = indexed.loc[annual, source] + row[source] - indexed.loc[same, source]
+        profit, revenue = row.get("profit_ttm"), row.get("revenue_ttm")
+        core, cfo = row.get("core_profit_ttm"), row.get("cfo_ttm")
+        row["cash_conversion_ttm"] = cfo / profit if pd.notna(cfo) and pd.notna(profit) and profit > 0 else float("nan")
+        row["core_profit_share_ttm"] = core / profit if pd.notna(core) and pd.notna(profit) and profit > 0 else float("nan")
+        prior_profit, prior_revenue = row.get("previous_same_profit_ytd"), row.get("previous_same_revenue_ytd")
+        row["previous_same_profit_margin"] = prior_profit / prior_revenue if pd.notna(prior_profit) and pd.notna(prior_revenue) and prior_revenue > 0 else float("nan")
+        row["profit_margin_ttm"] = profit / revenue if pd.notna(profit) and pd.notna(revenue) and revenue > 0 else float("nan")
         output.append(row)
     return pd.DataFrame(output)
 
