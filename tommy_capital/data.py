@@ -2,6 +2,7 @@ import hashlib
 import io
 import json
 import logging
+import math
 import subprocess
 import sys
 import time
@@ -166,6 +167,13 @@ def merge_finance_quality(finance, quality, today):
 
 def daily_history(provider, code, start, end, asof_day=None, adjust="qfq", required_session=None, expected_close=None):
     """Use real providers in order and preserve every failed source's cause."""
+    if expected_close is not None:
+        try:
+            valid_close = math.isfinite(float(expected_close)) and float(expected_close) > 0
+        except (TypeError, ValueError):
+            valid_close = False
+        if not valid_close:
+            raise DataError("报价价格缺失、非有限或非正，无法与真实完整日线核对")
     def validated(frame):
         if required_session is not None:
             require(frame, ["日期", "收盘"], "完整日线")

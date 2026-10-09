@@ -7,6 +7,7 @@ import pytest
 
 from tommy_capital.coverage import technical_results, ranking_completeness
 from tommy_capital.data import DataError, merge_finance_quality, latest_finance
+from tommy_capital.data import daily_history
 from tommy_capital.scoring import balanced_score, ranked_top20
 from tommy_capital.technical import confirmed_divergences, execution_observation
 from test_balanced_top20 import full_technical, frames, report_fixture, observation
@@ -138,7 +139,17 @@ def test_requested_full_market_is_not_automatically_complete_ranking():
         "financial_data_available": 5572, "unscanned": 0, "leading_evidence_missing": 0,
         "score_inputs_completed": 20, "monthly_pool_count": 20}, "errors": []}
     assert not ranking_completeness(report)[0]
+
     report["coverage"]["technical_completed"] = 5572
     assert ranking_completeness(report)[0]
     report["coverage"]["leading_evidence_missing"] = 1
     assert not ranking_completeness(report)[0]
+
+
+@pytest.mark.parametrize("price", [float("nan"), float("inf"), 0, -1])
+def test_missing_quote_price_cannot_bypass_complete_session_price_validation(price):
+    class NoRequests:
+        def fetch(self, *args, **kwargs):
+            pytest.fail("unknown quotes cannot be reconciled by another daily response")
+    with pytest.raises(DataError, match="报价价格"):
+        daily_history(NoRequests(), "000001", None, "20261009", expected_close=price)

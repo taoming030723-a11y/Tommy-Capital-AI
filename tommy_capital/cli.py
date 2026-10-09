@@ -351,6 +351,8 @@ def run(args, provider=None, now=None):
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         monthly_counts_lock = Lock()
         def inspect_stock(row, fresh=False):
+            if after_close and (numeric(row.get("price")) is None or row["price"] <= 0):
+                raise DataError("收盘报价价格缺失或非正，无法完成真实日线价格核对")
             stock_provider = (Provider(cache=provider.cache, timeout=provider.timeout, retries=provider.retries, refresh=True)
                               if fresh and isinstance(provider, Provider) else provider)
             raw, warning = daily_history(stock_provider, row["code"], f"{today.year - config['daily_history_years']}0101",
