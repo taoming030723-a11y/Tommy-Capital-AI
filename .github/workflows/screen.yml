@@ -2,9 +2,12 @@ name: A-share live screen
 on:
   schedule:
     # Keep the requested one-time opening scan; recurring close is 15:05 UTC+8.
+    # 15:35 / 16:05 catch missed triggers. Valid daily reports suppress duplicates.
     # Holidays are checked against the real calendar after dependency install.
     - cron: '50 1 8 10 *'
     - cron: '5 7 * * 1-5'
+    - cron: '35 7 * * 1-5'
+    - cron: '5 8 * * 1-5'
   workflow_dispatch:
     inputs:
       phase:
@@ -32,6 +35,9 @@ jobs:
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Queued fallbacks must see the report published by the preceding run.
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
