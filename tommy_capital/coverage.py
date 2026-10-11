@@ -4,6 +4,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from .data import DataError
 
 
+def is_history_shortfall(message):
+    # Older combined errors cannot establish short history: stale data must
+    # remain retryable rather than be silently labelled an IPO/history gap.
+    return ("或最新K线" not in message and
+            any(term in message for term in ("日线历史不足250根", "日线不足250根", "周/月线不足")))
+
+
 def technical_results(rows, inspect, workers, retry_passes=1):
     pending = rows[:]
     failures = {}
@@ -20,7 +27,7 @@ def technical_results(rows, inspect, workers, retry_passes=1):
                 except DataError as exc:
                     failures.setdefault(code, []).append(str(exc))
                     # Refreshing identical short history does not create older real bars.
-                    historical = "日线不足250根" in str(exc) or "周/月线不足" in str(exc)
+                    historical = is_history_shortfall(str(exc))
                     if attempt < retry_passes and not historical:
                         retry.append(row)
                     else:

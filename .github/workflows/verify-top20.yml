@@ -33,7 +33,11 @@ jobs:
       - name: Verify full universe and all six ranking timeframes
         if: steps.trading.outputs.run == 'true'
         run: python -u -m tommy_capital.cli --config config.json --limit 0 --workers 8 --scan-phase closing --closing-retries 2
-      - name: Audit actual TOP20 and six complete ranking timeframes
+      - name: Freeze research decisions and observe matured real-price windows
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        run: python -m tommy_capital.research
+      - name: Audit actual research TOP20 and six complete ranking timeframes
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         run: python -m tommy_capital.audit

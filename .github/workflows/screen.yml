@@ -60,7 +60,11 @@ jobs:
           SCAN_LIMIT: ${{ inputs.limit }}
           SCAN_PHASE: ${{ steps.trading.outputs.phase }}
         run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 8 --scan-phase "$SCAN_PHASE" --closing-retries 2
-      - name: Audit coverage and confirmed rankings before publishing
+      - name: Freeze research decisions and observe matured real-price windows
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        run: python -m tommy_capital.research
+      - name: Audit coverage, research ranking and execution gates before publishing
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         run: python -m tommy_capital.audit

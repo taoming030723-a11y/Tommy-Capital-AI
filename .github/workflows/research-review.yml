@@ -1,0 +1,50 @@
+name: Review research model against verified market artifact
+on:
+  push:
+    branches: [main]
+    paths: ['tommy_capital/**', 'tests/**', '.github/workflows/research-review.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: tommy-market-scan
+  cancel-in-progress: false
+jobs:
+  review:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[review-model]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - run: python -m pytest -q
+      - name: Verify archive SHA256 and review actual closed-session inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+        run: python -m tommy_capital.review
+      - name: Freeze this decision and inspect matured real-price windows
+        continue-on-error: true
+        run: python -m tommy_capital.research
+      - name: Audit unchanged input lineage and new ranking/execution separation
+        id: audit
+        run: python -m tommy_capital.audit
+      - uses: actions/upload-artifact@v4
+        id: artifact
+        if: always()
+        with:
+          name: tommy-capital-model-review
+          path: reports/latest/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publish Chinese model review with original data date and snapshot
+        if: steps.audit.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          REPORT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: python -m tommy_capital.publish

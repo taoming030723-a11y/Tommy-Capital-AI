@@ -1,5 +1,6 @@
 """Verify a finished real scan before publication; no market inputs are generated here."""
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -24,10 +25,31 @@ def audit(directory):
         return proof
     assert report["scoring_version"] == SCORING_VERSION
     assert report["selection_rule"] == "dual_route_monthly_recovery"
-    closing = report["scan_phase"] == "closing"
-    day = report["generated_at"][:10]
+    reviewing = report["scan_phase"] == "model_review"
+    closing = report["scan_phase"] == "closing" or reviewing
+    day = report["model_review"]["source_generated_at"][:10] if reviewing else report["generated_at"][:10]
+    if reviewing:
+        review = report["model_review"]
+        original_bytes = (root / "source-report.json").read_bytes()
+        assert hashlib.sha256(original_bytes).hexdigest() == review["source_report_sha256"]
+        original = json.loads(original_bytes)
+        assert original["scan_phase"] == "closing" and original["scan_type"] == "after_close"
+        assert review["new_market_requests"] == review["new_evidence_requests"] == 0
+        assert report["session"] == original["session"] == day <= report["generated_at"][:10]
+        assert report["minute15_cutoff"] == original["minute15_cutoff"]
+        assert report["errors"] == original["errors"] and report["data_gaps"] == original["data_gaps"]
+        assert report["observations"] == original["observations"] and report["quoted_codes"] == original["quoted_codes"]
+        mutable = {"score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs",
+                   "fundamental_quality", "scoring_version", "ranking_eligible", "confirmation_state", "ranking_purpose", "profit_status"}
+        source_rows = {r["code"]: r for r in original["rankings"]}
+        assert {r["code"] for r in report["rankings"]} == set(source_rows)
+        for row in report["rankings"]:
+            assert all(row[k] == v for k, v in source_rows[row["code"]].items() if k not in mutable)
+        for key, val in original["coverage"].items():
+            if key not in {"ranking_eligible_count", "score_inputs_completed", "confirmed_ranking_count", "financial_sector_review_missing"}:
+                assert report["coverage"][key] == val
     if closing:
-        assert report["scan_type"] == "after_close" and report["session"] == day
+        assert report["scan_type"] == ("model_review" if reviewing else "after_close") and report["session"] == day
         assert report["minute15_cutoff"][:10] == day and report["minute15_cutoff"][11:16] >= "15:00"
     elif report["scan_phase"] in ("opening", "intraday"):
         assert report["scan_type"] == "intraday" and report["session"] < day
@@ -36,6 +58,14 @@ def audit(directory):
         assert report["scan_phase"] == "pre_run" and report["scan_type"] in ("closed_session", "daily_baseline")
     assert summary == make_summary(report)
     assert (root / "report.md").read_text() == render_markdown(report, github_run_url())
+    if (root / "research-snapshot.json").exists():
+        from .research import freeze_snapshot, validate_snapshot
+        snapshot = json.loads((root / "research-snapshot.json").read_text())
+        validate_snapshot(snapshot)
+        assert snapshot == freeze_snapshot(report)
+        evaluation = json.loads((root / "forward-evaluation.json").read_text())
+        assert report["forward_evaluation"] == {k: v for k, v in evaluation.items() if k not in ("checks", "lineage")}
+        assert all(c.get("exit_session", "") <= evaluation["as_of_session"] for c in evaluation["checks"] if c["status"] == "observed")
     coverage, pool = report["coverage"], report["rankings"]
     assert coverage["technical_scope"] == "all_quoted_a_shares"
     assert coverage["technical_requested"] == coverage["technical_attempted"] == coverage["universe"]
@@ -69,10 +99,13 @@ def audit(directory):
     from datetime import date
     for row in pool:
         actual = balanced_score(row, row["technical"], row["route"], row["leading"], row["minute_frames"])
-        for key in ("score", "fundamental_score", "technical_score", "score_breakdown", "fundamental_quality", "score_inputs_complete"):
+        for key in ("score", "fundamental_score", "technical_score", "score_breakdown", "fundamental_quality", "score_inputs_complete", "confirmation_state"):
             assert row[key] == actual[key], (row["code"], key)
         assert 0 <= row["fundamental_score"] <= 50 and 0 <= row["technical_score"] <= 50
         assert row["ranking_eligible"] is ranking_eligible(row)
+        if not row["confirmation_state"]["execution_score_enabled"]:
+            assert all(row["score_breakdown"]["technical"][p]["score"] == 0 for p in ("60", "30", "15"))
+        assert row["execution"].get("entry_watch") is not True or row["t_trend_confirmed"]
         path = row["technical"]["monthly_recovery"]
         if row["route"] == "A":
             assert not base_checks(row, report["config"], date.fromisoformat(day))

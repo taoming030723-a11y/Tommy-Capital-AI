@@ -9,6 +9,7 @@ import pandas as pd
 import pytest
 
 from tommy_capital import cli
+from tommy_capital.scoring import SCORING_VERSION
 from tommy_capital.data import DataError, SHANGHAI, completed_session
 from tommy_capital.market_schedule import CLOSING_CRON, CLOSING_FALLBACK_CRONS, OPENING_CRON, decision, published_closing_report
 
@@ -122,7 +123,7 @@ def write_closing_archive(root, **changes):
         'session': '2026-10-09', 'scan_type': 'after_close', 'scan_phase': 'closing',
         'minute15_cutoff': '2026-10-09T15:00:00',
         'selection_rule': 'dual_route_monthly_recovery',
-        'scoring_version': 'quality_50_50_v2', 'display_limit': 20,
+        'scoring_version': SCORING_VERSION, 'display_limit': 20,
         'candidate_count': 261, 'ranking_eligible_count': 30, 'top_candidates': [{'code': str(i).zfill(6)} for i in range(20)],
         'coverage': {'universe': 5571},
     }

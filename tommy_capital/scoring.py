@@ -1,7 +1,8 @@
-"""Bounded quality scores; monthly selection and weekly/daily confirmation come first."""
+"""Strategic research scores with separately gated execution observations."""
 import math
 
-SCORING_VERSION = "quality_50_50_v2"
+SCORING_VERSION = "research_stage_50_50_v3"
+RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
@@ -26,6 +27,36 @@ def scale(value, maximum, points):
 def qualified_macd(signal, direction):
     return (signal.get("indicator") == "MACD_DIF" and signal.get("direction") == direction
             and signal.get("quality_passed") is True)
+
+
+def financial_sector(row):
+    # Published industry labels, never stock codes or company names.
+    industry = str(row.get("industry", ""))
+    return any(word in industry for word in ("银行", "证券", "保险", "多元金融", "金融服务"))
+
+
+def confirmation_state(technical, route):
+    """Observation eligibility and entry confirmation have different purposes."""
+    recovery = technical.get("monthly_recovery", {})
+    current = finite(technical.get("monthly_j"))
+    previous = finite(recovery.get("previous_j"))
+    monthly = current is not None and previous is not None and current > previous
+    weekly = (technical.get("weekly_structure", {}).get("confirmed") is True
+              and technical.get("weekly_trend") is True)
+    volume = technical.get("first_volume_breakout", {}).get("active") is True
+    volume = volume or (route == "A" and technical.get("daily_volume", {}).get("abnormal") is True)
+    daily = technical.get("daily_trend") is True and volume
+    if not monthly:
+        stage, label = "monthly_observation", "月线低位观察，等待J拐头"
+    elif not weekly:
+        stage, label = "wait_weekly", "等待周线确认"
+    elif not daily:
+        stage, label = "wait_daily", "等待日线量价确认"
+    else:
+        stage, label = "confirmed", "周日量价已确认"
+    return {"stage": stage, "label": label, "monthly_rising": monthly,
+            "weekly_confirmed": weekly, "daily_confirmed": daily,
+            "execution_score_enabled": monthly and weekly and daily}
 
 
 def macd_points(observation, momentum_points, bottom_points):
@@ -71,6 +102,7 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
         earnings += 3. * int(leading.get("core_improving") is True) + 3. * int(core_improving)
     else:
         earnings = scale(core_share, 1, 8) + scale(core_margin, .10, 2) + scale(roe, 15, 2) + 2. * int(core_improving)
+    sector_specific = financial_sector(row)
     cfo_ytd, cfo_ttm = value("cfo_ytd"), value("cfo_ttm")
     previous_cash = value("previous_same_cfo_ytd")
     stable = cfo_ytd is not None and previous_cash is not None and cfo_ytd >= previous_cash
@@ -82,6 +114,12 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
         cash_quality += scale(cfo_ttm / revenue_ttm if cfo_ttm is not None and revenue_ttm is not None and revenue_ttm > 0 else None, .10, 8)
     else:
         cash_quality += scale(cash_conversion, 1, 8)
+    if sector_specific:
+        # Deposits/trading inventory/provisions make ordinary CFO/net-income
+        # conversion unsuitable. Do not manufacture a bank safety score or
+        # redistribute its weight when regulatory/risk evidence is absent.
+        cash_quality = 0.
+        missing.append("fundamental.financial_sector_risk_review")
     if route == "B":
         valuation_data = leading.get("valuation", {})
         if valuation_data.get("passed") is True:
@@ -104,6 +142,9 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     quality = {"cash_conversion_ttm": cash_conversion, "core_profit_share_ttm": core_share,
                "core_profit_margin_ttm": core_margin, "previous_same_profit_margin": prior_margin,
                "low_base_flag": low_base, "core_margin_improving": bool(core_improving),
+               "financial_sector": sector_specific,
+               "cash_conversion_applicable": not sector_specific,
+               "cash_quality_status": "金融行业专门风险指标待核验，不套用通用现金流评分" if sector_specific else "通用报表总额口径",
                "basis": "实际经营现金流总额/归母利润总额；同报告期扣非盈利与同期利润率，不使用现金流/股除以EPS"}
 
     observations = technical.get("timeframes", {})
@@ -112,6 +153,7 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     minimum = finite(recovery.get("min_j_6_months" if route == "B" else "min_j_3_months"))
     rising = current is not None and previous is not None and current > previous
     path = current is not None and ((route == "A" and current < 20) or (minimum is not None and minimum < 20 and rising))
+    confirmation = confirmation_state(technical, route)
     periods = {}
     for period, maximum in TECHNICAL_WEIGHTS.items():
         observation = observations.get(period, {}) if period in ["monthly", "weekly", "daily"] else minute_frames.get(period, {})
@@ -144,7 +186,12 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
             if period in ["60", "30", "15"] and observation.get("structure", {}).get("overheated"):
                 parts["overheat_penalty"] = -1.
         total = min(float(maximum), max(0., sum(parts.values())))
+        raw_total = total
+        enabled = period in ("monthly", "weekly", "daily") or confirmation["execution_score_enabled"]
+        if not enabled:
+            total = 0.
         periods[period] = {"score": round(total, 2), "max": maximum, "parts": {k: round(v, 2) for k, v in parts.items()},
+                           "raw_score": round(raw_total, 2), "counted_for_rank": enabled,
                            "status": observation.get("status", "not_requested"), "last_bar": observation.get("last_bar")}
     fundamentals = {k: round(min(FUNDAMENTAL_WEIGHTS[k], max(0., v)), 2) for k, v in fundamentals.items()}
     fundamental_score = round(sum(fundamentals.values()), 2)
@@ -152,18 +199,23 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     return {"score": round(fundamental_score + technical_score, 2), "fundamental_score": fundamental_score,
             "technical_score": technical_score, "scoring_version": SCORING_VERSION,
             "score_inputs_complete": not missing, "score_missing_inputs": missing,
+            "confirmation_state": confirmation,
+            "ranking_purpose": "strategic_research_not_entry",
             "fundamental_quality": quality, "score_breakdown": {"fundamental": fundamentals, "technical": periods},
             "profit_status": "TTM亏损，盈利尚未兑现" if profit_ttm is not None and profit_ttm < 0 else
                              "TTM零利润，盈利尚未兑现" if profit_ttm == 0 else "TTM盈利" if profit_ttm is not None else "TTM缺失"}
 
 
 def ranking_eligible(row):
-    """Execution scores cannot promote an unconfirmed strategic observation."""
+    """Research eligibility never confers entry/T eligibility, nor fills missing data."""
+    return (row.get("eligible") is True and row.get("score_inputs_complete") is True
+            and finite(row.get("score")) is not None)
+
+
+def confirmed_ranking_eligible(row):
     technical = row.get("technical", {})
-    return (row.get("eligible") is True and row.get("strategic_eligible") is True
-            and technical.get("weekly_structure", {}).get("confirmed") is True
-            and technical.get("weekly_trend") is True and technical.get("daily_trend") is True
-            and row.get("score_inputs_complete") is True and finite(row.get("score")) is not None)
+    return (ranking_eligible(row) and row.get("strategic_eligible") is True
+            and confirmation_state(technical, row.get("route"))["execution_score_enabled"])
 
 
 def ranked_top20(rows):

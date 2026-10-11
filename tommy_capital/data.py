@@ -178,8 +178,14 @@ def daily_history(provider, code, start, end, asof_day=None, adjust="qfq", requi
         if required_session is not None:
             require(frame, ["日期", "收盘"], "完整日线")
             dates = pd.to_datetime(frame["日期"], errors="coerce").dt.date
-            latest = dates.max() if not frame.empty and dates.notna().all() else None
             target = pd.Timestamp(required_session).date()
+            # Opening scans deliberately use the prior complete session.
+            # Exclude a legitimately exposed forming day before freshness
+            # validation; closing scans still reject dates beyond today.
+            if dates.notna().all() and target < pd.Timestamp(asof_day or end).date():
+                frame = frame.loc[dates <= target].copy()
+                dates = dates.loc[dates <= target]
+            latest = dates.max() if not frame.empty and dates.notna().all() else None
             if latest != target:
                 raise DataError(f"最新完整日线缺少{target}，最后为{latest}；数据源尚未更新或日期异常")
             closes = pd.to_numeric(frame.loc[dates == target, "收盘"], errors="coerce")

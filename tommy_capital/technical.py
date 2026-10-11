@@ -228,8 +228,10 @@ def extended_monthly_history(provider, code, daily, period_cutoff, anchor_date):
 
 
 def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None):
-    if len(daily) < 250 or daily.index[-1].date() != session:
-        raise DataError("日线不足250根，或最新K线未覆盖已收盘交易日（可能停牌/数据滞后）")
+    if len(daily) < 250:
+        raise DataError(f"日线历史不足250根（实际{len(daily)}根）")
+    if daily.index[-1].date() != session:
+        raise DataError("最新K线未覆盖已收盘交易日（可能停牌/数据滞后），需要核对备用源")
     d = indicators(daily)
     # A holiday week/month can end after the last trading session. Use the
     # known calendar cutoff while still restricting actual bars to session.

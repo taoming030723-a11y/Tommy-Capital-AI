@@ -8,7 +8,7 @@ import pytest
 from tommy_capital.coverage import technical_results, ranking_completeness
 from tommy_capital.data import DataError, merge_finance_quality, latest_finance
 from tommy_capital.data import daily_history
-from tommy_capital.scoring import balanced_score, ranked_top20
+from tommy_capital.scoring import balanced_score, ranked_top20, confirmed_ranking_eligible
 from tommy_capital.technical import confirmed_divergences, execution_observation
 from test_balanced_top20 import full_technical, frames, report_fixture, observation
 from test_core import good_row, history_frame, candles
@@ -64,18 +64,26 @@ def test_statement_period_publication_and_income_bridge_are_validated():
 
 
 @pytest.mark.parametrize("problem", ["weekly_trend", "daily_trend", "weekly_structure", "strategic", "missing_score"])
-def test_maximum_short_period_score_cannot_promote_unconfirmed_stock(problem):
+def test_research_visibility_never_promotes_unconfirmed_stock_to_execution(problem):
     rows = report_fixture(2)["rankings"]
-    rows[1]["score"] = 100
     if problem in ("weekly_trend", "daily_trend"):
         rows[1]["technical"][problem] = False
     elif problem == "weekly_structure":
         rows[1]["technical"]["weekly_structure"]["confirmed"] = False
     elif problem == "strategic":
         rows[1]["strategic_eligible"] = False
+        rows[1]["technical"]["daily_volume"]["abnormal"] = False
+        rows[1]["technical"]["first_volume_breakout"]["active"] = False
+    if problem != "missing_score":
+        rows[1].update(balanced_score(rows[1], rows[1]["technical"], "A", minute_frames=frames()))
     else:
         rows[1]["score_inputs_complete"] = False
-    assert [r["code"] for r in ranked_top20(rows)] == [rows[0]["code"]]
+    if problem == "missing_score":
+        assert [r["code"] for r in ranked_top20(rows)] == [rows[0]["code"]]
+    else:
+        assert rows[1]["code"] in {r["code"] for r in ranked_top20(rows)}
+        assert not confirmed_ranking_eligible(rows[1])
+        assert all(rows[1]["score_breakdown"]["technical"][p]["score"] == 0 for p in ("60", "30", "15"))
     assert len(rows) == 2  # The unconfirmed row is still auditable in the observation pool.
 
 

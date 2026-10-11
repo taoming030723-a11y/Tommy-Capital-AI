@@ -22,8 +22,9 @@ from .technical import (bars, aggregate, strategic_technical, extended_monthly_h
                         minute_observation, execution_observation)
 from .inflection import load_evidence
 from .reporting import render_markdown, github_run_url
-from .scoring import balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT, ranking_eligible
-from .coverage import technical_results, ranking_completeness
+from .scoring import (balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT,
+                      ranking_eligible, confirmed_ranking_eligible, RANKING_POLICY)
+from .coverage import technical_results, ranking_completeness, is_history_shortfall
 
 LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
@@ -217,7 +218,9 @@ def run(args, provider=None, now=None):
               "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
               "data_gaps": [], "ranking_complete": False, "ranking_incomplete_reasons": [],
-              "ranking_policy": "monthly_selection_weekly_daily_confirmation",
+              "ranking_policy": RANKING_POLICY,
+              "ranking_purpose": "strategic_research_not_entry",
+              "model_validation": {"status": "unvalidated_out_of_sample", "automatic_weight_training": False},
               "workflow_run_url": github_run_url(), "source_commit": os.environ.get("GITHUB_SHA"),
               "limitations": ["规则引擎，无订单执行；财务质量按扣非盈利、现金流总额和同报告期比较",
                               "领先订单/销量/催化及估值覆盖依赖可核对的官方证据，不存在全市场自动补齐的可靠免费接口",
@@ -357,7 +360,7 @@ def run(args, provider=None, now=None):
                               if fresh and isinstance(provider, Provider) else provider)
             raw, warning = daily_history(stock_provider, row["code"], f"{today.year - config['daily_history_years']}0101",
                                          session.strftime("%Y%m%d"), today.strftime("%Y%m%d"),
-                                         required_session=today if after_close else None,
+                                         required_session=session,
                                          expected_close=row["price"] if after_close else None)
             daily = bars(raw)
             daily = daily[daily.index.date <= session]
@@ -458,7 +461,7 @@ def run(args, provider=None, now=None):
                 report["rankings" if card["eligible"] else "observations"].append(card)
             else:
                 report["errors"].append(f"{row['code']}: {warning}")
-                historical = "日线不足250根" in warning or "周/月线不足" in warning
+                historical = is_history_shortfall(warning)
                 report["coverage"]["technical_failed"] += 1
                 report["coverage"]["technical_history_shortfall"] += int(historical)
                 report["data_gaps"].append({"code": row["code"], "name": row["name"], "resolved": False,
@@ -467,10 +470,13 @@ def run(args, provider=None, now=None):
             report["coverage"]["ranking_eligible_count"] = sum(ranking_eligible(r) for r in report["rankings"])
             if count % 200 == 0 or count == len(selected):
                 report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
-                LOG.info("全市场技术进度 %s/%s；月线观察池 %s；主榜确认 %s", count, len(selected),
+                LOG.info("全市场技术进度 %s/%s；月线观察池 %s；研究榜可排名 %s", count, len(selected),
                          len(report["rankings"]), report["coverage"]["ranking_eligible_count"])
                 write_outputs(Path(args.output), report)
         report["rankings"].sort(key=lambda r: (-r["score"], r["code"]))
+        report["coverage"]["confirmed_ranking_count"] = sum(confirmed_ranking_eligible(r) for r in report["rankings"])
+        report["coverage"]["financial_sector_review_missing"] = sum(
+            r.get("fundamental_quality", {}).get("financial_sector") is True for r in report["rankings"])
         report["ranking_complete"], report["ranking_incomplete_reasons"] = ranking_completeness(report)
         report["scan_complete"] = scan_is_complete(report)
         report["status"] = "complete" if report["scan_complete"] else "partial"
@@ -495,8 +501,8 @@ def scan_is_complete(report):
 
 
 def make_summary(report):
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy"]}
-    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible"]} for r in ranked_top20(report["rankings"])]
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation"]}
+    summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible", "confirmation_state", "ranking_purpose", "strategy_reasons", "t_reasons"]} for r in ranked_top20(report["rankings"])]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
     summary["candidate_count"] = len(report["rankings"])
