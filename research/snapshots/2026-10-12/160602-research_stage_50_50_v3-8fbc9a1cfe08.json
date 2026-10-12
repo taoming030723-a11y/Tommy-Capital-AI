@@ -1,0 +1,368 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-12T16:06:02.942901+08:00",
+  "data_session": "2026-10-12",
+  "model_version": "research_stage_50_50_v3",
+  "source_commit": "e88a94a33f6945b514d7df6432ab8feff533d9e5",
+  "ranking_purpose": "strategic_research_not_entry",
+  "ranking_complete": false,
+  "source_review": null,
+  "config": {
+    "min_turnover_cny": 30000000,
+    "min_revenue_yoy_pct": 0,
+    "min_profit_yoy_pct": 0,
+    "max_pe_ttm": 60,
+    "max_pb": 8,
+    "max_industry_pe_ratio": 1.2,
+    "min_industry_pe_samples": 5,
+    "max_finance_age_days": 225,
+    "daily_history_years": 8,
+    "request_timeout_seconds": 180,
+    "request_attempts": 2,
+    "daily_volume_abnormal_ratio": 2.0,
+    "weekly_base_max_range_pct": 20.0,
+    "weekly_base_low_tolerance_pct": 3.0,
+    "weekly_base_max_volume_ratio": 1.1,
+    "daily_breakout_rvol": 1.5,
+    "daily_breakout_close_location": 0.65,
+    "daily_breakout_lookback": 20,
+    "daily_breakout_platform_range_pct": 20.0,
+    "leading_min_revenue_growth_pct": 10.0,
+    "leading_min_business_growth_pct": 30.0,
+    "leading_price_compression_pct": 20.0,
+    "max_forward_pe": 30.0,
+    "max_forward_ev_sales": 4.0,
+    "min_forward_margin_pct": 20.0,
+    "max_bear_downside_pct": 30.0,
+    "execution_support_distance_pct": 3.0,
+    "execution_volume_ratio": 1.2,
+    "technical_retry_passes": 1,
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3
+  },
+  "weights": {
+    "fundamental": {
+      "revenue": 4,
+      "earnings_quality_or_leading": 14,
+      "cash_quality": 14,
+      "valuation": 14,
+      "improvement": 4
+    },
+    "technical": {
+      "monthly": 12,
+      "weekly": 10,
+      "daily": 10,
+      "60": 8,
+      "30": 5,
+      "15": 5
+    }
+  },
+  "top20": [
+    {
+      "code": "300833",
+      "name": "浩洋股份",
+      "score": 70.33,
+      "fundamental_score": 37.33,
+      "technical_score": 33.0,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "600035",
+      "name": "楚天高速",
+      "score": 60.67,
+      "fundamental_score": 39.37,
+      "technical_score": 21.3,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603387",
+      "name": "基蛋生物",
+      "score": 60.11,
+      "fundamental_score": 38.41,
+      "technical_score": 21.7,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002780",
+      "name": "三夫户外",
+      "score": 60.1,
+      "fundamental_score": 40.01,
+      "technical_score": 20.09,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "920946",
+      "name": "森萱医药",
+      "score": 59.71,
+      "fundamental_score": 39.23,
+      "technical_score": 20.48,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300450",
+      "name": "先导智能",
+      "score": 59.67,
+      "fundamental_score": 37.67,
+      "technical_score": 22.0,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "920599",
+      "name": "同力股份",
+      "score": 59.03,
+      "fundamental_score": 42.34,
+      "technical_score": 16.69,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600354",
+      "name": "敦煌种业",
+      "score": 58.93,
+      "fundamental_score": 38.87,
+      "technical_score": 20.06,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "601330",
+      "name": "绿色动力",
+      "score": 58.02,
+      "fundamental_score": 39.93,
+      "technical_score": 18.09,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603998",
+      "name": "方盛制药",
+      "score": 57.44,
+      "fundamental_score": 40.09,
+      "technical_score": 17.35,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300452",
+      "name": "山河药辅",
+      "score": 57.41,
+      "fundamental_score": 35.08,
+      "technical_score": 22.33,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300457",
+      "name": "赢合科技",
+      "score": 57.39,
+      "fundamental_score": 37.39,
+      "technical_score": 20.0,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600874",
+      "name": "创业环保",
+      "score": 57.19,
+      "fundamental_score": 40.14,
+      "technical_score": 17.05,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "301059",
+      "name": "金三江",
+      "score": 57.04,
+      "fundamental_score": 40.09,
+      "technical_score": 16.95,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002074",
+      "name": "国轩高科",
+      "score": 56.86,
+      "fundamental_score": 35.86,
+      "technical_score": 21.0,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002734",
+      "name": "利民股份",
+      "score": 56.82,
+      "fundamental_score": 37.32,
+      "technical_score": 19.5,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603209",
+      "name": "兴通股份",
+      "score": 56.72,
+      "fundamental_score": 36.59,
+      "technical_score": 20.13,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "000581",
+      "name": "威孚高科",
+      "score": 56.7,
+      "fundamental_score": 38.77,
+      "technical_score": 17.93,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300970",
+      "name": "华绿生物",
+      "score": 56.64,
+      "fundamental_score": 43.7,
+      "technical_score": 12.94,
+      "confirmation_state": {
+        "stage": "monthly_observation",
+        "label": "月线低位观察，等待J拐头",
+        "monthly_rising": false,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603351",
+      "name": "威尔药业",
+      "score": 56.43,
+      "fundamental_score": 34.14,
+      "technical_score": 22.29,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    }
+  ],
+  "evaluation_basis": "决策完成之后首个交易日开盘至第1/5/20个交易日收盘；价格观察，不是下单或已验证策略收益",
+  "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+  "repository_path": "research/snapshots/2026-10-12/160602-research_stage_50_50_v3-8fbc9a1cfe08.json"
+}

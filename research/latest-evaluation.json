@@ -1,12 +1,12 @@
 {
-  "evaluated_at": "2026-10-11T14:38:01.166924+08:00",
-  "as_of_session": "2026-10-09",
-  "snapshot_count": 1,
+  "evaluated_at": "2026-10-12T16:06:39.022093+08:00",
+  "as_of_session": "2026-10-12",
+  "snapshot_count": 2,
   "scope": "最近20份冻结记录及当前记录；重叠窗口不是独立样本",
-  "matured_checks": 0,
-  "pending_checks": 60,
+  "matured_checks": 20,
+  "pending_checks": 100,
   "missing_checks": 0,
-  "distinct_matured_decision_days": 0,
+  "distinct_matured_decision_days": 1,
   "validation_status": "unvalidated_out_of_sample",
   "automatic_weight_training": false,
   "benchmark_comparison": "not_implemented",
@@ -19,10 +19,15 @@
       "name": "山河药辅",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.583025830258312,
+      "hypothetical_net_return_pct": -2.9719159467043954,
+      "entry_open_qfq": 13.55,
+      "exit_close_qfq": 13.2,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -55,10 +60,15 @@
       "name": "基蛋生物",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.6919242273180433,
+      "hypothetical_net_return_pct": -3.080379619624163,
+      "entry_open_qfq": 10.03,
+      "exit_close_qfq": 9.76,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -91,10 +101,15 @@
       "name": "浩洋股份",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": 1.126954921803125,
+      "hypothetical_net_return_pct": 0.7232545029536075,
+      "entry_open_qfq": 43.48,
+      "exit_close_qfq": 43.97,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -127,10 +142,15 @@
       "name": "威尔药业",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -4.55026455026456,
+      "hypothetical_net_return_pct": -4.931301418327372,
+      "entry_open_qfq": 28.35,
+      "exit_close_qfq": 27.06,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -163,10 +183,15 @@
       "name": "三夫户外",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -3.8000000000000034,
+      "hypothetical_net_return_pct": -4.184031936127742,
+      "entry_open_qfq": 15.0,
+      "exit_close_qfq": 14.43,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -199,10 +224,15 @@
       "name": "金三江",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -4.704097116843697,
+      "hypothetical_net_return_pct": -5.084519882844319,
+      "entry_open_qfq": 13.18,
+      "exit_close_qfq": 12.56,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -235,10 +265,15 @@
       "name": "森萱医药",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.8368794326240954,
+      "hypothetical_net_return_pct": -3.224756161435982,
+      "entry_open_qfq": 11.28,
+      "exit_close_qfq": 10.96,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -271,10 +306,15 @@
       "name": "德源药业",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -1.5997023809523836,
+      "hypothetical_net_return_pct": -1.992517940309857,
+      "entry_open_qfq": 26.88,
+      "exit_close_qfq": 26.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -307,10 +347,15 @@
       "name": "先导智能",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": 2.4337479718766986,
+      "hypothetical_net_return_pct": 2.0248308143043348,
+      "entry_open_qfq": 36.98,
+      "exit_close_qfq": 37.88,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -343,10 +388,15 @@
       "name": "同力股份",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -0.1677852348993203,
+      "hypothetical_net_return_pct": -0.5663170303687681,
+      "entry_open_qfq": 17.88,
+      "exit_close_qfq": 17.85,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -379,10 +429,15 @@
       "name": "敦煌种业",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -6.899999999999995,
+      "hypothetical_net_return_pct": -7.271656686626738,
+      "entry_open_qfq": 10.0,
+      "exit_close_qfq": 9.31,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -415,10 +470,15 @@
       "name": "赢合科技",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -1.1175681716584673,
+      "hypothetical_net_return_pct": -1.512308418478192,
+      "entry_open_qfq": 22.37,
+      "exit_close_qfq": 22.12,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -451,10 +511,15 @@
       "name": "兴通股份",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.8104575163398815,
+      "hypothetical_net_return_pct": -3.1984397218634775,
+      "entry_open_qfq": 15.3,
+      "exit_close_qfq": 14.87,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -487,10 +552,15 @@
       "name": "方盛制药",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.2577610536218318,
+      "hypothetical_net_return_pct": -2.6479496322500795,
+      "entry_open_qfq": 10.63,
+      "exit_close_qfq": 10.39,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -523,10 +593,15 @@
       "name": "楚天高速",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": 0.26595744680850686,
+      "hypothetical_net_return_pct": -0.13430585637235204,
+      "entry_open_qfq": 3.76,
+      "exit_close_qfq": 3.77,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -559,10 +634,15 @@
       "name": "国轩高科",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": 1.633333333333331,
+      "hypothetical_net_return_pct": 1.2276114437790975,
+      "entry_open_qfq": 30.0,
+      "exit_close_qfq": 30.49,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -595,10 +675,15 @@
       "name": "华绿生物",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -3.409090909090917,
+      "hypothetical_net_return_pct": -3.7946833605516206,
+      "entry_open_qfq": 17.6,
+      "exit_close_qfq": 17.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -631,10 +716,15 @@
       "name": "苏州龙杰",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -1.3333333333333308,
+      "hypothetical_net_return_pct": -1.7272122421823188,
+      "entry_open_qfq": 12.0,
+      "exit_close_qfq": 11.84,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -667,10 +757,15 @@
       "name": "世龙实业",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -3.4846029173419724,
+      "hypothetical_net_return_pct": -3.8698939236599728,
+      "entry_open_qfq": 12.34,
+      "exit_close_qfq": 11.91,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -703,10 +798,15 @@
       "name": "宁波能源",
       "horizon_sessions": 1,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
-      "exit_session": "2026-10-12"
+      "exit_session": "2026-10-12",
+      "gross_price_return_pct": -2.819548872180455,
+      "hypothetical_net_return_pct": -3.2074947848663715,
+      "entry_open_qfq": 5.32,
+      "exit_close_qfq": 5.17,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "598f38b663ecdc053211c157388a38c8aa3284c3064ba89a5e53402b0a381f9f",
@@ -731,6 +831,726 @@
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-12",
       "exit_session": "2026-11-06"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600035",
+      "name": "楚天高速",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600035",
+      "name": "楚天高速",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600035",
+      "name": "楚天高速",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920946",
+      "name": "森萱医药",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920946",
+      "name": "森萱医药",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920946",
+      "name": "森萱医药",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300450",
+      "name": "先导智能",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300450",
+      "name": "先导智能",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300450",
+      "name": "先导智能",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920599",
+      "name": "同力股份",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920599",
+      "name": "同力股份",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "920599",
+      "name": "同力股份",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603998",
+      "name": "方盛制药",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603998",
+      "name": "方盛制药",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603998",
+      "name": "方盛制药",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300452",
+      "name": "山河药辅",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300452",
+      "name": "山河药辅",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300452",
+      "name": "山河药辅",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300457",
+      "name": "赢合科技",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300457",
+      "name": "赢合科技",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300457",
+      "name": "赢合科技",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600874",
+      "name": "创业环保",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600874",
+      "name": "创业环保",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "600874",
+      "name": "创业环保",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "301059",
+      "name": "金三江",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "301059",
+      "name": "金三江",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "301059",
+      "name": "金三江",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002074",
+      "name": "国轩高科",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002074",
+      "name": "国轩高科",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002074",
+      "name": "国轩高科",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002734",
+      "name": "利民股份",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002734",
+      "name": "利民股份",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "002734",
+      "name": "利民股份",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "000581",
+      "name": "威孚高科",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "000581",
+      "name": "威孚高科",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "000581",
+      "name": "威孚高科",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300970",
+      "name": "华绿生物",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300970",
+      "name": "华绿生物",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "300970",
+      "name": "华绿生物",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 1,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-13"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 5,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-10-19"
+    },
+    {
+      "snapshot_sha256": "8fbc9a1cfe08d3dbb8270ca04bb65f1aeadbe76f0dc117a82d41539cc381729f",
+      "decision_day": "2026-10-12",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 20,
+      "model_version": "research_stage_50_50_v3",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-13",
+      "exit_session": "2026-11-09"
     }
   ],
   "lineage": [
@@ -738,9 +1558,289 @@
       "function": "tool_trade_date_hist_sina",
       "kwargs": {},
       "rows": 8797,
-      "cache_hit": false,
-      "fetched_at": "2026-10-11T14:38:01.131943+08:00",
+      "cache_hit": true,
+      "fetched_at": "2026-10-12T15:29:45.817292+08:00",
       "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "300452",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:14.325156+08:00",
+      "sha256": "88c954146309547a0b4fa24af688b88dc90af208bd014663e2549dfc68aba169"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "603387",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:15.660085+08:00",
+      "sha256": "ea35573e32399fd648351641a79fbc938337d68dc66cc0be752e004b2f41cc9c"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "300833",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:16.955581+08:00",
+      "sha256": "9744050b0c6ae547b760787b4dac16b447c2961a0d08b3268a10fffb9142403d"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "603351",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:18.213041+08:00",
+      "sha256": "94475b1701743b742e93c7ec853803921ecf8750276ea651399eae19bcba9b69"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "002780",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:19.499503+08:00",
+      "sha256": "1fe241d4b6ee1661edc6b45e528e9893e6f6f4188461fdd62c2f266a1ded35aa"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "301059",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:20.811434+08:00",
+      "sha256": "8dc2295a1eea3588e2ceb9f6fad415d229e9c4a04fb0c36be853e2a4309f67a4"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "920946",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:22.283921+08:00",
+      "sha256": "d5f7e2a61b3003315684c7d5a0fae69c2155ac5bba88c8955062588ad837f4b2"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "920735",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:23.543576+08:00",
+      "sha256": "dde82b2ee51afffceee65cc080a6d5519b33f0222782fe5b47fa89d4465e7702"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "300450",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:24.839562+08:00",
+      "sha256": "9eca38d88b8834e1615320fad93935b5d9294d1aa8a412f44b4fb4c7968cb176"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "920599",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:26.130367+08:00",
+      "sha256": "ebc0e58d9aa4022b1d100486de754ef68f45b073ec46213fab37b6890c6f740c"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "600354",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:27.414222+08:00",
+      "sha256": "028ee93bf12ddf7acb480d28819a29ba18eb0013d95a2458107bae632e6ebdff"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "300457",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:28.703003+08:00",
+      "sha256": "5b6dc6dee3ca1f607238b1581cc63a77d40a198c570af44cb94aa87e27cabced"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "603209",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:29.998349+08:00",
+      "sha256": "2f4311ef8551bbc392798375d9b081a30f136a507e5c7c1f4f17c89026a4d15f"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "603998",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:31.277673+08:00",
+      "sha256": "f7f46d26a990fb06040d947f3b213f8102a2af33cd132578ca40a7493e12db54"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "600035",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:32.541243+08:00",
+      "sha256": "1ade8fa61ca09c7a6694a04ed96b6f3c8be1382e7a5ef68189da3ba8761faa1e"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "002074",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:33.848236+08:00",
+      "sha256": "343404af40194b7536bdd0a6abc35b0282555868d91b5c7554df06f6b9f2b4bb"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "300970",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:35.156692+08:00",
+      "sha256": "0dd6572b310655d2c9d2489cccba98d8be58f578bb4df9a978ae863f2d853b06"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "603332",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:36.434578+08:00",
+      "sha256": "6d82f15ac2e9f4cdc11c45c2c2ec0cc276f37fa00e43f7c2303e3d5750cfde7d"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "002748",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:37.704592+08:00",
+      "sha256": "23c273d28d4c8b4df078de1ed51dcd25ad6802f8daac7d0adc3092b3c8396b28"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "600982",
+        "adjust": "qfq",
+        "end_date": "20261012",
+        "anchor_date": "20261012",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-12T16:06:39.001201+08:00",
+      "sha256": "b964ee59045fb16b389b5c5eddd0dc7bc07738f26377a8a94145977979097d68"
     }
   ]
 }
