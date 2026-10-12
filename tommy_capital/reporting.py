@@ -443,6 +443,8 @@ def render_dual_report(report, run_url=None):
     lines += ["完整JSON/CSV保留全观察池、池外记录、逐股失败、证据和评分细项；可读报告不再展开其他股票。候选不足20只时按实际数量展示。低J、周线筑底、放量和背离均不单独成为买点。做T仍须原基本面估值、战略量价、日周月趋势全部确认，以及当日60分钟结构、30分钟无顶背离冲突、支撑反弹与价格／量能确认；过热时等待降温。没有当前确认持仓则不授予做T资格，本系统没有下单授权。", ""]
     if run_url:
         lines += [f"[本次 Actions、完整附件与日志]({run_url})", ""]
+        repository_url = run_url.split('/actions/runs/')[0]
+        lines += [f"[查看当前扫描状态]({repository_url}/blob/main/results/scan-status.md)", ""]
     if os.environ.get("REPORT_ARTIFACT_URL"):
         lines += [f"[下载本次完整报告附件]({os.environ['REPORT_ARTIFACT_URL']})", ""]
     return "\n".join(lines)

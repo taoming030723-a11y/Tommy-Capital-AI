@@ -3,7 +3,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -75,10 +75,33 @@ def calendar_contains_today(calendar, now):
     return now.date() in set(dates)
 
 
-def decision(event, schedule, phase, now, provider, results_directory=None):
-    if event != "schedule":
+def validate_close_request(request, now):
+    """A bounded same-day recovery request cannot become a holiday/pre-open scan."""
+    if not isinstance(request, dict) or type(request.get("schema")) is not int or request["schema"] != 1:
+        raise DataError("补启动请求格式无效")
+    if request.get("scan_phase") != "closing" or request.get("requested_for") != now.date().isoformat():
+        raise DataError("补启动仅允许当天收盘扫描，旧日期请求不执行")
+    if type(request.get("attempt")) is not int or not 1 <= request["attempt"] <= 2:
+        raise DataError("独立补启动每日最多两次")
+    try:
+        requested = datetime.fromisoformat(request["requested_at"])
+    except (KeyError, ValueError, TypeError) as exc:
+        raise DataError("补启动请求时间无效") from exc
+    if requested.tzinfo is None:
+        raise DataError("补启动请求时间必须有时区")
+    requested = requested.astimezone(SHANGHAI)
+    if (requested.date() != now.date() or not timedelta(0) <= now-requested <= timedelta(hours=2)
+            or (requested.hour, requested.minute) < (15, 5) or not 15 <= now.hour < 20):
+        raise DataError("补启动请求已过期、含未来时间或尚未收盘")
+
+
+def decision(event, schedule, phase, now, provider, results_directory=None, request=None):
+    if event == "push":
+        validate_close_request(request, now)
+        phase = "closing"
+    elif event != "schedule":
         return True, phase, "手动启动；行情完整性由扫描器继续核验"
-    if schedule == OPENING_CRON:
+    elif schedule == OPENING_CRON:
         if now.date() != date(2026, 10, 8):
             return False, "opening", "单次开盘日期已过，跳过"
         phase = "opening"
@@ -104,12 +127,19 @@ def main():
     parser.add_argument("--schedule", default=os.environ.get("SCHEDULE_CRON", ""))
     parser.add_argument("--phase", choices=["auto", "opening", "closing"], default="auto")
     parser.add_argument("--results-directory", default="results")
+    parser.add_argument("--request-path", default="operations/scan-request.json")
     args = parser.parse_args()
     now = datetime.now(SHANGHAI)
     code = 0
     try:
-        run, phase, reason = decision(args.event, args.schedule, args.phase, now, Provider(), args.results_directory)
-    except DataError as exc:
+        request = None
+        if args.event == "push":
+            raw = Path(args.request_path).read_text()
+            if len(raw) > 4000:
+                raise DataError("补启动请求过大")
+            request = json.loads(raw)
+        run, phase, reason = decision(args.event, args.schedule, args.phase, now, Provider(), args.results_directory, request)
+    except (DataError, OSError, ValueError) as exc:
         run, phase, reason, code = False, args.phase, f"无法核验交易日，本次未扫描：{exc}", 2
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:

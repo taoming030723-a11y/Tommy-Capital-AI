@@ -1,3 +1,7 @@
+<!-- tommy-scan-status:start -->
+> **2026-10-12：正在扫描，最终报告尚未生成。** [查看本次实际进度](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38218013876)。下方保留上一份已发布报告，数据日为2026-10-09。
+<!-- tommy-scan-status:end -->
+
 # Tommy Capital A股扫描报告
 
 **模型复核报告 · 部分完成 · 沿用已验证历史输入，未抓取新行情 · 战略研究与执行确认分层版**

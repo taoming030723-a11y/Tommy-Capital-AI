@@ -1,5 +1,8 @@
 name: A-share live screen
 on:
+  push:
+    branches: [main]
+    paths: ['operations/scan-request.json']
   schedule:
     # Keep the requested one-time opening scan; recurring close is 15:05 UTC+8.
     # 15:35 / 16:05 catch missed triggers. Valid daily reports suppress duplicates.
@@ -54,6 +57,14 @@ jobs:
           SCHEDULE_CRON: ${{ github.event.schedule }}
           MANUAL_PHASE: ${{ inputs.phase }}
         run: python -m tommy_capital.market_schedule --phase "${MANUAL_PHASE:-auto}"
+      - name: Publish scan-start status beside the previous final report
+        if: steps.trading.outputs.run == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          SCAN_PHASE: ${{ steps.trading.outputs.phase }}
+        run: python -m tommy_capital.scan_status start
       - name: Fetch real A-share data and screen
         if: steps.trading.outputs.run == 'true'
         env:
@@ -83,9 +94,20 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: 发布中文报告与机器摘要及日期归档
+        id: publish
         if: always() && steps.trading.outputs.run == 'true' && steps.audit.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_NAME: ${{ github.repository }}
           REPORT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
         run: python -m tommy_capital.publish
+      - name: Publish scan completion or explicit failure status
+        if: always() && steps.trading.outputs.run == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          SCAN_PHASE: ${{ steps.trading.outputs.phase }}
+          PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
+          JOB_CANCELLED: ${{ cancelled() }}
+        run: python -m tommy_capital.scan_status finish
