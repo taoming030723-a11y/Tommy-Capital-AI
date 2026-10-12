@@ -109,5 +109,5 @@ jobs:
           REPO_NAME: ${{ github.repository }}
           SCAN_PHASE: ${{ steps.trading.outputs.phase }}
           PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
-          JOB_CANCELLED: ${{ cancelled() }}
+          JOB_CANCELLED: ${{ job.status == 'cancelled' }}
         run: python -m tommy_capital.scan_status finish
