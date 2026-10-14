@@ -1,12 +1,12 @@
 """Strategic research scores with separately gated execution observations."""
 import math
 
-SCORING_VERSION = "research_stage_50_50_v3"
+SCORING_VERSION = "week_month_volume_50_50_v4"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
-TECHNICAL_WEIGHTS = {"monthly": 12, "weekly": 10, "daily": 10,
+TECHNICAL_WEIGHTS = {"monthly": 14, "weekly": 12, "daily": 6,
                      "60": 8, "30": 5, "15": 5}
 SCORE_WEIGHTS = {"fundamental": FUNDAMENTAL_WEIGHTS, "technical": TECHNICAL_WEIGHTS}
 
@@ -172,15 +172,23 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 parts = {"base_or_higher_low_or_contraction_or_breakout": 4. * int(technical.get("weekly_structure", {}).get("confirmed") is True), "trend": 2. * int(technical.get("weekly_trend") is True)}
                 momentum_max, bottom_max = 2, 2
             elif period == "daily":
-                first, volume = technical.get("first_volume_breakout", {}), technical.get("daily_volume", {})
-                volume_points = 4. if first.get("active") else 3. if volume.get("abnormal") else scale(volume.get("ratio20"), 2, 1.5)
-                parts = {"volume_or_first_breakout": volume_points, "trend": 2. * int(technical.get("daily_trend") is True)}
+                # Daily volume remains an execution/confirmation observation,
+                # but its entire former four-point allocation moved to W/M.
+                parts = {"trend": 2. * int(technical.get("daily_trend") is True)}
                 momentum_max, bottom_max = 2, 2
             else:
                 structure_max = 3 if period == "60" else 2
                 structure = observation.get("structure", {})
                 parts = {"price_above_ma20": structure_max / 2 * int(observation.get("above_ma20") is True), "ma20_rising": structure_max / 2 * int(structure.get("ma20_rising") is True)}
                 momentum_max, bottom_max = (2, 3) if period == "60" else (1, 2)
+            if period in ("monthly", "weekly"):
+                volume = observation.get("volume_ma20")
+                # Verified older artifacts already retain this same causal
+                # ratio. Reuse it during a model review without inventing bars.
+                ratio = finite(volume.get("ratio20")) if volume is not None else finite(observation.get("structure", {}).get("ratio20"))
+                if ratio is None or ratio < 0 or (volume is not None and volume.get("status") != "ok"):
+                    missing.append("technical." + period + ".volume_ma20")
+                parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, 2)
             momentum, bottom, penalty = macd_points(observation, momentum_max, bottom_max)
             parts.update(macd_momentum=momentum, confirmed_macd_bottom=bottom, top_divergence_penalty=-penalty)
             if period in ["60", "30", "15"] and observation.get("structure", {}).get("overheated"):

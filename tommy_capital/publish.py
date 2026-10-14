@@ -19,7 +19,7 @@ def publish(directory, token, repository):
             summary.get("status") != report.get("status") or report.get("status") == "running" or
             summary.get("candidate_count") != len(report.get("rankings", []))):
         raise ValueError("完整报告与机器摘要不匹配，不能发布为最终结果")
-    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation"]:
+    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
     markdown = render_markdown(report, github_run_url())
@@ -52,6 +52,13 @@ def publish(directory, token, repository):
     if (directory / "forward-evaluation.json").is_file():
         entries.append({"path": "research/latest-evaluation.json", "mode": "100644", "type": "blob",
                         "content": (directory / "forward-evaluation.json").read_text()})
+    if report.get("top10_history") is not None and phase == "closing" and report.get("status") in ("complete", "partial"):
+        from .tracking import audit_tracking
+        history = audit_tracking(report)
+        if json.loads((directory / "top10-history.json").read_text()) != history:
+            raise ValueError("前10累计记录与报告不匹配，不能发布")
+        entries.append({"path": "results/top10-history.json", "mode": "100644", "type": "blob",
+                        "content": json.dumps(history, ensure_ascii=False, indent=2, allow_nan=False)})
     for attempt in range(3):
         parent = api("GET", "/git/ref/heads/main")["object"]["sha"]
         previous = api("GET", "/git/commits/" + parent)

@@ -58,6 +58,9 @@ def audit(directory):
         assert report["scan_phase"] == "pre_run" and report["scan_type"] in ("closed_session", "daily_baseline")
     assert summary == make_summary(report)
     assert (root / "report.md").read_text() == render_markdown(report, github_run_url())
+    if report.get("top10_history") is not None:
+        from .tracking import audit_tracking
+        assert audit_tracking(report) == json.loads((root / "top10-history.json").read_text())
     if (root / "research-snapshot.json").exists():
         from .research import freeze_snapshot, validate_snapshot
         snapshot = json.loads((root / "research-snapshot.json").read_text())
@@ -91,6 +94,13 @@ def audit(directory):
         volume = tech["daily_volume"]
         assert volume["baseline_end"] < volume["confirmed_at"] == report["session"]
         assert volume["baseline_bars"] == 20
+        for period in ("weekly", "monthly"):
+            frame = tech["timeframes"][period]
+            period_volume = frame.get("volume_ma20")
+            if period_volume is not None and period_volume["status"] == "ok":
+                assert period_volume["baseline_bars"] == 20
+                assert period_volume["baseline_end"] < period_volume["confirmed_at"] == tech[period + "_bar_date"]
+                assert abs(period_volume["ratio20"] - period_volume["volume"] / period_volume["previous20_mean_volume"]) < 1e-10
         for frame in tech["timeframes"].values():
             assert all(s.get("quality_passed") is True for s in frame["signals"] if s["indicator"] == "MACD_DIF")
         if tech["monthly_history_source"] == "validated_native_qfqmonth":
@@ -102,6 +112,7 @@ def audit(directory):
         for key in ("score", "fundamental_score", "technical_score", "score_breakdown", "fundamental_quality", "score_inputs_complete", "confirmation_state"):
             assert row[key] == actual[key], (row["code"], key)
         assert 0 <= row["fundamental_score"] <= 50 and 0 <= row["technical_score"] <= 50
+        assert "volume_or_first_breakout" not in row["score_breakdown"]["technical"]["daily"]["parts"]
         assert row["ranking_eligible"] is ranking_eligible(row)
         if not row["confirmation_state"]["execution_score_enabled"]:
             assert all(row["score_breakdown"]["technical"][p]["score"] == 0 for p in ("60", "30", "15"))

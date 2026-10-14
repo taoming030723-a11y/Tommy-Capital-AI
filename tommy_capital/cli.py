@@ -21,10 +21,11 @@ from threading import Lock
 from .technical import (bars, aggregate, strategic_technical, extended_monthly_history, tactical, closed_minute_cutoff,
                         minute_observation, execution_observation)
 from .inflection import load_evidence
-from .reporting import render_markdown, github_run_url
+from .reporting import render_markdown, render_html, github_run_url
 from .scoring import (balanced_score, ranked_top20, SCORING_VERSION, SCORE_WEIGHTS, DISPLAY_LIMIT,
                       ranking_eligible, confirmed_ranking_eligible, RANKING_POLICY)
 from .coverage import technical_results, ranking_completeness, is_history_shortfall
+from .tracking import attach_tracking
 
 LOG = logging.getLogger(__name__)
 DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_yoy_pct": 0,
@@ -101,6 +102,8 @@ def write_outputs(out, report):
     out.mkdir(parents=True, exist_ok=True)
     report = clean(report)
     (out / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    if report.get("top10_history") is not None:
+        (out / "top10-history.json").write_text(json.dumps(report["top10_history"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     for key, filename in [("rankings", "rankings.csv"), ("observations", "observations.csv"), ("excluded", "excluded.csv"), ("divergences", "divergences.csv")]:
         rows = report.get(key, [])
         frame = pd.DataFrame(rows)
@@ -113,47 +116,8 @@ def write_outputs(out, report):
         for col in frame.select_dtypes("object").columns:
             frame[col] = frame[col].map(lambda v: "'" + v if isinstance(v, str) and v.startswith(("=", "+", "-", "@")) else v)
         frame.to_csv(out / filename, index=False, encoding="utf-8-sig")
-    status_label = {'complete':'完成', 'partial':'部分完成', 'failed':'失败', 'running':'扫描中'}.get(report['status'], report['status'])
-    mode_label = {'intraday':'盘中', 'after_close':'收盘后', 'closed_session':'最近完整交易日', 'daily_baseline':'日线预检'}.get(report.get('scan_type'), '待确定')
-    title = f"Tommy Capital · {status_label}"
-    intro = f"扫描启动：{report['generated_at']}；模式：{mode_label}；完整日线截至：{report.get('session', '未确定')}；15分钟截至：{report.get('minute15_cutoff', '未请求')}。"
-    intro += " 规则筛选候选不代表买入建议；排名分数不代表收益概率。"
-    coverage = report.get('coverage', {})
-    coverage_text = (f"行情 {coverage.get('universe', 0)}只；基本面/估值通过 {coverage.get('financially_eligible', 0)}只；"
-                     f"日线检查 {coverage.get('technical_completed', 0)}/{coverage.get('technical_requested', 0)}只；"
-                     f"15分钟检查 {coverage.get('minute15_completed', 0)}/{coverage.get('minute15_requested', 0)}只；"
-                     f"未扫初筛合格股 {coverage.get('unscanned', 0)}只")
-    cards = []
-    display_rows = ranked_top20(report.get("rankings", []))
-    for index, row in enumerate(display_rows, 1):
-        category = f"{row.get('route', '—')}路线观察候选；" + ('战略量价确认' if row['strategic_eligible'] else '等待战略确认')
-        card_title = f"{index}. {row['code']} {row['name']} · {row['score']}分 · {category}"
-        details = [f"基本面 {row.get('fundamental_score')} / 50；技术面 {row.get('technical_score')} / 50；{row.get('profit_status', '')}",
-                   f"行业：{row.get('industry')}；PE TTM：{numeric(row.get('pe_ttm'))}；PB：{numeric(row.get('pb'))}",
-                   f"报告期：{row.get('period')}；公告日期：{row.get('announced_at')}",
-                   f"累计营收同比：{row.get('revenue_yoy')}%；累计净利润同比：{row.get('profit_yoy')}%",
-                   "日线背离：" + signal_label(row['technical']['daily_divergences']),
-                   "15分钟背离：" + signal_label(row.get('minute15', {})),
-                   '周线筑底蓄力代理：' + ('满足' if row['technical']['weekly_base']['detected'] else '暂未满足') + f"；6周振幅：{row['technical']['weekly_base']['range_pct']:.2f}%",
-                   f"日线量比：{row['technical']['volume_ratio20']:.2f}倍（此前20个交易日均量，不含检测当日）；异常放量门槛：{row['technical']['daily_volume']['threshold']:.2f}倍；确认日：{row['technical']['daily_bar_date']}",
-                   '日/周/月趋势：' + '/'.join('确认' if row['technical'][k] else '未确认' for k in ['daily_trend','weekly_trend','monthly_trend']) + f"；月线J：{row['technical']['monthly_j']:.2f}",
-                   '持仓战术：' + {'not_held':'未确认持仓，仅作行情观察', 'strategy_not_passed':'未通过战略条件', 'watch_only':'可查看持仓战术观察', 'not_requested':'本次未请求'}.get(row['tactical']['status'],row['tactical']['status']) + '；仍需支撑阻力、量价与价格结构确认',
-                   "人工核对：" + "；".join(row['manual_review'])]
-        for period, frame in {**row['technical'].get('timeframes', {}), **row.get('minute_frames', {})}.items():
-            details.append(f"{period}周期：" + signal_label(frame))
-        cards.append("<section><h2>" + html.escape(card_title) + "</h2>" +
-                     "".join("<p>" + html.escape(s) + "</p>" for s in details) + "</section>")
-    if not cards:
-        cards.append("<p>本次未列出通过双路线基本面/估值/流动性及月J路径的观察候选。请结合覆盖情况和证据缺失判断。</p>")
     (out / "report.md").write_text(render_markdown(report, github_run_url()), encoding="utf-8")
-    error_html = f"<p class='error'>数据错误 {len(report.get('errors', []))}条；逐股原因保留在完整JSON/CSV附件。</p>"
-    displayed_codes = {r['code'] for r in display_rows}
-    (out / "report.html").write_text(
-        "<!doctype html><html lang='zh-CN'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
-        "<title>Tommy Capital</title><style>body{font:16px system-ui;background:#10202e;color:#e9f1f7;max-width:1100px;margin:40px auto;padding:20px}"
-        "section{background:#193245;padding:20px;margin:20px 0;border-radius:12px}p{line-height:1.7;overflow-wrap:anywhere}.error{color:#ffba86}td,th{padding:8px;text-align:left;border-bottom:1px solid #486070}table{border-collapse:collapse}</style>"
-        f"<h1>{html.escape(title)}</h1><p>{html.escape(intro)}</p><p>完整扫描：{report.get('scan_complete', False)}；覆盖：{html.escape(coverage_text)}</p>"
-        + error_html + "".join(cards) + divergence_table([r for r in report.get('divergences', []) if r['code'] in displayed_codes]) + "</html>", encoding="utf-8")
+    (out / "report.html").write_text(render_html(report, github_run_url()), encoding="utf-8")
 
 
 def signal_label(observation):
@@ -485,6 +449,7 @@ def run(args, provider=None, now=None):
     finally:
         report["finished_at"] = datetime.now(SHANGHAI).isoformat()
         report["lineage"] = provider.lineage + report.get("leading_evidence_coverage", {}).get("lineage", [])
+        attach_tracking(report)
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
     summary = make_summary(report)
@@ -501,7 +466,7 @@ def scan_is_complete(report):
 
 
 def make_summary(report):
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation"]}
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation", "top10_tracking"]}
     summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible", "confirmation_state", "ranking_purpose", "strategy_reasons", "t_reasons"]} for r in ranked_top20(report["rankings"])]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]

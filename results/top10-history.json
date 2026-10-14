@@ -1,0 +1,284 @@
+{
+  "schema": 1,
+  "threshold": 3,
+  "sessions": [
+    {
+      "session": "2026-10-08",
+      "generated_at": "2026-10-08T22:55:42.299649+08:00",
+      "finished_at": "2026-10-08T23:18:50.058970+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "balanced_50_50_v1",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/37796434376",
+      "ranking_complete": null,
+      "minute15_cutoff": "2026-10-08T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "002074",
+          "name": "国轩高科",
+          "score": 71.44
+        },
+        {
+          "rank": 2,
+          "code": "603209",
+          "name": "兴通股份",
+          "score": 70.26
+        },
+        {
+          "rank": 3,
+          "code": "300890",
+          "name": "翔丰华",
+          "score": 68.93
+        },
+        {
+          "rank": 4,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 67.01
+        },
+        {
+          "rank": 5,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 66.75
+        },
+        {
+          "rank": 6,
+          "code": "600989",
+          "name": "宝丰能源",
+          "score": 64.97
+        },
+        {
+          "rank": 7,
+          "code": "300438",
+          "name": "鹏辉能源",
+          "score": 63.7
+        },
+        {
+          "rank": 8,
+          "code": "603997",
+          "name": "继峰股份",
+          "score": 62.51
+        },
+        {
+          "rank": 9,
+          "code": "601002",
+          "name": "晋亿实业",
+          "score": 61.41
+        },
+        {
+          "rank": 10,
+          "code": "603986",
+          "name": "兆易创新",
+          "score": 61.36
+        }
+      ],
+      "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+    },
+    {
+      "session": "2026-10-09",
+      "generated_at": "2026-10-09T20:19:06.313897+08:00",
+      "finished_at": "2026-10-09T20:51:09.347258+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "quality_50_50_v2",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/37929173272",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-09T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "300452",
+          "name": "山河药辅",
+          "score": 72.52
+        },
+        {
+          "rank": 2,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 72.34
+        },
+        {
+          "rank": 3,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 69.4
+        },
+        {
+          "rank": 4,
+          "code": "603351",
+          "name": "威尔药业",
+          "score": 67.44
+        },
+        {
+          "rank": 5,
+          "code": "600000",
+          "name": "浦发银行",
+          "score": 63.81
+        }
+      ],
+      "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+    },
+    {
+      "session": "2026-10-12",
+      "generated_at": "2026-10-12T15:29:46.242008+08:00",
+      "finished_at": "2026-10-12T16:06:02.942901+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "research_stage_50_50_v3",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38218013876",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-12T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 70.33
+        },
+        {
+          "rank": 2,
+          "code": "600035",
+          "name": "楚天高速",
+          "score": 60.67
+        },
+        {
+          "rank": 3,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 60.11
+        },
+        {
+          "rank": 4,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 60.1
+        },
+        {
+          "rank": 5,
+          "code": "920946",
+          "name": "森萱医药",
+          "score": 59.71
+        },
+        {
+          "rank": 6,
+          "code": "300450",
+          "name": "先导智能",
+          "score": 59.67
+        },
+        {
+          "rank": 7,
+          "code": "920599",
+          "name": "同力股份",
+          "score": 59.03
+        },
+        {
+          "rank": 8,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 58.93
+        },
+        {
+          "rank": 9,
+          "code": "601330",
+          "name": "绿色动力",
+          "score": 58.02
+        },
+        {
+          "rank": 10,
+          "code": "603998",
+          "name": "方盛制药",
+          "score": 57.44
+        }
+      ],
+      "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+    },
+    {
+      "session": "2026-10-13",
+      "generated_at": "2026-10-13T15:17:50.915000+08:00",
+      "finished_at": "2026-10-13T15:46:34.320477+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "research_stage_50_50_v3",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38361703920",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-13T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 72.0
+        },
+        {
+          "rank": 2,
+          "code": "002748",
+          "name": "世龙实业",
+          "score": 62.65
+        },
+        {
+          "rank": 3,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 62.21
+        },
+        {
+          "rank": 4,
+          "code": "600035",
+          "name": "楚天高速",
+          "score": 60.65
+        },
+        {
+          "rank": 5,
+          "code": "603209",
+          "name": "兴通股份",
+          "score": 59.48
+        },
+        {
+          "rank": 6,
+          "code": "920946",
+          "name": "森萱医药",
+          "score": 59.3
+        },
+        {
+          "rank": 7,
+          "code": "300450",
+          "name": "先导智能",
+          "score": 59.29
+        },
+        {
+          "rank": 8,
+          "code": "920599",
+          "name": "同力股份",
+          "score": 59.23
+        },
+        {
+          "rank": 9,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 59.15
+        },
+        {
+          "rank": 10,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 58.6
+        }
+      ],
+      "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+    }
+  ]
+}

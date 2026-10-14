@@ -18,6 +18,7 @@ from .data import SHANGHAI
 from .reporting import github_run_url
 from .scoring import (SCORING_VERSION, SCORE_WEIGHTS, RANKING_POLICY, balanced_score,
                       ranking_eligible, confirmed_ranking_eligible)
+from .tracking import attach_tracking
 
 
 def review_report(source, now, source_hash, artifact=None):
@@ -106,6 +107,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     (out / "source-report.json").write_bytes(content)
     report["finished_at"] = datetime.now(SHANGHAI).isoformat()
+    attach_tracking(report)
     write_outputs(out, report)
     summary = clean(make_summary(report))
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False))

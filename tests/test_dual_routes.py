@@ -251,7 +251,7 @@ def test_new_report_is_honest_about_recovering_high_j_evidence_missing_and_t_emp
               "scan_complete": False, "rankings": [card], "observations": [], "errors": [], "divergences": [],
               "coverage": {"leading_evidence_missing": 20}, "config": DEFAULTS}
     markdown = render_markdown(report)
-    assert "27.00" in markdown and "恢复路径" in markdown and "B证据未齐20只" in markdown
+    assert "27.00" in markdown and "恢复路径" in markdown
     assert "不是10月8日开盘或收盘结果" in markdown and "scan_complete=false" in markdown
-    assert "已确认持仓且做T底背离进场观察合格：0只" in markdown
-    assert "15分钟观察状态" in markdown and "金叉" in markdown
+    assert "金叉" in markdown
+    assert "进场合格" not in markdown

@@ -78,6 +78,25 @@ def daily_volume_observation(daily, threshold=2.0):
             "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"}
 
 
+def period_volume_observation(frame):
+    """Compare a completed period with its preceding twenty complete periods."""
+    baseline = frame.volume.iloc[-21:-1]
+    volume = float(frame.volume.iloc[-1])
+    valid = (len(baseline) == 20 and np.isfinite(baseline).all() and
+             (baseline >= 0).all() and baseline.mean() > 0 and
+             np.isfinite(volume) and volume >= 0)
+    mean = float(baseline.mean()) if valid else None
+    ratio = volume / mean if valid else None
+    return {"status": "ok" if valid else "unavailable", "ratio20": ratio,
+            "volume": volume, "previous20_mean_volume": mean,
+            "baseline_bars": len(baseline),
+            "baseline_start": baseline.index[0].date().isoformat() if len(baseline) else None,
+            "baseline_end": baseline.index[-1].date().isoformat() if len(baseline) else None,
+            "confirmed_at": frame.index[-1].date().isoformat(),
+            "above_ma20": ratio > 1 if valid else None,
+            "basis": "最新完整周期成交量 / 此前20个完整同周期平均成交量；排除检测周期及未完成周期"}
+
+
 def weekly_base_observation(weekly, daily, max_range_pct=20.0, low_tolerance_pct=3.0,
                             max_volume_ratio=1.1):
     """Observable six-week base proxy; no claim about hidden investor intent."""
@@ -345,8 +364,8 @@ def timeframe_observation(frame, config=None):
     """Auditable indicators and confirmed pivots from already complete bars."""
     calculated = indicators(frame)
     latest, previous = calculated.iloc[-1], calculated.iloc[-2]
-    baseline = frame.volume.iloc[-21:-1]
-    ratio = float(latest.volume / baseline.mean()) if len(baseline) == 20 and baseline.mean() > 0 else None
+    volume = period_volume_observation(frame)
+    ratio = volume["ratio20"]
     divergence = confirmed_divergences(frame, window=120, config=config)
     structure = {"close_qfq": float(latest.close), "low_qfq": float(latest.low),
                  "high_qfq": float(latest.high), "previous_close_qfq": float(previous.close),
@@ -364,6 +383,7 @@ def timeframe_observation(frame, config=None):
             "macd_quality_version": divergence.get("macd_quality_version"), "divergence_status": divergence["status"],
             "last_bar": frame.index[-1].isoformat(), "bar_count": len(frame),
             "above_ma20": bool(latest.close > latest.ma20), "structure": structure,
+            "volume_ma20": volume,
             "macd": {"dif": float(latest.dif), "dea": float(latest.dea), "atr14": float(latest.atr14),
                      "histogram": float(latest.macd), "previous_histogram": float(previous.macd)}}
 

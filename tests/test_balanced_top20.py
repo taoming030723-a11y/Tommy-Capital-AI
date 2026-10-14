@@ -22,7 +22,7 @@ def observation():
             "macd": {"dif": 1., "dea": .5, "histogram": 1., "previous_histogram": .5, "atr14": 1.},
             "signals": [{"direction": "bullish", "indicator": "MACD_DIF", "price_current": 10., "quality_passed": True,
                          "confirmed_at": "2026-10-08T15:00:00"}],
-            "structure": {"ma20_rising": True}}
+            "structure": {"ma20_rising": True, "ratio20": 2.}}
 
 
 def full_technical():
@@ -150,7 +150,8 @@ def test_human_report_top20_from_global_ranking_with_no_other_stock_lists(tmp_pa
     for index in range(10, 30):
         assert f"报告测试股{index:02d}" in markdown
     assert "池外隐藏公司" not in markdown and "隐藏低分公司的" not in markdown
-    assert "<details>" not in markdown and "30 / 20只" in markdown
+    assert "<details>" not in markdown and "30 / 30只" in markdown
+    assert "综合前20实际展示 | 20只" in markdown
     write_outputs(tmp_path, report)
     assert (tmp_path / "report.md").read_text() == markdown
     html = (tmp_path / "report.html").read_text()
