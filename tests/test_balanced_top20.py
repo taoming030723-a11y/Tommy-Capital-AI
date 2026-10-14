@@ -15,6 +15,7 @@ from tommy_capital.strategy import evaluate
 from tommy_capital.technical import execution_observation, minute_observation
 from test_core import good_row, good_technical, candles
 from test_dual_routes import losing_row, recovering_technical
+from tommy_capital.patterns import PROFILE_VERSION
 
 
 def observation():
@@ -26,7 +27,14 @@ def observation():
 
 
 def full_technical():
-    return {**good_technical(), "timeframes": {p: observation() for p in ["monthly", "weekly", "daily"]},
+    observations = {p: observation() for p in ["monthly", "weekly", "daily"]}
+    for period, frame in observations.items():
+        frame["macro_profile"] = {"version": PROFILE_VERSION, "status": "ok", "period": period,
+            "ma_conditions": {"fast_recovery": True, "short_alignment": True, "medium_alignment": True},
+            "base_lows_stabilizing": True, "kdj": {"j_rising": True, "k_above_d_and_rising": True, "low_zone_recovery": True,
+                    "recent3_golden_cross": True}, "price_platform_breakout": True, "chase_risk": False,
+            "averages_qfq": {"5": 11., "13": 10., "20": 9.}, "label": "窄平台价格突破"}
+    return {**good_technical(), "timeframes": observations,
             "daily_divergences": observation(), "weekly_base": {"detected": True, "range_pct": 5},
             "daily_volume": {"abnormal": True, "threshold": 2., "ratio20": 2.},
             "first_volume_breakout": {"active": True}, "daily_bar_date": "2026-10-08"}
@@ -72,7 +80,7 @@ def test_small_period_observations_change_ranking_without_granting_eligibility()
     assert not missing["score_inputs_complete"]
     assert missing["score_breakdown"]["technical"]["60"]["score"] == 0
     assert better["fundamental_score"] == missing["fundamental_score"]
-    assert better["technical_score"] - missing["technical_score"] == 13
+    assert better["technical_score"] - missing["technical_score"] == 3
 
 
 def test_top_conflict_overheat_penalties_and_missing_inputs_are_not_reweighted():
@@ -81,11 +89,11 @@ def test_top_conflict_overheat_penalties_and_missing_inputs_are_not_reweighted()
     minute["15"]["signals"].append({"direction": "bearish", "indicator": "KDJ_J"})
     minute["15"]["structure"]["overheated"] = True
     result = balanced_score(good_row(), tech, "A", minute_frames=minute)
-    assert reference["technical_score"] - result["technical_score"] == 3
-    assert result["score_breakdown"]["technical"]["15"]["score"] == 2
+    assert reference["technical_score"] - result["technical_score"] == .5
+    assert result["score_breakdown"]["technical"]["15"]["score"] == .5
     minute["60"] = {"status": "unavailable", "signals": []}
     result = balanced_score(good_row(), tech, "A", minute_frames=minute)
-    assert result["technical_score"] == 39
+    assert result["technical_score"] == 47.5
     assert "technical.60" in result["score_missing_inputs"]
     assert result["fundamental_score"] == reference["fundamental_score"]
 

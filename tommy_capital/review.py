@@ -19,6 +19,7 @@ from .reporting import github_run_url
 from .scoring import (SCORING_VERSION, SCORE_WEIGHTS, RANKING_POLICY, balanced_score,
                       ranking_eligible, confirmed_ranking_eligible)
 from .tracking import attach_tracking
+from .patterns import PROFILE_VERSION
 
 
 def review_report(source, now, source_hash, artifact=None):
@@ -30,6 +31,9 @@ def review_report(source, now, source_hash, artifact=None):
         raise ValueError("源日线日期与收盘扫描不一致或含未来日期")
     if not re.fullmatch(r"[a-f0-9]{64}", source_hash):
         raise ValueError("完整源报告缺少SHA256")
+    if any(row.get("technical", {}).get("timeframes", {}).get(period, {}).get("macro_profile", {}).get("version") != PROFILE_VERSION
+           for row in source["rankings"] for period in ("monthly", "weekly", "daily")):
+        raise ValueError("源附件缺少MA5/13/20及KDJ路径的原始计算记录，不能补造新版分项；须使用含新指标的真实收盘附件复核")
     report = copy.deepcopy(source)
     report["model_review"] = {"source_generated_at": source["generated_at"],
         "source_finished_at": source["finished_at"], "source_scan_type": source["scan_type"],

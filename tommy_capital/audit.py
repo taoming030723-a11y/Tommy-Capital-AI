@@ -8,6 +8,7 @@ from .cli import make_summary
 from .reporting import render_markdown, github_run_url
 from .scoring import balanced_score, ranked_top20, ranking_eligible, SCORING_VERSION
 from .strategy import base_checks
+from .patterns import PROFILE_VERSION
 
 
 def audit(directory):
@@ -101,11 +102,22 @@ def audit(directory):
                 assert period_volume["baseline_bars"] == 20
                 assert period_volume["baseline_end"] < period_volume["confirmed_at"] == tech[period + "_bar_date"]
                 assert abs(period_volume["ratio20"] - period_volume["volume"] / period_volume["previous20_mean_volume"]) < 1e-10
+        for period in ("monthly", "weekly", "daily"):
+            frame = tech["timeframes"][period]
+            profile = frame["macro_profile"]
+            assert profile["version"] == PROFILE_VERSION
+            if profile["status"] == "ok":
+                assert profile["last_bar"] == frame["last_bar"]
+                assert profile["last_bar"][:10] == tech[period + "_bar_date"]
+                assert profile["bar_count"] == frame["bar_count"]
         for frame in tech["timeframes"].values():
             assert all(s.get("quality_passed") is True for s in frame["signals"] if s["indicator"] == "MACD_DIF")
         if tech["monthly_history_source"] == "validated_native_qfqmonth":
             assert tech["monthly_history_validation"]["forming_period_excluded"]
             assert tech["monthly_history_validation"]["latest_complete_period"] == tech["monthly_bar_date"]
+        if tech.get("weekly_history_source") == "validated_native_qfqweek":
+            assert tech["weekly_history_validation"]["forming_period_excluded"]
+            assert tech["weekly_history_validation"]["latest_complete_period"] == tech["weekly_bar_date"]
     from datetime import date
     for row in pool:
         actual = balanced_score(row, row["technical"], row["route"], row["leading"], row["minute_frames"])

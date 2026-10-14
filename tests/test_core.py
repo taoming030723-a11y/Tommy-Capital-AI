@@ -125,6 +125,11 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                 monthly = aggregate(bars(raw), "ME", pd.Timestamp(kwargs["end_date"]).date()).reset_index()
                 return monthly.rename(columns={"date": "日期", "open": "开盘", "close": "收盘",
                     "high": "最高", "low": "最低", "volume": "成交量"})
+            if function == "weekly_tx_qfq":
+                raw = self.fetch("daily_tx_recent", end_date=kwargs["end_date"], adjust="qfq")
+                weekly = aggregate(bars(raw), "W-FRI", pd.Timestamp(kwargs["end_date"]).date()).reset_index()
+                return weekly.rename(columns={"date": "日期", "open": "开盘", "close": "收盘",
+                    "high": "最高", "low": "最低", "volume": "成交量"})
             if function == 'minute_sina_raw':
                 assert monthly_low and not daily_only and kwargs['period'] in ['15', '30', '60']
                 period = int(kwargs['period'])

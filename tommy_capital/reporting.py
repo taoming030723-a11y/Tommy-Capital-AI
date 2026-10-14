@@ -321,6 +321,14 @@ def candidate_reason(index, row):
               f"周线{week_structure_label(tech)}，周/月量比{number(volume_ratio(tech, 'weekly'))}/{number(volume_ratio(tech, 'monthly'))}倍。"
               f"技术分：{scores}。" + ("；".join(signals) + "。" if signals else "未检出已确认MACD背离。") +
               f"当前{state['label']}{execution}；15分钟{minute_execution_status(row.get('minute15', {}))}。")
+    structures = []
+    for period, label in (("monthly", "月"), ("weekly", "周"), ("daily", "日")):
+        profile = frames.get(period, {}).get("macro_profile", {})
+        if profile.get("status") == "ok":
+            ma = profile.get("averages_qfq", {})
+            structures.append(f"{label}线{profile.get('label')}（MA5/13 {number(ma.get('5'))}/{number(ma.get('13'))}，J {number(profile.get('kdj', {}).get('previous_j'))}→{number(profile.get('kdj', {}).get('j'))}）")
+    if structures:
+        reason += "形态：" + "；".join(structures) + "。"
     return reason
 
 

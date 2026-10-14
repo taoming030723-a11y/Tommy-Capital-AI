@@ -92,7 +92,7 @@ def test_weak_macd_evidence_has_no_score_or_t_execution_authority():
     original = balanced_score(row, tech, "A", minute_frames=minute)
     minute["15"]["signals"][0]["quality_passed"] = False
     weak = balanced_score(row, tech, "A", minute_frames=minute)
-    assert weak["technical_score"] == original["technical_score"] - 2
+    assert weak["technical_score"] == original["technical_score"] - .25
     del minute["15"]["signals"][0]["quality_passed"]
     assert balanced_score(row, tech, "A", minute_frames=minute)["technical_score"] == weak["technical_score"]
 

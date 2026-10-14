@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 from .data import DataError, require, daily_history
+from .patterns import macro_profile
 
 
 def bars(raw, timestamp="日期"):
@@ -36,6 +37,8 @@ def indicators(df):
     close = df.close
     result["ma20"] = close.rolling(20).mean()
     result["ma60"] = close.rolling(60).mean()
+    for length in (5, 13, 55, 144, 233):
+        result[f"ma{length}"] = close.rolling(length).mean()
     result["dif"] = close.ewm(span=12, adjust=False).mean() - close.ewm(span=26, adjust=False).mean()
     result["dea"] = result.dif.ewm(span=9, adjust=False).mean()
     result["macd"] = 2 * (result.dif - result.dea)
@@ -221,32 +224,50 @@ def compression_observation(daily, threshold_pct=20.0):
             "end": recent.index[-1].date().isoformat(), "basis": "近126个交易日从此前峰值到其后低点的价格压缩代理，前复权；不等同估值压缩"}
 
 
+def validated_period_history(provider, code, daily, period_cutoff, anchor_date, frequency, kind, minimum, requests):
+    """Try genuine long history then a validated shorter source; never relax minima."""
+    errors = []
+    for count in requests:
+        try:
+            raw = provider.fetch(kind + "_tx_qfq", ttl=86400, symbol=code,
+                end_date=period_cutoff.isoformat(), anchor_date=anchor_date.isoformat(), max_periods=count)
+            result = bars(raw)
+            result = result[result.index.normalize() <= pd.Timestamp(period_cutoff)]
+            reference = aggregate(daily, frequency, period_cutoff)
+            label = "月" if kind == "monthly" else "周"
+            if len(reference) < 3 or len(result) < minimum or result.index[-1] != reference.index[-1]:
+                raise DataError(f"独立长历史{label}线不足或未覆盖最新完整周期")
+            matched = reference.iloc[1:]  # First source-capped period can be truncated.
+            if not matched.index.isin(result.index).all():
+                raise DataError(f"独立{label}线缺少日线已覆盖的完整周期")
+            paired = result.reindex(matched.index)
+            for column in ("open", "close", "high", "low"):
+                if ((paired[column] - matched[column]).abs() > .011).any():
+                    raise DataError(f"独立{label}线{column}与日线前复权聚合价格不一致")
+            result.attrs["price_validation"] = {
+                "matched_complete_months" if kind == "monthly" else "matched_complete_weeks": len(matched),
+                "columns": ["open", "close", "high", "low"], "tolerance_cny": .011,
+                "latest_complete_period": reference.index[-1].date().isoformat(), "anchor_date": anchor_date.isoformat(),
+                "forming_period_excluded": True, "requested_periods_used": count, "long_history_attempt_errors": errors}
+            return result
+        except DataError as exc:
+            errors.append(f"{count}周期：{exc}")
+    raise DataError("独立复权历史各请求均未核验：" + "；".join(errors))
+
+
 def extended_monthly_history(provider, code, daily, period_cutoff, anchor_date):
-    """Pair genuine native monthly prices with all complete overlapping daily periods."""
-    raw = provider.fetch("monthly_tx_qfq", ttl=86400, symbol=code,
-                         end_date=period_cutoff.isoformat(), anchor_date=anchor_date.isoformat())
-    monthly = bars(raw)
-    monthly = monthly[monthly.index.normalize() <= pd.Timestamp(period_cutoff)]
-    reference = aggregate(daily, "ME", period_cutoff)
-    if len(reference) < 3 or len(monthly) < 24 or monthly.index[-1] != reference.index[-1]:
-        raise DataError("独立长历史月线不足或未覆盖最新完整月份")
-    # The first daily-aggregate month can be truncated by the daily source's cap.
-    # Every subsequent overlapping month must share the same qfq OHLC prices.
-    matched = reference.iloc[1:]
-    if not matched.index.isin(monthly.index).all():
-        raise DataError("独立月线缺少日线已覆盖的完整月份")
-    paired = monthly.reindex(matched.index)
-    for column in ["open", "close", "high", "low"]:
-        if ((paired[column] - matched[column]).abs() > 0.011).any():
-            raise DataError(f"独立月线{column}与日线前复权聚合价格不一致")
-    monthly.attrs["price_validation"] = {
-        "matched_complete_months": len(matched), "columns": ["open", "close", "high", "low"],
-        "tolerance_cny": 0.011, "latest_complete_period": reference.index[-1].date().isoformat(),
-        "anchor_date": anchor_date.isoformat(), "forming_period_excluded": True}
-    return monthly
+    # Some old qfq prices can become invalid after cumulative adjustments.
+    # Re-request the prior genuine 120-month source; do not cut/pad the 300-bar input.
+    return validated_period_history(provider, code, daily, period_cutoff, anchor_date,
+                                    "ME", "monthly", 24, (300, 120))
 
 
-def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None):
+def extended_weekly_history(provider, code, daily, period_cutoff, anchor_date):
+    return validated_period_history(provider, code, daily, period_cutoff, anchor_date,
+                                    "W-FRI", "weekly", 60, (300, 180))
+
+
+def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None, weekly_history=None):
     if len(daily) < 250:
         raise DataError(f"日线历史不足250根（实际{len(daily)}根）")
     if daily.index[-1].date() != session:
@@ -255,7 +276,7 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
     # A holiday week/month can end after the last trading session. Use the
     # known calendar cutoff while still restricting actual bars to session.
     cutoff = period_cutoff or session
-    w = indicators(aggregate(daily, "W-FRI", cutoff))
+    w = indicators(weekly_history if weekly_history is not None else aggregate(daily, "W-FRI", cutoff))
     m = indicators(monthly_history if monthly_history is not None else aggregate(daily, "ME", cutoff))
     if len(w) < 60 or len(m) < 24:
         raise DataError("周/月线不足（至少60周、24个完整月份）")
@@ -282,14 +303,16 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
             "monthly_history_source": "validated_native_qfqmonth" if monthly_history is not None else "daily_aggregate",
             "monthly_history_validation": monthly_history.attrs.get("price_validation") if monthly_history is not None else None,
             "weekly_bar_date": w.index[-1].date().isoformat(),
+            "weekly_history_source": "validated_native_qfqweek" if weekly_history is not None else "daily_aggregate",
+            "weekly_history_validation": weekly_history.attrs.get("price_validation") if weekly_history is not None else None,
             "daily_close_qfq": float(last_d.close), "daily_ma60_qfq": float(last_d.ma60),
             "daily_bar_date": daily.index[-1].date().isoformat(),
             "daily_divergences": confirmed_divergences(daily, window=120, config=config),
             "weekly_base": weekly_base, "daily_volume": volume,
             "monthly_recovery": monthly_recovery, "weekly_structure": weekly_structure,
             "first_volume_breakout": breakout,
-            "timeframes": {"monthly": timeframe_observation(m, config), "weekly": timeframe_observation(w, config),
-                           "daily": timeframe_observation(d, config)},
+            "timeframes": {"monthly": timeframe_observation(m, config, "monthly"), "weekly": timeframe_observation(w, config, "weekly"),
+                           "daily": timeframe_observation(d, config, "daily")},
             "price_compression": compression_observation(daily, config.get("leading_price_compression_pct", 20.0)),
             "volume_ratio20": volume["ratio20"]}
 
@@ -360,7 +383,7 @@ def confirmed_divergences(frame, window=60, radius=3, config=None):
             "macd_quality_version": "atr_pivot_confirmation_v1"}
 
 
-def timeframe_observation(frame, config=None):
+def timeframe_observation(frame, config=None, period=None):
     """Auditable indicators and confirmed pivots from already complete bars."""
     calculated = indicators(frame)
     latest, previous = calculated.iloc[-1], calculated.iloc[-2]
@@ -379,7 +402,8 @@ def timeframe_observation(frame, config=None):
                  "pullback_rebound": bool(previous.close >= previous.ma20 and latest.low <= latest.ma20 and
                                           latest.close > latest.ma20 and latest.close > previous.close),
                  "price_reclaimed": bool(latest.close > previous.high or latest.close > latest.ma20)}
-    return {"status": "ok", "signals": divergence["signals"], "weak_signals": divergence.get("weak_signals", []),
+    profile = {"macro_profile": macro_profile(calculated, period, config)} if period in ("monthly", "weekly", "daily") else {}
+    return {"status": "ok", **profile, "signals": divergence["signals"], "weak_signals": divergence.get("weak_signals", []),
             "macd_quality_version": divergence.get("macd_quality_version"), "divergence_status": divergence["status"],
             "last_bar": frame.index[-1].isoformat(), "bar_count": len(frame),
             "above_ma20": bool(latest.close > latest.ma20), "structure": structure,

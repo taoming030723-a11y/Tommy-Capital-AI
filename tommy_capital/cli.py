@@ -18,7 +18,7 @@ from .data import (Provider, DataError, SHANGHAI, CLOSE_REPORT_START, completed_
                    normalize_spot, normalize_finance, merge_finance_quality, latest_finance, daily_history)
 from .strategy import prepare_universe, financial_routes, evaluate, numeric, SELECTION_RULE
 from threading import Lock
-from .technical import (bars, aggregate, strategic_technical, extended_monthly_history, tactical, closed_minute_cutoff,
+from .technical import (bars, aggregate, strategic_technical, extended_monthly_history, extended_weekly_history, tactical, closed_minute_cutoff,
                         minute_observation, execution_observation)
 from .inflection import load_evidence
 from .reporting import render_markdown, render_html, github_run_url
@@ -314,6 +314,7 @@ def run(args, provider=None, now=None):
                               "minute15_scope": minute_scope, "minute15_requested": 0, "minute15_completed": 0, "minute15_not_required": 0, "tactical_failed_frames": 0,
                               "minute60_requested": 0, "minute60_completed": 0, "minute30_requested": 0, "minute30_completed": 0,
                               "score_inputs_completed": 0, "extended_monthly_requested": 0, "extended_monthly_completed": 0,
+                              "extended_weekly_requested": 0, "extended_weekly_completed": 0,
                               "unscanned": len(all_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         monthly_counts_lock = Lock()
@@ -350,6 +351,20 @@ def run(args, provider=None, now=None):
             technical = strategic_technical(daily, session, period_cutoff, config, monthly_history)
             technical["monthly_history_error"] = monthly_error
             decision = evaluate(row, technical, config, today)
+            if decision["eligible"]:
+                with monthly_counts_lock:
+                    report["coverage"]["extended_weekly_requested"] = report["coverage"].get("extended_weekly_requested", 0) + 1
+                try:
+                    weekly_history = extended_weekly_history(stock_provider, row["code"], daily, period_cutoff, today)
+                    with monthly_counts_lock:
+                        report["coverage"]["extended_weekly_completed"] = report["coverage"].get("extended_weekly_completed", 0) + 1
+                    technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, weekly_history)
+                    technical["monthly_history_error"] = monthly_error
+                    decision = evaluate(row, technical, config, today)
+                except DataError as exc:
+                    technical["weekly_history_error"] = str(exc)
+                    with monthly_counts_lock:
+                        report["warnings"].append(f"{row['code']} 独立长历史周线：{exc}；保留已核验日线聚合，不补造长均线")
             need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
             minute = minute_observation(stock_provider, row["code"], cutoff, daily, config=config) if need_minute else {
                 "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}

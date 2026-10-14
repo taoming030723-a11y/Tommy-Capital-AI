@@ -1,13 +1,14 @@
 """Strategic research scores with separately gated execution observations."""
 import math
+from .patterns import PROFILE_VERSION
 
-SCORING_VERSION = "week_month_volume_50_50_v4"
+SCORING_VERSION = "macro_launch_50_50_v5"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
-TECHNICAL_WEIGHTS = {"monthly": 14, "weekly": 12, "daily": 6,
-                     "60": 8, "30": 5, "15": 5}
+TECHNICAL_WEIGHTS = {"monthly": 18, "weekly": 18, "daily": 10,
+                     "60": 2, "30": 1, "15": 1}
 SCORE_WEIGHTS = {"fundamental": FUNDAMENTAL_WEIGHTS, "technical": TECHNICAL_WEIGHTS}
 
 
@@ -165,22 +166,44 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 missing.append("technical." + period + ".macd_divergence_history")
             if any(finite(observation.get("macd", {}).get(k)) is None for k in ["dif", "dea", "histogram", "previous_histogram", "atr14"]):
                 missing.append("technical." + period + ".macd")
+            profile = observation.get("macro_profile", {})
+            if period in ("monthly", "weekly", "daily"):
+                if profile.get("status") != "ok" or profile.get("version") != PROFILE_VERSION:
+                    missing.append("technical." + period + ".macro_profile")
+                    profile = {}
+                conditions = profile.get("ma_conditions", {})
+                ma = (1. * int(conditions.get("fast_recovery") is True) +
+                      2. * int(conditions.get("short_alignment") is True) +
+                      1. * int(conditions.get("medium_alignment") is True or profile.get("ma_cluster_breakout") is True))
+                kdj = profile.get("kdj", {})
+                recovered = (kdj.get("low_zone_recovery") is True or
+                             kdj.get("recent3_golden_cross") is True and kdj.get("j_rising") is True)
+                kdj_points = (1. * int(kdj.get("j_rising") is True) +
+                              1. * int(kdj.get("k_above_d_and_rising") is True) +
+                              1. * int(recovered and kdj.get("k_above_d_and_rising") is True))
             if period == "monthly":
-                parts = {"oversold_or_recovery_path": 5. * int(path), "j_rising": 3. * int(rising), "trend": 2. * int(technical.get("monthly_trend") is True)}
+                parts = {"oversold_or_recovery_path": 3. * int(path),
+                         "base_lows_stabilizing": 2. * int(profile.get("base_lows_stabilizing") is True), "ma5_13_20_structure": ma,
+                         "kdj_recovery": kdj_points}
                 momentum_max, bottom_max = 1, 1
             elif period == "weekly":
-                parts = {"base_or_higher_low_or_contraction_or_breakout": 4. * int(technical.get("weekly_structure", {}).get("confirmed") is True), "trend": 2. * int(technical.get("weekly_trend") is True)}
-                momentum_max, bottom_max = 2, 2
+                parts = {"base_or_higher_low_or_contraction_or_breakout": 4. * int(technical.get("weekly_structure", {}).get("confirmed") is True),
+                         "ma5_13_20_structure": ma, "kdj_recovery": kdj_points}
+                momentum_max, bottom_max = 2, 1
             elif period == "daily":
                 # Daily volume remains an execution/confirmation observation,
                 # but its entire former four-point allocation moved to W/M.
-                parts = {"trend": 2. * int(technical.get("daily_trend") is True)}
-                momentum_max, bottom_max = 2, 2
+                setup = (profile.get("price_platform_breakout") is True or profile.get("pullback_reclaimed") is True or
+                         profile.get("ma_cluster_breakout") is True)
+                parts = {"ma5_13_20_structure": ma,
+                         "price_launch_or_support_reclaim": 3. * int(setup and profile.get("chase_risk") is not True),
+                         "kdj_low_zone_recovery": 1. * int(recovered and kdj.get("k_above_d_and_rising") is True)}
+                momentum_max, bottom_max = 1, 1
             else:
-                structure_max = 3 if period == "60" else 2
+                structure_max = 1 if period == "60" else .5
                 structure = observation.get("structure", {})
                 parts = {"price_above_ma20": structure_max / 2 * int(observation.get("above_ma20") is True), "ma20_rising": structure_max / 2 * int(structure.get("ma20_rising") is True)}
-                momentum_max, bottom_max = (2, 3) if period == "60" else (1, 2)
+                momentum_max, bottom_max = (.5, .5) if period == "60" else (.25, .25)
             if period in ("monthly", "weekly"):
                 volume = observation.get("volume_ma20")
                 # Verified older artifacts already retain this same causal
@@ -188,11 +211,13 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 ratio = finite(volume.get("ratio20")) if volume is not None else finite(observation.get("structure", {}).get("ratio20"))
                 if ratio is None or ratio < 0 or (volume is not None and volume.get("status") != "ok"):
                     missing.append("technical." + period + ".volume_ma20")
-                parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, 2)
+                parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, 4)
+            if period in ("monthly", "weekly", "daily"):
+                parts["extension_or_support_risk_penalty"] = -(2. if period == "daily" else 3.) * int(profile.get("chase_risk") is True)
             momentum, bottom, penalty = macd_points(observation, momentum_max, bottom_max)
             parts.update(macd_momentum=momentum, confirmed_macd_bottom=bottom, top_divergence_penalty=-penalty)
             if period in ["60", "30", "15"] and observation.get("structure", {}).get("overheated"):
-                parts["overheat_penalty"] = -1.
+                parts["overheat_penalty"] = -.5 if period == "60" else -.25
         total = min(float(maximum), max(0., sum(parts.values())))
         raw_total = total
         enabled = period in ("monthly", "weekly", "daily") or confirmation["execution_score_enabled"]

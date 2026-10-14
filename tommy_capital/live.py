@@ -217,7 +217,7 @@ def daily_tx(symbol, end_date, adjust="qfq", start_date=None, anchor_date=None, 
     return frame[pd.to_datetime(frame["日期"]) <= pd.Timestamp(end_date)]
 
 
-def monthly_tx_qfq(symbol, end_date, anchor_date):
+def monthly_tx_qfq(symbol, end_date, anchor_date, max_periods=120):
     """Receive longer adjusted monthly bars, excluding unfinished periods."""
     market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
     symbol = symbol if symbol.startswith(("sh", "sz", "bj")) else market + symbol
@@ -225,8 +225,10 @@ def monthly_tx_qfq(symbol, end_date, anchor_date):
     current = pd.Timestamp.now(tz="Asia/Shanghai").tz_localize(None).normalize()
     # Historical replay must not borrow the latest response's adjustment anchor.
     request_end = "" if anchor == current else anchor.strftime("%Y-%m-%d")
+    if type(max_periods) is not int or not 24 <= max_periods <= 640:
+        raise ValueError("月线请求数量无效")
     data = get_json("https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get",
-                    {"param": f"{symbol},month,,{request_end},120,qfq"})
+                    {"param": f"{symbol},month,,{request_end},{max_periods},qfq"})
     records = data["data"][symbol].get("qfqmonth")
     if not records:
         raise ValueError("腾讯未提供所请求的qfqmonth价格，不使用未复权月线")
@@ -237,6 +239,30 @@ def monthly_tx_qfq(symbol, end_date, anchor_date):
     frame = frame[(actual_dates <= anchor) & (frame["日期"] <= pd.Timestamp(end_date))].copy()
     if frame["日期"].duplicated().any():
         raise ValueError("月线存在重复月份，不能确认历史")
+    return frame
+
+
+def weekly_tx_qfq(symbol, end_date, anchor_date, max_periods=300):
+    """Independent genuine long weekly bars; preserve adjustment anchor and week ends."""
+    market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
+    symbol = symbol if symbol.startswith(("sh", "sz", "bj")) else market + symbol
+    anchor = pd.Timestamp(anchor_date).normalize()
+    current = pd.Timestamp.now(tz="Asia/Shanghai").tz_localize(None).normalize()
+    request_end = "" if anchor == current else anchor.strftime("%Y-%m-%d")
+    if type(max_periods) is not int or not 60 <= max_periods <= 640:
+        raise ValueError("周线请求数量无效")
+    data = get_json("https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get",
+                   {"param": f"{symbol},week,,{request_end},{max_periods},qfq"})
+    records = data["data"][symbol].get("qfqweek")
+    if not records:
+        raise ValueError("腾讯未提供所请求的qfqweek价格，不使用未复权周线")
+    frame = pd.DataFrame([{"日期": r[0], "开盘": r[1], "收盘": r[2], "最高": r[3],
+                           "最低": r[4], "成交量": r[5]} for r in records])
+    dates = pd.to_datetime(frame["日期"], errors="raise")
+    frame["日期"] = dates.dt.to_period("W-FRI").dt.end_time.dt.normalize()
+    frame = frame[(dates <= anchor) & (frame["日期"] <= pd.Timestamp(end_date))].copy()
+    if frame["日期"].duplicated().any():
+        raise ValueError("周线存在重复周，不能确认历史")
     return frame
 
 

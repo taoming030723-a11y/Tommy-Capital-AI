@@ -25,14 +25,14 @@ def no_fixture_market_publication(monkeypatch):
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
 
 
-@pytest.mark.parametrize("ratio,points", [(.5, 0), (1, 0), (1.5, 1), (2, 2), (8, 2)])
+@pytest.mark.parametrize("ratio,points", [(.5, 0), (1, 0), (1.5, 2), (2, 4), (8, 4)])
 def test_entire_daily_volume_allocation_moves_to_week_and_month(ratio, points):
     technical = full_technical()
     for period in ("weekly", "monthly"):
         technical["timeframes"][period]["structure"]["ratio20"] = ratio
     score = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert sum(TECHNICAL_WEIGHTS.values()) == 50
-    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [14, 12, 6]
+    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [18, 18, 10]
     parts = score["score_breakdown"]["technical"]
     assert parts["monthly"]["parts"]["volume_above_previous20_mean"] == points
     assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points

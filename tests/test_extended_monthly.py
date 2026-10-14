@@ -39,6 +39,7 @@ def test_long_monthly_history_keeps_history_and_unchanged_matching_prices():
     assert result.index[-1] == pd.Timestamp("2026-09-30")
     assert result.attrs["price_validation"]["matched_complete_months"] >= 24
     assert provider.calls[0][1]["anchor_date"] == "2026-10-08"
+    assert provider.calls[0][1]["max_periods"] == 300
     technical = strategic_technical(full.tail(640), date(2026, 9, 30), date(2026, 10, 7), monthly_history=result)
     assert technical["monthly_history_source"] == "validated_native_qfqmonth"
     assert technical["timeframes"]["monthly"]["divergence_status"] == "ok"
@@ -94,3 +95,23 @@ def test_monthly_client_rejects_raw_fallback(monkeypatch):
         {"data": {"sh600001": {"month": [["2000-09-29", "10", "11", "12", "9", "100"]]}}})
     with pytest.raises(ValueError, match="qfqmonth"):
         live.monthly_tx_qfq("600001", "2000-10-08", "2000-10-08")
+
+
+def test_invalid_older_long_qfq_bars_re_request_original_valid_history_without_relaxing_checks():
+    full = daily_fixture()
+    native = aggregate(full, "ME", date(2026, 10, 8))
+    class Source:
+        calls = []
+        def fetch(self, function, **kwargs):
+            self.calls.append(kwargs["max_periods"])
+            frame = native.copy()
+            if kwargs["max_periods"] == 300:
+                frame.iloc[0, frame.columns.get_loc("close")] = -1
+            return raw_months(frame)
+    provider = Source()
+    monthly = extended_monthly_history(provider, "600001", full.tail(640), date(2026, 10, 8), date(2026, 10, 8))
+    assert provider.calls == [300, 120]
+    assert (monthly.close > 0).all()
+    assert monthly.attrs["price_validation"]["requested_periods_used"] == 120
+    assert monthly.attrs["price_validation"]["long_history_attempt_errors"]
+    assert monthly.attrs["price_validation"]["matched_complete_months"] >= 24
