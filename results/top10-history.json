@@ -279,6 +279,83 @@
         }
       ],
       "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+    },
+    {
+      "session": "2026-10-14",
+      "generated_at": "2026-10-14T15:41:01.209883+08:00",
+      "finished_at": "2026-10-14T16:28:12.913812+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "macro_launch_50_50_v5",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38529855815",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-14T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "600035",
+          "name": "楚天高速",
+          "score": 69.47
+        },
+        {
+          "rank": 2,
+          "code": "920599",
+          "name": "同力股份",
+          "score": 66.33
+        },
+        {
+          "rank": 3,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 63.4
+        },
+        {
+          "rank": 4,
+          "code": "600028",
+          "name": "中国石化",
+          "score": 62.25
+        },
+        {
+          "rank": 5,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 62.05
+        },
+        {
+          "rank": 6,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 60.82
+        },
+        {
+          "rank": 7,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 60.47
+        },
+        {
+          "rank": 8,
+          "code": "002748",
+          "name": "世龙实业",
+          "score": 59.62
+        },
+        {
+          "rank": 9,
+          "code": "300970",
+          "name": "华绿生物",
+          "score": 59.21
+        },
+        {
+          "rank": 10,
+          "code": "920946",
+          "name": "森萱医药",
+          "score": 59.2
+        }
+      ],
+      "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
     }
   ]
 }
