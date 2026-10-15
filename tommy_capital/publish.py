@@ -1,4 +1,5 @@
 """Publish matching machine and human reports in a single GitHub commit."""
+import base64
 import json
 import os
 import re
@@ -24,9 +25,6 @@ def publish(directory, token, repository):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
     markdown = render_markdown(report, github_run_url())
     (directory / "report.md").write_text(markdown, encoding="utf-8")
-    if os.environ.get("GITHUB_STEP_SUMMARY"):
-        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as output:
-            output.write(markdown)
     base = "https://api.github.com/repos/" + repository
     headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
                "Content-Type": "application/json", "X-GitHub-Api-Version": "2022-11-28"}
@@ -62,11 +60,41 @@ def publish(directory, token, repository):
     for attempt in range(3):
         parent = api("GET", "/git/ref/heads/main")["object"]["sha"]
         previous = api("GET", "/git/commits/" + parent)
+        if phase == "closing" and report.get("top10_tracking") is not None:
+            from .tracking import PREFERENCES_PATH, apply_preferences, validate_preferences, ZONE
+            from datetime import datetime
+            try:
+                preference_file = api("GET", "/contents/" + PREFERENCES_PATH + "?ref=" + parent)
+                if not preference_file.get("content"):
+                    preference_file = api("GET", "/git/blobs/" + preference_file["sha"])
+                preferences = validate_preferences(json.loads(base64.b64decode(preference_file["content"])))
+            except urllib.error.HTTPError as exc:
+                if exc.code != 404:
+                    raise
+                preferences = {"schema": 1, "ignored_codes": []}
+            view = apply_preferences(report["top10_tracking"], preferences)
+            if view != report["top10_tracking"]:
+                # An ignore selection made during the scan must survive its later publication.
+                view.update(preferences_updated_at=datetime.now(ZONE).isoformat(), preferences_source_commit=parent,
+                    preferences_update_scope="发布时采用最新用户观察偏好；市场事实和排名保持")
+                report["top10_tracking"] = summary["top10_tracking"] = view
+                markdown = render_markdown(report, github_run_url())
+                for entry in entries:
+                    if entry["path"] in ("results/latest-summary.json", f"results/{day}/closing-summary.json"):
+                        entry["content"] = json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False)
+                    elif entry["path"] in ("results/latest-report.md", f"results/{day}/closing-report.md"):
+                        entry["content"] = markdown
+                for filename, data in (("report.json", report), ("summary.json", summary)):
+                    (directory / filename).write_text(json.dumps(data, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+                (directory / "report.md").write_text(markdown, encoding="utf-8")
         tree = api("POST", "/git/trees", {"base_tree": previous["tree"]["sha"], "tree": entries})
         commit = api("POST", "/git/commits", {"message": "更新中文扫描报告及机器摘要 [skip ci]",
                                                 "tree": tree["sha"], "parents": [parent]})
         try:
             api("PATCH", "/git/refs/heads/main", {"sha": commit["sha"], "force": False})
+            if os.environ.get("GITHUB_STEP_SUMMARY"):
+                with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as output:
+                    output.write(markdown)
             return commit["sha"]
         except urllib.error.HTTPError as exc:
             # A concurrent code push must be preserved; rebuild on fresh HEAD.

@@ -340,6 +340,36 @@ def candidate_reason(index, row):
     return reason
 
 
+def render_tracking_section(tracking, config=None):
+    """The same watch table is used by scans and preference-only refreshes."""
+    config = config or {}
+    repository = os.environ.get("GITHUB_REPOSITORY", "taoming030723-a11y/Tommy-Capital-AI")
+    if not re.fullmatch(r"[\w.-]+/[\w.-]+", repository):
+        raise ValueError("观察名单管理仓库地址无效")
+    control = f"https://github.com/{repository}/actions/workflows/watchlist.yml"
+    hidden = f"；已忽略{tracking['suppressed_count']}只" if tracking.get("suppressed_count") else ""
+    lines = [f"## 综合前10累计至少3次（日线量比仅跟踪{hidden}） [忽略/恢复]({control})", ""]
+    watch_rows = []
+    for row in tracking.get("rows", []):
+        volume = row.get("daily_volume", {})
+        valid = volume.get("status") == "ok"
+        ratio = volume.get("ratio20")
+        threshold = volume.get("threshold", config.get("daily_volume_abnormal_ratio", 2))
+        label = ("异常放量≥" + number(threshold) + "倍" if valid and ratio >= threshold else
+                 "高于均量" if valid and ratio > 1 else "等于均量" if valid and ratio == 1 else
+                 "低于均量" if valid else "数据未齐")
+        watch_rows.append([str(row.get("name")) + "（" + str(row.get("code")) + "）", row.get("appearance_count"),
+            row.get("last_session"), row.get("current_rank") or "未入本次研究榜",
+            date_label(volume.get("confirmed_at"), True) if valid else "未核验",
+            number(ratio) + "倍" if valid else "未取得", label])
+    empty = ("忽略设置无效，请在管理入口修复" if tracking.get("preferences_status") == "invalid" else
+             "观察股票均已忽略" if tracking.get("suppressed_count") else
+             "历史记录未齐" if tracking.get("history_status") == "partial" else "暂无累计至少3次的股票")
+    lines += table(["股票（代码）", "不同收盘日次数", "最近入选前10", "本次综合名次", "日量日期", "日量/前20日均量", "日量状态"],
+        watch_rows or [[empty, *["—"] * 6]])
+    return lines
+
+
 def render_dual_report(report, run_url=None):
     coverage = report.get("coverage", {})
     pool = report.get("rankings", [])
@@ -385,23 +415,7 @@ def render_dual_report(report, run_url=None):
     lines += table(["名次", "股票（代码）", "综合/100", "基本面/50", "技术/50", "完整月J", "周量/前20周均量", "月量/前20月均量", "确认阶段"],
         top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * 7]])
     tracking = report.get("top10_tracking", {})
-    lines += ["## 综合前10累计至少3次（日线量比仅跟踪）", ""]
-    watch_rows = []
-    for row in tracking.get("rows", []):
-        volume = row.get("daily_volume", {})
-        valid = volume.get("status") == "ok"
-        ratio = volume.get("ratio20")
-        threshold = volume.get("threshold", report.get("config", {}).get("daily_volume_abnormal_ratio", 2))
-        label = ("异常放量≥" + number(threshold) + "倍" if valid and ratio >= threshold else
-                 "高于均量" if valid and ratio > 1 else "等于均量" if valid and ratio == 1 else
-                 "低于均量" if valid else "数据未齐")
-        watch_rows.append([str(row.get("name")) + "（" + str(row.get("code")) + "）", row.get("appearance_count"),
-            row.get("last_session"), row.get("current_rank") or "未入本次研究榜",
-            date_label(volume.get("confirmed_at"), True) if valid else "未核验",
-            number(ratio) + "倍" if valid else "未取得", label])
-    empty = "历史记录未齐" if tracking.get("history_status") == "partial" else "暂无累计至少3次的股票"
-    lines += table(["股票（代码）", "不同收盘日次数", "最近入选前10", "本次综合名次", "日量日期", "日量/前20日均量", "日量状态"],
-        watch_rows or [[empty, *["—"] * 6]])
+    lines += render_tracking_section(tracking, report.get("config"))
     if displayed:
         lines += ["## 前20入选理由", ""]
         for index, row in enumerate(displayed, 1):

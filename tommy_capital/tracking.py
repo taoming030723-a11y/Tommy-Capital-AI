@@ -11,11 +11,40 @@ from .scoring import finite, ranked_top20, ranking_eligible
 
 ZONE = ZoneInfo("Asia/Shanghai")
 TRACKING_THRESHOLD = 3
+PREFERENCES_PATH = "operations/watchlist-preferences.json"
 
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False,
                                     separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def validate_preferences(value):
+    if (not isinstance(value, dict) or type(value.get("schema")) is not int or value["schema"] != 1 or
+            not isinstance(value.get("ignored_codes"), list) or len(value["ignored_codes"]) > 6000 or
+            any(not isinstance(code, str) or not re.fullmatch(r"[0-9]{6}", code) for code in value["ignored_codes"]) or
+            len(set(value["ignored_codes"])) != len(value["ignored_codes"])):
+        raise ValueError("忽略名单须为schema=1及不重复的六位字符串ignored_codes，股票代码须保留前导0")
+    return {"schema": 1, "ignored_codes": sorted(value["ignored_codes"])}
+
+
+def load_preferences(path=PREFERENCES_PATH):
+    file = Path(path)
+    return validate_preferences(json.loads(file.read_text(encoding="utf-8"))) if file.exists() else {"schema": 1, "ignored_codes": []}
+
+
+def apply_preferences(view, preferences):
+    """Filter only the watch view; retain original rows, rankings and appearance ledger."""
+    preferences = validate_preferences(preferences)
+    original = view.get("all_rows", view.get("rows", []))
+    if (not isinstance(original, list) or any(not isinstance(row, dict) or not re.fullmatch(r"[0-9]{6}", row.get("code", "")) for row in original) or
+            len({r["code"] for r in original}) != len(original)):
+        raise ValueError("观察表原始行格式错误，不能猜测被忽略的历史股票")
+    ignored = set(preferences["ignored_codes"])
+    visible = [row for row in original if row["code"] not in ignored]
+    return {**view, "all_rows": original, "rows": visible, "preferences": preferences,
+            "preferences_sha256": digest(preferences), "preferences_status": "ok",
+            "suppressed_count": len(original) - len(visible)}
 
 
 def closing_record(summary, rows=None):
@@ -107,7 +136,7 @@ def history_with_report(history, report):
     return result
 
 
-def tracking_view(report, history):
+def tracking_view(report, history, preferences=None):
     visits = defaultdict(list)
     for session in history["sessions"]:
         for row in session["top10"]:
@@ -138,22 +167,29 @@ def tracking_view(report, history):
             "daily_volume": observation if valid else {"status": "unavailable", "ratio20": None,
                 "confirmed_at": None, "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"}})
     rows.sort(key=lambda r: (-r["appearance_count"], -int(r["last_session"].replace("-", "")), r["code"]))
-    return {"schema": 1, "threshold": TRACKING_THRESHOLD, "as_of_session": day,
+    view = {"schema": 1, "threshold": TRACKING_THRESHOLD, "as_of_session": day,
         "counted_sessions": len(history["sessions"]),
         "first_counted_session": history["sessions"][0]["session"] if history["sessions"] else None,
         "basis": "正式交易日收盘综合前10；跨版本保留实际原榜，同日重跑只计一次，模型复核/预跑/失败不计",
         "daily_volume_basis": "最新完整交易日量/此前20个完整交易日均量；排除当日；仅跟踪，不加排名分",
         "rows": rows}
+    return apply_preferences(view, preferences or {"schema": 1, "ignored_codes": []})
 
 
-def attach_tracking(report, results_directory="results"):
+def attach_tracking(report, results_directory="results", preferences_path=PREFERENCES_PATH):
     if not report.get("session"):
         return
     history, issues = load_history(results_directory, report["session"])
     history = history_with_report(history, report)
     report["top10_history"] = history
-    report["top10_tracking"] = {**tracking_view(report, history),
+    try:
+        preferences, preference_error = load_preferences(preferences_path), None
+    except (OSError, ValueError, TypeError) as exc:
+        preferences, preference_error = {"schema": 1, "ignored_codes": []}, str(exc)
+    report["top10_tracking"] = {**tracking_view(report, history, preferences),
         "history_status": "partial" if issues else "ok", "history_issues": issues}
+    if preference_error:
+        report["top10_tracking"].update(preferences_status="invalid", preferences_error=preference_error, rows=[])
 
 
 def audit_tracking(report):
@@ -162,6 +198,8 @@ def audit_tracking(report):
     if current is not None:
         assert current in history["sessions"]
     assert all(r["session"] <= report["session"] for r in history["sessions"])
-    expected = tracking_view(report, history)
+    expected = tracking_view(report, history, report["top10_tracking"].get("preferences"))
+    if report["top10_tracking"].get("preferences_status") == "invalid":
+        expected.update(preferences_status="invalid", rows=[])
     assert all(report["top10_tracking"][key] == value for key, value in expected.items())
     return history

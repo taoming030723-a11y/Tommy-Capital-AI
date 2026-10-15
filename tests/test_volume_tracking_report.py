@@ -1,4 +1,5 @@
 """Offline protocol/score fixtures, never injected into a market scan."""
+import base64
 import copy
 import io
 import json
@@ -32,7 +33,7 @@ def test_entire_daily_volume_allocation_moves_to_week_and_month(ratio, points):
         technical["timeframes"][period]["structure"]["ratio20"] = ratio
     score = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert sum(TECHNICAL_WEIGHTS.values()) == 50
-    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [18, 18, 10]
+    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [16, 22, 8]
     parts = score["score_breakdown"]["technical"]
     assert parts["monthly"]["parts"]["volume_above_previous20_mean"] == points
     assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points
@@ -191,6 +192,8 @@ def test_closing_publication_commits_cumulative_history_with_matching_both_repor
         body = json.loads(request.data) if request.data else None
         if request.method == "GET" and "/git/ref/" in request.full_url:
             data = {"object": {"sha": "head"}}
+        elif request.method == "GET" and "/contents/operations/watchlist-preferences.json" in request.full_url:
+            data = {"content": base64.b64encode(b'{"schema":1,"ignored_codes":[]}').decode()}
         elif request.method == "GET":
             data = {"tree": {"sha": "base"}}
         elif request.method == "POST" and "/git/trees" in request.full_url:

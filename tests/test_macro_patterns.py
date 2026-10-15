@@ -81,7 +81,7 @@ def test_short_history_does_not_invent_long_monthly_ma_or_reallocate_points():
     technical["timeframes"]["monthly"] = observation
     score = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert score["score_inputs_complete"]
-    assert score["score_breakdown"]["technical"]["monthly"]["max"] == 18
+    assert score["score_breakdown"]["technical"]["monthly"]["max"] == 16
 
 
 def test_missing_core_ma_kdj_records_are_missing_not_substituted_from_old_ma20():

@@ -2,12 +2,12 @@
 import math
 from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
-SCORING_VERSION = "weekly_ma55_50_50_v6"
+SCORING_VERSION = "weekly_ma55_50_50_v7"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
-TECHNICAL_WEIGHTS = {"monthly": 18, "weekly": 18, "daily": 10,
+TECHNICAL_WEIGHTS = {"monthly": 16, "weekly": 22, "daily": 8,
                      "60": 2, "30": 1, "15": 1}
 SCORE_WEIGHTS = {"fundamental": FUNDAMENTAL_WEIGHTS, "technical": TECHNICAL_WEIGHTS}
 
@@ -75,7 +75,7 @@ def macd_points(observation, momentum_points, bottom_points):
 
 
 def weekly_ma55_parts(reference, daily_close):
-    """Eight points for the user's weekly reference; no entry eligibility override."""
+    """Twelve points for the user's weekly reference; no entry eligibility override."""
     daily_close, line = finite(daily_close), finite(reference.get("ma55_qfq"))
     keys = ("weekly_ma55_current_above", "weekly_ma55_direction",
             "weekly_ma55_recent_hold", "weekly_ma55_retest_or_reclaim")
@@ -93,10 +93,10 @@ def weekly_ma55_parts(reference, daily_close):
     if not above:
         parts["weekly_ma55_lost_support_penalty"] = -2.
         return parts, True
-    parts["weekly_ma55_current_above"] = 2.
-    parts["weekly_ma55_direction"] = {"rising": 2., "flat": 1., "falling": 0.}[reference["direction"]]
+    parts["weekly_ma55_current_above"] = 4.
+    parts["weekly_ma55_direction"] = {"rising": 3., "flat": 1.5, "falling": 0.}[reference["direction"]]
     count, consecutive = reference["above_count"], reference["consecutive_above"]
-    parts["weekly_ma55_recent_hold"] = 2. if count >= 4 and consecutive >= 3 else 1. if count >= 3 and consecutive >= 2 else 0.
+    parts["weekly_ma55_recent_hold"] = 3. if count >= 4 and consecutive >= 3 else 1.5 if count >= 3 and consecutive >= 2 else 0.
     if reference["direction"] != "falling" and (reference.get("retest") or reference.get("reclaim")):
         parts["weekly_ma55_retest_or_reclaim"] = 2.
     return parts, True
@@ -211,8 +211,8 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                               1. * int(recovered and kdj.get("k_above_d_and_rising") is True))
             if period == "monthly":
                 parts = {"oversold_or_recovery_path": 3. * int(path),
-                         "base_lows_stabilizing": 2. * int(profile.get("base_lows_stabilizing") is True), "ma5_13_20_structure": ma,
-                         "kdj_recovery": kdj_points}
+                         "base_lows_stabilizing": 1. * int(profile.get("base_lows_stabilizing") is True), "ma5_13_20_structure": ma,
+                         "kdj_recovery": kdj_points * 2 / 3}
                 momentum_max, bottom_max = 1, 1
             elif period == "weekly":
                 parts, ma55_valid = weekly_ma55_parts(profile.get("weekly_ma55", {}), technical.get("daily_close_qfq"))
@@ -226,7 +226,7 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 # but its entire former four-point allocation moved to W/M.
                 setup = (profile.get("price_platform_breakout") is True or profile.get("pullback_reclaimed") is True or
                          profile.get("ma_cluster_breakout") is True)
-                parts = {"ma5_13_20_structure": ma,
+                parts = {"ma5_13_20_structure": ma / 2,
                          "price_launch_or_support_reclaim": 3. * int(setup and profile.get("chase_risk") is not True),
                          "kdj_low_zone_recovery": 1. * int(recovered and kdj.get("k_above_d_and_rising") is True)}
                 momentum_max, bottom_max = 1, 1
