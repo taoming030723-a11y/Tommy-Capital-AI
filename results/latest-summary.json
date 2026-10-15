@@ -656,7 +656,449 @@
       }
     ],
     "history_status": "ok",
-    "history_issues": []
+    "history_issues": [],
+    "all_rows": [
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "appearance_count": 6,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-09",
+            "rank": 2,
+            "name": "基蛋生物",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 3,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 9,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 7,
+            "name": "基蛋生物",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 6,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-15",
+        "current_rank": 6,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 0.7808286607028208,
+          "threshold": 2.0,
+          "volume": 72970.0,
+          "previous20_mean_volume": 93452.0,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "002780",
+        "name": "三夫户外",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 6,
+            "name": "三夫户外",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 1,
+            "name": "三夫户外",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-15",
+        "current_rank": 1,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": true,
+          "ratio20": 2.3577527994550755,
+          "threshold": 2.0,
+          "volume": 200069.0,
+          "previous20_mean_volume": 84855.8,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-09",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 4,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-09",
+        "last_session": "2026-10-15",
+        "current_rank": 4,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 0.6559486085807783,
+          "threshold": 2.0,
+          "volume": 7597.0,
+          "previous20_mean_volume": 11581.7,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "600035",
+        "name": "楚天高速",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 2,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 4,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 1,
+            "name": "楚天高速",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 8,
+            "name": "楚天高速",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": 8,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 1.3232382935214835,
+          "threshold": 2.0,
+          "volume": 157049.0,
+          "previous20_mean_volume": 118685.35,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 8,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 10,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 5,
+            "name": "敦煌种业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": 2,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 0.5862615895882466,
+          "threshold": 2.0,
+          "volume": 736903.0,
+          "previous20_mean_volume": 1256952.55,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "920599",
+        "name": "同力股份",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 7,
+            "name": "同力股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 8,
+            "name": "同力股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 2,
+            "name": "同力股份",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 9,
+            "name": "同力股份",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": 9,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 1.2199434507635722,
+          "threshold": 2.0,
+          "volume": 30979.0,
+          "previous20_mean_volume": 25393.8,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "002748",
+        "name": "世龙实业",
+        "appearance_count": 3,
+        "appearances": [
+          {
+            "session": "2026-10-13",
+            "rank": 2,
+            "name": "世龙实业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 8,
+            "name": "世龙实业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 3,
+            "name": "世龙实业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "first_session": "2026-10-13",
+        "last_session": "2026-10-15",
+        "current_rank": 3,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": true,
+          "ratio20": 5.029129295975871,
+          "threshold": 2.0,
+          "volume": 316810.0,
+          "previous20_mean_volume": 62995.0,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      },
+      {
+        "code": "920946",
+        "name": "森萱医药",
+        "appearance_count": 3,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 5,
+            "name": "森萱医药",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 6,
+            "name": "森萱医药",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 10,
+            "name": "森萱医药",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          }
+        ],
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-14",
+        "current_rank": 27,
+        "currently_qualified": true,
+        "daily_volume": {
+          "status": "ok",
+          "abnormal": false,
+          "ratio20": 1.00177415106623,
+          "threshold": 2.0,
+          "volume": 60474.0,
+          "previous20_mean_volume": 60366.9,
+          "baseline_bars": 20,
+          "baseline_start": "2026-09-09",
+          "baseline_end": "2026-10-14",
+          "confirmed_at": "2026-10-15",
+          "basis": "最新完整日线成交量 / 此前20个交易日平均成交量；不含检测当日"
+        }
+      }
+    ],
+    "preferences": {
+      "schema": 1,
+      "ignored_codes": []
+    },
+    "preferences_sha256": "f286d737e3922a70cf2d5bb942cdf09416703c78e8f992104e841984870ebafa",
+    "preferences_status": "ok",
+    "suppressed_count": 0,
+    "preferences_updated_at": "2026-10-15T18:35:50.686261+08:00",
+    "preferences_updated_by": "taoming030723-a11y",
+    "preferences_update_scope": "仅用户观察表显示偏好；行情、排名、评分、扫描时间及原始入榜次数保持"
   },
   "top_candidates": [
     {
