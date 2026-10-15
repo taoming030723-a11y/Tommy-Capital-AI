@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "min_bars": 60,
+  "history_bars": 240,
+  "pivot_radius": 3,
+  "hist_peak_reduction_pct": 20.0,
+  "hist_peak_difference_atr": 0.1,
+  "wave_min_bars": 2,
+  "wave_price_match_bars": 3,
+  "signal_expiry_bars": 24,
+  "strict": {
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3
+  },
+  "risk": {
+    "advance_lookback": 60,
+    "material_advance_pct": 20.0,
+    "high_zone_fraction": 0.85,
+    "support_lookback": 20,
+    "high_volume_ratio": 2.0,
+    "stagnation_return_pct": 1.0,
+    "partial_reduction_low": 0.3333333333,
+    "partial_reduction_high": 0.5
+  }
+}

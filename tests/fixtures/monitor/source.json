@@ -1,0 +1,11 @@
+{
+  "kind": "frozen_real_qfq_daily",
+  "code": "603127",
+  "name": "昭衍新药",
+  "source": "Tencent real qfq daily response, independently verified in prior 2026-10-14 validation",
+  "adjustment_anchor": "2026-10-14",
+  "as_of_session": "2026-10-13",
+  "sha256": "ecb067b19be31eb7846aa0dd8d71ca8500a7e36ac349903c95e1f54902202f03",
+  "not_realtime": true,
+  "minute_periods": "not included; offline example marks them unavailable"
+}

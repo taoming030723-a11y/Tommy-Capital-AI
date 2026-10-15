@@ -43,7 +43,10 @@ DEFAULTS = {"min_turnover_cny": 30000000, "min_revenue_yoy_pct": 0, "min_profit_
             "execution_volume_ratio": 1.2, "technical_retry_passes": 1,
             "macd_min_pivot_spacing": 5, "macd_min_price_extension_pct": .2,
             "macd_min_price_extension_atr": .15, "macd_min_dif_improvement_atr": .1,
-            "macd_min_confirmation_rebound_atr": .3}
+            "macd_min_confirmation_rebound_atr": .3,
+            "weekly_ma55_entry_gate":True,"weekly_ma55_min_above_count":3,"weekly_ma55_min_consecutive":2,
+            "loss_recovery_enabled":True,"loss_recovery_min_revenue_growth_pct":0.,
+            "loss_recovery_min_narrowing_pct":10.,"loss_recovery_max_ps":3.}
 
 
 def clean(value):
@@ -68,9 +71,13 @@ def validate_config(config):
     if set(config) != set(DEFAULTS):
         raise ValueError("配置存在未知字段")
     for key, value in config.items():
+        if key in ("weekly_ma55_entry_gate","loss_recovery_enabled"):
+            if type(value) is not bool:
+                raise ValueError("配置 "+key+"需布尔值")
+            continue
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
             raise ValueError(f"配置 {key} 需为有限数值")
-        if key not in ["min_revenue_yoy_pct", "min_profit_yoy_pct", "weekly_base_low_tolerance_pct"] and value <= 0:
+        if key not in ["min_revenue_yoy_pct", "min_profit_yoy_pct", "weekly_base_low_tolerance_pct","loss_recovery_min_revenue_growth_pct"] and value <= 0:
             raise ValueError(f"配置 {key} 需大于0")
     if config["daily_volume_abnormal_ratio"] <= 1 or not 0 <= config["weekly_base_low_tolerance_pct"] < 100:
         raise ValueError("异常放量倍数需大于1；周线低点容差需在0到100之间")
@@ -81,6 +88,11 @@ def validate_config(config):
             raise ValueError(f"配置 {key} 需在0到100之间")
     if config["execution_volume_ratio"] < 1:
         raise ValueError("执行量价确认量比不能小于1")
+    for key in ("weekly_ma55_min_above_count","weekly_ma55_min_consecutive"):
+        if type(config[key]) is not int or not 1<=config[key]<=6:
+            raise ValueError("周MA55近期位置门槛需为1至6的整数")
+    if not 0<config["loss_recovery_min_narrowing_pct"]<100 or config["loss_recovery_min_revenue_growth_pct"]<0:
+        raise ValueError("亏损收窄比例需介于0至100；营收改善门槛不能为负")
     for key in ["daily_history_years", "request_attempts", "min_industry_pe_samples", "max_finance_age_days", "daily_breakout_lookback", "technical_retry_passes", "macd_min_pivot_spacing"]:
         if not isinstance(config[key], int):
             raise ValueError(f"配置 {key} 需为整数")
@@ -92,7 +104,7 @@ def load_holdings(path):
     raw = json.loads(Path(path).read_text(encoding="utf-8-sig"))
     if not isinstance(raw, dict) or not isinstance(raw.get("holdings"), list):
         raise ValueError('持仓格式应为 {"holdings": ["六位代码"]}')
-    values = raw["holdings"]
+    values = [item.get("code") if isinstance(item,dict) else item for item in raw["holdings"]]
     if any(not isinstance(c, str) or len(c) != 6 or not c.isdigit() for c in values):
         raise ValueError("持仓代码必须是六位数字字符串")
     return set(values)
@@ -124,6 +136,8 @@ def signal_label(observation):
     if observation.get('status') == 'unavailable':
         return '数据不可用：' + observation.get('error', '')
     if observation.get('status') == 'not_requested':
+        if observation.get('reason')=='outside_focus_pool':
+            return '不在累计Top10观察或明确持仓范围，未请求分时'
         return '未进入月J观察池，未请求分时' if observation.get('reason') == 'outside_monthly_pool' else '日线预检模式，未请求分时'
     if observation.get('status') == 'insufficient_bars':
         return 'K线不足，无法判断有无背离'
@@ -174,8 +188,7 @@ def run(args, provider=None, now=None):
     holdings = load_holdings(args.holdings)
     workers = getattr(args, "workers", 4)
     daily_only = getattr(args, "daily_only", False)
-    minute_scope = getattr(args, "minute_scope", "monthly")
-    minute_scope = "monthly" if minute_scope == "strategic" else minute_scope
+    minute_scope = "recurring_top10_and_explicit_holdings"
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
     report = {"system": "Tommy Capital 2.0", "selection_rule": SELECTION_RULE, "mode": "live", "generated_at": now.isoformat(),
               "scoring_version": SCORING_VERSION, "score_weights": SCORE_WEIGHTS, "display_limit": DISPLAY_LIMIT,
@@ -318,6 +331,12 @@ def run(args, provider=None, now=None):
                               "unscanned": len(all_rows) - len(selected),
                               "unknown_holdings": sorted(holdings - set(universe.code))}
         monthly_counts_lock = Lock()
+        focus_codes=set(holdings)
+        try:
+            from .monitor import monitor_scope
+            focus_codes.update(item["code"] for item in monitor_scope(report={"session":session.isoformat()}))
+        except (OSError,ValueError) as exc:
+            report["warnings"].append("累计观察范围未核验，只保留明确持仓的分钟观察："+str(exc))
         def inspect_stock(row, fresh=False):
             if after_close and (numeric(row.get("price")) is None or row["price"] <= 0):
                 raise DataError("收盘报价价格缺失或非正，无法完成真实日线价格核对")
@@ -348,7 +367,8 @@ def run(args, provider=None, now=None):
                     monthly_error = str(exc)
                     with monthly_counts_lock:
                         report["warnings"].append(f"{row['code']} 独立长历史月线：{monthly_error}；保留可核验日线聚合历史，未补造月份")
-            technical = strategic_technical(daily, session, period_cutoff, config, monthly_history)
+            focused=row["code"] in focus_codes
+            technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, execution_focus=focused)
             technical["monthly_history_error"] = monthly_error
             decision = evaluate(row, technical, config, today)
             if decision["eligible"]:
@@ -358,27 +378,27 @@ def run(args, provider=None, now=None):
                     weekly_history = extended_weekly_history(stock_provider, row["code"], daily, period_cutoff, today)
                     with monthly_counts_lock:
                         report["coverage"]["extended_weekly_completed"] = report["coverage"].get("extended_weekly_completed", 0) + 1
-                    technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, weekly_history)
+                    technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, weekly_history, execution_focus=focused)
                     technical["monthly_history_error"] = monthly_error
                     decision = evaluate(row, technical, config, today)
                 except DataError as exc:
                     technical["weekly_history_error"] = str(exc)
                     with monthly_counts_lock:
                         report["warnings"].append(f"{row['code']} 独立长历史周线：{exc}；保留已核验日线聚合，不补造长均线")
-            need_minute = not daily_only and (minute_scope == "screened" or decision["eligible"])
+            need_minute = not daily_only and focused
             minute = minute_observation(stock_provider, row["code"], cutoff, daily, config=config) if need_minute else {
-                "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_monthly_pool"}
+                "status": "not_requested", "signals": [], "reason": "daily_baseline" if daily_only else "outside_focus_pool"}
             frames = {"15": minute}
             for period in [60, 30]:
-                frames[str(period)] = minute_observation(stock_provider, row["code"], closed_minute_cutoff(calendar, now, period), daily, period, config) if not daily_only and decision["eligible"] else {
+                frames[str(period)] = minute_observation(stock_provider, row["code"], closed_minute_cutoff(calendar, now, period), daily, period, config) if need_minute else {
                     "status": "not_requested", "signals": []}
             if decision["eligible"]:
                 decision.update(balanced_score(row, technical, decision["route"], decision["leading"], frames))
-            execution = execution_observation(stock_provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config, frames) if not daily_only else {"status": "not_requested", "entry_watch": False}
+            execution = execution_observation(stock_provider, row["code"], decision["t_trend_confirmed"], now, calendar, daily, minute, config, frames) if need_minute else {"status": "not_requested", "entry_watch": False}
             card = {**row, **decision, "technical": technical, "minute15": minute, "minute_frames": frames, "execution": execution,
                     "confirmed_holding": row["code"] in holdings,
                     "tactical": tactical(provider, row["code"], decision["t_trend_confirmed"], row["code"] in holdings, session,
-                                         now=now, calendar=calendar, daily_qfq=daily, minute15=minute, execution=execution) if not daily_only else
+                                         now=now, calendar=calendar, daily_qfq=daily, minute15=minute, execution=execution) if need_minute else
                                 {"status": "not_requested", "signals": []}}
             card["ranking_eligible"] = ranking_eligible(card)
             if stock_provider is not provider:
@@ -429,7 +449,7 @@ def run(args, provider=None, now=None):
                         report["coverage"][f"minute{period}_completed"] += int(frame["status"] == "ok")
                     if frame["status"] in ["unavailable", "insufficient_bars"]:
                         report["coverage"]["tactical_failed_frames"] += 1
-                        report["errors"].append(f"{row['code']} {period}分钟评分：{frame.get('error', frame.get('purpose', frame['status']))}")
+                        report["errors"].append(f"{row['code']} {period}分钟执行观察：{frame.get('error', frame.get('purpose', frame['status']))}")
                 all_frames = {**card["technical"].get("timeframes", {}),
                               **{k + "m": v for k, v in card["minute_frames"].items()}}
                 for timeframe, observation in all_frames.items():
@@ -481,7 +501,7 @@ def scan_is_complete(report):
 
 
 def make_summary(report):
-    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation", "top10_tracking"]}
+    summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation", "top10_tracking","macd_monitor"]}
     summary["top_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible", "confirmation_state", "ranking_purpose", "strategy_reasons", "t_reasons"]} for r in ranked_top20(report["rankings"])]
     summary["execution_candidates"] = [{k: r.get(k) for k in ["code", "name", "route", "minute15", "execution", "tactical", "confirmed_holding"]}
         for r in report["rankings"] if r.get("t_trend_confirmed") and r.get("minute15", {}).get("signals")]
@@ -523,7 +543,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部报价A股，基本面不通过也检查日周月")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
-    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="15分钟默认检查双路线月线观察池；screened扩展至所有已完成技术检查股票")
+    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="兼容旧参数；v8日线MACD及分钟观察范围固定为累计Top10观察与明确持仓，参数不扩大全市场分钟请求")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

@@ -71,6 +71,9 @@ jobs:
           SCAN_LIMIT: ${{ inputs.limit }}
           SCAN_PHASE: ${{ steps.trading.outputs.phase }}
         run: python -u -m tommy_capital.cli --config config.json --limit "${SCAN_LIMIT:-0}" --workers 8 --scan-phase "$SCAN_PHASE" --closing-retries 2
+      - name: Focused five-period MACD monitoring of public recurring TOP10 only
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        run: python -m tommy_capital.monitor --public --research-report reports/latest/report.json --out reports/latest --state results/macd-event-state.json --config monitor-config.json
       - name: Freeze research decisions and observe matured real-price windows
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         continue-on-error: true

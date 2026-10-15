@@ -23,8 +23,7 @@ def prices(count=300):
 
 
 def test_macro_structure_dominates_and_perfect_minute_frames_never_restore_failed_gates():
-    assert sum(TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")) == 46
-    assert sum(TECHNICAL_WEIGHTS[p] for p in ("60", "30", "15")) == 4
+    assert TECHNICAL_WEIGHTS=={"monthly":20,"weekly":30}
     technical = full_technical()
     technical["weekly_trend"] = False
     strongest = balanced_score(good_row(), technical, "A", minute_frames=frames())
@@ -81,7 +80,7 @@ def test_short_history_does_not_invent_long_monthly_ma_or_reallocate_points():
     technical["timeframes"]["monthly"] = observation
     score = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert score["score_inputs_complete"]
-    assert score["score_breakdown"]["technical"]["monthly"]["max"] == 16
+    assert score["score_breakdown"]["technical"]["monthly"]["max"] == 20
 
 
 def test_missing_core_ma_kdj_records_are_missing_not_substituted_from_old_ma20():
@@ -106,8 +105,9 @@ def test_risk_penalty_preserves_healthy_expansion_but_reduces_fading_or_broken_s
     technical["timeframes"]["daily"]["macro_profile"]["chase_risk"] = True
     risky = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert risky["fundamental_score"] == healthy["fundamental_score"]
-    assert risky["technical_score"] == healthy["technical_score"] - 5  # Lost setup3 + risk2.
-    assert risky["score_breakdown"]["technical"]["daily"]["parts"]["price_launch_or_support_reclaim"] == 0
+    assert risky["technical_score"] == healthy["technical_score"]  # Daily observations are independent now.
+    technical["timeframes"]["weekly"]["macro_profile"]["chase_risk"]=True
+    assert balanced_score(good_row(),technical,"A",minute_frames=frames())["technical_score"]==healthy["technical_score"]-3
 
 
 def test_forming_month_is_excluded_and_histogram_recovery_is_never_called_bottom_divergence():
@@ -118,10 +118,10 @@ def test_forming_month_is_excluded_and_histogram_recovery_is_never_called_bottom
     assert result["last_bar"][:10] <= cutoff.isoformat()
     assert result["macro_profile"]["last_bar"] == result["last_bar"]
     technical = full_technical()
-    technical["timeframes"]["daily"]["signals"] = []
+    technical["timeframes"]["weekly"]["signals"] = []
     scored = balanced_score(good_row(), technical, "A", minute_frames=frames())
-    assert scored["score_breakdown"]["technical"]["daily"]["parts"]["macd_momentum"] > 0
-    assert scored["score_breakdown"]["technical"]["daily"]["parts"]["confirmed_macd_bottom"] == 0
+    assert scored["score_breakdown"]["technical"]["weekly"]["parts"]["macd_momentum"] > 0
+    assert scored["score_breakdown"]["technical"]["weekly"]["parts"]["confirmed_macd_bottom"] == 0
 
 
 def test_moving_average_cost_band_breakout_can_precede_all_long_ma_turning_up():

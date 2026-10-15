@@ -36,11 +36,24 @@ def good_row():
 
 
 def good_technical():
+    # Explicit offline facts; production never substitutes these fixture values.
+    observations={}
+    for period in ("monthly","weekly","daily"):
+        observations[period]={"status":"ok","last_bar":"2026-10-08T15:00:00","signals":[],"above_ma20":True,
+            "macd":{"dif":1.,"dea":.5,"histogram":1.,"previous_histogram":.5,"atr14":1.},
+            "structure":{"ma20_rising":True,"ratio20":2.},
+            "macro_profile":{"status":"ok","version":"macro_launch_pullback_v1","period":period,
+                "ma_conditions":{"fast_recovery":True,"short_alignment":True,"medium_alignment":True},
+                "base_lows_stabilizing":True,"kdj":{"j_rising":True,"k_above_d_and_rising":True,"low_zone_recovery":True},
+                "averages_qfq":{"5":11.,"13":10.,"20":9.},"label":"离线结构测试",
+                "weekly_ma55":{"version":"weekly_ma55_position_v1","status":"ok","window":6,
+                    "direction":"rising","latest_week_above":True,"ma55_qfq":8.,"above_count":6,"consecutive_above":6}}}
     return {"daily_trend": True, "weekly_trend": True, "monthly_trend": True,
             "monthly_j": 10, "volume_ratio20": 2,
             "monthly_recovery": {"previous_j": 5, "min_j_3_months": 5, "min_j_6_months": 5},
             "weekly_structure": {"confirmed": True},
-            "weekly_base": {"detected": True}, "daily_volume": {"abnormal": True}}
+            "weekly_base": {"detected": True}, "daily_volume": {"abnormal": True},"daily_close_qfq":11.,
+            "timeframes":observations}
 
 
 def candles(count=80):
@@ -143,7 +156,10 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
                 values = np.linspace(10, 20, len(times))
                 return pd.DataFrame({'时间':times, '开盘':values, '收盘':values, '最高':values+1, '最低':values-1, '成交量':[100]*len(times)})
             pytest.fail('unexpected provider call')
-    args = argparse.Namespace(config=None, holdings=None, refresh=False, limit=0 if full_market else 1, daily_only=daily_only, output=str(tmp_path))
+    # This fixture isolates the original monthly pipeline; strengthened MA55 has its own boundary tests.
+    legacy_config=tmp_path/"legacy-fixture-config.json"
+    legacy_config.write_text(json.dumps({"weekly_ma55_entry_gate":False}))
+    args = argparse.Namespace(config=str(legacy_config), holdings=None, refresh=False, limit=0 if full_market else 1, daily_only=daily_only, output=str(tmp_path))
     assert run(args, provider=RecordedProvider(), now=datetime(2026, 10, 8, 9, 50, tzinfo=SHANGHAI)) == 1
     report = json.loads((tmp_path / "report.json").read_text())
     assert report["status"] == "partial" and not report["scan_complete"]
@@ -161,14 +177,11 @@ def test_end_to_end_pipeline_emits_candidate_with_source_lineage(tmp_path, daily
     assert card["pe_ttm"] == 20
     assert card["technical"]["daily_volume"]["confirmed_at"] == "2026-09-30"
     assert card["technical"]["daily_volume"]["ratio20"] == 1
-    assert card["tactical"]["status"] == ('not_requested' if daily_only else 'not_held')
+    assert card["tactical"]["status"] == 'not_requested'
     if not daily_only and monthly_low:
-        assert report['rankings'][0]['minute15']['last_bar'] == '2026-10-08T09:45:00'
-        assert report['coverage']['minute15_completed'] == (5 if full_market else 1)
-        assert report['coverage']['minute60_completed'] == (5 if full_market else 1)
-        assert report['coverage']['minute30_completed'] == (5 if full_market else 1)
-        assert card['minute_frames']['60']['last_bar'] == '2026-09-30T15:00:00'
-        assert not card['t_trend_confirmed']  # Every pool member is still scored.
+        assert report['rankings'][0]['minute15']['status'] == 'not_requested'
+        assert report['coverage']['minute15_completed'] == report['coverage']['minute60_completed'] == report['coverage']['minute30_completed'] == 0
+        assert not card['t_trend_confirmed']
         assert card['score'] == pytest.approx(card['fundamental_score'] + card['technical_score'])
         assert report['session'] == '2026-09-30'
     if not monthly_low:

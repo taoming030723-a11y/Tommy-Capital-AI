@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-15",
+  "kind": "development_validation_not_market_ranking_or_holding",
+  "local_python": "3.12.14",
+  "local_tests": {
+    "command": "python -m pytest -q",
+    "result": "344 passed in 29.25s",
+    "log_sha256": "501d5c69d23f84e050e0e80a105c77da8785532ddeb2464c17d599f63af25686"
+  },
+  "ui_service": {
+    "checked_at": "2026-10-15T12:51:09.749642+00:00",
+    "health_status": 200,
+    "health_body": "ok",
+    "page_status": 200,
+    "html_returned": true,
+    "listener": "127.0.0.1:8518",
+    "platform": "Linux container; not an actual Windows desktop execution"
+  },
+  "ui_interactions": "Streamlit AppTest: two pages, add/edit/delete, duplicate prevention, alert filter; quote name mocked offline",
+  "offline_example": {
+    "received_historical_daily_bars": 180,
+    "event_transitions": 14,
+    "missing_periods": [
+      "120",
+      "60",
+      "30",
+      "15"
+    ],
+    "monitor_complete": false
+  },
+  "real_source_check": {
+    "checked_at": "2026-10-15T20:25:18.434400+08:00",
+    "last_response_at": "2026-10-15T20:25:57.703575+08:00",
+    "code": "603127",
+    "purpose": "source_validation_only_not_a_holding_or_trade_signal",
+    "frames": {
+      "daily": {
+        "status": "ok",
+        "source": "validated_qfq_daily",
+        "cutoff": "2026-10-15T00:00:00",
+        "bars": 640
+      },
+      "60": {
+        "status": "ok",
+        "source": "sina_raw + matched_daily_qfq_factors",
+        "cutoff": "2026-10-15T15:00:00",
+        "bars": 120
+      },
+      "30": {
+        "status": "ok",
+        "source": "sina_raw + matched_daily_qfq_factors",
+        "cutoff": "2026-10-15T15:00:00",
+        "bars": 120
+      },
+      "15": {
+        "status": "ok",
+        "source": "sina_raw + matched_daily_qfq_factors",
+        "cutoff": "2026-10-15T15:00:00",
+        "bars": 120
+      },
+      "120": {
+        "status": "ok",
+        "source": "two_complete_60m_bars_per_half_session",
+        "cutoff": "2026-10-15T15:00:00",
+        "bars": 60
+      }
+    },
+    "response_hashes": [
+      {
+        "function": "tool_trade_date_hist_sina",
+        "fetched_at": "2026-10-15T20:25:29.919757+08:00",
+        "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
+      },
+      {
+        "function": "daily_tx_recent",
+        "fetched_at": "2026-10-15T20:25:39.345231+08:00",
+        "sha256": "71090359d1ab76d94b2a867f3c9775393ec648ffc04bf02e61d68ab6515bf883"
+      },
+      {
+        "function": "minute_sina_raw",
+        "fetched_at": "2026-10-15T20:25:48.438616+08:00",
+        "sha256": "93dc6877e7a6d5166b9069680a4212e992856be77dd9e11e28a7dcc5801dbc3f"
+      },
+      {
+        "function": "daily_tx_recent",
+        "fetched_at": "2026-10-15T20:25:57.703575+08:00",
+        "sha256": "964a0418ff72073f9e4642da8b4a7e5008383c48f8978ecdac5db386fb4b6e45"
+      },
+      {
+        "function": "minute_sina_raw",
+        "fetched_at": "2026-10-15T20:26:06.932592+08:00",
+        "sha256": "2658aa4d157388a9b4b1de10b4c496f9eb8f1d51dcbc426a2fdd47c2bb3ad6ca"
+      },
+      {
+        "function": "minute_sina_raw",
+        "fetched_at": "2026-10-15T20:26:15.558558+08:00",
+        "sha256": "bf01061d6e81b91b3bfe29911a9803e392724cc6167a5630426dd76f372bcf9b"
+      }
+    ]
+  },
+  "preserved_invariants": {
+    "protected_functions_and_files": {
+      "tommy_capital/technical.py:indicators": true,
+      "tommy_capital/technical.py:confirmed_divergences": true,
+      "tommy_capital/technical.py:execution_observation": true,
+      "tommy_capital/technical.py:tactical": true,
+      "tommy_capital/strategy.py:base_checks": true,
+      "tommy_capital/strategy.py:leading_prechecks": true,
+      "tommy_capital/scoring.py:weekly_ma55_parts": true,
+      "tommy_capital/tracking.py": "ad95a82dfd49fcbd9d46c0b35ca00f58372718b27047528eea4a0b9323282d9a",
+      "tommy_capital/inflection.py": "456daf39f62e25c07b4e5fc42c4a3487c72dd30a0b9379a2056b36a8f20a212e",
+      "results/top10-history.json": "d1007066b462cbad9463f5ee340ddb73957ed5e4ae9eb52799bacb934535c816",
+      "operations/watchlist-preferences.json": "e82940a2543ba72e1f4a1e9fb65b915cd2b7a50d9f2259e191f00688d50e806f",
+      "results/latest-summary.json": "b7067b66bb7e2a4947b9e7173aec03d8a550b081424ca9ca3e248ed84874066e",
+      "results/latest-report.md": "2c1477f2e6b8bb8a63dbc796dd8a3bc0ca970fe1e705f0ae94b1b2c08c6e24b8"
+    },
+    "all_prior_config_values_unchanged": true,
+    "cron_unchanged": [
+      "50 1 8 10 *",
+      "5 7 * * 1-5",
+      "35 7 * * 1-5",
+      "5 8 * * 1-5"
+    ],
+    "position_files_ignored": [
+      "holdings.json",
+      ".tommy/monitor/state.json"
+    ]
+  },
+  "limitations": [
+    "Windows launcher not executed on Windows hardware",
+    "No new full-market ranking published or historical report relabeled",
+    "One source check is not a future availability guarantee",
+    "No holdings uploaded, no orders, no additional automation"
+  ]
+}

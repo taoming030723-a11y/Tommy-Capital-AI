@@ -83,7 +83,7 @@ def test_research_visibility_never_promotes_unconfirmed_stock_to_execution(probl
     else:
         assert rows[1]["code"] in {r["code"] for r in ranked_top20(rows)}
         assert not confirmed_ranking_eligible(rows[1])
-        assert all(rows[1]["score_breakdown"]["technical"][p]["score"] == 0 for p in ("60", "30", "15"))
+        assert set(rows[1]["score_breakdown"]["technical"])=={"weekly","monthly"}
     assert len(rows) == 2  # The unconfirmed row is still auditable in the observation pool.
 
 
@@ -92,7 +92,7 @@ def test_weak_macd_evidence_has_no_score_or_t_execution_authority():
     original = balanced_score(row, tech, "A", minute_frames=minute)
     minute["15"]["signals"][0]["quality_passed"] = False
     weak = balanced_score(row, tech, "A", minute_frames=minute)
-    assert weak["technical_score"] == original["technical_score"] - .25
+    assert weak["technical_score"] == original["technical_score"]
     del minute["15"]["signals"][0]["quality_passed"]
     assert balanced_score(row, tech, "A", minute_frames=minute)["technical_score"] == weak["technical_score"]
 
@@ -101,7 +101,7 @@ def test_weak_macd_evidence_has_no_score_or_t_execution_authority():
 def test_causal_macd_strength_rejects_weak_pivots(monkeypatch, defect):
     from tommy_capital import technical
     data = candles(60)
-    data[["open", "close", "low", "high"]] = [100, 100, 99, 101]
+    data[["open", "close", "low", "high"]] = [100., 100., 99., 101.]
     data.loc[data.index[35], "low"] = 95
     data.loc[data.index[52], "low"] = 94.99 if defect == "tiny_price" else 94
     data.loc[data.index[52], "close"] = 96

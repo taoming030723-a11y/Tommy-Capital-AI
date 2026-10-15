@@ -8,14 +8,15 @@ def main():
     request = json.load(sys.stdin)
     allowed = {"stock_zh_a_spot_em", "stock_yjbb_em", "stock_zh_a_hist",
                "stock_zh_a_hist_min_em", "tool_trade_date_hist_sina", "stock_zh_a_hist_tx",
-               "finance_em_named", "finance_quality_em", "spot_sina_full", "daily_tx_recent", "minute_sina_raw", "daily_sina_adjusted", "monthly_tx_qfq", "weekly_tx_qfq"}
+               "finance_em_named", "finance_quality_em", "spot_sina_full", "daily_tx_recent", "minute_sina_raw", "daily_sina_adjusted", "monthly_tx_qfq", "weekly_tx_qfq", "quote_tx_one"}
     if request["function"] not in allowed:
         raise ValueError("Unsupported provider function")
     with contextlib.redirect_stdout(sys.stderr):
         from . import live
         native = {"finance_em_named": live.finance, "finance_quality_em": live.finance_quality, "spot_sina_full": live.spot_sina,
                   "daily_tx_recent": live.daily_tx, "minute_sina_raw": live.minute_sina,
-                  "daily_sina_adjusted": live.daily_sina, "monthly_tx_qfq": live.monthly_tx_qfq, "weekly_tx_qfq": live.weekly_tx_qfq}
+                  "daily_sina_adjusted": live.daily_sina, "monthly_tx_qfq": live.monthly_tx_qfq, "weekly_tx_qfq": live.weekly_tx_qfq,
+                  "quote_tx_one": live.quote_tx_one}
         if request["function"] in native:
             frame = native[request["function"]](**request["kwargs"])
         else:

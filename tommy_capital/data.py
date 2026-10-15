@@ -272,6 +272,23 @@ def latest_finance(history):
         prior_profit, prior_revenue = row.get("previous_same_profit_ytd"), row.get("previous_same_revenue_ytd")
         row["previous_same_profit_margin"] = prior_profit / prior_revenue if pd.notna(prior_profit) and pd.notna(prior_revenue) and prior_revenue > 0 else float("nan")
         row["profit_margin_ttm"] = profit / revenue if pd.notna(profit) and pd.notna(revenue) and revenue > 0 else float("nan")
+        recovery_periods = []
+        for candidate in list(indexed.index[indexed.index <= period])[-2:]:
+            comparable = pd.Timestamp(candidate.year-1,candidate.month,candidate.day)
+            if comparable not in indexed.index:
+                continue
+            current, prior = indexed.loc[candidate], indexed.loc[comparable]
+            keys = ("profit_ytd","core_profit_ytd","revenue_ytd","cfo_ytd")
+            if any(key not in indexed or pd.isna(current[key]) or pd.isna(prior[key]) for key in keys):
+                continue
+            recovery_periods.append({"period":candidate.date().isoformat(),
+                "same_period":comparable.date().isoformat(),
+                "profit":float(current.profit_ytd),"prior_profit":float(prior.profit_ytd),
+                "core_profit":float(current.core_profit_ytd),"prior_core_profit":float(prior.core_profit_ytd),
+                "revenue":float(current.revenue_ytd),"prior_revenue":float(prior.revenue_ytd),
+                "cfo":float(current.cfo_ytd),"prior_cfo":float(prior.cfo_ytd),
+                "quality_matched":all(pd.notna(p.get("quality_statement_matched")) and bool(p.get("quality_statement_matched")) for p in (current,prior))})
+        row["loss_recovery_periods"] = recovery_periods
         output.append(row)
     return pd.DataFrame(output)
 

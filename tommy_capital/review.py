@@ -31,8 +31,10 @@ def review_report(source, now, source_hash, artifact=None):
         raise ValueError("源日线日期与收盘扫描不一致或含未来日期")
     if not re.fullmatch(r"[a-f0-9]{64}", source_hash):
         raise ValueError("完整源报告缺少SHA256")
+    if source.get("scoring_version") != SCORING_VERSION:
+        raise ValueError("旧版源报告未验证新版周线MA55门槛和财务子路线，必须执行新的真实扫描，不能直接改标新版评分")
     if any(row.get("technical", {}).get("timeframes", {}).get(period, {}).get("macro_profile", {}).get("version") != PROFILE_VERSION
-           for row in source["rankings"] for period in ("monthly", "weekly", "daily")):
+           for row in source["rankings"] for period in ("monthly", "weekly")):
         raise ValueError("源附件缺少MA5/13/20及KDJ路径的原始计算记录，不能补造新版分项；须使用含新指标的真实收盘附件复核")
     if any(row.get("technical", {}).get("timeframes", {}).get("weekly", {}).get("macro_profile", {}).get("weekly_ma55", {}).get("version") != WEEKLY_MA55_VERSION
            for row in source["rankings"]):

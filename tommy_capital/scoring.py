@@ -2,13 +2,12 @@
 import math
 from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
-SCORING_VERSION = "weekly_ma55_50_50_v7"
+SCORING_VERSION = "weekly_monthly_only_50_50_v8"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
-TECHNICAL_WEIGHTS = {"monthly": 16, "weekly": 22, "daily": 8,
-                     "60": 2, "30": 1, "15": 1}
+TECHNICAL_WEIGHTS = {"monthly": 20, "weekly": 30}
 SCORE_WEIGHTS = {"fundamental": FUNDAMENTAL_WEIGHTS, "technical": TECHNICAL_WEIGHTS}
 
 
@@ -126,7 +125,11 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     prior_core_margin = prior_core / prior_revenue if prior_core is not None and prior_revenue is not None and prior_revenue > 0 else None
     core_improving = (current_core_margin is not None and prior_core_margin is not None and
                       current_core_margin >= prior_core_margin and core_ytd >= prior_core)
-    if route == "B":
+    recovering_loss = route=="B" and leading.get("variant")=="loss_recovery" and leading.get("loss_recovery",{}).get("passed") is True
+    if recovering_loss:
+        reduction=leading["loss_recovery"].get("min_reduction_fraction")
+        earnings=scale(reduction,.5,12)+2.*int(core_improving)
+    elif route == "B":
         earnings = 8. * int(leading.get("leading_indicator_confirmed") is True)
         earnings += 3. * int(leading.get("core_improving") is True) + 3. * int(core_improving)
     else:
@@ -149,7 +152,12 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
         # redistribute its weight when regulatory/risk evidence is absent.
         cash_quality = 0.
         missing.append("fundamental.financial_sector_risk_review")
-    if route == "B":
+    if recovering_loss:
+        ps=finite(leading["loss_recovery"].get("ps_ttm"));pb=value("pb")
+        valuation=max(0.,1-ps/leading["loss_recovery"]["max_ps"])*9 if ps is not None and ps>0 else 0.
+        valuation+=max(0.,1-pb/leading["loss_recovery"]["max_pb"])*5 if pb is not None and pb>0 else 0.
+        improvement=4.*int(leading["loss_recovery"].get("passed") is True)
+    elif route == "B":
         valuation_data = leading.get("valuation", {})
         if valuation_data.get("passed") is True:
             margin, downside = finite(valuation_data.get("base_margin_pct")), finite(valuation_data.get("bear_downside_pct"))
@@ -185,7 +193,7 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     confirmation = confirmation_state(technical, route)
     periods = {}
     for period, maximum in TECHNICAL_WEIGHTS.items():
-        observation = observations.get(period, {}) if period in ["monthly", "weekly", "daily"] else minute_frames.get(period, {})
+        observation = observations.get(period, {})  # Ranking reads only completed monthly/weekly inputs.
         parts = {}
         if observation.get("status") != "ok":
             missing.append("technical." + period)
@@ -221,20 +229,6 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 parts.update(base_or_higher_low_or_contraction_or_breakout=2. * int(technical.get("weekly_structure", {}).get("confirmed") is True),
                              ma5_13_20_structure=ma / 4, kdj_recovery=kdj_points / 3)
                 momentum_max, bottom_max = 1, 1
-            elif period == "daily":
-                # Daily volume remains an execution/confirmation observation,
-                # but its entire former four-point allocation moved to W/M.
-                setup = (profile.get("price_platform_breakout") is True or profile.get("pullback_reclaimed") is True or
-                         profile.get("ma_cluster_breakout") is True)
-                parts = {"ma5_13_20_structure": ma / 2,
-                         "price_launch_or_support_reclaim": 3. * int(setup and profile.get("chase_risk") is not True),
-                         "kdj_low_zone_recovery": 1. * int(recovered and kdj.get("k_above_d_and_rising") is True)}
-                momentum_max, bottom_max = 1, 1
-            else:
-                structure_max = 1 if period == "60" else .5
-                structure = observation.get("structure", {})
-                parts = {"price_above_ma20": structure_max / 2 * int(observation.get("above_ma20") is True), "ma20_rising": structure_max / 2 * int(structure.get("ma20_rising") is True)}
-                momentum_max, bottom_max = (.5, .5) if period == "60" else (.25, .25)
             if period in ("monthly", "weekly"):
                 volume = observation.get("volume_ma20")
                 # Verified older artifacts already retain this same causal
@@ -243,15 +237,16 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 if ratio is None or ratio < 0 or (volume is not None and volume.get("status") != "ok"):
                     missing.append("technical." + period + ".volume_ma20")
                 parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, 4)
-            if period in ("monthly", "weekly", "daily"):
-                parts["extension_or_support_risk_penalty"] = -(2. if period == "daily" else 3.) * int(profile.get("chase_risk") is True)
+            parts["extension_or_support_risk_penalty"] = -3. * int(profile.get("chase_risk") is True)
             momentum, bottom, penalty = macd_points(observation, momentum_max, bottom_max)
             parts.update(macd_momentum=momentum, confirmed_macd_bottom=bottom, top_divergence_penalty=-penalty)
-            if period in ["60", "30", "15"] and observation.get("structure", {}).get("overheated"):
-                parts["overheat_penalty"] = -.5 if period == "60" else -.25
+            if period=="monthly":
+                parts={k:v*1.25 if v>0 else v for k,v in parts.items()}
+            elif period=="weekly":
+                parts={k:v*1.8 if v>0 and not k.startswith("weekly_ma55_") else v for k,v in parts.items()}
         total = min(float(maximum), max(0., sum(parts.values())))
         raw_total = total
-        enabled = period in ("monthly", "weekly", "daily") or confirmation["execution_score_enabled"]
+        enabled = True  # No daily/minute component exists in v8 ranking.
         if not enabled:
             total = 0.
         periods[period] = {"score": round(total, 2), "max": maximum, "parts": {k: round(v, 2) for k, v in parts.items()},

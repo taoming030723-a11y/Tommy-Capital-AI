@@ -36,6 +36,37 @@ def replace_tracking_section(markdown, tracking, config):
     return markdown[:start] + section + (markdown[end + 1:] if end >= 0 else "")
 
 
+def monitor_preference_view(result, tracking):
+    """Filter only the public view; retained old facts allow restore without invented data."""
+    if result.get("public") is not True:
+        raise ValueError("公开观察名单管理不能读取私有持仓监控结果")
+    from .macd_monitor import PERIODS
+    original=copy.deepcopy(result.get("all_rows",result.get("rows",[])))
+    by_code={r["code"]:r for r in original}
+    scope=[{"code":r["code"],"name":r.get("name"),"sources":["Top10观察"],"appearance_count":r["appearance_count"]} for r in tracking["rows"]]
+    rows=[]
+    for item in scope:
+        row=by_code.get(item["code"])
+        if row is None:
+            row={**item,"frames":{p:{"status":"not_checked","label":"恢复后尚未刷新，无法判断","signals":[]} for p in PERIODS},
+                 "combined":{"label":"恢复后待刷新","resonating_periods":[],"conflicting_periods":{}},"data_complete":False}
+        rows.append({**row,**item})
+    return {**result,"all_rows":original,"scope":scope,"rows":rows,
+            "monitor_complete":not result.get("error") and all(r["data_complete"] for r in rows),
+            "view_preferences_sha256":tracking["preferences_sha256"],
+            "view_note":"仅忽略/恢复显示与后续监控范围；保留已检查行情时间，恢复后未取得数据的周期不得补造"}
+
+
+def replace_monitor_section(markdown,result):
+    from .monitor_reporting import render_monitor_section
+    start=markdown.find("## 多周期MACD背离监控")
+    if start<0:
+        raise ValueError("原报告缺少MACD监控章节")
+    end=markdown.find("\n## ",start+1)
+    section="\n".join(render_monitor_section(result)).rstrip()+"\n"
+    return markdown[:start]+section+(markdown[end+1:] if end>=0 else "")
+
+
 def refreshed_entries(summary, markdown, archive_summary, archive_markdown, preferences, now, actor):
     """Only a separately timestamped user-view overlay changes, not the scan result."""
     if (not isinstance(summary, dict) or closing_record(summary) is None or
@@ -44,6 +75,11 @@ def refreshed_entries(summary, markdown, archive_summary, archive_markdown, pref
     view = apply_preferences(summary["top10_tracking"], preferences)
     desired = replace_tracking_section(markdown, view, summary.get("config"))
     archived = replace_tracking_section(archive_markdown, view, summary.get("config"))
+    monitor=summary.get("macd_monitor")
+    if monitor is not None:
+        monitor=monitor_preference_view(monitor,view)
+        desired=replace_monitor_section(desired,monitor)
+        archived=replace_monitor_section(archived,monitor)
     if (summary["top10_tracking"].get("preferences_sha256") == digest(preferences) and
             desired == markdown and archived == archive_markdown):
         return []
@@ -51,7 +87,9 @@ def refreshed_entries(summary, markdown, archive_summary, archive_markdown, pref
                 preferences_update_scope="仅用户观察表显示偏好；行情、排名、评分、扫描时间及原始入榜次数保持")
     updated = copy.deepcopy(summary)
     updated["top10_tracking"] = view
-    assert all(updated[k] == v for k, v in summary.items() if k != "top10_tracking")
+    if monitor is not None:
+        updated["macd_monitor"]=monitor
+    assert all(updated[k] == v for k, v in summary.items() if k not in ("top10_tracking","macd_monitor"))
     text = json.dumps(updated, ensure_ascii=False, indent=2, allow_nan=False)
     day = summary["session"]
     return [{"path": path, "mode": "100644", "type": "blob", "content": content} for path, content in (

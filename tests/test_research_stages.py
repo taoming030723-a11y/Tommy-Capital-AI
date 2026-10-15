@@ -35,9 +35,7 @@ def test_short_periods_cannot_change_unconfirmed_research_rank(missing):
     weakest = balanced_score(good_row(), tech, "A", minute_frames=weak)
     assert strongest["score"] == weakest["score"]
     assert strongest["score_inputs_complete"]
-    for period in ("60", "30", "15"):
-        assert strongest["score_breakdown"]["technical"][period]["raw_score"] > 0
-        assert strongest["score_breakdown"]["technical"][period]["score"] == 0
+    assert set(strongest["score_breakdown"]["technical"])=={"weekly","monthly"}
     row = {"code": "000001", "eligible": True, "strategic_eligible": False,
            "route": "A", "technical": tech, **strongest}
     assert ranked_top20([row]) == [row]

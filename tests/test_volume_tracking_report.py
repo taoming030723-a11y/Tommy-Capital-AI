@@ -33,11 +33,11 @@ def test_entire_daily_volume_allocation_moves_to_week_and_month(ratio, points):
         technical["timeframes"][period]["structure"]["ratio20"] = ratio
     score = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert sum(TECHNICAL_WEIGHTS.values()) == 50
-    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [16, 22, 8]
+    assert TECHNICAL_WEIGHTS=={"monthly":20,"weekly":30}
     parts = score["score_breakdown"]["technical"]
-    assert parts["monthly"]["parts"]["volume_above_previous20_mean"] == points
-    assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points
-    assert not any("volume" in key or "breakout" in key for key in parts["daily"]["parts"])
+    assert parts["monthly"]["parts"]["volume_above_previous20_mean"] == points*1.25
+    assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points*1.8
+    assert "daily" not in parts
 
 
 def test_daily_volume_has_no_direct_points_and_missing_week_volume_cannot_be_rescaled():

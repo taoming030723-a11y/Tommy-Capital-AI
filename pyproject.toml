@@ -11,6 +11,7 @@ dependencies = ["akshare==1.19.1", "pandas>=2.2,<3", "numpy>=1.26,<3", "requests
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10"]
+ui = ["streamlit>=1.50,<2"]
 
 [project.scripts]
 tommy-capital = "tommy_capital.cli:main"

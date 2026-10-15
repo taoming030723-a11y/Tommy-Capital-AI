@@ -267,7 +267,7 @@ def extended_weekly_history(provider, code, daily, period_cutoff, anchor_date):
                                     "W-FRI", "weekly", 60, (300, 180))
 
 
-def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None, weekly_history=None):
+def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None, weekly_history=None, execution_focus=True):
     if len(daily) < 250:
         raise DataError(f"日线历史不足250根（实际{len(daily)}根）")
     if daily.index[-1].date() != session:
@@ -307,12 +307,12 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
             "weekly_history_validation": weekly_history.attrs.get("price_validation") if weekly_history is not None else None,
             "daily_close_qfq": float(last_d.close), "daily_ma60_qfq": float(last_d.ma60),
             "daily_bar_date": daily.index[-1].date().isoformat(),
-            "daily_divergences": confirmed_divergences(daily, window=120, config=config),
+            "daily_divergences": confirmed_divergences(daily, window=120, config=config) if execution_focus else {"status":"not_requested","signals":[]},
             "weekly_base": weekly_base, "daily_volume": volume,
             "monthly_recovery": monthly_recovery, "weekly_structure": weekly_structure,
             "first_volume_breakout": breakout,
             "timeframes": {"monthly": timeframe_observation(m, config, "monthly"), "weekly": timeframe_observation(w, config, "weekly"),
-                           "daily": timeframe_observation(d, config, "daily")},
+                           "daily": timeframe_observation(d, config, "daily") if execution_focus else {"status":"not_requested","signals":[],"purpose":"仅重点观察/持仓运行日线MACD"}},
             "price_compression": compression_observation(daily, config.get("leading_price_compression_pct", 20.0)),
             "volume_ratio20": volume["ratio20"]}
 

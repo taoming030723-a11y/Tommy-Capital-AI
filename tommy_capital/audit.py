@@ -58,6 +58,23 @@ def audit(directory):
     else:
         assert report["scan_phase"] == "pre_run" and report["scan_type"] in ("closed_session", "daily_baseline")
     assert summary == make_summary(report)
+    if report.get("macd_monitor") is not None:
+        from .monitor import validate_public_monitor,monitor_scope
+        monitor=report["macd_monitor"]
+        state_file=root/"monitor-state.json"
+        validate_public_monitor(monitor,json.loads(state_file.read_text()) if state_file.exists() else None)
+        if monitor.get("status") not in ("unavailable","configuration_changed"):
+            expected=monitor_scope(report=report,preferences=report["top10_tracking"]["preferences"])
+            assert monitor["scope"]==expected
+            assert {r["code"] for r in monitor["rows"]}=={r["code"] for r in expected}
+            assert monitor["monitor_complete"] is all(r["data_complete"] for r in monitor["rows"])
+        for row in monitor.get("rows",[]):
+            assert set(row["frames"])=={"daily","120","60","30","15"}
+            assert row["data_complete"] is all(f["status"]=="ok" for f in row["frames"].values())
+            for frame in row["frames"].values():
+                if frame["status"]=="ok":
+                    assert frame["last_bar"]<=monitor["checked_at"][:19]
+                    assert frame.get("source")
     assert (root / "report.md").read_text() == render_markdown(report, github_run_url())
     if report.get("top10_history") is not None:
         from .tracking import audit_tracking
@@ -104,6 +121,8 @@ def audit(directory):
                 assert abs(period_volume["ratio20"] - period_volume["volume"] / period_volume["previous20_mean_volume"]) < 1e-10
         for period in ("monthly", "weekly", "daily"):
             frame = tech["timeframes"][period]
+            if period=="daily" and frame.get("status")=="not_requested":
+                continue
             profile = frame["macro_profile"]
             assert profile["version"] == PROFILE_VERSION
             if profile["status"] == "ok":
@@ -142,14 +161,15 @@ def audit(directory):
             assert tech["weekly_history_validation"]["latest_complete_period"] == tech["weekly_bar_date"]
     from datetime import date
     for row in pool:
+        if report["config"].get("weekly_ma55_entry_gate"):
+            from .strategy import evaluate
+            assert evaluate(row,row["technical"],report["config"],date.fromisoformat(day))["eligible"]
         actual = balanced_score(row, row["technical"], row["route"], row["leading"], row["minute_frames"])
         for key in ("score", "fundamental_score", "technical_score", "score_breakdown", "fundamental_quality", "score_inputs_complete", "confirmation_state"):
             assert row[key] == actual[key], (row["code"], key)
         assert 0 <= row["fundamental_score"] <= 50 and 0 <= row["technical_score"] <= 50
-        assert "volume_or_first_breakout" not in row["score_breakdown"]["technical"]["daily"]["parts"]
+        assert set(row["score_breakdown"]["technical"])=={"weekly","monthly"}
         assert row["ranking_eligible"] is ranking_eligible(row)
-        if not row["confirmation_state"]["execution_score_enabled"]:
-            assert all(row["score_breakdown"]["technical"][p]["score"] == 0 for p in ("60", "30", "15"))
         assert row["execution"].get("entry_watch") is not True or row["t_trend_confirmed"]
         path = row["technical"]["monthly_recovery"]
         if row["route"] == "A":

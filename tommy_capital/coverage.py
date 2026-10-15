@@ -49,7 +49,7 @@ def ranking_completeness(report):
     if coverage.get("leading_evidence_missing", 0):
         reasons.append("B路线领先业务、未来催化或三情景估值证据未齐")
     if coverage.get("score_inputs_completed", 0) != coverage.get("monthly_pool_count", 0):
-        reasons.append("部分月线观察池的财务质量或六周期评分输入未齐")
+        reasons.append("部分月线观察池的财务质量或周月评分输入未齐")
     if report.get("errors"):
         reasons.append("仍存在数据源或历史检查错误，详情见审计附件")
     return not reasons and coverage.get("universe", 0) > 0, reasons

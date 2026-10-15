@@ -2,6 +2,8 @@ import math
 import pandas as pd
 from .inflection import leading_check
 from .scoring import balanced_score
+from .loss_recovery import loss_recovery_check
+from .patterns import WEEKLY_MA55_VERSION
 
 SELECTION_RULE = "dual_route_monthly_recovery"
 
@@ -109,9 +111,13 @@ def financial_routes(row, config, today):
     a = base_checks(row, config, today)
     b = leading_prechecks(row, config, today)
     leading = leading_check(row, row.get("leading_evidence", {}), config, today)
+    recovery = loss_recovery_check(row,config,today)
+    original_b = not b and leading["passed"]
     return {"route_a_passed": not a, "route_a_reasons": a,
-            "route_b_prequalified": not b, "route_b_passed": not b and leading["passed"],
-            "route_b_reasons": b + leading["reasons"], "leading": leading}
+            "route_b_prequalified": not b or recovery["passed"], "route_b_passed": original_b or recovery["passed"],
+            "route_b_reasons": [] if original_b or recovery["passed"] else b + leading["reasons"] + recovery["reasons"],
+            "route_b_loss_recovery": recovery,
+            "leading": {**leading,"loss_recovery":recovery,"variant":"loss_recovery"} if recovery["passed"] and not original_b else leading}
 
 
 def evaluate(row, technical, config, today):
@@ -131,6 +137,16 @@ def evaluate(row, technical, config, today):
     path_b = minimum6 is not None and minimum6 < 20 and rising
     a_reasons = finance["route_a_reasons"] + liquidity_reasons + ([] if path_a else ["未满足A路线完整月J超卖/近3月恢复路径"])
     b_reasons = finance["route_b_reasons"] + liquidity_reasons + ([] if path_b else ["未满足B路线近6月月J恢复路径"])
+    if config.get("weekly_ma55_entry_gate",False):
+        reference=technical.get("timeframes",{}).get("weekly",{}).get("macro_profile",{}).get("weekly_ma55",{})
+        line=numeric(reference.get("ma55_qfq"));close=numeric(technical.get("daily_close_qfq"))
+        passed=(reference.get("version")==WEEKLY_MA55_VERSION and reference.get("status")=="ok" and reference.get("direction") in ("rising","flat") and
+                reference.get("latest_week_above") is True and line is not None and close is not None and close>line and
+                reference.get("above_count",0)>=config.get("weekly_ma55_min_above_count",3) and
+                reference.get("consecutive_above",0)>=config.get("weekly_ma55_min_consecutive",2))
+        if not passed:
+            a_reasons += ["周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"]
+            b_reasons += ["周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"]
     if not technical.get("price_compression", {}).get("experienced"):
         b_reasons += ["近126交易日价格压缩未达门槛"]
     routes = (["A"] if not a_reasons else []) + (["B"] if not b_reasons else [])

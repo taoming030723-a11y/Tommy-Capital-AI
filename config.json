@@ -32,5 +32,12 @@
   "macd_min_price_extension_pct": 0.2,
   "macd_min_price_extension_atr": 0.15,
   "macd_min_dif_improvement_atr": 0.1,
-  "macd_min_confirmation_rebound_atr": 0.3
+  "macd_min_confirmation_rebound_atr": 0.3,
+  "weekly_ma55_entry_gate": true,
+  "weekly_ma55_min_above_count": 3,
+  "weekly_ma55_min_consecutive": 2,
+  "loss_recovery_enabled": true,
+  "loss_recovery_min_revenue_growth_pct": 0.0,
+  "loss_recovery_min_narrowing_pct": 10.0,
+  "loss_recovery_max_ps": 3.0
 }

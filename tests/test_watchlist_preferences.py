@@ -32,9 +32,9 @@ def report_with_watch():
     return report
 
 
-def test_ma55_is_twelve_of_twenty_two_and_total_remains_exact_half():
+def test_ma55_is_twelve_of_thirty_and_total_remains_exact_half():
     assert sum(FUNDAMENTAL_WEIGHTS.values()) == sum(TECHNICAL_WEIGHTS.values()) == 50
-    assert [TECHNICAL_WEIGHTS[p] for p in ("monthly", "weekly", "daily")] == [16, 22, 8]
+    assert TECHNICAL_WEIGHTS=={"monthly":20,"weekly":30}
     result = balanced_score(good_row(), full_technical(), "A", minute_frames=frames())
     parts = result["score_breakdown"]["technical"]["weekly"]["parts"]
     assert sum(v for k, v in parts.items() if k.startswith("weekly_ma55_") and not k.endswith("penalty")) == 12

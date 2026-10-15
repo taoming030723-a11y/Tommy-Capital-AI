@@ -73,7 +73,7 @@ def test_macd_bottom_counts_each_of_six_periods_without_kdj_substitution(period)
     assert result["score_breakdown"]["technical"][period]["parts"]["confirmed_macd_bottom"] == 0
 
 
-def test_small_period_observations_change_ranking_without_granting_eligibility():
+def test_small_period_observations_do_not_change_week_month_ranking_or_grant_eligibility():
     tech = full_technical()
     tech.update(monthly_trend=False)
     before = evaluate(good_row(), tech, DEFAULTS, date(2026, 10, 8))
@@ -81,11 +81,11 @@ def test_small_period_observations_change_ranking_without_granting_eligibility()
     better = balanced_score(good_row(), tech, "A", minute_frames=frames())
     missing = balanced_score(good_row(), tech, "A", minute_frames={"15": observation()})
     rows = [{"code": "000001", **before, **missing, "technical": tech}, {"code": "000002", **before, **better, "technical": tech}]
-    assert [r["code"] for r in ranked_top20(rows)] == ["000002"]
-    assert not missing["score_inputs_complete"]
-    assert missing["score_breakdown"]["technical"]["60"]["score"] == 0
+    assert [r["code"] for r in ranked_top20(rows)] == ["000001","000002"]
+    assert missing["score_inputs_complete"]
+    assert set(missing["score_breakdown"]["technical"])=={"weekly","monthly"}
     assert better["fundamental_score"] == missing["fundamental_score"]
-    assert better["technical_score"] - missing["technical_score"] == 3
+    assert better["technical_score"] == missing["technical_score"]
 
 
 def test_top_conflict_overheat_penalties_and_missing_inputs_are_not_reweighted():
@@ -94,12 +94,12 @@ def test_top_conflict_overheat_penalties_and_missing_inputs_are_not_reweighted()
     minute["15"]["signals"].append({"direction": "bearish", "indicator": "KDJ_J"})
     minute["15"]["structure"]["overheated"] = True
     result = balanced_score(good_row(), tech, "A", minute_frames=minute)
-    assert reference["technical_score"] - result["technical_score"] == .5
-    assert result["score_breakdown"]["technical"]["15"]["score"] == .5
+    assert reference["technical_score"] == result["technical_score"]
+    assert "15" not in result["score_breakdown"]["technical"]
     minute["60"] = {"status": "unavailable", "signals": []}
     result = balanced_score(good_row(), tech, "A", minute_frames=minute)
-    assert result["technical_score"] == 47.5
-    assert "technical.60" in result["score_missing_inputs"]
+    assert result["technical_score"] == 50
+    assert "technical.60" not in result["score_missing_inputs"]
     assert result["fundamental_score"] == reference["fundamental_score"]
 
 

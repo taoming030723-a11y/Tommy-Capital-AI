@@ -341,3 +341,18 @@ def minute_sina(symbol, period="15"):
     if not set(mapping).issubset(raw.columns):
         raise ValueError("新浪分时字段变化")
     return raw.rename(columns=mapping)[list(mapping.values())]
+
+
+def quote_tx_one(symbol):
+    if not re.fullmatch(r"[0-9]{6}", symbol):
+        raise ValueError("股票代码无效")
+    market = "sh" if symbol.startswith("6") else "bj" if symbol.startswith(("4", "8", "92")) else "sz"
+    response = request("https://qt.gtimg.cn/q=" + market + symbol, {})
+    response.encoding = "gbk"
+    match = re.search(r'="([^"]+)"', response.text)
+    fields = match.group(1).split("~") if match else []
+    if len(fields) < 31 or fields[2] != symbol or not fields[1] or not math.isfinite(float(fields[3])) or float(fields[3]) <= 0:
+        raise ValueError("单股报价名称/代码/价格无法核验")
+    clock = pd.to_datetime(fields[30], format="%Y%m%d%H%M%S", errors="raise")
+    return pd.DataFrame([{"code":symbol,"name":fields[1],"price":float(fields[3]),
+                          "quote_at":clock.isoformat(),"source":"tencent_public_quote"}])

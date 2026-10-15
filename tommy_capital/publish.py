@@ -20,7 +20,7 @@ def publish(directory, token, repository):
             summary.get("status") != report.get("status") or report.get("status") == "running" or
             summary.get("candidate_count") != len(report.get("rankings", []))):
         raise ValueError("完整报告与机器摘要不匹配，不能发布为最终结果")
-    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking"]:
+    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
     markdown = render_markdown(report, github_run_url())
@@ -37,6 +37,15 @@ def publish(directory, token, repository):
                 "content": json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False)},
                {"path": "results/latest-report.md", "mode": "100644", "type": "blob", "content": markdown}]
     phase = report.get("scan_phase")
+    from .monitor import validate_public_monitor
+    validate_public_monitor(report.get("macd_monitor"))
+    if (report.get("macd_monitor") or {}).get("public") is True and (directory/"monitor-state.json").exists():
+        monitor_state=json.loads((directory/"monitor-state.json").read_text())
+        validate_public_monitor(report.get("macd_monitor"),monitor_state)
+        if any("profit_observation" in value for value in monitor_state.get("stocks",{}).values()):
+            raise ValueError("公开监控状态含个人浮盈信息，拒绝发布")
+        entries.append({"path":"results/macd-event-state.json","mode":"100644","type":"blob",
+                        "content":json.dumps(monitor_state,ensure_ascii=False,indent=2,allow_nan=False)})
     if phase in {"opening", "closing", "intraday", "pre_run", "model_review"}:
         day = str(report["generated_at"])[:10]
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
@@ -78,6 +87,10 @@ def publish(directory, token, repository):
                 view.update(preferences_updated_at=datetime.now(ZONE).isoformat(), preferences_source_commit=parent,
                     preferences_update_scope="发布时采用最新用户观察偏好；市场事实和排名保持")
                 report["top10_tracking"] = summary["top10_tracking"] = view
+                if report.get("macd_monitor") is not None:
+                    from .watchlist import monitor_preference_view
+                    monitor=monitor_preference_view(report["macd_monitor"],view)
+                    report["macd_monitor"]=summary["macd_monitor"]=monitor
                 markdown = render_markdown(report, github_run_url())
                 for entry in entries:
                     if entry["path"] in ("results/latest-summary.json", f"results/{day}/closing-summary.json"):

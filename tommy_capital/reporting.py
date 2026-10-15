@@ -296,14 +296,15 @@ def candidate_reason(index, row):
     finance = (f"{row.get('route')}路线，{row.get('profit_status', '盈利状态未取得')}；营收同比{number(row.get('revenue_yoy'))}%，")
     if row.get("route") == "B":
         valuation = row.get("leading", {}).get("valuation", {})
-        finance += f"领先指标、核心改善与未来催化证据通过，审阅估值安全边际{number(valuation.get('base_margin_pct'))}%。"
+        finance += ("真实连续两期归母/扣非亏损、利润率及同比现金流同步改善，仍属TTM亏损；PS/PB限定研究路线。" if row.get("leading",{}).get("variant")=="loss_recovery" else
+                    f"领先指标、核心改善与未来催化证据通过，审阅估值安全边际{number(valuation.get('base_margin_pct'))}%。")
     else:
         finance += (f"TTM扣非/归母利润{number(quality.get('core_profit_share_ttm'))}，"
                     f"经营现金流/归母利润{number(quality.get('cash_conversion_ttm'))}，"
                     f"PE/PB {number(row.get('pe_ttm'))}/{number(row.get('pb'))}。")
     if quality.get("low_base_flag"):
         finance += "低基数增速加分受限。"
-    periods = {"monthly": "月", "weekly": "周", "daily": "日", "60": "60分钟", "30": "30分钟", "15": "15分钟"}
+    periods = {"monthly": "月", "weekly": "周"}
     breakdown = row.get("score_breakdown", {}).get("technical", {})
     scores = "、".join(label + number(breakdown.get(period, {}).get("score")) for period, label in periods.items())
     signals = []
@@ -420,6 +421,9 @@ def render_dual_report(report, run_url=None):
         lines += ["## 前20入选理由", ""]
         for index, row in enumerate(displayed, 1):
             lines += [candidate_reason(index, row), ""]
+    if report.get("macd_monitor") is not None:
+        from .monitor_reporting import render_monitor_section
+        lines += render_monitor_section(report["macd_monitor"])
     return "\n".join(lines)
 
 
