@@ -356,6 +356,83 @@
         }
       ],
       "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+    },
+    {
+      "session": "2026-10-15",
+      "generated_at": "2026-10-15T15:42:01.275852+08:00",
+      "finished_at": "2026-10-15T16:17:11.799011+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "weekly_ma55_50_50_v6",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38700450417",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-15T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 64.01
+        },
+        {
+          "rank": 2,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 62.95
+        },
+        {
+          "rank": 3,
+          "code": "002748",
+          "name": "世龙实业",
+          "score": 62.74
+        },
+        {
+          "rank": 4,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 60.87
+        },
+        {
+          "rank": 5,
+          "code": "601330",
+          "name": "绿色动力",
+          "score": 59.4
+        },
+        {
+          "rank": 6,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 59.17
+        },
+        {
+          "rank": 7,
+          "code": "600356",
+          "name": "恒丰纸业",
+          "score": 59.0
+        },
+        {
+          "rank": 8,
+          "code": "600035",
+          "name": "楚天高速",
+          "score": 57.57
+        },
+        {
+          "rank": 9,
+          "code": "920599",
+          "name": "同力股份",
+          "score": 55.6
+        },
+        {
+          "rank": 10,
+          "code": "603055",
+          "name": "台华新材",
+          "score": 55.56
+        }
+      ],
+      "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
     }
   ]
 }
