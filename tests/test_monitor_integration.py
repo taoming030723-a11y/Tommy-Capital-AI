@@ -12,7 +12,7 @@ from tommy_capital.monitor import main,run_monitor,validate_public_monitor
 from tommy_capital.macd_monitor import load_monitor_config
 from tommy_capital.cli import write_outputs,make_summary
 from tommy_capital.watchlist import refreshed_entries
-from tommy_capital.reporting import render_markdown
+from tommy_capital.reporting import render_markdown,github_run_url
 from test_watchlist_preferences import report_with_watch,preferences
 
 
@@ -27,7 +27,13 @@ def public_result(code):
         "rows":[{**scope[0],"frames":empty_frames(),"combined":resonance(empty_frames()),"data_complete":False}]}
 
 
-def test_cli_attaches_independent_result_without_touching_market_counts_history_or_ranking(tmp_path,monkeypatch):
+@pytest.mark.parametrize("cloud_context",[False,True])
+def test_cli_attaches_independent_result_without_touching_market_counts_history_or_ranking(tmp_path,monkeypatch,cloud_context):
+    monkeypatch.delenv("GITHUB_REPOSITORY",raising=False)
+    monkeypatch.delenv("GITHUB_RUN_ID",raising=False)
+    if cloud_context:
+        monkeypatch.setenv("GITHUB_REPOSITORY","taoming030723-a11y/Tommy-Capital-AI")
+        monkeypatch.setenv("GITHUB_RUN_ID","123")
     report=report_with_watch()
     write_outputs(tmp_path,report)
     before=json.loads((tmp_path/"report.json").read_text())
@@ -39,7 +45,7 @@ def test_cli_attaches_independent_result_without_touching_market_counts_history_
         assert after[key]==value,key
     assert after["macd_monitor"]["monitor_complete"] is False
     assert json.loads((tmp_path/"summary.json").read_text())==make_summary(after)
-    assert (tmp_path/"report.md").read_text()==render_markdown(after)
+    assert (tmp_path/"report.md").read_text()==render_markdown(after,github_run_url())
     assert json.loads((tmp_path/"nonexistent.json").read_text())=={"schema":1,"stocks":{}}
 
 

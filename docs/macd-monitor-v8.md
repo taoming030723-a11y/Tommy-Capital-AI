@@ -75,4 +75,4 @@ EMA从首次存储的真实起点计算；之后追加完整K线，不因新下�
 
 现有今日报告不回填成v8；新模型从下一次真实扫描生效，现有Top10历史与已发布收盘数字保持。收盘后仅增加独立重点监控步骤，原cron和`--limit 0`不改。本机持仓与成本数量不出机，没有设计公开云端持仓上传入口。
 
-本地最终执行`python -m pytest -q`：344项通过；真实Streamlit健康检查及首页均HTTP 200。验收细节、响应哈希、冻结历史及原规则保护记录见[验证记录](monitor-validation-2026-10-15.json)。Windows启动脚本尚未在Windows实机执行。
+本地最终执行`python -m pytest -q`：345项通过；真实Streamlit健康检查及首页均HTTP 200。验收细节、响应哈希、冻结历史及原规则保护记录见[验证记录](monitor-validation-2026-10-15.json)。Windows启动脚本尚未在Windows实机执行。

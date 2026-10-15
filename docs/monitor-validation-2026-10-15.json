@@ -4,8 +4,8 @@
   "local_python": "3.12.14",
   "local_tests": {
     "command": "python -m pytest -q",
-    "result": "344 passed in 29.25s",
-    "log_sha256": "501d5c69d23f84e050e0e80a105c77da8785532ddeb2464c17d599f63af25686"
+    "result": "345 passed in 25.26s",
+    "log_sha256": "ded0ac7b7a998c3f3989bd5d9786262592450ac1c30aafbb9be375fbdfadb668"
   },
   "ui_service": {
     "checked_at": "2026-10-15T12:51:09.749642+00:00",
@@ -131,5 +131,6 @@
     "No new full-market ranking published or historical report relabeled",
     "One source check is not a future availability guarantee",
     "No holdings uploaded, no orders, no additional automation"
-  ]
+  ],
+  "cloud_context_test": "Explicit local and GitHub Actions run-link rendering contexts are both covered"
 }
