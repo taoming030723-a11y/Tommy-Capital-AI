@@ -8,7 +8,7 @@ from .cli import make_summary
 from .reporting import render_markdown, github_run_url
 from .scoring import balanced_score, ranked_top20, ranking_eligible, SCORING_VERSION
 from .strategy import base_checks
-from .patterns import PROFILE_VERSION
+from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
 
 def audit(directory):
@@ -110,6 +110,28 @@ def audit(directory):
                 assert profile["last_bar"] == frame["last_bar"]
                 assert profile["last_bar"][:10] == tech[period + "_bar_date"]
                 assert profile["bar_count"] == frame["bar_count"]
+                if period == "weekly":
+                    reference = profile["weekly_ma55"]
+                    assert reference["version"] == WEEKLY_MA55_VERSION
+                    assert reference["last_bar"] == frame["last_bar"]
+                    if reference["status"] == "ok":
+                        history = reference["history"]
+                        assert len(history) == reference["window"] == 6
+                        assert [p["date"] for p in history] == sorted(set(p["date"] for p in history))
+                        assert history[-1]["date"] == tech["weekly_bar_date"]
+                        assert reference["ma55_qfq"] == history[-1]["ma55_qfq"] == profile["averages_qfq"]["55"]
+                        assert all(p["above"] is (p["close_qfq"] > p["ma55_qfq"]) for p in history)
+                        assert reference["above_count"] == sum(p["above"] for p in history)
+                        consecutive = 0
+                        for p in reversed(history):
+                            if not p["above"]:
+                                break
+                            consecutive += 1
+                        assert reference["consecutive_above"] == consecutive
+                        assert reference["latest_week_above"] is history[-1]["above"]
+                        for event in (reference["retest"], reference["reclaim"]):
+                            if event:
+                                assert event["event_at"] <= event["confirmed_at"] <= tech["weekly_bar_date"]
         for frame in tech["timeframes"].values():
             assert all(s.get("quality_passed") is True for s in frame["signals"] if s["indicator"] == "MACD_DIF")
         if tech["monthly_history_source"] == "validated_native_qfqmonth":

@@ -1,8 +1,8 @@
 """Strategic research scores with separately gated execution observations."""
 import math
-from .patterns import PROFILE_VERSION
+from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
-SCORING_VERSION = "macro_launch_50_50_v5"
+SCORING_VERSION = "weekly_ma55_50_50_v6"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
@@ -72,6 +72,34 @@ def macd_points(observation, momentum_points, bottom_points):
     bottom = bottom_points if any(qualified_macd(s, "bullish") for s in signals) else 0.
     top = any(qualified_macd(s, "bearish") or (s.get("indicator") == "KDJ_J" and s.get("direction") == "bearish") for s in signals)
     return momentum, bottom, bottom_points if top else 0.
+
+
+def weekly_ma55_parts(reference, daily_close):
+    """Eight points for the user's weekly reference; no entry eligibility override."""
+    daily_close, line = finite(daily_close), finite(reference.get("ma55_qfq"))
+    keys = ("weekly_ma55_current_above", "weekly_ma55_direction",
+            "weekly_ma55_recent_hold", "weekly_ma55_retest_or_reclaim")
+    parts = dict.fromkeys(keys, 0.)
+    parts["weekly_ma55_lost_support_penalty"] = 0.
+    valid = (reference.get("status") == "ok" and reference.get("version") == WEEKLY_MA55_VERSION and
+             line is not None and line > 0 and daily_close is not None and daily_close > 0 and
+             reference.get("direction") in ("rising", "flat", "falling") and
+             reference.get("window") == 6 and isinstance(reference.get("above_count"), int) and
+             0 <= reference["above_count"] <= 6 and isinstance(reference.get("consecutive_above"), int) and
+             0 <= reference["consecutive_above"] <= reference["above_count"])
+    if not valid:
+        return parts, False
+    above = reference.get("latest_week_above") is True and daily_close > line
+    if not above:
+        parts["weekly_ma55_lost_support_penalty"] = -2.
+        return parts, True
+    parts["weekly_ma55_current_above"] = 2.
+    parts["weekly_ma55_direction"] = {"rising": 2., "flat": 1., "falling": 0.}[reference["direction"]]
+    count, consecutive = reference["above_count"], reference["consecutive_above"]
+    parts["weekly_ma55_recent_hold"] = 2. if count >= 4 and consecutive >= 3 else 1. if count >= 3 and consecutive >= 2 else 0.
+    if reference["direction"] != "falling" and (reference.get("retest") or reference.get("reclaim")):
+        parts["weekly_ma55_retest_or_reclaim"] = 2.
+    return parts, True
 
 
 def balanced_score(row, technical, route, leading=None, minute_frames=None):
@@ -187,9 +215,12 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                          "kdj_recovery": kdj_points}
                 momentum_max, bottom_max = 1, 1
             elif period == "weekly":
-                parts = {"base_or_higher_low_or_contraction_or_breakout": 4. * int(technical.get("weekly_structure", {}).get("confirmed") is True),
-                         "ma5_13_20_structure": ma, "kdj_recovery": kdj_points}
-                momentum_max, bottom_max = 2, 1
+                parts, ma55_valid = weekly_ma55_parts(profile.get("weekly_ma55", {}), technical.get("daily_close_qfq"))
+                if not ma55_valid:
+                    missing.append("technical.weekly.ma55_reference")
+                parts.update(base_or_higher_low_or_contraction_or_breakout=2. * int(technical.get("weekly_structure", {}).get("confirmed") is True),
+                             ma5_13_20_structure=ma / 4, kdj_recovery=kdj_points / 3)
+                momentum_max, bottom_max = 1, 1
             elif period == "daily":
                 # Daily volume remains an execution/confirmation observation,
                 # but its entire former four-point allocation moved to W/M.

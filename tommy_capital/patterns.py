@@ -2,6 +2,7 @@
 import math
 
 PROFILE_VERSION = "macro_launch_pullback_v1"
+WEEKLY_MA55_VERSION = "weekly_ma55_position_v1"
 MA_PERIODS = (5, 13, 20, 55, 144, 233)
 
 
@@ -11,6 +12,57 @@ def numeric(value):
         return value if math.isfinite(value) else None
     except (ValueError, TypeError):
         return None
+
+
+def weekly_ma55_observation(calculated):
+    """Six completed weeks, each compared with its own contemporaneous MA55."""
+    result = {"version": WEEKLY_MA55_VERSION, "status": "unavailable",
+              "last_bar": calculated.index[-1].isoformat(), "window": 6,
+              "basis": "完整周前复权MA55；逐周比较当周收盘；方向为最近3周跨度/最新周ATR；不使用形成中周线"}
+    recent = calculated.iloc[-6:]
+    atr = numeric(calculated.iloc[-1].get("atr14"))
+    if (len(recent) < 6 or atr is None or atr <= 0 or
+            any(numeric(row.get("ma55")) is None or row.ma55 <= 0
+                for _, row in recent.iterrows())):
+        return {**result, "reason": "不足6个可核验MA55的完整周或ATR缺失"}
+    history = [{"date": timestamp.date().isoformat(), "close_qfq": float(row.close),
+                "low_qfq": float(row.low), "ma55_qfq": float(row.ma55),
+                "above": bool(row.close > row.ma55),
+                "distance_pct": float((row.close / row.ma55 - 1) * 100)}
+               for timestamp, row in recent.iterrows()]
+    latest, start = recent.iloc[-1], recent.iloc[-4]
+    slope = float((latest.ma55 - start.ma55) / atr)
+    direction = "rising" if slope >= .05 else "falling" if slope <= -.05 else "flat"
+    consecutive = 0
+    for row in reversed(history):
+        if not row["above"]:
+            break
+        consecutive += 1
+    reclaims, retests = [], []
+    for offset in range(len(calculated) - 6, len(calculated)):
+        row, previous = calculated.iloc[offset], calculated.iloc[offset - 1]
+        event_atr = numeric(row.get("atr14"))
+        if numeric(previous.get("ma55")) is None or event_atr is None or event_atr <= 0:
+            continue
+        after = calculated.iloc[offset:]
+        held = bool((after.close > after.ma55).all())
+        location = (row.close - row.low) / (row.high - row.low) if row.high > row.low else 0.
+        if (previous.close <= previous.ma55 and row.close > row.ma55 + .05 * event_atr and
+                location >= .65 and len(after) >= 2 and held):
+            reclaims.append({"event_at": calculated.index[offset].date().isoformat(),
+                             "confirmed_at": calculated.index[offset + 1].date().isoformat()})
+        if (offset >= len(calculated) - 3 and previous.close > previous.ma55 and
+                row.ma55 >= previous.ma55 - .01 * event_atr and row.ma55 - .5 * event_atr <= row.low <= row.ma55 and
+                row.close > row.ma55 and row.close > previous.close + .02 * event_atr and held):
+            retests.append({"event_at": calculated.index[offset].date().isoformat(),
+                            "confirmed_at": calculated.index[offset].date().isoformat()})
+    return {**result, "status": "ok", "ma55_qfq": float(latest.ma55), "atr14": atr,
+            "slope_3w_atr": slope, "slope_3w_pct": float((latest.ma55 / start.ma55 - 1) * 100),
+            "direction": direction, "direction_label": {"rising": "上行", "flat": "走平", "falling": "下行"}[direction],
+            "history": history, "above_count": sum(row["above"] for row in history),
+            "consecutive_above": consecutive, "latest_week_above": history[-1]["above"],
+            "distance_pct": history[-1]["distance_pct"],
+            "retest": retests[-1] if retests else None, "reclaim": reclaims[-1] if reclaims else None}
 
 
 def macro_profile(calculated, period="daily", config=None):
@@ -85,7 +137,8 @@ def macro_profile(calculated, period="daily", config=None):
              "长期均线收敛区向上突破" if cluster_breakout else
              "窄平台价格突破" if price_breakout else "趋势扩张" if extended else
              "短中期均线转强" if ma_conditions["short_alignment"] else "等待均线结构确认")
-    return {"version": PROFILE_VERSION, "status": "ok", "period": period,
+    reference = {"weekly_ma55": weekly_ma55_observation(calculated)} if period == "weekly" else {}
+    return {"version": PROFILE_VERSION, "status": "ok", "period": period, **reference,
         "last_bar": calculated.index[-1].isoformat(), "bar_count": len(calculated),
         "averages_qfq": averages, "slopes_atr": slopes, "ma_conditions": ma_conditions,
         "ma_cluster_breakout": cluster_breakout, "prior_long_ma_band_qfq": old_band,

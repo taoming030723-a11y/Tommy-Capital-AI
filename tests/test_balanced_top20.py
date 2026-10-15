@@ -15,7 +15,7 @@ from tommy_capital.strategy import evaluate
 from tommy_capital.technical import execution_observation, minute_observation
 from test_core import good_row, good_technical, candles
 from test_dual_routes import losing_row, recovering_technical
-from tommy_capital.patterns import PROFILE_VERSION
+from tommy_capital.patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
 
 def observation():
@@ -34,10 +34,15 @@ def full_technical():
             "base_lows_stabilizing": True, "kdj": {"j_rising": True, "k_above_d_and_rising": True, "low_zone_recovery": True,
                     "recent3_golden_cross": True}, "price_platform_breakout": True, "chase_risk": False,
             "averages_qfq": {"5": 11., "13": 10., "20": 9.}, "label": "窄平台价格突破"}
+    observations["weekly"]["macro_profile"]["weekly_ma55"] = {
+        "version": WEEKLY_MA55_VERSION, "status": "ok", "ma55_qfq": 8., "window": 6,
+        "direction": "rising", "direction_label": "上行", "above_count": 6,
+        "consecutive_above": 6, "latest_week_above": True,
+        "retest": {"event_at": "2026-10-02", "confirmed_at": "2026-10-02"}}
     return {**good_technical(), "timeframes": observations,
             "daily_divergences": observation(), "weekly_base": {"detected": True, "range_pct": 5},
             "daily_volume": {"abnormal": True, "threshold": 2., "ratio20": 2.},
-            "first_volume_breakout": {"active": True}, "daily_bar_date": "2026-10-08"}
+            "first_volume_breakout": {"active": True}, "daily_bar_date": "2026-10-08", "daily_close_qfq": 11.}
 
 
 def frames():

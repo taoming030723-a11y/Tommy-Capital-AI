@@ -329,6 +329,14 @@ def candidate_reason(index, row):
             structures.append(f"{label}线{profile.get('label')}（MA5/13 {number(ma.get('5'))}/{number(ma.get('13'))}，J {number(profile.get('kdj', {}).get('previous_j'))}→{number(profile.get('kdj', {}).get('j'))}）")
     if structures:
         reason += "形态：" + "；".join(structures) + "。"
+    ma55 = frames.get("weekly", {}).get("macro_profile", {}).get("weekly_ma55", {})
+    if ma55.get("status") == "ok":
+        line, close = ma55.get("ma55_qfq"), tech.get("daily_close_qfq")
+        distance = (close / line - 1) * 100 if close is not None and line is not None and line > 0 else None
+        event = ma55.get("retest") or ma55.get("reclaim")
+        confirmation = ("；" + ("回踩收回" if ma55.get("retest") else "重站并守住") + event["confirmed_at"] + "确认") if event else ""
+        reason += (f"周MA55 {number(line)}（{ma55.get('direction_label')}），近6个完整周{ma55.get('above_count')}/6收于线上，"
+                   f"连续{ma55.get('consecutive_above')}周；最新日收盘距线{number(distance)}%{confirmation}。")
     return reason
 
 

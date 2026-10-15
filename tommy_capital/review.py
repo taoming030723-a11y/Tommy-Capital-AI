@@ -19,7 +19,7 @@ from .reporting import github_run_url
 from .scoring import (SCORING_VERSION, SCORE_WEIGHTS, RANKING_POLICY, balanced_score,
                       ranking_eligible, confirmed_ranking_eligible)
 from .tracking import attach_tracking
-from .patterns import PROFILE_VERSION
+from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
 
 def review_report(source, now, source_hash, artifact=None):
@@ -34,6 +34,9 @@ def review_report(source, now, source_hash, artifact=None):
     if any(row.get("technical", {}).get("timeframes", {}).get(period, {}).get("macro_profile", {}).get("version") != PROFILE_VERSION
            for row in source["rankings"] for period in ("monthly", "weekly", "daily")):
         raise ValueError("源附件缺少MA5/13/20及KDJ路径的原始计算记录，不能补造新版分项；须使用含新指标的真实收盘附件复核")
+    if any(row.get("technical", {}).get("timeframes", {}).get("weekly", {}).get("macro_profile", {}).get("weekly_ma55", {}).get("version") != WEEKLY_MA55_VERSION
+           for row in source["rankings"]):
+        raise ValueError("源附件缺少逐周MA55及近期位置原始记录，不能补造新版分项；须使用含新指标的真实收盘附件复核")
     report = copy.deepcopy(source)
     report["model_review"] = {"source_generated_at": source["generated_at"],
         "source_finished_at": source["finished_at"], "source_scan_type": source["scan_type"],
