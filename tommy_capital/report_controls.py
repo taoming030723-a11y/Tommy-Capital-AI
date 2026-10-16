@@ -9,7 +9,8 @@ from .tracking import validate_preferences, load_preferences
 
 BEGIN="<!-- tommy-report-controls:start -->"
 END="<!-- tommy-report-controls:end -->"
-REPORT_URL="http://127.0.0.1:8501/?page=report"
+REPORT_URL="https://tommy-capital-report.stableokapi18.chatgpt.site"
+LOCAL_REPORT_URL="http://127.0.0.1:8501/?page=report"
 
 
 def empty_controls():
@@ -106,7 +107,7 @@ def add_report_controls(markdown,repository="taoming030723-a11y/Tommy-Capital-AI
     controls=(f"{BEGIN}\n[打开交互版最新报告：忽略／恢复、手动添加观察、管理持仓]({REPORT_URL})"
         f" · [首次启动说明](https://github.com/{repository}/blob/main/docs/report-controls.md)"
         f" · [云端忽略／恢复](https://github.com/{repository}/actions/workflows/watchlist.yml)\n\n"
-        "交互版需先在电脑启动 Start-Report.cmd；本机操作保存在本机，GitHub本文保留原扫描结果。\n"
+        "手机可直接打开HTTPS交互版，使用同一ChatGPT账号登录；网页名单私有保存。电脑完整监控仍可启动 Start-Report.cmd。\n"
         f"{END}\n\n")
     return title+"\n\n"+controls+body.lstrip("\n")
 

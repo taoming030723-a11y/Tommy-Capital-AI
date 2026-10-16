@@ -432,7 +432,8 @@ def render_html(report, run_url=None):
     """Use the same compact tables and reasons as the Markdown/Actions report."""
     def inline(text):
         escaped = html.escape(html.unescape(text.replace("\\|", "|").replace("\\`", "`")))
-        escaped = re.sub(r"\[([^\]]+)\]\((https://github\.com/[^\s)]+|http://127\.0\.0\.1:8501/\?page=report)\)", r'<a href="\2">\1</a>', escaped)
+        from .report_controls import REPORT_URL
+        escaped = re.sub(r"\[([^\]]+)\]\((https://github\.com/[^\s)]+|"+re.escape(REPORT_URL)+r")\)", r'<a href="\2">\1</a>', escaped)
         return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
     lines = render_markdown(report, run_url).splitlines()
     output, index = [], 0

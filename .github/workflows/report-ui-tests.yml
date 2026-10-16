@@ -1,0 +1,19 @@
+name: Mobile report checks
+on:
+  push:
+    branches: [main]
+    paths: ['web-report/**', '.github/workflows/report-ui-tests.yml']
+  pull_request:
+    paths: ['web-report/**', '.github/workflows/report-ui-tests.yml']
+permissions:
+  contents: read
+jobs:
+  report-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test private report controls and pinned published data
+        run: node --test web-report/tests/*.test.mjs

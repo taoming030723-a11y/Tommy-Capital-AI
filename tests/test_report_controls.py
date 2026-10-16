@@ -51,7 +51,8 @@ def test_report_entry_is_idempotent_and_preserves_original_market_text():
     assert updated.count("tommy-report-controls:start")==1
     assert add_report_controls(updated)==updated
     assert strip_report_controls(updated)==original
-    assert "127.0.0.1:8501/?page=report" in updated and "Start-Report.cmd" in updated
+    assert "https://tommy-capital-report.stableokapi18.chatgpt.site" in updated and "Start-Report.cmd" in updated
+    assert "](http://127.0.0.1" not in updated
     with pytest.raises(ValueError):
         add_report_controls("不是市场报告")
 
