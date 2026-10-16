@@ -433,6 +433,83 @@
         }
       ],
       "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+    },
+    {
+      "session": "2026-10-16",
+      "generated_at": "2026-10-16T15:39:08.199788+08:00",
+      "finished_at": "2026-10-16T16:09:48.420644+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "weekly_monthly_only_50_50_v8",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/38868504874",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-16T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "002748",
+          "name": "世龙实业",
+          "score": 74.92
+        },
+        {
+          "rank": 2,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 74.19
+        },
+        {
+          "rank": 3,
+          "code": "002780",
+          "name": "三夫户外",
+          "score": 71.82
+        },
+        {
+          "rank": 4,
+          "code": "600356",
+          "name": "恒丰纸业",
+          "score": 69.53
+        },
+        {
+          "rank": 5,
+          "code": "600989",
+          "name": "宝丰能源",
+          "score": 66.28
+        },
+        {
+          "rank": 6,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 63.22
+        },
+        {
+          "rank": 7,
+          "code": "601330",
+          "name": "绿色动力",
+          "score": 61.0
+        },
+        {
+          "rank": 8,
+          "code": "300012",
+          "name": "华测检测",
+          "score": 60.46
+        },
+        {
+          "rank": 9,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 60.42
+        },
+        {
+          "rank": 10,
+          "code": "603209",
+          "name": "兴通股份",
+          "score": 59.36
+        }
+      ],
+      "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
     }
   ]
 }
