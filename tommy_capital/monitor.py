@@ -17,7 +17,7 @@ from .monitor_data import acquire_frames
 from .monitor_risk import resonance, price_structure, holding_risk
 
 
-def monitor_scope(results_directory="results", positions=None, report=None, preferences=None):
+def monitor_scope(results_directory="results", positions=None, report=None, preferences=None, manual_watch=None):
     report=report or json.loads((Path(results_directory)/"latest-summary.json").read_text())
     if report.get("top10_history") is not None:
         history=validate_history(report["top10_history"])
@@ -28,6 +28,11 @@ def monitor_scope(results_directory="results", positions=None, report=None, pref
     preferences=load_preferences() if preferences is None else preferences
     watch=tracking_view({"session":report.get("session"),"rankings":[],"observations":[]},history,preferences)
     scope={r["code"]:{"code":r["code"],"name":r.get("name"),"sources":["Top10观察"],"appearance_count":r["appearance_count"]} for r in watch["rows"]}
+    for observation in manual_watch or []:
+        row=scope.setdefault(observation["code"],{"code":observation["code"],"name":observation.get("name"),"sources":[]})
+        row["sources"].append("手动观察")
+        if observation.get("name"):
+            row["name"]=observation["name"]
     for position in positions or []:
         code=position["code"]
         row=scope.setdefault(code,{"code":code,"name":position.get("name"),"sources":[]})
@@ -55,7 +60,7 @@ def merge_observed_bars(frame, previous):
 
 
 def run_monitor(scope, provider=None, now=None, calendar=None, state=None, config=None, positions=None, public=False, frame_loader=acquire_frames):
-    if public and (positions or any("持仓" in item.get("sources",[]) for item in scope)):
+    if public and (positions or any(set(item.get("sources",[]))&{"持仓","手动观察"} for item in scope)):
         raise ValueError("公开云端监控禁止加载个人持仓")
     if len({r["code"] for r in scope})!=len(scope):
         raise ValueError("重点监控范围含重复代码，拒绝重复抓取")
@@ -65,11 +70,14 @@ def run_monitor(scope, provider=None, now=None, calendar=None, state=None, confi
         raise ValueError("监控状态版本不匹配")
     if public and any("profit_observation" in value for value in state.get("stocks",{}).values()):
         raise ValueError("私有浮盈状态禁止用于公开云端监控")
+    if public and state.get("visibility")=="local_private":
+        raise ValueError("个人本机监控事件状态禁止用于公开云端")
     fingerprint=identity(config)
     if state.get("configuration_id",fingerprint)!=fingerprint:
         return {"schema":1,"checked_at":now.isoformat(),"public":public,"status":"configuration_changed",
                 "error":"配置已变更；请先归档旧事件并建立独立状态，不改写旧确认信号", "scope":scope,"rows":[],"monitor_complete":False},state
     state["configuration_id"]=fingerprint
+    state["visibility"]="public_watch" if public else "local_private"
     rows=[]
     try:
         calendar=calendar if calendar is not None else provider.fetch("tool_trade_date_hist_sina",ttl=86400)
@@ -163,7 +171,7 @@ def validate_public_monitor(result,state=None):
     forbidden={"cost","shares","note","opened_on","position_basis","profit_observation","holding_risk"}
     def inspect(value):
         if isinstance(value,dict):
-            if forbidden.intersection(value) or "持仓" in value.get("sources",[]):
+            if forbidden.intersection(value) or set(value.get("sources",[]))&{"持仓","手动观察"}:
                 raise ValueError("公开监控含个人持仓/浮盈信息，拒绝发布")
             for child in value.values():
                 inspect(child)
@@ -172,6 +180,8 @@ def validate_public_monitor(result,state=None):
                 inspect(child)
     inspect(result)
     if state is not None:
+        if state.get("visibility")=="local_private":
+            raise ValueError("个人本机监控事件状态禁止公开发布")
         inspect(state)
 
 
@@ -201,23 +211,27 @@ def project_scope_result(result,scope):
     return {**result,"scope":scope,"rows":rows}
 
 
-def refresh_local(holdings_path="holdings.json",results_directory="results",state_directory=".tommy/monitor",provider=None,now=None):
+def refresh_local(holdings_path="holdings.json",results_directory="results",state_directory=".tommy/monitor",provider=None,now=None,controls_path=None):
+    from .report_controls import load_controls,effective_preferences,public_preferences
     positions=load_positions(holdings_path)["holdings"]
-    synced_preferences=Path(results_directory)/"watchlist-preferences.json"
+    controls=load_controls(controls_path or Path(state_directory).parent/"report-controls.json")
     scope_error=None
     try:
-        preferences=load_preferences(synced_preferences) if synced_preferences.exists() else load_preferences()
-        scope=monitor_scope(results_directory,positions,preferences=preferences)
+        preferences=effective_preferences(public_preferences(results_directory),controls)
+        scope=monitor_scope(results_directory,positions,preferences=preferences,manual_watch=controls["manual_watch"])
     except (OSError,ValueError) as exc:
         scope_error=str(exc)
-        scope=[{"code":p["code"],"name":p.get("name"),"sources":["持仓"]} for p in positions]
+        manual={p["code"]:{"code":p["code"],"name":p.get("name"),"sources":["手动观察"]} for p in controls["manual_watch"]}
+        for p in positions:
+            manual.setdefault(p["code"],{"code":p["code"],"name":p.get("name"),"sources":[]})["sources"].append("持仓")
+        scope=[manual[code] for code in sorted(manual)]
     root=Path(state_directory);root.mkdir(parents=True,exist_ok=True)
     with locked(root/"refresh"):
         path=root/"state.json"
         state=json.loads(path.read_text()) if path.exists() else None
         result,state=run_monitor(scope,provider=provider,now=now,state=state,positions=positions)
         if scope_error:
-            result.update(scope_warning="公开累计观察范围未核验，仅监控明确本机持仓："+scope_error,
+            result.update(scope_warning="公开累计观察范围未核验，仅监控本机手动观察与明确持仓："+scope_error,
                           monitor_complete=False,status="partial")
         atomic_json(path,state);atomic_json(root/"latest.json",result)
     return result

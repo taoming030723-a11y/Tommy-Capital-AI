@@ -424,19 +424,23 @@ def render_dual_report(report, run_url=None):
     if report.get("macd_monitor") is not None:
         from .monitor_reporting import render_monitor_section
         lines += render_monitor_section(report["macd_monitor"])
-    return "\n".join(lines)
+    from .report_controls import add_report_controls
+    return add_report_controls("\n".join(lines))
 
 
 def render_html(report, run_url=None):
     """Use the same compact tables and reasons as the Markdown/Actions report."""
     def inline(text):
         escaped = html.escape(html.unescape(text.replace("\\|", "|").replace("\\`", "`")))
-        escaped = re.sub(r"\[([^\]]+)\]\((https://github\.com/[^\s)]+)\)", r'<a href="\2">\1</a>', escaped)
+        escaped = re.sub(r"\[([^\]]+)\]\((https://github\.com/[^\s)]+|http://127\.0\.0\.1:8501/\?page=report)\)", r'<a href="\2">\1</a>', escaped)
         return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
     lines = render_markdown(report, run_url).splitlines()
     output, index = [], 0
     while index < len(lines):
         line = lines[index]
+        if line.startswith("<!-- tommy-report-controls:"):
+            index+=1
+            continue
         if line.startswith("| "):
             group = []
             while index < len(lines) and lines[index].startswith("| "):

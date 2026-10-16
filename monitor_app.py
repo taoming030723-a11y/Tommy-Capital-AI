@@ -13,6 +13,7 @@ ROOT=Path(__file__).resolve().parent
 HOLDINGS=Path(os.environ.get("TOMMY_HOLDINGS_PATH",str(ROOT/"holdings.json")))
 STATE=Path(os.environ.get("TOMMY_MONITOR_STATE",str(ROOT/".tommy/monitor")))
 RESULTS=Path(os.environ.get("TOMMY_RESULTS_DIRECTORY",str(ROOT/"results")))
+CONTROLS=Path(os.environ.get("TOMMY_REPORT_CONTROLS",str(ROOT/".tommy/report-controls.json")))
 
 
 def lookup_name(code):
@@ -22,7 +23,7 @@ def lookup_name(code):
 def render_results(result,role,alerts_only):
     if result.get("error") or result.get("scope_warning"):
         st.warning(result.get("error") or result["scope_warning"])
-    rows=[r for r in result.get("rows",[]) if role in r.get("sources",[])]
+    rows=[r for r in result.get("rows",[]) if role is None or role in r.get("sources",[])]
     if alerts_only:
         rows=[r for r in rows if any(f.get("signals") for f in r["frames"].values()) or
               r.get("holding_risk",{}).get("label") not in (None,"正常持有观察")]
@@ -58,71 +59,7 @@ def render_results(result,role,alerts_only):
             st.json(row.get("new_events",[]),expanded=False)
 
 
-def main():
-    st.set_page_config(page_title="Tommy Capital 持仓与MACD监控",layout="wide")
-    st.title("Tommy Capital · 持仓与MACD监控")
-    st.caption("EMA12/26、DEA9；MACD柱=2×(DIF−DEA)。成本、数量、备注与持仓事件仅保存在本机，无自动下单。")
-    page=st.sidebar.radio("页面",["持续Top10观察池","我的实际持仓"])
-    if st.sidebar.button("同步公开观察名单与忽略设置"):
-        try:
-            from tommy_capital.monitor_sync import sync_public_inputs
-            directory,commit=sync_public_inputs(ROOT/".tommy/public-inputs")
-            st.session_state["results_directory"]=str(directory)
-            st.session_state["public_commit"]=commit
-            st.success("公开名单已同步；本机持仓未上传。")
-        except (ValueError,OSError,DataError) as exc:
-            st.error(str(exc))
-    results_directory=Path(st.session_state.get("results_directory",str(RESULTS)))
-    if st.session_state.get("public_commit"):
-        st.sidebar.caption("公开名单版本："+st.session_state["public_commit"][:12])
-    if st.sidebar.button("一键刷新全部重点监控",type="primary"):
-        try:
-            with st.spinner("仅获取观察股与持仓股的完整五周期行情…"):
-                st.session_state["monitor_result"]=refresh_local(HOLDINGS,results_directory,STATE)
-        except (ValueError,OSError,DataError) as exc:
-            st.error(str(exc))
-    alerts_only=st.sidebar.checkbox("只看出现警报的股票")
-    with st.sidebar.expander("历史复权或配置变化后的状态重建"):
-        st.caption("先核对数据变化。重建会保留旧事件归档，从新数据起点重新观察，不改写历史确认。")
-        rebuild=st.checkbox("已核对变化，归档并重新建立本机监控状态")
-        if st.button("归档旧监控状态",disabled=not rebuild):
-            try:
-                archive_local_state(STATE)
-                st.session_state.pop("monitor_result",None)
-                st.success("旧事件已归档；请重新刷新监控。")
-            except (ValueError,OSError) as exc:
-                st.error(str(exc))
-    result=st.session_state.get("monitor_result")
-    if result is None and (STATE/"latest.json").exists():
-        result=json.loads((STATE/"latest.json").read_text())
-    try:
-        positions=load_positions(HOLDINGS)
-    except (ValueError,OSError) as exc:
-        st.error(str(exc));return
-    try:
-        preference_path=results_directory.parent/"operations/watchlist-preferences.json" if results_directory==RESULTS else results_directory/"watchlist-preferences.json"
-        from tommy_capital.tracking import load_preferences
-        current_scope=monitor_scope(results_directory,positions["holdings"],preferences=load_preferences(preference_path))
-        if result:
-            result=project_scope_result(result,current_scope)
-    except (OSError,ValueError):
-        current_scope=[{"code":p["code"],"name":p["name"],"sources":["持仓"]} for p in positions["holdings"]]
-        if result:
-            result=project_scope_result(result,current_scope)
-    if page=="持续Top10观察池":
-        st.header("持续Top10观察池")
-        try:
-            preference_path=results_directory.parent/"operations/watchlist-preferences.json" if results_directory==RESULTS else results_directory/"watchlist-preferences.json"
-            from tommy_capital.tracking import load_preferences
-            scope=monitor_scope(results_directory,positions["holdings"],preferences=load_preferences(preference_path))
-            watch=[r for r in scope if "Top10观察" in r["sources"]]
-            st.dataframe([{"代码":r["code"],"名称":r.get("name"),"累计正式收盘Top10次数":r["appearance_count"],"身份":"／".join(r["sources"])} for r in watch],hide_index=True)
-            st.caption("累计三个不同正式收盘日，不要求连续；已忽略观察股退出此池，实际持仓仍独立监控。")
-        except (OSError,ValueError) as exc:
-            st.warning("公开累计历史尚未核验："+str(exc))
-        if result:
-            render_results(result,"Top10观察",alerts_only)
-        return
+def render_holdings_editor(positions,result,alerts_only=False):
     st.header("我的实际持仓")
     st.dataframe(positions["holdings"],hide_index=True)
     if st.session_state.pop("delete_complete",False):
@@ -175,6 +112,91 @@ def main():
         current_codes={p["code"] for p in positions["holdings"]}
         private_view={**result,"rows":[r for r in result.get("rows",[]) if r["code"] in current_codes]}
         render_results(private_view,"持仓",alerts_only)
+
+
+
+def main():
+    st.set_page_config(page_title="Tommy Capital 最新报告",layout="wide")
+    st.title("Tommy Capital · 研究报告与观察管理")
+    st.caption("EMA12/26、DEA9；MACD柱=2×(DIF−DEA)。成本、数量、备注与持仓事件仅保存在本机，无自动下单。")
+    page=st.sidebar.radio("页面",["最新报告","持续Top10观察池","我的实际持仓"])
+    if st.sidebar.button("同步公开观察名单与忽略设置"):
+        try:
+            from tommy_capital.monitor_sync import sync_public_inputs
+            directory,commit=sync_public_inputs(ROOT/".tommy/public-inputs")
+            st.session_state["results_directory"]=str(directory)
+            st.session_state["public_commit"]=commit
+            st.success("公开名单已同步；本机持仓未上传。")
+        except (ValueError,OSError,DataError) as exc:
+            st.error(str(exc))
+    results_directory=Path(st.session_state.get("results_directory",str(RESULTS)))
+    if st.session_state.get("public_commit"):
+        st.sidebar.caption("公开名单版本："+st.session_state["public_commit"][:12])
+    if st.sidebar.button("一键刷新全部重点监控",type="primary"):
+        try:
+            with st.spinner("仅获取观察股与持仓股的完整五周期行情…"):
+                st.session_state["monitor_result"]=refresh_local(HOLDINGS,results_directory,STATE,controls_path=CONTROLS)
+        except (ValueError,OSError,DataError) as exc:
+            st.error(str(exc))
+    alerts_only=st.sidebar.checkbox("只看出现警报的股票")
+    with st.sidebar.expander("历史复权或配置变化后的状态重建"):
+        st.caption("先核对数据变化。重建会保留旧事件归档，从新数据起点重新观察，不改写历史确认。")
+        rebuild=st.checkbox("已核对变化，归档并重新建立本机监控状态")
+        if st.button("归档旧监控状态",disabled=not rebuild):
+            try:
+                archive_local_state(STATE)
+                st.session_state.pop("monitor_result",None)
+                st.success("旧事件已归档；请重新刷新监控。")
+            except (ValueError,OSError) as exc:
+                st.error(str(exc))
+    result=st.session_state.get("monitor_result")
+    if result is None and (STATE/"latest.json").exists():
+        result=json.loads((STATE/"latest.json").read_text())
+    try:
+        positions=load_positions(HOLDINGS)
+    except (ValueError,OSError) as exc:
+        st.error(str(exc));return
+    from tommy_capital.report_controls import load_controls,effective_preferences,public_preferences
+    try:
+        controls=load_controls(CONTROLS)
+        preferences=effective_preferences(public_preferences(results_directory),controls)
+        current_scope=monitor_scope(results_directory,positions["holdings"],preferences=preferences,manual_watch=controls["manual_watch"])
+        if result:
+            result=project_scope_result(result,current_scope)
+    except (OSError,ValueError) as exc:
+        st.warning("公开观察范围或本机设置未核验："+str(exc))
+        try:
+            controls=load_controls(CONTROLS)
+        except (OSError,ValueError) as control_error:
+            st.error("请核对本机报告设置文件，未重置原设置："+str(control_error))
+            return
+        preferences=None
+        explicit={p["code"]:{"code":p["code"],"name":p["name"],"sources":["手动观察"]} for p in controls["manual_watch"]}
+        for p in positions["holdings"]:
+            explicit.setdefault(p["code"],{"code":p["code"],"name":p["name"],"sources":[]})["sources"].append("持仓")
+        current_scope=[explicit[code] for code in sorted(explicit)]
+        if result:
+            result=project_scope_result(result,current_scope)
+    if page=="最新报告":
+        from tommy_capital.report_app import render_latest_report
+        render_latest_report(results_directory,CONTROLS,controls,preferences,positions,result,
+                             lookup_name,render_results,render_holdings_editor,
+                             lambda:refresh_local(HOLDINGS,results_directory,STATE,controls_path=CONTROLS),
+                             ROOT/".tommy/public-inputs",alerts_only=alerts_only)
+        return
+    if page=="持续Top10观察池":
+        st.header("持续Top10观察池")
+        try:
+            scope=current_scope
+            watch=[r for r in scope if "Top10观察" in r["sources"]]
+            st.dataframe([{"代码":r["code"],"名称":r.get("name"),"累计正式收盘Top10次数":r["appearance_count"],"身份":"／".join(r["sources"])} for r in watch],hide_index=True)
+            st.caption("累计三个不同正式收盘日，不要求连续；已忽略观察股退出此池，实际持仓仍独立监控。")
+        except (OSError,ValueError) as exc:
+            st.warning("公开累计历史尚未核验："+str(exc))
+        if result:
+            render_results(result,"Top10观察",alerts_only)
+        return
+    render_holdings_editor(positions,result,alerts_only)
 
 
 if __name__=="__main__":

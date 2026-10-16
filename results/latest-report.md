@@ -1,5 +1,11 @@
 # Tommy Capital · 2026-10-15 · 收盘
 
+<!-- tommy-report-controls:start -->
+[打开交互版最新报告：忽略／恢复、手动添加观察、管理持仓](http://127.0.0.1:8501/?page=report) · [首次启动说明](https://github.com/taoming030723-a11y/Tommy-Capital-AI/blob/main/docs/report-controls.md) · [云端忽略／恢复](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/workflows/watchlist.yml)
+
+交互版需先在电脑启动 Start-Report.cmd；本机操作保存在本机，GitHub本文保留原扫描结果。
+<!-- tommy-report-controls:end -->
+
 ## 扫描概况
 
 | 扫描 | 结果 |
