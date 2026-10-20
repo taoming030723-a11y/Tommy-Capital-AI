@@ -1,12 +1,12 @@
 {
-  "evaluated_at": "2026-10-19T16:32:22.714336+08:00",
-  "as_of_session": "2026-10-19",
-  "snapshot_count": 7,
+  "evaluated_at": "2026-10-20T16:22:55.171842+08:00",
+  "as_of_session": "2026-10-20",
+  "snapshot_count": 8,
   "scope": "最近20份冻结记录及当前记录；重叠窗口不是独立样本",
-  "matured_checks": 155,
-  "pending_checks": 238,
+  "matured_checks": 191,
+  "pending_checks": 247,
   "missing_checks": 0,
-  "distinct_matured_decision_days": 6,
+  "distinct_matured_decision_days": 7,
   "validation_status": "unvalidated_out_of_sample",
   "automatic_weight_training": false,
   "benchmark_comparison": "not_implemented",
@@ -1876,10 +1876,15 @@
       "name": "浩洋股份",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -2.9475982532750966,
+      "hypothetical_net_return_pct": -3.335032990786979,
+      "entry_open_qfq": 45.8,
+      "exit_close_qfq": 44.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -1917,10 +1922,15 @@
       "name": "世龙实业",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -7.630813953488369,
+      "hypothetical_net_return_pct": -7.999553219143108,
+      "entry_open_qfq": 13.76,
+      "exit_close_qfq": 12.71,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -1958,10 +1968,15 @@
       "name": "三夫户外",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -1.926910299003326,
+      "hypothetical_net_return_pct": -2.3184196391270673,
+      "entry_open_qfq": 15.05,
+      "exit_close_qfq": 14.76,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -1999,10 +2014,15 @@
       "name": "楚天高速",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -1.5915119363395291,
+      "hypothetical_net_return_pct": -1.9843601920826903,
+      "entry_open_qfq": 3.77,
+      "exit_close_qfq": 3.71,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2040,10 +2060,15 @@
       "name": "兴通股份",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -3.094140882159313,
+      "hypothetical_net_return_pct": -3.4809906191566653,
+      "entry_open_qfq": 15.19,
+      "exit_close_qfq": 14.72,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2081,10 +2106,15 @@
       "name": "森萱医药",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -4.454545454545455,
+      "hypothetical_net_return_pct": -4.835964434766837,
+      "entry_open_qfq": 11.0,
+      "exit_close_qfq": 10.51,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2122,10 +2152,15 @@
       "name": "先导智能",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -11.214410226612447,
+      "hypothetical_net_return_pct": -11.568843718721777,
+      "entry_open_qfq": 34.42,
+      "exit_close_qfq": 30.56,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2163,10 +2198,15 @@
       "name": "同力股份",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 1.6620498614958512,
+      "hypothetical_net_return_pct": 1.2562133351026405,
+      "entry_open_qfq": 18.05,
+      "exit_close_qfq": 18.35,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2204,10 +2244,15 @@
       "name": "基蛋生物",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -6.249999999999989,
+      "hypothetical_net_return_pct": -6.624251497005984,
+      "entry_open_qfq": 9.76,
+      "exit_close_qfq": 9.15,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2245,10 +2290,15 @@
       "name": "敦煌种业",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -14.968152866242034,
+      "hypothetical_net_return_pct": -15.307601357793976,
+      "entry_open_qfq": 9.42,
+      "exit_close_qfq": 8.01,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2286,10 +2336,15 @@
       "name": "方盛制药",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 2.1072796934865856,
+      "hypothetical_net_return_pct": 1.699665802494632,
+      "entry_open_qfq": 10.44,
+      "exit_close_qfq": 10.66,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2327,10 +2382,15 @@
       "name": "赢合科技",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -6.957773512476006,
+      "hypothetical_net_return_pct": -7.329199566318412,
+      "entry_open_qfq": 20.84,
+      "exit_close_qfq": 19.39,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2368,10 +2428,15 @@
       "name": "山河药辅",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -4.1825095057034245,
+      "hypothetical_net_return_pct": -4.565014457776472,
+      "entry_open_qfq": 13.15,
+      "exit_close_qfq": 12.6,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2409,10 +2474,15 @@
       "name": "西麦食品",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 9.054669703872431,
+      "hypothetical_net_return_pct": 8.619321721022665,
+      "entry_open_qfq": 17.56,
+      "exit_close_qfq": 19.15,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2450,10 +2520,15 @@
       "name": "创业环保",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -1.9538188277087087,
+      "hypothetical_net_return_pct": -2.345220748556187,
+      "entry_open_qfq": 5.63,
+      "exit_close_qfq": 5.52,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2491,10 +2566,15 @@
       "name": "绿色动力",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -2.1739130434782594,
+      "hypothetical_net_return_pct": -2.5644363447018925,
+      "entry_open_qfq": 8.28,
+      "exit_close_qfq": 8.1,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2532,10 +2612,15 @@
       "name": "新美星",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -4.143337066069419,
+      "hypothetical_net_return_pct": -4.525998395147002,
+      "entry_open_qfq": 8.93,
+      "exit_close_qfq": 8.56,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2573,10 +2658,15 @@
       "name": "华绿生物",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -8.465608465608476,
+      "hypothetical_net_return_pct": -8.83101521824079,
+      "entry_open_qfq": 17.01,
+      "exit_close_qfq": 15.57,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2614,10 +2704,15 @@
       "name": "中国石化",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.5474452554744547,
+      "hypothetical_net_return_pct": -0.9444614420793584,
+      "entry_open_qfq": 5.48,
+      "exit_close_qfq": 5.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -2655,10 +2750,15 @@
       "name": "金三江",
       "horizon_sessions": 5,
       "model_version": "research_stage_50_50_v3",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-14",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -5.343511450381677,
+      "hypothetical_net_return_pct": -5.721381664152602,
+      "entry_open_qfq": 13.1,
+      "exit_close_qfq": 12.4,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "1e6810867da9da8e86670c62d1def3e4a229709e329b634b2460bf96dc59e85d",
@@ -4934,10 +5034,15 @@
       "name": "敦煌种业",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 0.6281407035175768,
+      "hypothetical_net_return_pct": 0.22643155899255696,
+      "entry_open_qfq": 7.96,
+      "exit_close_qfq": 8.01,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -4970,10 +5075,15 @@
       "name": "世龙实业",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -3.3460076045627285,
+      "hypothetical_net_return_pct": -3.731851885582449,
+      "entry_open_qfq": 13.15,
+      "exit_close_qfq": 12.71,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5006,10 +5116,15 @@
       "name": "三夫户外",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.2702702702702786,
+      "hypothetical_net_return_pct": -0.6683929438420555,
+      "entry_open_qfq": 14.8,
+      "exit_close_qfq": 14.76,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5042,10 +5157,15 @@
       "name": "恒丰纸业",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 0.8910891089108919,
+      "hypothetical_net_return_pct": 0.4883302701527592,
+      "entry_open_qfq": 10.1,
+      "exit_close_qfq": 10.19,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5078,10 +5198,15 @@
       "name": "宝丰能源",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.26654820079965447,
+      "hypothetical_net_return_pct": -0.6646857329321909,
+      "entry_open_qfq": 22.51,
+      "exit_close_qfq": 22.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5114,10 +5239,15 @@
       "name": "浩洋股份",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 0.5656108597285048,
+      "hypothetical_net_return_pct": 0.16415133533835835,
+      "entry_open_qfq": 44.2,
+      "exit_close_qfq": 44.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5150,10 +5280,15 @@
       "name": "绿色动力",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.7352941176470673,
+      "hypothetical_net_return_pct": -1.1315604085945785,
+      "entry_open_qfq": 8.16,
+      "exit_close_qfq": 8.1,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5186,10 +5321,15 @@
       "name": "基蛋生物",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 1.5538290788013276,
+      "hypothetical_net_return_pct": 1.148424571500728,
+      "entry_open_qfq": 9.01,
+      "exit_close_qfq": 9.15,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5222,10 +5362,15 @@
       "name": "华测检测",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 0.910273081924573,
+      "hypothetical_net_return_pct": 0.5074376604398356,
+      "entry_open_qfq": 15.38,
+      "exit_close_qfq": 15.52,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5258,10 +5403,15 @@
       "name": "兴通股份",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -1.538461538461533,
+      "hypothetical_net_return_pct": -1.9315215722401136,
+      "entry_open_qfq": 14.95,
+      "exit_close_qfq": 14.72,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5294,10 +5444,15 @@
       "name": "台华新材",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.6256517205422418,
+      "hypothetical_net_return_pct": -1.0223557056897703,
+      "entry_open_qfq": 9.59,
+      "exit_close_qfq": 9.53,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5330,10 +5485,15 @@
       "name": "中国石化",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -0.3656307129798808,
+      "hypothetical_net_return_pct": -0.7633727061416407,
+      "entry_open_qfq": 5.47,
+      "exit_close_qfq": 5.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5366,10 +5526,15 @@
       "name": "宁波能源",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": -1.9723865877712132,
+      "hypothetical_net_return_pct": -2.363714385824023,
+      "entry_open_qfq": 5.07,
+      "exit_close_qfq": 4.97,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5402,10 +5567,15 @@
       "name": "威尔药业",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 0.6749156355455588,
+      "hypothetical_net_return_pct": 0.2730197647449861,
+      "entry_open_qfq": 26.67,
+      "exit_close_qfq": 26.85,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5438,10 +5608,15 @@
       "name": "海尔生物",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 2.3659305993690927,
+      "hypothetical_net_return_pct": 1.9572841698306975,
+      "entry_open_qfq": 31.7,
+      "exit_close_qfq": 32.45,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5474,10 +5649,15 @@
       "name": "宁波东力",
       "horizon_sessions": 1,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
-      "exit_session": "2026-10-20"
+      "exit_session": "2026-10-20",
+      "gross_price_return_pct": 6.4558629776021,
+      "hypothetical_net_return_pct": 6.030889472701517,
+      "entry_open_qfq": 15.18,
+      "exit_close_qfq": 16.16,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益"
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -5502,6 +5682,546 @@
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-11-16"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002748",
+      "name": "世龙实业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002748",
+      "name": "世龙实业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002748",
+      "name": "世龙实业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002780",
+      "name": "三夫户外",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600989",
+      "name": "宝丰能源",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600989",
+      "name": "宝丰能源",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600989",
+      "name": "宝丰能源",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300833",
+      "name": "浩洋股份",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "601330",
+      "name": "绿色动力",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603209",
+      "name": "兴通股份",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600028",
+      "name": "中国石化",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600028",
+      "name": "中国石化",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "600028",
+      "name": "中国石化",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 1,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-21"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 5,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-10-27"
+    },
+    {
+      "snapshot_sha256": "bbb7ba8afc8d306b0bd7c57856b07f62928bdc66de04c48fb6a4f1db27c74cf0",
+      "decision_day": "2026-10-20",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 20,
+      "model_version": "weekly_monthly_only_50_50_v8",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-21",
+      "exit_session": "2026-11-17"
     }
   ],
   "lineage": [
@@ -5510,7 +6230,7 @@
       "kwargs": {},
       "rows": 8797,
       "cache_hit": true,
-      "fetched_at": "2026-10-19T15:49:33.496855+08:00",
+      "fetched_at": "2026-10-20T16:20:16.168765+08:00",
       "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
     },
     {
@@ -5518,532 +6238,546 @@
       "kwargs": {
         "symbol": "300452",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:41.278214+08:00",
-      "sha256": "40299134a6a3976ee7d51cf2d7459aed37412889eabb13169383bb162244a6f9"
+      "fetched_at": "2026-10-20T16:22:13.863876+08:00",
+      "sha256": "5398d5dfba42a7635bcd40636afe8e4ea45ba87e134ddea0a7668f30a1b981d1"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603387",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:42.376337+08:00",
-      "sha256": "22b2cb14a1dfb1d9f67fabf36fd0f989fe5c599af6a9c07576f84c2ebf092ab3"
+      "fetched_at": "2026-10-20T16:22:14.932402+08:00",
+      "sha256": "8cf883bb1314e0dd393f577f9ae235e96a3d55644d4241e16e8c8885a0cb8ff4"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300833",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:43.485978+08:00",
-      "sha256": "4fe8a52e2b3fd1f254e0f86b798e5079b94b19b5490c115dbf14f25409d3355a"
+      "fetched_at": "2026-10-20T16:22:16.017479+08:00",
+      "sha256": "57d310649108f009b1d21718656d79bd8d78e23f86e0d0f1f1b64d5a7a6d6e80"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603351",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:44.611380+08:00",
-      "sha256": "fa61ab4fe9a393f3529a2e923caa79f8b3ad63e7a02c2a3bafbcc385e937c610"
+      "fetched_at": "2026-10-20T16:22:17.137996+08:00",
+      "sha256": "abf597fad1117910489a74d6577797237ee5160de3e64bf8bd763674b722516e"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002780",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:45.914775+08:00",
-      "sha256": "07a9a606e735d721c62a50c6816c7df81428d0d318cf57872b7be7431da69aa8"
+      "fetched_at": "2026-10-20T16:22:18.380587+08:00",
+      "sha256": "298edbfae98108a4589197acad50e09cb03cc4bb1c9286159a624fb9674adee5"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "301059",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:47.026423+08:00",
-      "sha256": "6654c5d501c32c458789d73a0801709ad0c052fc9f2b8c42ceb176d1c9886f69"
+      "fetched_at": "2026-10-20T16:22:19.454494+08:00",
+      "sha256": "a7d1b422884e1a0be9573e0eb89bc2a81b75cd35b5c43d1dc2b021dbef7abf0b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920946",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:48.120882+08:00",
-      "sha256": "fc052e9f75e25826054abc51de9995dbc2e52b97149ee88496f3ddc7ba56e0fc"
+      "fetched_at": "2026-10-20T16:22:20.515636+08:00",
+      "sha256": "e808154c057ecc46d6c6a7c90e912208f223030b4db0d380cb544fe4aedcaf90"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920735",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:49.225396+08:00",
-      "sha256": "a52082d734143a2bc2c06780c0260689fb802cbc8455b882484b4cbcb939ce80"
+      "fetched_at": "2026-10-20T16:22:21.577982+08:00",
+      "sha256": "0fcbc756de5a03672a8659e9dbdc85f919612ca06bb02ffd1198d78d2936ad6e"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300450",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:50.339316+08:00",
-      "sha256": "b04399075ee85f94c8b078d1306e2d2d6273e4f6d5d29e638895c18774c10ef1"
+      "fetched_at": "2026-10-20T16:22:22.654841+08:00",
+      "sha256": "7df0559180f0b163f1f74e6bbfc8db1d7c961d24d174146b9838efb9b23cb79f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920599",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:51.439160+08:00",
-      "sha256": "c1f9a16186b60807ac9f692fda236fa8138493ea56eb00f5adf76376f0e60a97"
+      "fetched_at": "2026-10-20T16:22:23.727455+08:00",
+      "sha256": "b488d1c594d4c6fe98d688dc6e8f650028d182a0ecebaee7d04a115ee5a98944"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600354",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:52.550252+08:00",
-      "sha256": "a449911ba9deff35c394714150c0f3f864eb0ff2bf0383eb502db473c57b88bb"
+      "fetched_at": "2026-10-20T16:22:24.797321+08:00",
+      "sha256": "4878e42b1f8e1a21fafa64b32661779f0c668b7f59150e4320486cbe025a1bd4"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300457",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:53.674194+08:00",
-      "sha256": "3c9252051d78ebe01f57d4b69364e4b024f6f942097ca0dffb09b4cd3644144e"
+      "fetched_at": "2026-10-20T16:22:25.874933+08:00",
+      "sha256": "ab9426357972542c47e2c9f61ce5e29b857045d6d38608d0a260520df433b022"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603209",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:54.793130+08:00",
-      "sha256": "a0613ea4811048b7e2288fae73ffe964da07c52f32420bf072bfc8115e030b48"
+      "fetched_at": "2026-10-20T16:22:26.961191+08:00",
+      "sha256": "8615fc8db7367bed7c4cb0bef2df364cc8d6df8a0aaeb0ed68d70b186df82a75"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603998",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:55.898793+08:00",
-      "sha256": "248186d2f77395f22af4c55d49ea19d607d22f530b91935d43cc6c7845c80fc6"
+      "fetched_at": "2026-10-20T16:22:28.032401+08:00",
+      "sha256": "02bd58ae8fcfa72d6d2b5584b0207888fe0df51449bf1b3d20db3de5c3ae3173"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600035",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:56.977977+08:00",
-      "sha256": "3cc228f29431cde818756b8fbc6b122a8170e02e5678e9a410ab0dd877f47b47"
+      "fetched_at": "2026-10-20T16:22:29.068059+08:00",
+      "sha256": "ed942a3f0753f98b79490e4983bbbf94798f4148efc2a9eb761074c2609e437f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002074",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:58.084013+08:00",
-      "sha256": "eac194d524735cb88500c9b29fb06b56cf64aa8f3b45a60eaef39b26160363fe"
+      "fetched_at": "2026-10-20T16:22:30.136708+08:00",
+      "sha256": "46949dc7b7b3e75509e39cd6ffbc5f88c1db8af7d898cf470b157ee7f8d2cd8c"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300970",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:31:59.202979+08:00",
-      "sha256": "851feb9ecb42cdef0ee83a21ef4bae420073bda0c225b718e4e7ae86f22a4ef6"
+      "fetched_at": "2026-10-20T16:22:31.215434+08:00",
+      "sha256": "e220b14ac216904daf445e78ee06bba0273ed9a8f52800b7158d93dce4c968fd"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603332",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:00.312497+08:00",
-      "sha256": "93419acff8675c4ede72168d0342f57b1714884e086b0e2d8427ad625264809a"
+      "fetched_at": "2026-10-20T16:22:32.295389+08:00",
+      "sha256": "960d689f554b877c8b15ea93e3c8d3c2d989be4d9c8cf28b4df5683c0e5033ce"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002748",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:01.417932+08:00",
-      "sha256": "bcacf7c7246a6e2dbf35e93e20ca1d8ede75e36ab612bb7f7f26eca8522c2331"
+      "fetched_at": "2026-10-20T16:22:33.373246+08:00",
+      "sha256": "e89646633239e327de60146ceb93478fe8b203a89d71808768ecdefc36ec3742"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600982",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:02.520058+08:00",
-      "sha256": "7ba805eaa370a55a01b062a1e87842e0dc54ca2f681e52e5932624da35d044b2"
+      "fetched_at": "2026-10-20T16:22:34.444841+08:00",
+      "sha256": "5f2197706bdbb65de46055eaf0dc4e1545eb6a60c6d5290ac8bc1e20c738aefe"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "601330",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:03.683085+08:00",
-      "sha256": "8f1dcecc2f0ac2bc45ac1e6115f162f0c903f7407f59b5c699e36991568ba291"
+      "fetched_at": "2026-10-20T16:22:35.581470+08:00",
+      "sha256": "94fbc5b1a1a66293e9f25e524d2c101333710802948d70d1436066b969303ed3"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600874",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:04.830312+08:00",
-      "sha256": "7434e616d7b22c36c1c498b9ae4aa9e519ad8407856bd47caa69a0d18cd3d680"
+      "fetched_at": "2026-10-20T16:22:36.669002+08:00",
+      "sha256": "565add49b66b8b4c937748bfbaa96f4296ecf51615fa59db51ee38ae76d65c5f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002734",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:05.941647+08:00",
-      "sha256": "8e3a538c1def2189fe8451d23dd2869e0068966b7ae11d6662c309ab46953772"
+      "fetched_at": "2026-10-20T16:22:37.746757+08:00",
+      "sha256": "b8739babd5ccd1cf7932fd9f1d411a6321ec8ea57a67cd90366484cf8a6df97f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "000581",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:07.050016+08:00",
-      "sha256": "af359bcc93753c806e10cc2db9820344d2cc2210b6eee4658271d035a79ff356"
+      "fetched_at": "2026-10-20T16:22:38.823304+08:00",
+      "sha256": "b16c6eb1aa554d923eefc33304920de56a6afd87609f3d431b219a7863d6ddfb"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002956",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:08.193955+08:00",
-      "sha256": "bb5a6d347a0dd58bc8a2007f97b7d0e06585f55ffd6aced20df0bfb873bb5836"
+      "fetched_at": "2026-10-20T16:22:39.970357+08:00",
+      "sha256": "73eaa6345ecda1108a6ee1b1abf5ce992d9edb6ee0d713108913f7aaf679b2cd"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300509",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:09.295346+08:00",
-      "sha256": "797ed5be8f51cf914b8076dffcbe2bda11f6fb6eff43b89f62a2485693767e07"
+      "fetched_at": "2026-10-20T16:22:41.055879+08:00",
+      "sha256": "f983b6b6249d4a06a3de0e5f89bd473f6ebf1573530eed6f3f2467221c64e4a1"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600028",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:10.391408+08:00",
-      "sha256": "fd745418eb4bc9d7609298b91ee5a6b29352c128781a014964cd996e48fc6f8e"
+      "fetched_at": "2026-10-20T16:22:42.142960+08:00",
+      "sha256": "e53f38df65f45a17b26c4b55862b92d909c9afb27b983be9322399fa5234498b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603055",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:11.539919+08:00",
-      "sha256": "3e3c5ed148799f11e6123d6ba47d77e08a6ec0d11362d9602917669320d54d1c"
+      "fetched_at": "2026-10-20T16:22:43.266946+08:00",
+      "sha256": "01dc27e939d925e1b53fed8edca644d74f5575c0d9dc9174e970728c92a51e0e"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603345",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:12.643290+08:00",
-      "sha256": "d1555e4e65d61614aa0de00a54d0d25614f3de6f81a832ebc9d7e93b4eb4eb90"
+      "fetched_at": "2026-10-20T16:22:44.332614+08:00",
+      "sha256": "35abc75f0fb6d158e252b83e046df059eca00c24056077c61d97852a87a5327c"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600989",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:13.749680+08:00",
-      "sha256": "3d8a5a9fbc928d97e446ae9355cde6d2ffc7e3dc4055b5ef81929485f76a190e"
+      "fetched_at": "2026-10-20T16:22:45.409162+08:00",
+      "sha256": "a2f71f682f8f21bd856abc7b83c9642258373bfade1ffe88c4cc99d3f14593c1"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300406",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:14.855391+08:00",
-      "sha256": "382badd7a9314b727f39117c6be6b3b511185eb500b3639983b560184a50ebb4"
+      "fetched_at": "2026-10-20T16:22:46.465780+08:00",
+      "sha256": "577e8edecf5aba207178a98436897636153d78a210fbe7a9e6d789c0ea050305"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600356",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:15.988071+08:00",
-      "sha256": "a2ce185fe6e92fe5a3eb372d592ef16009917727996aa8231ac352926b905877"
+      "fetched_at": "2026-10-20T16:22:47.558543+08:00",
+      "sha256": "fe216f13cb435535601eda75902c3a5fa6657df6f8b0f4fb51c3c01e47d6c399"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600378",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:17.114393+08:00",
-      "sha256": "40ed4f4c25ff047d67f90902e9bdcd9eb400b85adf23ee87ae8bfe16af74bb9f"
+      "fetched_at": "2026-10-20T16:22:48.624335+08:00",
+      "sha256": "b4d5f4732a7c65542c651d3cab2b931f4ba9b06d9e3063e6fe63f40163aaf02b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600522",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:18.223180+08:00",
-      "sha256": "62257489f62d0fcebbe21255a9d594e13da321623d327fe98a87b16811b0893c"
+      "fetched_at": "2026-10-20T16:22:49.687196+08:00",
+      "sha256": "c29732a5ce3619e0f4a4ff2bcb580f2bbb23b86cf817437fdc417e78c19a6876"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603986",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:19.330089+08:00",
-      "sha256": "8bc1233e7b1ca3c12cb3dec3441307191125fa56c5a5c28250b885afa63a787e"
+      "fetched_at": "2026-10-20T16:22:50.763065+08:00",
+      "sha256": "9d08acdeed632dd2b52778e5f6dc3f35e2e595b0d619137dad2aa75846a3065c"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603993",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:20.433357+08:00",
-      "sha256": "a98fdf397631d2758b3e32821d32b43813b42183d0251f40907ba4c1ce07c42e"
+      "fetched_at": "2026-10-20T16:22:51.830401+08:00",
+      "sha256": "f68b5fcbcb1eb75a795e4bfc4d843e2b290ea7d5c7ccd3616cfa85305403f370"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300012",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:21.576114+08:00",
-      "sha256": "a081ab84ff970b37333e46dcf08049564410452bb5863c596b0f2fcc98aae761"
+      "fetched_at": "2026-10-20T16:22:52.935929+08:00",
+      "sha256": "7053643ae69e4753c3949bab12e41e7661e66ef9ccd87beddbe595cb4144c6a7"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002164",
         "adjust": "qfq",
-        "end_date": "20261019",
-        "anchor_date": "20261019",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-19T16:32:22.686546+08:00",
-      "sha256": "91dfbdc0901fd2b314d9fdb716114f7e4eb6927a98c3767650bdcffd53c41c1d"
+      "fetched_at": "2026-10-20T16:22:54.006297+08:00",
+      "sha256": "32f31e3989757a99106ef87b61762b5f246051713f5adfbae10744bac074cc36"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "688139",
+        "adjust": "qfq",
+        "end_date": "20261020",
+        "anchor_date": "20261020",
+        "include_current_session": true
+      },
+      "rows": 641,
+      "cache_hit": false,
+      "fetched_at": "2026-10-20T16:22:55.142763+08:00",
+      "sha256": "92a6ce59480cb31d052a3e39e7c08d4dce191fbe7bdac41caec229c84da052bc"
     }
   ]
 }
