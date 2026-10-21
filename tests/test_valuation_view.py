@@ -5,7 +5,7 @@ from datetime import datetime
 
 from tommy_capital.cli import clean, make_summary, write_outputs
 from tommy_capital.data import SHANGHAI
-from tommy_capital.reporting import render_markdown
+from tommy_capital.reporting import render_markdown, github_run_url
 from tommy_capital.valuation_view import refresh
 from tommy_capital.watchlist import refreshed_entries
 from test_watchlist_preferences import report_with_watch, preferences
@@ -37,7 +37,7 @@ def test_valuation_refresh_preserves_rankings_history_and_matching_views(tmp_pat
     assert summary == clean(make_summary(report))
     assert json.loads((tmp_path / "top10-history.json").read_text()) == original["top10_history"]
     markdown = (tmp_path / "report.md").read_text()
-    assert markdown == render_markdown(saved)
+    assert markdown == render_markdown(saved, github_run_url())
     assert "三年PE中位 / 当前分位" in markdown and "相对合理" in markdown
     assert "冻结测试估值，不是真实行情" in markdown
 
