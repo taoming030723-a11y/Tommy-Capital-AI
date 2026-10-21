@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { Fragment, useEffect, useState, useRef, type FormEvent, type ReactNode } from "react";
 import { emptyPreferences, effectiveIgnored, observationScope, safeLink } from "@/lib/controls.mjs";
 
 type Row = Record<string, any>;
@@ -46,6 +46,12 @@ export default function ReportDashboard() {
   const [loading, setLoading] = useState(true), [saving, setSaving] = useState(false);
   const [error, setError] = useState(""), [notice, setNotice] = useState("");
   const [valuations, setValuations] = useState<Record<string, Row>>({});
+  const [reviews, setReviews] = useState<Record<string, Row>>({});
+  const [reviewProgress, setReviewProgress] = useState({busy:false,done:0,total:0,apiConfigured:false});
+  const [valuationRefreshing, setValuationRefreshing] = useState("");
+  const [technicalSession, setTechnicalSession] = useState("");
+  const [reviewError, setReviewError] = useState("");
+  const reviewRun = useRef(0);
   const [choices, setChoices] = useState<{action: string; rows: Row[]} | null>(null);
   const [edit, setEdit] = useState<Row | null>(null), [alertsOnly, setAlertsOnly] = useState(false);
 
@@ -81,13 +87,39 @@ export default function ReportDashboard() {
     setValuations(data?.valuations ?? {});
     async function worker() {
       while (cursor < codes.length && !cancelled) {
-        const code = codes[cursor++]; if (data?.valuations?.[code]) continue;
+        const code = codes[cursor++];
         try { const value = await readJson("/api/valuation?code=" + code); if (!cancelled) setValuations(old => ({...old,[code]:value})); }
         catch { if (!cancelled) setValuations(old => ({...old,[code]:{label:"估值待核验",reasons:["真实数据源暂不可用"]}})); }
       }
     }
     void worker(); void worker(); return () => { cancelled = true; };
   }, [data?.report_sha256, valuationCodes]);
+  const scopeCodes = scope.map(r => r.code).sort().join(",");
+  async function refreshTechnical(force = false) {
+    if (!personal || !data) return;
+    const run = ++reviewRun.current, codes = scopeCodes.split(",").filter(Boolean);
+    setReviewError(""); setReviewProgress(p => ({...p,busy:true,done:0,total:codes.length}));
+    let cursor=0,done=0;
+    try {
+      const saved = await readJson("/api/technical-reviews");
+      if (reviewRun.current !== run) return;
+      setReviews(Object.fromEntries(saved.rows.map((r:Row)=>[r.code,r.value]))); setTechnicalSession(saved.session);
+      setReviewProgress(p=>({...p,apiConfigured:saved.api_configured}));
+      async function worker() {
+        while (cursor < codes.length && reviewRun.current === run) {
+          const code=codes[cursor++];
+          try {
+            const value=await readJson("/api/technical-reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,force})});
+            if(reviewRun.current===run){setReviews(old=>({...old,[code]:value}));if(value.session)setTechnicalSession(value.session);}
+          } catch(e) { if(reviewRun.current===run)setReviewError(e instanceof Error?e.message:"部分股票评估未完成，请稍后刷新。"); }
+          done++;if(reviewRun.current===run)setReviewProgress(p=>({...p,done}));
+        }
+      }
+      await Promise.all([worker(),worker()]);
+    } catch(e) { if(reviewRun.current===run)setReviewError(e instanceof Error?e.message:"技术评估暂未读取完成。"); }
+    finally { if(reviewRun.current===run)setReviewProgress(p=>({...p,busy:false})); }
+  }
+  useEffect(()=>{void refreshTechnical(false);return ()=>{reviewRun.current++;};},[data?.session,scopeCodes,!!personal]);
   const names = new Map<string, string>([...tracking, ...(data?.top_candidates ?? []), ...preferences.manual_watch, ...preferences.holdings].map((r: Row) => [r.code, r.name]));
   const disabled = saving || !personal;
 
@@ -111,12 +143,37 @@ export default function ReportDashboard() {
     </section>;
   }
 
+  async function refreshValuation(code:string) {
+    setValuationRefreshing(code);setError("");
+    try {
+      const value=await readJson("/api/valuation?code="+code,{method:"POST"});
+      setValuations(old=>({...old,[code]:value}));setNotice("已按你的操作重新评估该股票的估值基准；技术刷新仍不会重复评估。");
+    } catch(e) { setError(e instanceof Error?e.message:"估值基准暂未更新。"); }
+    finally { setValuationRefreshing(""); }
+  }
+
   function ValuationTable() {
     const all = new Map<string, Row>();
     for (const row of data?.top_candidates ?? []) all.set(row.code,{...row,identity:"综合研究榜"});
     for (const row of scope) all.set(row.code,{...all.get(row.code),...row,identity:row.sources.join("／")});
     const number = (value: unknown) => value === null || value === undefined || !Number.isFinite(Number(value)) ? "—" : Number(value).toFixed(2);
-    return <section className="panel"><div className="section-heading"><div><span className="eyebrow">FUNDAMENTALS × HISTORICAL PE</span><h2>逐股当前估值</h2></div><span className="count">{all.size}只</span></div><p className="muted">历史PE位置与基本面质量各占50%，仅作相对估值观察，不改变综合评分。使用报告日完整收盘数据。</p><div className="table-scroll"><table><thead><tr><th>股票／来源</th><th>收盘价／日期</th><th>PE(TTM)／PB</th><th>近三年PE中位／分位</th><th>基本面兑现</th><th>综合判断</th></tr></thead><tbody>{[...all.values()].map(row => {const v=valuations[row.code];return <tr key={row.code}><td><b>{row.name || row.code}</b><small>{row.code} · {row.identity}</small></td><td>{number(v?.price)}元<small>{v?.price_as_of || "核对中"}</small></td><td>{number(v?.current_pe_ttm)} / {number(v?.current_pb)}</td><td>{number(v?.historical?.median_pe_ttm)}倍<small>{number(v?.historical?.percentile)}%分位</small></td><td>扣非/归母 {number(v?.fundamental?.core_profit_share_ttm)}<small>经营现金流/归母 {number(v?.fundamental?.cash_conversion_ttm)}</small></td><td><b>{v?.label || "正在核对真实估值…"}</b></td></tr>})}</tbody></table></div>{[...all.values()].map(row => {const v=valuations[row.code];return v ? <details key={row.code}><summary>{row.name || row.code} · {v.label}的依据</summary><p>{v.reasons?.join("；")}</p>{v.reference_price_range && <p>当前盈利不变的倍数换算区间：{v.reference_price_range.join("–")}元（不是目标价）。</p>}<p className="fineprint">检查 {v.checked_at}；历史区间 {v.historical?.start || "缺失"} 至 {v.historical?.end || "缺失"}，{v.historical?.samples || 0}个正PE交易日，排除当日。<a href={"https://data.eastmoney.com/gzfx/detail/" + row.code + ".html"} target="_blank" rel="noopener noreferrer">原始估值来源 ↗</a></p></details>:null})}<p className="fineprint">TTM亏损、少于120个正PE交易日、财报质量数据不足或来源价格不一致时，不硬判低估或高估。移出Top10观察不等于清仓，持仓仍独立观察。</p></section>;
+    return <section className="panel"><div className="section-heading"><div><span className="eyebrow">FUNDAMENTALS × HISTORICAL PE</span><h2>逐股估值基准</h2></div><span className="count">{all.size}只</span></div><p className="muted">历史PE位置与基本面质量各占50%，仅作相对估值观察，不改变综合评分。已完成的基本面与估值按原日期保存，后续技术刷新不重复评估。</p><div className="table-scroll"><table><thead><tr><th>股票／来源</th><th>基准收盘价／日期</th><th>PE(TTM)／PB</th><th>近三年PE中位／分位</th><th>基本面兑现</th><th>综合判断</th></tr></thead><tbody>{[...all.values()].map(row => {const v=valuations[row.code];return <tr key={row.code}><td><b>{row.name || row.code}</b><small>{row.code} · {row.identity}</small></td><td>{number(v?.price)}元<small>{v?.price_as_of || "核对中"}</small></td><td>{number(v?.current_pe_ttm)} / {number(v?.current_pb)}</td><td>{number(v?.historical?.median_pe_ttm)}倍<small>{number(v?.historical?.percentile)}%分位</small></td><td>扣非/归母 {number(v?.fundamental?.core_profit_share_ttm)}<small>经营现金流/归母 {number(v?.fundamental?.cash_conversion_ttm)}</small></td><td><b>{v?.label || "正在核对真实估值…"}</b></td></tr>})}</tbody></table></div>{[...all.values()].map(row => {const v=valuations[row.code];return v ? <details key={row.code}><summary>{row.name || row.code} · {v.label}的依据</summary><p>{v.reasons?.join("；")}</p><button disabled={!personal||!!valuationRefreshing} onClick={()=>void refreshValuation(row.code)}>{valuationRefreshing===row.code?"正在手动更新…":"手动重新评估此股基本面／估值"}</button>{v.reference_price_range && <p>当前盈利不变的倍数换算区间：{v.reference_price_range.join("–")}元（不是目标价）。</p>}<p className="fineprint">原评估 {v.checked_at}；基准日期 {v.baseline_as_of || v.price_as_of}；历史区间 {v.historical?.start || "缺失"} 至 {v.historical?.end || "缺失"}，{v.historical?.samples || 0}个正PE交易日，排除当日。<a href={"https://data.eastmoney.com/gzfx/detail/" + row.code + ".html"} target="_blank" rel="noopener noreferrer">原始估值来源 ↗</a></p></details>:null})}<p className="fineprint">TTM亏损、少于120个正PE交易日、财报质量数据不足或来源价格不一致时，不硬判低估或高估。移出Top10观察不等于清仓，持仓仍独立观察。</p></section>;
+  }
+
+  function TechnicalReviews() {
+    const names:Record<string,string>={monthly:"月线",weekly:"周线",daily:"日线","60":"60分钟","30":"30分钟","15":"15分钟"};
+    const order=["monthly","weekly","daily","60","30","15"],n=(v:unknown)=>v===null||v===undefined||!Number.isFinite(Number(v))?"—":Number(v).toFixed(2);
+    return <section className="panel" id="technical-review"><div className="section-heading"><div><span className="eyebrow">SIX-PERIOD TECHNICAL REVIEW</span><h2>观察名单 · 六周期技术评估</h2></div><button className="primary" disabled={!personal||reviewProgress.busy} onClick={()=>void refreshTechnical(true)}>{reviewProgress.busy?`正在评估 ${reviewProgress.done}/${reviewProgress.total}`:"刷新全部技术面"}</button></div>
+      <p className="muted">技术行情日 {technicalSession || "读取中"}（主报告日 {data?.session || "读取中"}），使用完整K线，综合价格、均线、MACD和KDJ。月周判断方向、日线确认、分钟周期执行；已有估值不重复评估。</p>
+      {!reviewProgress.apiConfigured&&<p className="message">ChatGPT API尚未配置。当前展示程序规则评估；连接后增加ChatGPT逐周期解释，不改变买点条件。</p>}
+      {reviewError&&<p className="error" role="alert">{reviewError}</p>}
+      <div className="table-scroll"><table><thead><tr><th>股票／来源</th>{order.map(p=><th key={p}>{names[p]}</th>)}<th>技术买点判断</th></tr></thead><tbody>{scope.map(row=>{const r=reviews[row.code],stale=r&&r.session!==(technicalSession||data?.session);return <tr key={row.code}><td><b>{row.name||row.code}</b><small>{row.code} · {row.sources.join("／")}</small></td>{order.map(p=>{const f=r?.frames?.[p];return <td key={p}>{f?.status==="ok"?<><b>{n(f.price)}</b><small>MA5/13/20/55<br/>{[5,13,20,55].map(k=>n(f.averages_qfq?.[k])).join(" / ")}</small><small>DIF/DEA {n(f.macd?.dif)} / {n(f.macd?.dea)}<br/>K/D/J {n(f.kdj?.k)} / {n(f.kdj?.d)} / {n(f.kdj?.j)}</small></>:f?.label||"待评估"}</td>})}<td><b>{stale?"旧评估，等待本交易日更新":r?.decision||r?.message||"等待评估"}</b><small>{r?.ai?.status==="complete"?"含ChatGPT解释":r?.ai?.label||"程序规则评估"}</small></td></tr>})}</tbody></table></div>
+      {!scope.length&&<p className="empty">当前没有需要评估的观察或持仓股票。</p>}
+      {scope.map(row=>{const r=reviews[row.code];if(!r?.frames)return null;return <details key={row.code}><summary>{row.name||row.code} · {r.decision} · 具体依据</summary><p className="fineprint">检查 {r.checked_at}；交易日 {r.session}；数据{r.data_complete?"齐全":"未齐"}。评估版本 {r.version}。</p><div className="review-conditions">{Object.entries(r.conditions||{}).map(([key,pass])=><span key={key} className={pass?"condition-pass":"condition-wait"}>{pass?"✓":"待"} {r.condition_labels?.[key]||key}</span>)}</div>
+        {order.map(p=>{const f=r.frames[p];return <div className="signal" key={p}><h3>{names[p]} · {f?.label||"数据不足"}</h3>{f?.status==="ok"?<p>价格 {n(f.price)}；均线MA5/13/20/55：{[5,13,20,55].map(k=>n(f.averages_qfq?.[k])).join(" / ")}；MACD柱 {n(f.macd?.histogram)}，{f.macd?.histogram_change}；KDJ {n(f.kdj?.k)}/{n(f.kdj?.d)}/{n(f.kdj?.j)}。<small>完整K线 {f.last_bar}；来源 {f.source}；{f.bar_count}根。</small></p>:<p>{f?.error||"历史不足，不能认定没有信号"}</p>}{r.ai?.status==="complete"&&<p>{r.ai.explanation.period_comments[p]}</p>}</div>})}
+        {r.ai?.status==="complete"&&<div className="signal"><h3>ChatGPT综合解释 · {r.ai.model}</h3><p>{r.ai.explanation.summary}</p><p>风险：{r.ai.explanation.risks.join("；")}</p><p>后续确认：{r.ai.explanation.next_conditions.join("；")}</p></div>}
+        <p>尚缺条件：{r.unmet_conditions?.map((x:Row)=>x.label).join("；")||"当前技术观察条件齐备，仍需人工核对独立的基本面资格、支撑和仓位。"}</p><p className="fineprint">{r.basis} 不下单；不因技术观察自动授予持仓做T资格。</p></details>})}
+    </section>;
   }
 
   function WatchControls() {
@@ -159,7 +216,7 @@ export default function ReportDashboard() {
       <div className="table-scroll"><table><thead><tr><th>股票／身份</th>{periods.map(p => <th key={p[0]}>{p[1]}</th>)}<th>综合状态</th></tr></thead><tbody>{rows.map(row => { const r = published.get(row.code); return <tr key={row.code}><td><b>{row.name || "名称待核验"}</b><small>{row.code} · {row.sources.join("／")}</small></td>{periods.map(p => <td key={p[0]}>{r?.frames?.[p[0]]?.label || "未有已发布结果"}</td>)}<td>{r?.combined?.label || "等待独立监控"}</td></tr>; })}</tbody></table></div>
       {!rows.length && <p className="empty">暂无符合当前筛选条件的监控结果。</p>}
       {rows.map(row => { const r = published.get(row.code); return r ? <details key={row.code}><summary>{row.name || row.code} · 行情时间、来源与信号依据</summary><div className="monitor-detail">{periods.map(([p, label]) => { const f = r.frames?.[p]; return <div key={p}><h3>{label} · {f?.label || "数据不足，无法判断"}</h3><p className="muted">行情截至 {f?.last_bar || f?.source_last_bar || "缺失"} · {f?.source || "来源未取得"}</p>{f?.error && <p className="error">{f.error}</p>}{f?.signals?.map((s: Row) => <div className="signal" key={s.id}><b>{s.label}</b><p>{s.reason}</p><p>价格 {s.price_previous} → {s.price_current}；DIF {s.dif_previous} → {s.dif_current}</p><p>柱峰 {s.histogram_peaks?.join(" → ")}；确认 {s.confirmed_at || "尚未确认"}</p><details><summary>完整信号记录</summary><pre>{JSON.stringify(s, null, 2)}</pre></details></div>)}</div>; })}</div></details> : null; })}
-      <p className="fineprint">刷新本页只读取最新已发布报告，不重新运行全市场或私有持仓行情。新增手动观察／持仓若不在已发布监控范围内，会明确显示“未有已发布结果”；完整刷新可在电脑交互版进行。</p>
+      <p className="fineprint">此表保留原Python背离事件与确认时间。上方六周期技术评估会单独刷新当前观察并集，技术评估不改写这些已确认事件。</p>
     </section>;
   }
 
@@ -173,9 +230,9 @@ export default function ReportDashboard() {
     {notice && <div role="status" className="message success">{notice}</div>}
     {running && <div className="message">有新的扫描正在处理。以下仍是已发布的 {data?.session} 报告。<a href={data?.scan_status?.run_url} target="_blank" rel="noopener noreferrer">查看实际运行</a></div>}
     {!data && !loading && <section className="panel empty">最新报告暂未取得。请稍后刷新，或<a href={REPO + "/blob/main/results/latest-report.md"} target="_blank" rel="noopener noreferrer">查看GitHub原报告</a>。</section>}
-    {page === "report" && <>{QuickWindows()}{data && <section className="panel market"><Markdown value={data.market} /></section>}{WatchControls()}{ValuationTable()}<details className="panel holdings-fold"><summary>我的实际持仓 · {preferences.holdings.length}只（添加、编辑、删除）</summary>{Holdings()}</details>{data && <details className="panel reasons" open><summary>前20入选理由 · 实际{data.display_count}只</summary><Markdown value={data.reasons.replace(/^## [^\n]+\n/, "")} /></details>}{Monitor()}</>}
-    {page === "watch" && <>{QuickWindows()}{WatchControls()}{ValuationTable()}{Monitor()}</>}
-    {page === "holdings" && <>{QuickWindows()}{Holdings()}{ValuationTable()}{Monitor()}</>}
+    {page === "report" && <>{QuickWindows()}{data && <section className="panel market"><Markdown value={data.market} /></section>}{WatchControls()}{TechnicalReviews()}{ValuationTable()}<details className="panel holdings-fold"><summary>我的实际持仓 · {preferences.holdings.length}只（添加、编辑、删除）</summary>{Holdings()}</details>{data && <details className="panel reasons" open><summary>前20入选理由 · 实际{data.display_count}只</summary><Markdown value={data.reasons.replace(/^## [^\n]+\n/, "")} /></details>}{Monitor()}</>}
+    {page === "watch" && <>{QuickWindows()}{WatchControls()}{TechnicalReviews()}{ValuationTable()}{Monitor()}</>}
+    {page === "holdings" && <>{QuickWindows()}{Holdings()}{TechnicalReviews()}{ValuationTable()}{Monitor()}</>}
     <footer><span>Tommy Capital · 保留原有模型与真实数据时间</span><div><button disabled={!personal} onClick={exportBackup}>导出私人名单</button><a href={REPO + "/blob/main/docs/report-controls.md"} target="_blank" rel="noopener noreferrer">使用说明 ↗</a><a href="/signout-with-chatgpt?return_to=%2F" target="_top">退出登录</a></div></footer>
     </main></>;
 }

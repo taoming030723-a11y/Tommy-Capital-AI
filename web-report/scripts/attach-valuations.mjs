@@ -16,7 +16,7 @@ export async function persistEnrichedReport(root, report, refresh = stage => spa
     const result = refresh(stage);
     if (result.error || result.status !== 0) throw new Error("估值附加渲染失败，保留原始扫描报告");
     const summary = JSON.parse(await readFile(path.join(stage, "summary.json"), "utf8"));
-    if (JSON.stringify(summary.valuations) !== JSON.stringify(report.valuations) || summary.generated_at !== report.generated_at) throw new Error("附加估值机器摘要不匹配，保留原始报告");
+    if (JSON.stringify(summary.valuations ?? null) !== JSON.stringify(report.valuations ?? null) || summary.generated_at !== report.generated_at) throw new Error("附加估值机器摘要不匹配，保留原始报告");
     for (const name of await readdir(stage)) await rename(path.join(stage, name), path.join(root, name));
   } finally { await rm(stage, { recursive: true, force: true }); }
 }

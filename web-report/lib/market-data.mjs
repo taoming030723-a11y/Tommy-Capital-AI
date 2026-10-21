@@ -16,9 +16,24 @@ export async function searchStocks(query) {
   const target = query.trim(), url = new URL("https://searchapi.eastmoney.com/api/suggest/get");
   url.search = new URLSearchParams({ input: target, type: "14", count: "20" }).toString();
   const raw = await json(url), seen = new Set();
-  const rows = (raw.QuotationCodeTable?.Data || []).filter(r => r.Classify === "AStock" && /^[0-9]{6}$/.test(r.Code) && r.Name).map(r => ({ code: r.Code, name: r.Name })).filter(r => !seen.has(r.code) && seen.add(r.code));
+  const rows = (raw.QuotationCodeTable?.Data || []).filter(r =>
+    (r.Classify === "AStock" || (r.Classify === "NEEQ" && r.SecurityTypeName === "京A" && String(r.SecurityType) === "27")) &&
+    /^[0-9]{6}$/.test(r.Code) && r.Name
+  ).map(r => ({ code: r.Code, name: r.Name })).filter(r => !seen.has(r.code) && seen.add(r.code));
   const exact = rows.filter(r => r.code === target || r.name.replace(/\s+/g, "") === target.replace(/\s+/g, ""));
   return exact.length ? exact : rows;
+}
+
+export async function resolveWatchAction(query, action, knownRows = [], lookup = searchStocks) {
+  if (typeof query !== "string" || !query.trim() || query.length > 80) throw new Error("请输入股票名称或六位代码");
+  const target = query.trim().replace(/\s+/g, "");
+  if (action === "exclude_watch") {
+    // Removal of a known identity must work during provider outages or delisting.
+    const matches = new Map(knownRows.filter(r => r.code === target || r.name?.replace(/\s+/g, "") === target)
+      .map(r => [r.code, { code: r.code, name: r.name || r.code }]));
+    if (matches.size) return [...matches.values()];
+  }
+  return lookup(query);
 }
 
 async function records(reportName, code, extra = {}, pageSize = 12) {

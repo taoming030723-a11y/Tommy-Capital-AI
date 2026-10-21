@@ -439,6 +439,9 @@ def render_dual_report(report, run_url=None):
     if report.get("macd_monitor") is not None:
         from .monitor_reporting import render_monitor_section
         lines += render_monitor_section(report["macd_monitor"], report.get("valuations"))
+    if report.get("technical_reviews") is not None:
+        from .focused_reporting import render_technical_reviews
+        lines += render_technical_reviews(report["technical_reviews"])
     from .report_controls import add_report_controls
     return add_report_controls("\n".join(lines))
 

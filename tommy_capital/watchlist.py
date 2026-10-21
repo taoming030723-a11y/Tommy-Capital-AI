@@ -57,6 +57,26 @@ def monitor_preference_view(result, tracking):
             "view_note":"仅忽略/恢复显示与后续监控范围；保留已检查行情时间，恢复后未取得数据的周期不得补造"}
 
 
+def technical_preference_view(result, tracking):
+    if result.get("public") is not True:
+        raise ValueError("公开观察偏好不能读取私有技术评估")
+    original = copy.deepcopy(result.get("all_rows", result.get("rows", [])))
+    codes = {r["code"] for r in tracking["rows"]}
+    rows = [row for row in original if row["code"] in codes]
+    return {**result, "all_rows": original, "rows": rows, "stock_count": len(codes),
+            "status": "complete" if len(rows) == len(codes) and all(r.get("data_complete") for r in rows) else "partial"}
+
+
+def replace_technical_section(markdown, result):
+    from .focused_reporting import render_technical_reviews
+    start = markdown.find("## 观察名单六周期技术评估")
+    if start < 0:
+        raise ValueError("原报告缺少六周期技术评估章节")
+    end = markdown.find("\n## ", start + 1)
+    section = "\n".join(render_technical_reviews(result)).rstrip() + "\n"
+    return markdown[:start] + section + (markdown[end + 1:] if end >= 0 else "")
+
+
 def replace_monitor_section(markdown,result,valuations=None):
     from .monitor_reporting import render_monitor_section
     start=markdown.find("## 多周期MACD背离监控")
@@ -80,6 +100,11 @@ def refreshed_entries(summary, markdown, archive_summary, archive_markdown, pref
         monitor=monitor_preference_view(monitor,view)
         desired=replace_monitor_section(desired,monitor,summary.get("valuations"))
         archived=replace_monitor_section(archived,monitor,summary.get("valuations"))
+    technical = summary.get("technical_reviews")
+    if technical is not None:
+        technical = technical_preference_view(technical, view)
+        desired = replace_technical_section(desired, technical)
+        archived = replace_technical_section(archived, technical)
     if (summary["top10_tracking"].get("preferences_sha256") == digest(preferences) and
             desired == markdown and archived == archive_markdown):
         return []
@@ -89,7 +114,9 @@ def refreshed_entries(summary, markdown, archive_summary, archive_markdown, pref
     updated["top10_tracking"] = view
     if monitor is not None:
         updated["macd_monitor"]=monitor
-    assert all(updated[k] == v for k, v in summary.items() if k not in ("top10_tracking","macd_monitor"))
+    if technical is not None:
+        updated["technical_reviews"] = technical
+    assert all(updated[k] == v for k, v in summary.items() if k not in ("top10_tracking","macd_monitor","technical_reviews"))
     text = json.dumps(updated, ensure_ascii=False, indent=2, allow_nan=False)
     day = summary["session"]
     return [{"path": path, "mode": "100644", "type": "blob", "content": content} for path, content in (

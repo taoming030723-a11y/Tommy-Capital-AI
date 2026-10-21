@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { evaluateValuation } from "../lib/valuation.mjs";
-import { searchStocks, fetchValuation } from "../lib/market-data.mjs";
+import { searchStocks, fetchValuation, resolveWatchAction } from "../lib/market-data.mjs";
 import { applyAction, emptyPreferences, observationScope } from "../lib/controls.mjs";
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -71,6 +71,27 @@ test("name resolution excludes similarly named Hong Kong securities and preserve
   globalThis.fetch=async()=>Response.json({QuotationCodeTable:{Data:[{Classify:"HK",Code:"06127",Name:"昭衍新药"},{Classify:"AStock",Code:"603127",Name:"昭衍新药"},{Classify:"AStock",Code:"000001",Name:"平安银行"}]}});
   try {assert.deepEqual(await searchStocks("昭衍新药"),[{code:"603127",name:"昭衍新药"}]);assert.equal((await searchStocks("000001"))[0].code,"000001");}
   finally{globalThis.fetch=original;}
+});
+test("Beijing A shares classified NEEQ remain valid, ordinary OTC shares do not", async () => {
+  const original=globalThis.fetch;
+  globalThis.fetch=async()=>Response.json({QuotationCodeTable:{Data:[
+    {Classify:"NEEQ",Code:"920599",Name:"同力股份",SecurityTypeName:"京A",SecurityType:"27"},
+    {Classify:"NEEQ",Code:"920946",Name:"森萱医药",SecurityTypeName:"京A",SecurityType:"27"},
+    {Classify:"NEEQ",Code:"430999",Name:"非上市挂牌股",SecurityTypeName:"三板",SecurityType:"26"}
+  ]}});
+  try { assert.equal((await searchStocks("920599"))[0].code,"920599"); assert.equal((await searchStocks("920946"))[0].code,"920946"); assert.equal((await searchStocks("非上市挂牌股")).length,2); }
+  finally { globalThis.fetch=original; }
+});
+test("known watch identities can be excluded without a working external name source", async () => {
+  const fail=()=>{throw Error("external lookup must not run")};
+  for (const [code,name] of [["920599","同力股份"],["920946","森萱医药"]]) {
+    const known=[{code,name,appearance_count:3}];
+    assert.deepEqual(await resolveWatchAction(code,"exclude_watch",known,fail),[{code,name}]);
+    assert.deepEqual(await resolveWatchAction(name,"exclude_watch",known,fail),[{code,name}]);
+    const pref=applyAction(emptyPreferences(),{action:"exclude_watch",code});
+    assert.deepEqual(observationScope(known,pref),[]);
+    assert.equal(known[0].appearance_count,3);
+  }
 });
 test("partially returned history pages cannot pass valuation checks", async () => {
   const original=globalThis.fetch;

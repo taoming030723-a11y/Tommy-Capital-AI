@@ -44,6 +44,7 @@ export async function latestReport() {
     coverage: summary.coverage, workflow_run_url: summary.workflow_run_url,
     top_candidates: summary.top_candidates || [],
     valuations: summary.valuations || {}, valuation_coverage: summary.valuation_coverage || null,
+    technical_reviews: summary.technical_reviews || null,
     tracking: summary.top10_tracking?.all_rows ?? summary.top10_tracking?.rows ?? [],
     public_ignored: preferences.ignored_codes ?? [], monitor: summary.macd_monitor ?? null,
     scan_status: status, ...parts,

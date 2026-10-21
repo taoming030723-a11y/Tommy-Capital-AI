@@ -1,4 +1,7 @@
 {
   "schema": 1,
-  "ignored_codes": []
+  "ignored_codes": [
+    "920599",
+    "920946"
+  ]
 }

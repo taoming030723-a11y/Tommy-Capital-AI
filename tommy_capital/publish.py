@@ -20,7 +20,7 @@ def publish(directory, token, repository):
             summary.get("status") != report.get("status") or report.get("status") == "running" or
             summary.get("candidate_count") != len(report.get("rankings", []))):
         raise ValueError("完整报告与机器摘要不匹配，不能发布为最终结果")
-    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage"]:
+    for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
     markdown = render_markdown(report, github_run_url())
@@ -39,6 +39,7 @@ def publish(directory, token, repository):
     phase = report.get("scan_phase")
     from .monitor import validate_public_monitor
     validate_public_monitor(report.get("macd_monitor"))
+    validate_public_monitor(report.get("technical_reviews"))
     if (report.get("macd_monitor") or {}).get("public") is True and (directory/"monitor-state.json").exists():
         monitor_state=json.loads((directory/"monitor-state.json").read_text())
         validate_public_monitor(report.get("macd_monitor"),monitor_state)
@@ -91,6 +92,10 @@ def publish(directory, token, repository):
                     from .watchlist import monitor_preference_view
                     monitor=monitor_preference_view(report["macd_monitor"],view)
                     report["macd_monitor"]=summary["macd_monitor"]=monitor
+                if report.get("technical_reviews") is not None:
+                    from .watchlist import technical_preference_view
+                    technical = technical_preference_view(report["technical_reviews"], view)
+                    report["technical_reviews"] = summary["technical_reviews"] = technical
                 markdown = render_markdown(report, github_run_url())
                 for entry in entries:
                     if entry["path"] in ("results/latest-summary.json", f"results/{day}/closing-summary.json"):

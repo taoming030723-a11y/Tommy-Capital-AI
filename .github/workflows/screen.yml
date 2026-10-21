@@ -82,6 +82,14 @@ jobs:
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         with:
           node-version: '24'
+      - name: Six-period technical review of recurring public observations
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_TECHNICAL_MODEL: ${{ vars.OPENAI_TECHNICAL_MODEL }}
+        run: node web-report/scripts/attach-technical-reviews.mjs reports/latest
       - name: Attach current fundamentals and historical PE valuation observations
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         continue-on-error: true
