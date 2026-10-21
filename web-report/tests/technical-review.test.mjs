@@ -91,3 +91,10 @@ test('model refusal, incomplete output and bad schema are never completed evalua
   assert.equal((await explainTechnical(r,{apiKey:'fixture',fetcher:async()=>Response.json({status:'completed',output:[{content:[{type:'refusal'}]}]})})).status,'refused');
   await assert.rejects(explainTechnical(r,{apiKey:'fixture',fetcher:async()=>Response.json({status:'completed',output:[{content:[{type:'output_text',text:'{"entry_watch":true}'}]}]})}),/不匹配/);
 });
+
+test('public technical reads cannot access ignored stocks, short histories or private holdings',async()=>{
+  const {publicStudyStock}=await import('../lib/technical-review.mjs');
+  const report={tracking:[{code:'600089',appearance_count:3},{code:'920599',appearance_count:3},{code:'600000',appearance_count:2}],public_ignored:['920599'],holdings:[{code:'603127'}]};
+  assert.equal(publicStudyStock(report,'600089').code,'600089');
+  for(const code of ['920599','600000','603127','1'])assert.equal(publicStudyStock(report,code),null);
+});

@@ -160,3 +160,8 @@ export function assessTechnical({code,session,frames,rawFrames={},config=technic
   const conflicts=PERIODS.filter(p=>valid(p)&&frames[p].signals.some(s=>s.direction==='bearish'));
   return {schema:1,version:REVIEW_VERSION,policy_id:POLICY_ID,code,session,checked_at:checkedAt,frames,data_complete:c.data_complete,missing_periods:PERIODS.filter(p=>!valid(p)),monthly_path:{route_a:pathA,route_b:pathB,rising},weekly_ma55:ma55||null,weekly_structure:weekStructure,first_breakout:breakout,conditions:c,condition_labels:labels,unmet_conditions:unmet,macro_conditions_met:macro,technical_entry_watch:entry,decision:!c.data_complete?'数据未齐，不能确认买点':entry?'技术买点观察条件齐备':macro?'大周期已确认，等待执行买点':'当前未满足原技术买点条件',conflicting_periods:conflicts,fundamental_evaluation:'复用已有基本面/估值基准，本模块不重复评估；仍需独立有效的基本面资格',orders_authorized:false,t_eligible:false,basis:'月周定方向，日线确认，60/30/15执行；任何单个小周期背离不授予新开仓或做T资格。'};
 }
+
+export function publicStudyStock(report,code){
+  if(typeof code!=='string'||!/^\d{6}$/.test(code)||(report.public_ignored||[]).includes(code))return null;
+  return (report.tracking||[]).find(r=>r.code===code&&r.appearance_count>=3)||null;
+}
