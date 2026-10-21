@@ -47,7 +47,7 @@ def render_latest_report(directory,controls_path,controls,preferences,positions,
         st.markdown(view["before_watch"])
         tracking=apply_preferences(summary.get("top10_tracking",{}),preferences) if preferences is not None else {
             **summary.get("top10_tracking",{}),"rows":[],"preferences_status":"invalid"}
-        st.markdown("\n".join(render_tracking_section(tracking,summary.get("config"))))
+        st.markdown("\n".join(render_tracking_section(tracking,summary.get("config"),summary.get("valuations"))))
         st.caption("以下按钮立即保存本机偏好，后续同步报告仍生效；云端设置使用表标题的忽略/恢复入口。持仓和手动观察独立保留。")
         columns=st.columns(4)
         for index,row in enumerate(tracking["rows"]):

@@ -1,5 +1,7 @@
 # 在最新报告里管理观察和持仓
 
+新版手机报告顶部提供“填写持仓股票”和“移出Top10观察”两个窗口，支持名称或代码；每只研究/观察/持仓股票增加基本面与三年历史PE综合估值。操作与缺失处理见[两个窗口与逐股估值](interactive-valuation.md)。
+
 ## 手机直接打开
 
 [打开HTTPS交互报告](https://tommy-capital-report.stableokapi18.chatgpt.site)。用同一ChatGPT账号登录即可，网站仅所有者可访问；手机5G/Wi-Fi均可，不需要电脑先开机。公开GitHub报告页顶和之后的HTML报告均使用这个地址。

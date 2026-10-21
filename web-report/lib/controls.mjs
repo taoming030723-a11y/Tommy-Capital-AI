@@ -30,6 +30,16 @@ export function applyAction(current, action) {
   const ignored = new Set(next.ignored_codes);
   const restored = new Set(next.restored_codes);
   switch (action.action) {
+    case "add_holding_watch": {
+      const old = next.holdings.find(r => r.code === code);
+      next.holdings = next.holdings.filter(r => r.code !== code).concat([{ code, cost: null, shares: null, opened_on: null, note: "", ...old, name: old?.name || text(action.name, 80) }]);
+      ignored.delete(code); restored.add(code);
+      break;
+    }
+    case "exclude_watch":
+      ignored.add(code); restored.delete(code);
+      next.manual_watch = next.manual_watch.filter(r => r.code !== code);
+      break;
     case "ignore": ignored.add(code); restored.delete(code); break;
     case "restore": ignored.delete(code); restored.add(code); break;
     case "add":

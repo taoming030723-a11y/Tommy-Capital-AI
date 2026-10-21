@@ -78,6 +78,15 @@ jobs:
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         continue-on-error: true
         run: python -m tommy_capital.research
+      - uses: actions/setup-node@v4
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        with:
+          node-version: '24'
+      - name: Attach current fundamentals and historical PE valuation observations
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        timeout-minutes: 5
+        run: node web-report/scripts/attach-valuations.mjs reports/latest
       - name: Audit coverage, research ranking and execution gates before publishing
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''

@@ -1,0 +1,16 @@
+{
+  "version": "fundamentals_historical_pe_v1",
+  "history_years": 3,
+  "minimum_positive_sessions": 120,
+  "minimum_history_span_days": 365,
+  "historical_weight": 0.5,
+  "fundamental_weight": 0.5,
+  "discount_ratio": 0.8,
+  "premium_ratio": 1.2,
+  "low_percentile": 30,
+  "high_percentile": 70,
+  "healthy_core_share": 0.7,
+  "healthy_cash_conversion": 0.8,
+  "minimum_industry_samples": 5,
+  "maximum_finance_age_days": 225
+}

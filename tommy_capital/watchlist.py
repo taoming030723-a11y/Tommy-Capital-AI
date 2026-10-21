@@ -27,12 +27,12 @@ def changed_preferences(preferences, action, code):
     return validate_preferences({"schema": 1, "ignored_codes": sorted(codes)})
 
 
-def replace_tracking_section(markdown, tracking, config):
+def replace_tracking_section(markdown, tracking, config, valuations=None):
     start = markdown.find("## 综合前10累计至少3次")
     if start < 0:
         raise ValueError("原报告没有可核对的观察表，保留原文")
     end = markdown.find("\n## ", start + 1)
-    section = "\n".join(render_tracking_section(tracking, config)).rstrip() + "\n\n"
+    section = "\n".join(render_tracking_section(tracking, config, valuations)).rstrip() + "\n\n"
     return markdown[:start] + section + (markdown[end + 1:] if end >= 0 else "")
 
 
@@ -57,13 +57,13 @@ def monitor_preference_view(result, tracking):
             "view_note":"仅忽略/恢复显示与后续监控范围；保留已检查行情时间，恢复后未取得数据的周期不得补造"}
 
 
-def replace_monitor_section(markdown,result):
+def replace_monitor_section(markdown,result,valuations=None):
     from .monitor_reporting import render_monitor_section
     start=markdown.find("## 多周期MACD背离监控")
     if start<0:
         raise ValueError("原报告缺少MACD监控章节")
     end=markdown.find("\n## ",start+1)
-    section="\n".join(render_monitor_section(result)).rstrip()+"\n"
+    section="\n".join(render_monitor_section(result,valuations)).rstrip()+"\n"
     return markdown[:start]+section+(markdown[end+1:] if end>=0 else "")
 
 
@@ -73,13 +73,13 @@ def refreshed_entries(summary, markdown, archive_summary, archive_markdown, pref
             summary != archive_summary or not isinstance(summary.get("top10_tracking"), dict)):
         return []
     view = apply_preferences(summary["top10_tracking"], preferences)
-    desired = replace_tracking_section(markdown, view, summary.get("config"))
-    archived = replace_tracking_section(archive_markdown, view, summary.get("config"))
+    desired = replace_tracking_section(markdown, view, summary.get("config"), summary.get("valuations"))
+    archived = replace_tracking_section(archive_markdown, view, summary.get("config"), summary.get("valuations"))
     monitor=summary.get("macd_monitor")
     if monitor is not None:
         monitor=monitor_preference_view(monitor,view)
-        desired=replace_monitor_section(desired,monitor)
-        archived=replace_monitor_section(archived,monitor)
+        desired=replace_monitor_section(desired,monitor,summary.get("valuations"))
+        archived=replace_monitor_section(archived,monitor,summary.get("valuations"))
     if (summary["top10_tracking"].get("preferences_sha256") == digest(preferences) and
             desired == markdown and archived == archive_markdown):
         return []

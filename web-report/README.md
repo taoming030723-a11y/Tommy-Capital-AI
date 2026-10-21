@@ -4,6 +4,8 @@
 
 网站：https://tommy-capital-report.stableokapi18.chatgpt.site
 
+新版报告顶部提供两个直接窗口：按股票名称/代码确认持仓观察，以及按名称/代码剔除Top10观察。私人设置跨日报告持续生效，手动持仓与真实Top10累计次数分开。逐股估值与网页、Actions共用`lib/valuation.mjs`；只增加观察，不改变排名。详情见原仓库`docs/interactive-valuation.md`。
+
 网站设为所有者私有，用创建该网站的同一个ChatGPT账号登录。手机使用5G或Wi-Fi均可，不依赖电脑开机。GitHub报告默认链接到这个HTTPS地址；原Windows `Start-Report.cmd`保留为本机完整监控程序。
 
 页面包括最新报告、观察与实际持仓。忽略/恢复、手动观察、持仓新增/编辑/删除存于Sites D1私有数据库，以平台验证的用户ID隔离；不上传GitHub，不写进公开报告，不自动改变云端忽略设置或电脑文件。更新使用revision比较，冲突时拒绝覆盖。可下载私人名单备份。

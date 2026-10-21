@@ -6,8 +6,8 @@ CONDITIONS={"pivot_spacing":"枢轴间距","price_extension":"价格创新高/�
             "confirmation_rebound":"右侧反弹/回落幅度","not_invalidated":"后续价格未破坏枢轴"}
 
 
-def render_monitor_section(result):
-    from .reporting import table,number,cell
+def render_monitor_section(result, valuations=None):
+    from .reporting import table,number,cell,valuation_cells
     lines=["## 多周期MACD背离监控","","检查时间："+str(result.get("checked_at","未执行"))+
            "；柱值=2×(DIF−DEA)，仅完整K线确认。","","监控状态："+str(result.get("status","未执行"))+
            "；monitor_complete="+str(result.get("monitor_complete",False)).lower()+"。",""]
@@ -17,9 +17,9 @@ def render_monitor_section(result):
     for row in result.get("rows",[]):
         rows.append([str(row.get("name") or "名称待核验")+"（"+row["code"]+"）","／".join(row["sources"]),
             *[row["frames"].get(p,{}).get("label","数据不足，无法判断") for p in ("daily","120","60","30","15")],
-            row.get("holding_risk",{}).get("label") or row["combined"]["label"]])
-    lines += table(["股票","来源","日线","120分钟","60分钟","30分钟","15分钟","综合状态"],
-        rows or [["暂无已核验的重点监控股票",*["—"]*7]])
+            row.get("holding_risk",{}).get("label") or row["combined"]["label"], *valuation_cells((valuations or {}).get(row["code"]))])
+    lines += table(["股票","来源","日线","120分钟","60分钟","30分钟","15分钟","综合状态","PE(TTM) / PB","三年PE中位 / 当前分位","综合估值"],
+        rows or [["暂无已核验的重点监控股票",*["—"]*10]])
     cutoffs=[]
     for p,label in PERIOD_LABELS.items():
         dates=sorted({r["frames"].get(p,{}).get("last_bar") for r in result.get("rows",[]) if r["frames"].get(p,{}).get("last_bar")})

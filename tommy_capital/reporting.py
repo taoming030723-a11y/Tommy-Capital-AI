@@ -26,6 +26,17 @@ def number(value, digits=2):
         return "未取得"
 
 
+def valuation_cells(value):
+    value = value or {}
+    historical = value.get("historical") or {}
+    pe = number(value.get("current_pe_ttm"))
+    if value.get("status") == "not_applicable":
+        pe = "不适用"
+    current = f"PE {pe} / PB {number(value.get('current_pb'))}"
+    history = f"{number(historical.get('median_pe_ttm'))} / {number(historical.get('percentile'), 1)}%"
+    return [current, history, value.get("label", "估值待核验")]
+
+
 def date_label(value, daily=False):
     if not value:
         return "未取得"
@@ -341,7 +352,7 @@ def candidate_reason(index, row):
     return reason
 
 
-def render_tracking_section(tracking, config=None):
+def render_tracking_section(tracking, config=None, valuations=None):
     """The same watch table is used by scans and preference-only refreshes."""
     config = config or {}
     repository = os.environ.get("GITHUB_REPOSITORY", "taoming030723-a11y/Tommy-Capital-AI")
@@ -362,12 +373,12 @@ def render_tracking_section(tracking, config=None):
         watch_rows.append([str(row.get("name")) + "（" + str(row.get("code")) + "）", row.get("appearance_count"),
             row.get("last_session"), row.get("current_rank") or "未入本次研究榜",
             date_label(volume.get("confirmed_at"), True) if valid else "未核验",
-            number(ratio) + "倍" if valid else "未取得", label])
+            number(ratio) + "倍" if valid else "未取得", label, *valuation_cells((valuations or {}).get(row.get("code")))])
     empty = ("忽略设置无效，请在管理入口修复" if tracking.get("preferences_status") == "invalid" else
              "观察股票均已忽略" if tracking.get("suppressed_count") else
              "历史记录未齐" if tracking.get("history_status") == "partial" else "暂无累计至少3次的股票")
-    lines += table(["股票（代码）", "不同收盘日次数", "最近入选前10", "本次综合名次", "日量日期", "日量/前20日均量", "日量状态"],
-        watch_rows or [[empty, *["—"] * 6]])
+    lines += table(["股票（代码）", "不同收盘日次数", "最近入选前10", "本次综合名次", "日量日期", "日量/前20日均量", "日量状态", "PE(TTM) / PB", "三年PE中位 / 当前分位", "综合估值"],
+        watch_rows or [[empty, *["—"] * 9]])
     return lines
 
 
@@ -412,18 +423,22 @@ def render_dual_report(report, run_url=None):
         top_rows.append([index, str(row.get("name")) + "（" + str(row.get("code")) + "）",
             number(row.get("score")), number(row.get("fundamental_score")), number(row.get("technical_score")),
             number(tech.get("monthly_j")), number(volume_ratio(tech, "weekly")) + "倍",
-            number(volume_ratio(tech, "monthly")) + "倍", state["label"]])
-    lines += table(["名次", "股票（代码）", "综合/100", "基本面/50", "技术/50", "完整月J", "周量/前20周均量", "月量/前20月均量", "确认阶段"],
-        top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * 7]])
+            number(volume_ratio(tech, "monthly")) + "倍", state["label"], *valuation_cells(report.get("valuations", {}).get(row.get("code")))])
+    lines += table(["名次", "股票（代码）", "综合/100", "基本面/50", "技术/50", "完整月J", "周量/前20周均量", "月量/前20月均量", "确认阶段", "PE(TTM) / PB", "三年PE中位 / 当前分位", "综合估值"],
+        top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * 10]])
     tracking = report.get("top10_tracking", {})
-    lines += render_tracking_section(tracking, report.get("config"))
+    lines += render_tracking_section(tracking, report.get("config"), report.get("valuations"))
     if displayed:
         lines += ["## 前20入选理由", ""]
         for index, row in enumerate(displayed, 1):
             lines += [candidate_reason(index, row), ""]
+            valuation = report.get("valuations", {}).get(row.get("code"))
+            if valuation:
+                lines += ["估值：" + cell(valuation.get("label")) + "；" + cell("；".join(valuation.get("reasons", []))) +
+                          "。估值行情日：" + cell(valuation.get("price_as_of") or valuation.get("session")) + "；" + cell(valuation.get("basis", "")) + "。", ""]
     if report.get("macd_monitor") is not None:
         from .monitor_reporting import render_monitor_section
-        lines += render_monitor_section(report["macd_monitor"])
+        lines += render_monitor_section(report["macd_monitor"], report.get("valuations"))
     from .report_controls import add_report_controls
     return add_report_controls("\n".join(lines))
 
