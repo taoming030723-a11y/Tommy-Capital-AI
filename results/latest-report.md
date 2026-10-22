@@ -1,5 +1,5 @@
 <!-- tommy-scan-status:start -->
-> **2026-10-22：报告发布未完成，请查看运行日志。** [查看本次实际进度](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/39748804473)。下方保留上一份已发布报告，数据日为2026-10-20。
+> **2026-10-22：正在扫描，最终报告尚未生成。** [查看本次实际进度](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/39794728881)。下方保留上一份已发布报告，数据日为2026-10-20。
 <!-- tommy-scan-status:end -->
 
 # Tommy Capital · 2026-10-20 · 收盘
