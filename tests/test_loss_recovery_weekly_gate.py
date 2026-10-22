@@ -51,7 +51,7 @@ def test_loss_recovery_needs_two_matched_quality_periods_and_real_valuation(prob
 
 
 @pytest.mark.parametrize("problem",["falling","below","few","not_consecutive","day_below","unversioned"])
-def test_weekly_ma55_is_entry_gate_without_changing_12_point_component(problem):
+def test_weekly_ma55_entry_gate_still_rejects_failures_regardless_of_score_weights(problem):
     technical=full_technical()
     assert evaluate(good_row(),technical,DEFAULTS,date(2026,10,15))["eligible"]
     reference=technical["timeframes"]["weekly"]["macro_profile"]["weekly_ma55"]

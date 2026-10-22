@@ -543,7 +543,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0, help="技术扫描上限，默认0=全部报价A股，基本面不通过也检查日周月")
     parser.add_argument("--workers", type=int, default=4, help="股票请求并发数，1到8，默认4")
     parser.add_argument("--daily-only", action="store_true", help="仅预检完整日线/财报，不请求分时")
-    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="兼容旧参数；v8日线MACD及分钟观察范围固定为累计Top10观察与明确持仓，参数不扩大全市场分钟请求")
+    parser.add_argument("--minute-scope", choices=["monthly", "strategic", "screened"], default="monthly", help="兼容旧参数；日线MACD及分钟观察范围固定为累计Top10观察与明确持仓，参数不扩大全市场分钟请求")
     parser.add_argument("--output", default="reports/latest")
     parser.add_argument("--refresh", action="store_true", help="忽略缓存，重新抓取")
     args = parser.parse_args()

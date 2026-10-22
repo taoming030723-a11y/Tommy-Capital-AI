@@ -2,12 +2,22 @@
 import math
 from .patterns import PROFILE_VERSION, WEEKLY_MA55_VERSION
 
-SCORING_VERSION = "weekly_monthly_only_50_50_v8"
+SCORING_VERSION = "weekly_ma55_macd_50_50_v9"
 RANKING_POLICY = "monthly_research_pool_macro_gated_execution"
 DISPLAY_LIMIT = 20
 FUNDAMENTAL_WEIGHTS = {"revenue": 4, "earnings_quality_or_leading": 14,
                        "cash_quality": 14, "valuation": 14, "improvement": 4}
 TECHNICAL_WEIGHTS = {"monthly": 20, "weekly": 30}
+WEEKLY_MA55_WEIGHTS = {"weekly_ma55_current_above": 5., "weekly_ma55_direction": 4.,
+                       "weekly_ma55_recent_hold": 4., "weekly_ma55_retest_or_reclaim": 3.}
+WEEKLY_WEIGHTS = {**WEEKLY_MA55_WEIGHTS,
+                  "base_or_higher_low_or_contraction_or_breakout": 2.,
+                  "ma5_13_20_structure": .5, "kdj_recovery": .5,
+                  "volume_above_previous20_mean": 4., "macd_momentum": 1.,
+                  "macd_histogram_state": 5., "confirmed_macd_bottom": 1.}
+# Retain the existing 0.02 ATR significance floor; raw histogram size never
+# rewards expensive stocks or the 2x display convention by itself.
+WEEKLY_MACD_MIN_CHANGE_ATR = .02
 SCORE_WEIGHTS = {"fundamental": FUNDAMENTAL_WEIGHTS, "technical": TECHNICAL_WEIGHTS}
 
 
@@ -74,11 +84,9 @@ def macd_points(observation, momentum_points, bottom_points):
 
 
 def weekly_ma55_parts(reference, daily_close):
-    """Twelve points for the user's weekly reference; no entry eligibility override."""
+    """Sixteen points for the user's weekly reference; entry gates stay separate."""
     daily_close, line = finite(daily_close), finite(reference.get("ma55_qfq"))
-    keys = ("weekly_ma55_current_above", "weekly_ma55_direction",
-            "weekly_ma55_recent_hold", "weekly_ma55_retest_or_reclaim")
-    parts = dict.fromkeys(keys, 0.)
+    parts = dict.fromkeys(WEEKLY_MA55_WEIGHTS, 0.)
     parts["weekly_ma55_lost_support_penalty"] = 0.
     valid = (reference.get("status") == "ok" and reference.get("version") == WEEKLY_MA55_VERSION and
              line is not None and line > 0 and daily_close is not None and daily_close > 0 and
@@ -92,13 +100,53 @@ def weekly_ma55_parts(reference, daily_close):
     if not above:
         parts["weekly_ma55_lost_support_penalty"] = -2.
         return parts, True
-    parts["weekly_ma55_current_above"] = 4.
-    parts["weekly_ma55_direction"] = {"rising": 3., "flat": 1.5, "falling": 0.}[reference["direction"]]
+    parts["weekly_ma55_current_above"] = WEEKLY_MA55_WEIGHTS["weekly_ma55_current_above"]
+    parts["weekly_ma55_direction"] = {"rising": 1., "flat": .5, "falling": 0.}[reference["direction"]] * WEEKLY_MA55_WEIGHTS["weekly_ma55_direction"]
     count, consecutive = reference["above_count"], reference["consecutive_above"]
-    parts["weekly_ma55_recent_hold"] = 3. if count >= 4 and consecutive >= 3 else 1.5 if count >= 3 and consecutive >= 2 else 0.
+    held = 1. if count >= 4 and consecutive >= 3 else .5 if count >= 3 and consecutive >= 2 else 0.
+    parts["weekly_ma55_recent_hold"] = held * WEEKLY_MA55_WEIGHTS["weekly_ma55_recent_hold"]
     if reference["direction"] != "falling" and (reference.get("retest") or reference.get("reclaim")):
-        parts["weekly_ma55_retest_or_reclaim"] = 2.
+        parts["weekly_ma55_retest_or_reclaim"] = WEEKLY_MA55_WEIGHTS["weekly_ma55_retest_or_reclaim"]
     return parts, True
+
+
+def weekly_macd_state(observation):
+    """Last two completed weeks only: momentum state is not a divergence signal."""
+    macd = observation.get("macd", {})
+    dif, dea, hist, previous, atr = (finite(macd.get(k)) for k in
+                                    ("dif", "dea", "histogram", "previous_histogram", "atr14"))
+    parts = {"macd_histogram_state": 0., "macd_momentum": 0.}
+    result = {"status": "unavailable", "state": "unknown", "label": "周线MACD数据不足，无法判断",
+              "parts": parts, "last_bar": observation.get("last_bar"),
+              "minimum_change_atr": WEEKLY_MACD_MIN_CHANGE_ATR,
+              "basis": "最近两个完整周；MACD柱=2×(DIF−DEA)，按ATR归一化；柱体状态不等于背离确认或买点"}
+    if observation.get("status") != "ok" or any(x is None for x in (dif, dea, hist, previous, atr)) or atr <= 0:
+        return result
+    size, change = hist / atr, (hist - previous) / atr
+    floor = WEEKLY_MACD_MIN_CHANGE_ATR
+    if size > floor:
+        if change >= floor:
+            state, label, fraction = ("turning_red", "绿转红增强", 1.) if previous <= 0 else ("red_expanding", "红柱增强", 1.)
+        elif change <= -floor:
+            state, label, fraction = "red_contracting", "红柱衰减", .3
+        else:
+            state, label, fraction = "red_flat", "红柱变化不显著", .6
+    elif size < -floor:
+        if previous >= 0:
+            state, label, fraction = "turning_green", "红转绿走弱", 0.
+        elif change >= floor:
+            state, label, fraction = "green_contracting", "绿柱收敛，等待转强", .6
+        elif change <= -floor:
+            state, label, fraction = "green_expanding", "绿柱扩张", 0.
+        else:
+            state, label, fraction = "green_flat", "绿柱变化不显著", 0.
+    else:
+        state, label, fraction = "near_zero", "零轴附近，动能待确认", 0.
+    parts["macd_histogram_state"] = fraction * WEEKLY_WEIGHTS["macd_histogram_state"]
+    parts["macd_momentum"] = WEEKLY_WEIGHTS["macd_momentum"] * int((dif - dea) / atr >= floor)
+    return {**result, "status": "ok", "state": state, "label": label,
+            "histogram": hist, "previous_histogram": previous,
+            "histogram_atr": size, "histogram_change_atr": change}
 
 
 def balanced_score(row, technical, route, leading=None, minute_frames=None):
@@ -194,7 +242,7 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
     periods = {}
     for period, maximum in TECHNICAL_WEIGHTS.items():
         observation = observations.get(period, {})  # Ranking reads only completed monthly/weekly inputs.
-        parts = {}
+        parts, weekly_macd = {}, None
         if observation.get("status") != "ok":
             missing.append("technical." + period)
         else:
@@ -226,9 +274,10 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 parts, ma55_valid = weekly_ma55_parts(profile.get("weekly_ma55", {}), technical.get("daily_close_qfq"))
                 if not ma55_valid:
                     missing.append("technical.weekly.ma55_reference")
-                parts.update(base_or_higher_low_or_contraction_or_breakout=2. * int(technical.get("weekly_structure", {}).get("confirmed") is True),
-                             ma5_13_20_structure=ma / 4, kdj_recovery=kdj_points / 3)
-                momentum_max, bottom_max = 1, 1
+                parts.update(base_or_higher_low_or_contraction_or_breakout=WEEKLY_WEIGHTS["base_or_higher_low_or_contraction_or_breakout"] * int(technical.get("weekly_structure", {}).get("confirmed") is True),
+                             ma5_13_20_structure=ma / 4 * WEEKLY_WEIGHTS["ma5_13_20_structure"],
+                             kdj_recovery=kdj_points / 3 * WEEKLY_WEIGHTS["kdj_recovery"])
+                momentum_max, bottom_max = 0, WEEKLY_WEIGHTS["confirmed_macd_bottom"]
             if period in ("monthly", "weekly"):
                 volume = observation.get("volume_ma20")
                 # Verified older artifacts already retain this same causal
@@ -236,22 +285,29 @@ def balanced_score(row, technical, route, leading=None, minute_frames=None):
                 ratio = finite(volume.get("ratio20")) if volume is not None else finite(observation.get("structure", {}).get("ratio20"))
                 if ratio is None or ratio < 0 or (volume is not None and volume.get("status") != "ok"):
                     missing.append("technical." + period + ".volume_ma20")
-                parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, 4)
+                volume_max = 4 if period == "monthly" else WEEKLY_WEIGHTS["volume_above_previous20_mean"]
+                parts["volume_above_previous20_mean"] = scale(ratio - 1 if ratio is not None else None, 1, volume_max)
             parts["extension_or_support_risk_penalty"] = -3. * int(profile.get("chase_risk") is True)
             momentum, bottom, penalty = macd_points(observation, momentum_max, bottom_max)
             parts.update(macd_momentum=momentum, confirmed_macd_bottom=bottom, top_divergence_penalty=-penalty)
             if period=="monthly":
                 parts={k:v*1.25 if v>0 else v for k,v in parts.items()}
             elif period=="weekly":
-                parts={k:v*1.8 if v>0 and not k.startswith("weekly_ma55_") else v for k,v in parts.items()}
+                weekly_macd = weekly_macd_state(observation)
+                parts.update(weekly_macd["parts"])
+                if weekly_macd["status"] != "ok" and "technical.weekly.macd" not in missing:
+                    missing.append("technical.weekly.macd")
         total = min(float(maximum), max(0., sum(parts.values())))
         raw_total = total
-        enabled = True  # No daily/minute component exists in v8 ranking.
+        enabled = True  # Ranking contains only completed monthly/weekly inputs.
         if not enabled:
             total = 0.
         periods[period] = {"score": round(total, 2), "max": maximum, "parts": {k: round(v, 2) for k, v in parts.items()},
                            "raw_score": round(raw_total, 2), "counted_for_rank": enabled,
                            "status": observation.get("status", "not_requested"), "last_bar": observation.get("last_bar")}
+        if period == "weekly":
+            periods[period]["component_maxima"] = dict(WEEKLY_WEIGHTS)
+            periods[period]["macd_state"] = {k: v for k, v in (weekly_macd or weekly_macd_state({})).items() if k != "parts"}
     fundamentals = {k: round(min(FUNDAMENTAL_WEIGHTS[k], max(0., v)), 2) for k, v in fundamentals.items()}
     fundamental_score = round(sum(fundamentals.values()), 2)
     technical_score = round(sum(v["score"] for v in periods.values()), 2)

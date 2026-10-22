@@ -36,7 +36,7 @@ def test_entire_daily_volume_allocation_moves_to_week_and_month(ratio, points):
     assert TECHNICAL_WEIGHTS=={"monthly":20,"weekly":30}
     parts = score["score_breakdown"]["technical"]
     assert parts["monthly"]["parts"]["volume_above_previous20_mean"] == points*1.25
-    assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points*1.8
+    assert parts["weekly"]["parts"]["volume_above_previous20_mean"] == points
     assert "daily" not in parts
 
 

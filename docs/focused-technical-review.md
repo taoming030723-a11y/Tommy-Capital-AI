@@ -1,6 +1,6 @@
 # 观察名单六周期技术评估与ChatGPT解释
 
-入口仍为[私有中文交互报告](https://tommy-capital-report.stableokapi18.chatgpt.site)。本升级不改变原A/B选股路线、月J入口、周MA55的12分、月周技术权重、50/50评分、Top10历史或持仓做T规则。
+入口仍为[私有中文交互报告](https://tommy-capital-report.stableokapi18.chatgpt.site)。本独立观察升级不改变原A/B选股路线、月J入口、月周技术权重、50/50评分、Top10历史或持仓做T规则。之后2026-10-22用户另行授权周MA55及周MACD加权，当前排名分配见[v9说明](weekly-ma55-macd-v9.md)；本页的六周期观察不直接改排名分。
 
 ## 北交所忽略修复
 

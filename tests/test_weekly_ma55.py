@@ -44,19 +44,19 @@ def test_recent_positions_use_each_week_own_ma55_and_true_completed_history():
     assert weekly_ma55_observation(future.iloc[:-1]) == actual
 
 
-@pytest.mark.parametrize("direction,points", [("rising", 3.), ("flat", 1.5), ("falling", 0.)])
+@pytest.mark.parametrize("direction,points", [("rising", 4.), ("flat", 2.), ("falling", 0.)])
 def test_line_direction_is_separate_from_current_price_and_reclaim(direction, points):
     parts, valid = weekly_ma55_parts(reference(direction=direction, retest=None), 11.)
     assert valid and parts["weekly_ma55_direction"] == points
-    assert parts["weekly_ma55_current_above"] == 4
+    assert parts["weekly_ma55_current_above"] == 5
 
 
 def test_one_week_cross_cannot_earn_sustained_hold_or_unconfirmed_reclaim_points():
     one, valid = weekly_ma55_parts(reference(above_count=1, consecutive_above=1, retest=None), 11.)
     stable, _ = weekly_ma55_parts(reference(above_count=4, consecutive_above=3, retest=None), 11.)
     assert valid and one["weekly_ma55_recent_hold"] == one["weekly_ma55_retest_or_reclaim"] == 0
-    assert stable["weekly_ma55_recent_hold"] == 3
-    assert sum(stable.values()) - sum(one.values()) == 3
+    assert stable["weekly_ma55_recent_hold"] == 4
+    assert sum(stable.values()) - sum(one.values()) == 4
 
 
 def test_ma55_retest_requires_actual_touch_and_rebound_and_never_uses_later_atr():
@@ -94,13 +94,13 @@ def test_reclaim_needs_following_completed_week_to_hold_and_is_invalidated_by_la
     assert weekly_ma55_observation(later)["reclaim"] is None
 
 
-def test_latest_daily_loss_removes_twelve_points_and_adds_two_point_penalty_without_changing_fundamentals():
+def test_latest_daily_loss_removes_sixteen_points_and_keeps_two_point_penalty_and_fundamentals():
     technical = full_technical()
     original = balanced_score(good_row(), technical, "A", minute_frames=frames())
     technical["daily_close_qfq"] = 7.9
     below = balanced_score(good_row(), technical, "A", minute_frames=frames())
     assert below["score_inputs_complete"] and below["fundamental_score"] == original["fundamental_score"]
-    assert original["technical_score"] - below["technical_score"] == 14
+    assert original["technical_score"] - below["technical_score"] == 18
     parts = below["score_breakdown"]["technical"]["weekly"]["parts"]
     assert parts["weekly_ma55_lost_support_penalty"] == -2
     assert all(v == 0 for k, v in parts.items() if k.startswith("weekly_ma55_") and not k.endswith("penalty"))

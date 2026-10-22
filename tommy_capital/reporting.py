@@ -349,6 +349,15 @@ def candidate_reason(index, row):
         confirmation = ("；" + ("回踩收回" if ma55.get("retest") else "重站并守住") + event["confirmed_at"] + "确认") if event else ""
         reason += (f"周MA55 {number(line)}（{ma55.get('direction_label')}），近6个完整周{ma55.get('above_count')}/6收于线上，"
                    f"连续{ma55.get('consecutive_above')}周；最新日收盘距线{number(distance)}%{confirmation}。")
+    weekly = breakdown.get("weekly", {})
+    macd_state = weekly.get("macd_state", {})
+    if macd_state.get("status") == "ok":
+        parts, maxima = weekly["parts"], weekly["component_maxima"]
+        reference_keys = [k for k in maxima if k.startswith("weekly_ma55_")]
+        reason += (f"MA55专项{number(sum(parts.get(k, 0) for k in reference_keys))}/{number(sum(maxima[k] for k in reference_keys))}分；"
+                   f"周MACD{macd_state['label']}（柱体{number(parts['macd_histogram_state'])}/{number(maxima['macd_histogram_state'])}分，"
+                   f"DIF{number(parts['macd_momentum'])}/{number(maxima['macd_momentum'])}分；"
+                   f"完整周{date_label(macd_state.get('last_bar'), True)}）。")
     return reason
 
 
