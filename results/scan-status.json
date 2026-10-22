@@ -6,7 +6,11 @@
   "scan_phase": "closing",
   "started_at": "2026-10-22T22:19:50+08:00",
   "previous_report_session": "2026-10-20",
-  "updated_at": "2026-10-22T22:49:10.548861+08:00",
-  "status": "running",
-  "observed_job_phase": "Verify full universe and all six ranking timeframes"
+  "updated_at": "2026-10-23T00:35:31.215437+08:00",
+  "status": "partial",
+  "observed_job_phase": "Verify full universe and all six ranking timeframes",
+  "report_generated_at": "2026-10-22T22:21:09.498767+08:00",
+  "report_finished_at": "2026-10-22T22:57:38.726525+08:00",
+  "report_session": "2026-10-22",
+  "scan_complete": false
 }
