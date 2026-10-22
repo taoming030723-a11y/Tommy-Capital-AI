@@ -29,7 +29,7 @@ jobs:
           restore-keys: tommy-v2-${{ runner.os }}-
       - name: Check real trading calendar
         id: trading
-        run: python -m tommy_capital.market_schedule --phase closing
+        run: python -m tommy_capital.market_schedule --event workflow_dispatch --phase closing
       - name: Verify full universe and all six ranking timeframes
         if: steps.trading.outputs.run == 'true'
         run: python -u -m tommy_capital.cli --config config.json --limit 0 --workers 8 --scan-phase closing --closing-retries 2
