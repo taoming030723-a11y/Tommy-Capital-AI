@@ -7,6 +7,7 @@ import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { persistEnrichedReport } from "../scripts/attach-valuations.mjs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 function frozen(pe = 10) {
   const rows = [];
@@ -103,8 +104,26 @@ test("failed optional valuation rendering leaves the market report publishable a
   try {
     await writeFile(path.join(root, "report.json"), '{"original":true}');
     await writeFile(path.join(root, "summary.json"), '{"original":true}');
-    await assert.rejects(persistEnrichedReport(root, { valuations: {} }, () => ({ status: 1 })), /保留原始扫描报告/);
+    await assert.rejects(persistEnrichedReport(root, { original: true, valuations: {} }, () => ({ status: 1 })), /保留原始扫描报告/);
     assert.equal(await readFile(path.join(root, "report.json"), "utf8"), '{"original":true}');
     assert.equal(await readFile(path.join(root, "summary.json"), "utf8"), '{"original":true}');
   } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test("enrichment hands Python the original 2.0 serialization and only mutable annotations", async () => {
+  const root=await mkdtemp(path.join(tmpdir(),'snapshot-number-'));
+  const original='{"generated_at":"2026-10-22","config":{"ratio":2.0},"rankings":[{"score":50.0}]}';
+  try {
+    await writeFile(path.join(root,'report.json'),original);
+    const report={...JSON.parse(original),valuations:{'600089':{status:'complete'}}};
+    await persistEnrichedReport(root,report,stage=>{
+      assert.equal(readFileSync(path.join(stage,'report.json'),'utf8'),original);
+      assert.deepEqual(JSON.parse(readFileSync(path.join(stage,'enrichment.json'),'utf8')),{valuations:report.valuations});
+      writeFileSync(path.join(stage,'summary.json'),JSON.stringify({generated_at:report.generated_at,valuations:report.valuations}));
+      return {status:0};
+    });
+    assert.equal(await readFile(path.join(root,'report.json'),'utf8'),original);
+    await assert.rejects(readFile(path.join(root,'enrichment.json')),/ENOENT/);
+    await assert.rejects(persistEnrichedReport(root,{...report,config:{ratio:3}},()=>assert.fail('must reject before rendering')),/冻结研究输入/);
+  } finally { await rm(root,{recursive:true,force:true}); }
 });

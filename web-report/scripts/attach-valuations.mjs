@@ -5,6 +5,11 @@ import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fetchValuation } from "../lib/market-data.mjs";
 
+const enrichmentFields = new Set(['valuations', 'valuation_coverage', 'technical_reviews']);
+function frozenFields(value) {
+  return JSON.stringify(Object.fromEntries(Object.keys(value).filter(k => !enrichmentFields.has(k)).sort().map(k => [k, value[k]])));
+}
+
 // Prepare all machine/human outputs away from the live scan directory. A failed
 // optional render must leave the original publishable report byte-for-byte intact.
 export async function persistEnrichedReport(root, report, refresh = stage => spawnSync(
@@ -12,12 +17,20 @@ export async function persistEnrichedReport(root, report, refresh = stage => spa
 )) {
   const stage = await mkdtemp(path.join(path.dirname(path.resolve(root)), ".valuation-stage-"));
   try {
-    await writeFile(path.join(stage, "report.json"), JSON.stringify(report, null, 2));
+    const originalText = await readFile(path.join(root, "report.json"), "utf8");
+    if (frozenFields(JSON.parse(originalText)) !== frozenFields(report)) throw new Error("附加观察意外改变冻结研究输入，保留原始扫描报告");
+    // JS stringify changes 2.0 to 2, changing the Python snapshot hash even
+    // though numbers compare equal. Merge annotations in Python, preserving
+    // the original report's numeric representations and its frozen digest.
+    await writeFile(path.join(stage, "report.json"), originalText);
+    await writeFile(path.join(stage, "enrichment.json"), JSON.stringify(Object.fromEntries(
+      Object.entries(report).filter(([key]) => enrichmentFields.has(key))
+    )));
     const result = refresh(stage);
     if (result.error || result.status !== 0) throw new Error("估值附加渲染失败，保留原始扫描报告");
     const summary = JSON.parse(await readFile(path.join(stage, "summary.json"), "utf8"));
     if (JSON.stringify(summary.valuations ?? null) !== JSON.stringify(report.valuations ?? null) || summary.generated_at !== report.generated_at) throw new Error("附加估值机器摘要不匹配，保留原始报告");
-    for (const name of await readdir(stage)) await rename(path.join(stage, name), path.join(root, name));
+    for (const name of await readdir(stage)) if (name !== 'enrichment.json') await rename(path.join(stage, name), path.join(root, name));
   } finally { await rm(stage, { recursive: true, force: true }); }
 }
 

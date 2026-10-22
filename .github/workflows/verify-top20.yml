@@ -37,6 +37,15 @@ jobs:
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         continue-on-error: true
         run: python -m tommy_capital.research
+      - uses: actions/setup-node@v4
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        with:
+          node-version: '24'
+      - name: Verify optional valuation enrichment preserves frozen decision serialization
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        timeout-minutes: 5
+        run: node web-report/scripts/attach-valuations.mjs reports/latest
       - name: Audit actual research TOP20 and six complete ranking timeframes
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''

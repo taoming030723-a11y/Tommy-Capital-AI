@@ -7,6 +7,7 @@ from tommy_capital.cli import clean, make_summary, write_outputs
 from tommy_capital.data import SHANGHAI
 from tommy_capital.reporting import render_markdown, github_run_url
 from tommy_capital.valuation_view import refresh
+from tommy_capital.research import freeze_snapshot
 from tommy_capital.watchlist import refreshed_entries
 from test_watchlist_preferences import report_with_watch, preferences
 
@@ -40,6 +41,31 @@ def test_valuation_refresh_preserves_rankings_history_and_matching_views(tmp_pat
     assert markdown == render_markdown(saved, github_run_url())
     assert "三年PE中位 / 当前分位" in markdown and "相对合理" in markdown
     assert "冻结测试估值，不是真实行情" in markdown
+
+
+def test_enrichment_preserves_snapshot_hash_and_integral_float_config(tmp_path):
+    report = valued_report()
+    report["ranking_complete"] = False
+    report["config"]["daily_volume_abnormal_ratio"] = 2.0
+    snapshot = freeze_snapshot(report)
+    write_outputs(tmp_path, report)
+    (tmp_path / "enrichment.json").write_text(json.dumps({"valuations": {}, "technical_reviews": {"rows": []}}))
+    refresh(tmp_path)
+    saved = json.loads((tmp_path / "report.json").read_text())
+    assert type(saved["config"]["daily_volume_abnormal_ratio"]) is float
+    assert freeze_snapshot(saved) == snapshot
+    assert saved["valuations"] == {} and saved["technical_reviews"] == {"rows": []}
+
+
+def test_enrichment_cannot_update_ranking_config_or_history(tmp_path):
+    import pytest
+    report = valued_report()
+    write_outputs(tmp_path, report)
+    original = (tmp_path / "report.json").read_bytes()
+    (tmp_path / "enrichment.json").write_text('{"config": {}}')
+    with pytest.raises(ValueError, match="禁止修改"):
+        refresh(tmp_path)
+    assert (tmp_path / "report.json").read_bytes() == original
 
 
 def test_preference_refresh_retains_enriched_watch_values():
