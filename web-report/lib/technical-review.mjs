@@ -2,7 +2,7 @@
 // parity tests compare this browser-service implementation with the Python engine.
 import monitorPolicy from './monitor-policy.json' with {type:'json'};
 import technicalPolicy from './technical-policy.json' with {type:'json'};
-export const REVIEW_VERSION = 'focused_six_period_v1';
+export const REVIEW_VERSION = 'focused_six_period_v2';
 export const POLICY_ID = (()=>{let hash=2166136261;for(const c of JSON.stringify([technicalPolicy,monitorPolicy]))hash=Math.imul(hash^c.charCodeAt(0),16777619);return (hash>>>0).toString(16);})();
 export const PERIODS = ['monthly', 'weekly', 'daily', '60', '30', '15'];
 export const PERIOD_NAMES = {monthly:'月线',weekly:'周线',daily:'日线','60':'60分钟','30':'30分钟','15':'15分钟'};

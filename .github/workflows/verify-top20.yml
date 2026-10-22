@@ -30,7 +30,16 @@ jobs:
       - name: Check real trading calendar
         id: trading
         run: python -m tommy_capital.market_schedule --event workflow_dispatch --phase closing
+      - name: Publish observed verification startup
+        if: steps.trading.outputs.run == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          SCAN_PHASE: closing
+        run: python -m tommy_capital.scan_status start
       - name: Verify full universe and all six ranking timeframes
+        id: scan
         if: steps.trading.outputs.run == 'true'
         run: python -u -m tommy_capital.cli --config config.json --limit 0 --workers 8 --scan-phase closing --closing-retries 2
       - name: Freeze research decisions and observe matured real-price windows
@@ -46,6 +55,10 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
         run: node web-report/scripts/attach-valuations.mjs reports/latest
+      - name: Attach independent investment research and four-layer data quality
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        run: python -m tommy_capital.investment_research
       - name: Audit actual research TOP20 and six complete ranking timeframes
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
@@ -64,9 +77,20 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: Publish matching TOP20 Chinese report and machine audit
+        id: publish
         if: always() && steps.trading.outputs.run == 'true' && steps.audit.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_NAME: ${{ github.repository }}
           REPORT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
         run: python -m tommy_capital.publish
+      - name: Finish observed verification status without overwriting newer runs
+        if: always() && steps.trading.outputs.run == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.repository }}
+          SCAN_PHASE: closing
+          PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
+          JOB_CANCELLED: ${{ job.status == 'cancelled' }}
+        run: python -m tommy_capital.scan_status finish

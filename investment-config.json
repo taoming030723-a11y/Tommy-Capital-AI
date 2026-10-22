@@ -1,0 +1,6 @@
+{
+  "minimum_margin": 0.2,
+  "overvalue_ratio": 1.2,
+  "maximum_model_age_days": 90,
+  "method_disagreement_ratio": 1.3
+}

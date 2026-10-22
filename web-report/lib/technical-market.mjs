@@ -90,5 +90,12 @@ export async function fetchTechnicalReview(code,session,route=null){
     ...[['weekly','week',300],['monthly','month',120]].map(async([p,kind,count])=>{try{const rows=validateNativePeriod(await nativeBars(code,kind,session,'qfq',count),daily,p,session);rawFrames[p]=rows;frames[p]=frameSnapshot(rows,p,'tencent_native_qfq'+kind+';validated_daily_overlap',config);}catch(e){setError(p,e);}}),
     ...[60,30,15].map(async(period)=>{try{const rows=adjustMinuteBars(await minutes(code,period),daily,rawDaily,period,session,calendar);rawFrames[String(period)]=rows;frames[String(period)]=frameSnapshot(rows,String(period),'sina_raw;matched_raw_daily_qfq_factors',config);}catch(e){setError(String(period),e);}})
   ]);
-  return assessTechnical({code,session,frames,rawFrames,config,route});
+  const result=assessTechnical({code,session,frames,rawFrames,config,route});
+  const rawQuote=rawDaily.at(-1),adjustedQuote=daily.at(-1);
+  result.current_quote={price:rawQuote.close,session:rawQuote.date.slice(0,10),source:'tencent_raw_day',basis:'当期真实未复权日线收盘，用于私人持仓市值，不混用历史成本复权'};
+  result.risk_history={session,basis:'同次前复权响应计算收益相关性，非真实组合净值或完整分红总回报',rows:daily.slice(-121).map(r=>({date:r.date.slice(0,10),close:r.close}))};
+  const expectedRiskDays=calendar.filter(d=>d>=result.risk_history.rows[0].date&&d<=session);
+  result.risk_history.calendar_complete=expectedRiskDays.length===result.risk_history.rows.length&&expectedRiskDays.every((d,i)=>d===result.risk_history.rows[i].date);
+  if(Math.abs(rawQuote.close-adjustedQuote.close)>Math.max(.021,rawQuote.close*.001))result.current_quote=null;
+  return result;
 }

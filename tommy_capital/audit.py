@@ -58,6 +58,12 @@ def audit(directory):
     else:
         assert report["scan_phase"] == "pre_run" and report["scan_type"] in ("closed_session", "daily_baseline")
     assert summary == make_summary(report)
+    if report.get("data_quality") is not None:
+        from .diagnostics import report_diagnostics
+        assert report["data_quality"] == report_diagnostics(report)
+    if report.get("investment_research") is not None:
+        from .investment_research import build_research
+        assert report["investment_research"] == build_research(report, report["investment_research"].get("assumptions", {}), report["investment_research"].get("policy"))
     if report.get("macd_monitor") is not None:
         from .monitor import validate_public_monitor,monitor_scope
         monitor=report["macd_monitor"]
@@ -87,6 +93,11 @@ def audit(directory):
         evaluation = json.loads((root / "forward-evaluation.json").read_text())
         assert report["forward_evaluation"] == {k: v for k, v in evaluation.items() if k not in ("checks", "lineage")}
         assert all(c.get("exit_session", "") <= evaluation["as_of_session"] for c in evaluation["checks"] if c["status"] == "observed")
+    if (root / "ablation-snapshot.json").exists():
+        from .backtest import freeze_ablation
+        from datetime import datetime
+        trial = json.loads((root / "ablation-snapshot.json").read_text())
+        assert trial == freeze_ablation(report, datetime.fromisoformat(trial["decision_at"]))
     coverage, pool = report["coverage"], report["rankings"]
     assert coverage["technical_scope"] == "all_quoted_a_shares"
     assert coverage["technical_requested"] == coverage["technical_attempted"] == coverage["universe"]

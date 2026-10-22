@@ -12,6 +12,7 @@ export function quantile(values, p) {
 
 export function evaluateValuation({ code, session, history, context = {}, checkedAt = new Date().toISOString() }) {
   const result = { schema: 1, version: policy.version, code, session, checked_at: checkedAt, status: "unavailable", label: "估值待核验", current_pe_ttm: null, current_pb: null, price: null, historical: null, fundamental: null, reasons: [], sources: [{ name: "东方财富历史估值", url: `https://data.eastmoney.com/gzfx/detail/${code}.html` }], basis: "相对估值观察，不是DCF内在价值或交易指令；历史与基本面各占50%，不计入原选股评分" };
+  result.industry = context.industry || null;
   if (!/^[0-9]{6}$/.test(code) || !day(session) || session !== day(session) || !Array.isArray(history)) throw new Error("估值代码、日期或历史格式错误");
   const seen = new Set(), cleaned = [];
   for (const row of history) {

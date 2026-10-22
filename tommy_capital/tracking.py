@@ -162,6 +162,9 @@ def tracking_view(report, history, preferences=None):
                  abs(ratio - volume / mean) < 1e-10)
         rows.append({"code": code, "name": row.get("name") or appearances[-1].get("name"),
             "appearance_count": len(appearances), "appearances": appearances,
+            "appearance_counts_by_model": {v: sum(a["scoring_version"] == v for a in appearances)
+                                           for v in sorted({a["scoring_version"] for a in appearances})},
+            "current_model_appearances": sum(a["scoring_version"] == report.get("scoring_version") for a in appearances),
             "first_session": appearances[0]["session"], "last_session": appearances[-1]["session"],
             "current_rank": ranks.get(code), "currently_qualified": code in ranks,
             "daily_volume": observation if valid else {"status": "unavailable", "ratio20": None,

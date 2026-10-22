@@ -46,7 +46,7 @@ def validate_snapshot(snapshot):
         raise ValueError("冻结名单超过20只或含重复股票")
 
 
-def evaluate_snapshot(snapshot, trading_days, as_of, history_for, cost_bps=20.):
+def evaluate_snapshot(snapshot, trading_days, as_of, history_for, cost_bps=20., horizons=HORIZONS):
     validate_snapshot(snapshot)
     if not 0 <= cost_bps <= 100:
         raise ValueError("每边假设成本须为0到100bp")
@@ -57,7 +57,9 @@ def evaluate_snapshot(snapshot, trading_days, as_of, history_for, cost_bps=20.):
     following = [d for d in days if d > decision_day]
     rows = []
     for stock in snapshot["top20"]:
-        for horizon in HORIZONS:
+        for horizon in horizons:
+            if type(horizon) is not int or horizon <= 0:
+                raise ValueError("评价交易日窗口须为正整数")
             item = {"snapshot_sha256": snapshot["snapshot_sha256"], "decision_day": decision_day.isoformat(),
                     "code": stock["code"], "name": stock["name"], "horizon_sessions": horizon,
                     "model_version": snapshot["model_version"], "status": "pending", "cost_bps_per_side": cost_bps}
@@ -91,9 +93,13 @@ def evaluate_snapshot(snapshot, trading_days, as_of, history_for, cost_bps=20.):
                     if float(prices.loc[entry, "最高"]) == float(prices.loc[entry, "最低"]):
                         raise DataError("首日单价K线，未证明可按开盘价成交")
                     fee = cost_bps / 10000
+                    peak, drawdown = opening, 0.
+                    for observed_close in prices.loc[following[:horizon], "收盘"].astype(float):
+                        peak = max(peak, observed_close)
+                        drawdown = min(drawdown, observed_close/peak-1)
                     item.update(status="observed", gross_price_return_pct=(closing/opening-1)*100,
                         hypothetical_net_return_pct=(closing*(1-fee)/(opening*(1+fee))-1)*100,
-                        entry_open_qfq=opening, exit_close_qfq=closing,
+                        entry_open_qfq=opening, exit_close_qfq=closing, stock_close_max_drawdown_pct=drawdown*100,
                         price_basis="同次真实前复权价格；净值为每边成本假设，非实际成交收益")
                 except (DataError, KeyError, ValueError, TypeError) as exc:
                     item.update(status="missing", reason=str(exc))
@@ -131,7 +137,20 @@ def main():
         return cache[code]
     checks = []
     for snapshot in snapshots:
-        checks.extend(evaluate_snapshot(snapshot, days, as_of, history_for))
+        checks.extend(evaluate_snapshot(snapshot, days, as_of, history_for, horizons=(1, 5, 20, 60)))
+    from .backtest import attach_benchmarks, summarize_checks, freeze_ablation, snapshot_turnover, market_regime
+    benchmark_cache = {}
+    def benchmark_history_for(code, entry, end):
+        if code not in benchmark_cache:
+            try:
+                benchmark_cache[code] = provider.fetch("index_tx_daily", ttl=3600, symbol=code, end_date=as_of.isoformat())
+            except DataError as exc:
+                benchmark_cache[code] = str(exc)
+        value = benchmark_cache[code]
+        if isinstance(value, str):
+            raise DataError(value)
+        return value
+    checks = attach_benchmarks(checks, days, benchmark_history_for)
     evaluation = {"evaluated_at": datetime.now(SHANGHAI).isoformat(), "as_of_session": report["session"],
         "snapshot_count": len(snapshots), "scope": f"最近{MAX_SNAPSHOTS}份冻结记录及当前记录；重叠窗口不是独立样本",
         "matured_checks": sum(r["status"] == "observed" for r in checks),
@@ -139,11 +158,19 @@ def main():
         "missing_checks": sum(r["status"] == "missing" for r in checks),
         "distinct_matured_decision_days": len({r["decision_day"] for r in checks if r["status"] == "observed"}),
         "validation_status": "unvalidated_out_of_sample", "automatic_weight_training": False,
-        "benchmark_comparison": "not_implemented", "order_execution": False,
+        "benchmark_comparison": "same_window_price_indices_000300_000905", "order_execution": False,
+        "benchmark_observed": sum(b["status"]=="observed" for r in checks for b in r.get("benchmarks", [])),
+        "benchmark_missing": sum(b["status"]=="missing" for r in checks for b in r.get("benchmarks", [])),
+        "validation_summary": summarize_checks(checks),
+        "list_turnover": snapshot_turnover(snapshots),
+        "market_environment": {code: market_regime(value, report["session"]) if not isinstance(value, str) else {"status":"unavailable","reason":value}
+                               for code, value in benchmark_cache.items()},
         "checks": checks, "lineage": provider.lineage}
     report["forward_evaluation"] = {k: v for k, v in evaluation.items() if k not in ("checks", "lineage")}
     (root / "research-snapshot.json").write_text(json.dumps(current, ensure_ascii=False, indent=2, allow_nan=False))
     (root / "forward-evaluation.json").write_text(json.dumps(evaluation, ensure_ascii=False, indent=2, allow_nan=False))
+    if all(r.get("score_breakdown", {}).get("technical", {}).get("weekly", {}).get("component_maxima") for r in report["rankings"]):
+        (root / "ablation-snapshot.json").write_text(json.dumps(freeze_ablation(report), ensure_ascii=False, indent=2, allow_nan=False))
     write_outputs(root, report)
     (root / "summary.json").write_text(json.dumps(clean(make_summary(report)), ensure_ascii=False, indent=2, allow_nan=False))
     print(json.dumps(report["forward_evaluation"], ensure_ascii=False))

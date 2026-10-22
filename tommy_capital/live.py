@@ -21,6 +21,27 @@ import requests
 _sessions = threading.local()
 
 
+def index_tx_daily(symbol, end_date):
+    """Real price indices, separate from stock-symbol and qfq logic."""
+    from datetime import date, datetime
+    from .data import SHANGHAI
+    if symbol not in {"000300", "000905"}:
+        raise ValueError("仅支持明确登记的沪深300和中证500价格基准")
+    end = date.fromisoformat(end_date)
+    now = datetime.now(SHANGHAI)
+    if end > now.date() or end == now.date() and (now.hour, now.minute) < (15, 5):
+        raise ValueError("基准只接受已收盘日期，禁止未来或未完成日线")
+    endpoint = "" if end == now.date() else end.isoformat()
+    body = get_json("https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get",
+                    {"param": f"sh{symbol},day,,{endpoint},640,"})
+    rows = body.get("data", {}).get("sh"+symbol, {}).get("day")
+    if not rows:
+        raise ValueError("基准源没有返回真实指数日线")
+    frame = pd.DataFrame([{"日期": r[0], "开盘": float(r[1]), "收盘": float(r[2]),
+                           "最高": float(r[3]), "最低": float(r[4])} for r in rows])
+    return frame[pd.to_datetime(frame["日期"]).dt.date <= end]
+
+
 def request(url, params):
     if not hasattr(_sessions, "client"):
         _sessions.client = requests.Session()

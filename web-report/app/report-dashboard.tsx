@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useState, useRef, type FormEvent, type ReactNode } from "react";
 import { emptyPreferences, effectiveIgnored, observationScope, safeLink } from "@/lib/controls.mjs";
+import DecisionWorkbench from './decision-workbench';
 
 type Row = Record<string, any>;
 type Personal = { revision: number; preferences: ReturnType<typeof emptyPreferences> };
@@ -225,14 +226,16 @@ export default function ReportDashboard() {
     <main className="layout"><section className="hero"><span className="eyebrow">A-SHARE RESEARCH JOURNAL</span><h1>把研究，接到观察。</h1><div className="hero-bottom"><p>{data ? <>最新数据日 <b>{data.session}</b><span className="status-badge">{data.scan_complete ? "完整报告" : "部分完成"}</span></> : "正在连接原仓库的真实报告…"}</p><button className="primary" onClick={() => void refresh()} disabled={loading}>{loading ? "正在读取…" : "↻ 刷新最新报告"}</button></div>
       {data && <p className="fineprint">扫描完成 {data.finished_at} · {data.scoring_version} · {data.commit ? "固定版本 " + data.commit.slice(0, 8) : "报告校验 " + data.report_sha256.slice(0, 8)}</p>}
     </section>
-    <nav className="tabs" aria-label="报告视图">{[["report", "最新报告"], ["watch", "我的观察"], ["holdings", "实际持仓"]].map(([id, title]) => <button key={id} aria-selected={page === id} className={page === id ? "active" : ""} onClick={() => setPage(id)}>{title}</button>)}</nav>
+    <nav className="tabs" aria-label="报告视图">{[["report", "最新报告"], ["watch", "我的观察"], ["holdings", "实际持仓"], ["research", "估值与资金"]].map(([id, title]) => <button key={id} aria-selected={page === id} className={page === id ? "active" : ""} onClick={() => setPage(id)}>{title}</button>)}</nav>
     {error && <div role="alert" className="message error">{error}<a href="/signin-with-chatgpt?return_to=%2F" target="_top">重新登录</a></div>}
     {notice && <div role="status" className="message success">{notice}</div>}
+    {data?.freshness&&!data.freshness.recommendations_current&&<div className="message error" role="status"><b>{data.freshness.label}</b>。{data.freshness.message}{data.scan_status?.run_url&&<a href={data.scan_status.run_url} target="_blank" rel="noopener noreferrer">查看最近实际运行及日志</a>}</div>}
     {running && <div className="message">有新的扫描正在处理。以下仍是已发布的 {data?.session} 报告。<a href={data?.scan_status?.run_url} target="_blank" rel="noopener noreferrer">查看实际运行</a></div>}
     {!data && !loading && <section className="panel empty">最新报告暂未取得。请稍后刷新，或<a href={REPO + "/blob/main/results/latest-report.md"} target="_blank" rel="noopener noreferrer">查看GitHub原报告</a>。</section>}
     {page === "report" && <>{QuickWindows()}{data && <section className="panel market"><Markdown value={data.market} /></section>}{WatchControls()}{TechnicalReviews()}{ValuationTable()}<details className="panel holdings-fold"><summary>我的实际持仓 · {preferences.holdings.length}只（添加、编辑、删除）</summary>{Holdings()}</details>{data && <details className="panel reasons" open><summary>前20入选理由 · 实际{data.display_count}只</summary><Markdown value={data.reasons.replace(/^## [^\n]+\n/, "")} /></details>}{Monitor()}</>}
     {page === "watch" && <>{QuickWindows()}{WatchControls()}{TechnicalReviews()}{ValuationTable()}{Monitor()}</>}
     {page === "holdings" && <>{QuickWindows()}{Holdings()}{TechnicalReviews()}{ValuationTable()}{Monitor()}</>}
+    {page === "research" && data && <DecisionWorkbench data={data} reviews={reviews} holdings={preferences.holdings} session={technicalSession} enabled={!!personal} valuations={valuations} scope={scope} />}
     <footer><span>Tommy Capital · 保留原有模型与真实数据时间</span><div><button disabled={!personal} onClick={exportBackup}>导出私人名单</button><a href={REPO + "/blob/main/docs/report-controls.md"} target="_blank" rel="noopener noreferrer">使用说明 ↗</a><a href="/signout-with-chatgpt?return_to=%2F" target="_top">退出登录</a></div></footer>
     </main></>;
 }

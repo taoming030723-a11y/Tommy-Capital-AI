@@ -407,6 +407,11 @@ def render_dual_report(report, run_url=None):
         ["扫描时间", f"扫描启动：{date_label(report.get('generated_at'))}；扫描完成：{date_label(report.get('finished_at'))}"],
         ["数据状态", status + f"；scan_complete={str(report.get('scan_complete', False)).lower()}；ranking_complete={str(report.get('ranking_complete', False)).lower()}" +
          ("；已核验范围排名" if not report.get("ranking_complete", False) else "")]]
+    quality = report.get("data_quality")
+    if quality:
+        rows += [["财报质量已核验", str(quality["financial"].get("quality_statement_available", 0)) + "只"],
+                 ["估值完成 / 请求", f"{quality['valuation']['completed']} / {quality['valuation']['requested']}只"],
+                 ["AI解释 / 程序规则", f"模型解释完成{quality['ai']['completed']}只；" + ("其余为程序规则或缺失" if quality['ai']['completed'] else "本报告为程序规则，未把未配置/失败当作AI分析")]]
     if report.get("model_review"):
         rows.append(["报告用途", f"复核{report['model_review']['source_generated_at'][:10]}行情，未抓取新行情、不计前10次数"])
     elif report.get("scan_phase") == "pre_run":
@@ -433,8 +438,15 @@ def render_dual_report(report, run_url=None):
             number(row.get("score")), number(row.get("fundamental_score")), number(row.get("technical_score")),
             number(tech.get("monthly_j")), number(volume_ratio(tech, "weekly")) + "倍",
             number(volume_ratio(tech, "monthly")) + "倍", state["label"], *valuation_cells(report.get("valuations", {}).get(row.get("code")))])
-    lines += table(["名次", "股票（代码）", "综合/100", "基本面/50", "技术/50", "完整月J", "周量/前20周均量", "月量/前20月均量", "确认阶段", "PE(TTM) / PB", "三年PE中位 / 当前分位", "综合估值"],
-        top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * 10]])
+        study = (report.get("investment_research") or {}).get("rows", {}).get(row["code"])
+        if report.get("investment_research"):
+            top_rows[-1] += [study["classification"]["label"] if study else "待核实",
+                            study["valuation"]["price_judgment"] if study else "无法判断"]
+    headers = ["名次", "股票（代码）", "综合/100", "基本面/50", "技术/50", "完整月J", "周量/前20周均量", "月量/前20月均量", "确认阶段", "PE(TTM) / PB", "三年PE中位 / 当前分位", "综合估值"]
+    if report.get("investment_research"):
+        headers += ["企业研究类别", "证据内在价值"]
+    lines += table(headers,
+        top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * (len(headers)-2)]])
     tracking = report.get("top10_tracking", {})
     lines += render_tracking_section(tracking, report.get("config"), report.get("valuations"))
     if displayed:

@@ -23,6 +23,12 @@ def publish(directory, token, repository):
     for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
+    for key in ("investment_research", "data_quality"):
+        if summary.get(key) != report.get(key):
+            raise ValueError(f"研究附加字段{key}与机器摘要不一致")
+    if report.get("investment_research") is not None:
+        from .investment_research import validate_public_research
+        validate_public_research(report["investment_research"])
     markdown = render_markdown(report, github_run_url())
     (directory / "report.md").write_text(markdown, encoding="utf-8")
     base = "https://api.github.com/repos/" + repository
@@ -60,6 +66,14 @@ def publish(directory, token, repository):
     if (directory / "forward-evaluation.json").is_file():
         entries.append({"path": "research/latest-evaluation.json", "mode": "100644", "type": "blob",
                         "content": (directory / "forward-evaluation.json").read_text()})
+    if (directory / "ablation-snapshot.json").is_file():
+        trial = json.loads((directory / "ablation-snapshot.json").read_text())
+        from .backtest import freeze_ablation
+        from datetime import datetime
+        if trial != freeze_ablation(report, datetime.fromisoformat(trial["decision_at"])):
+            raise ValueError("消融决策快照与原始分项不一致，拒绝发布")
+        path = "research/experiments/" + trial["decision_at"][:10] + "/" + trial["sha256"] + ".json"
+        entries.append({"path": path, "mode": "100644", "type": "blob", "content": json.dumps(trial, ensure_ascii=False, indent=2)})
     if report.get("top10_history") is not None and phase == "closing" and report.get("status") in ("complete", "partial"):
         from .tracking import audit_tracking
         history = audit_tracking(report)
