@@ -46,7 +46,7 @@ jobs:
       - name: Download and verify the existing published scan, without market requests
         run: |
           python - <<'PY'
-          import base64, hashlib, io, json, os, re, urllib.request, zipfile
+          import base64, hashlib, io, json, os, re, urllib.parse, urllib.request, zipfile
           from pathlib import Path
           from tommy_capital.scoring import SCORING_VERSION
           from tommy_capital.tracking import tracking_view
@@ -58,8 +58,15 @@ jobs:
           assert re.fullmatch(r'[a-f0-9]{64}', expected)
           headers = {'Authorization': 'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json'}
           api = 'https://api.github.com/repos/'+repo
+          class AuthSafeRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, response_headers, new_url):
+                  redirected=super().redirect_request(req,fp,code,msg,response_headers,new_url)
+                  if urllib.parse.urlsplit(new_url).netloc != urllib.parse.urlsplit(req.full_url).netloc:
+                      redirected.remove_header('Authorization')
+                  return redirected
+          opener=urllib.request.build_opener(AuthSafeRedirect())
           def request(path):
-              return urllib.request.urlopen(urllib.request.Request(api+path,headers=headers), timeout=90)
+              return opener.open(urllib.request.Request(api+path,headers=headers), timeout=90)
           metadata = json.load(request('/actions/artifacts/'+artifact_id))
           assert str(metadata['workflow_run']['id']) == run_id
           assert metadata.get('digest') == 'sha256:'+expected and not metadata['expired']
