@@ -1,0 +1,125 @@
+name: Enrich an audited published closing report
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Actual completed scan run
+        required: true
+        default: '39794728881'
+      source_artifact_id:
+        description: Immutable complete report artifact
+        required: true
+        default: '12435452364'
+      source_sha256:
+        description: Verified artifact SHA256
+        required: true
+        default: '472d02ef53f8df291945c27e329f1288ff7d8cf050b9d3cb8088730aa5161adf'
+  push:
+    branches: [main]
+    paths: [.github/workflows/enrich-report.yml]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: tommy-market-scan
+  cancel-in-progress: false
+jobs:
+  enrich:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[enrich-report]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO_NAME: ${{ github.repository }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id || '39794728881' }}
+      SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id || '12435452364' }}
+      SOURCE_SHA256: ${{ inputs.source_sha256 || '472d02ef53f8df291945c27e329f1288ff7d8cf050b9d3cb8088730aa5161adf' }}
+      REPORT_ARTIFACT_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test,ui]'
+      - name: Regression tests before integrating the frozen real report
+        run: python -m pytest -q
+      - name: Download and verify the existing published scan, without market requests
+        run: |
+          python - <<'PY'
+          import base64, hashlib, io, json, os, re, urllib.request, zipfile
+          from pathlib import Path
+          from tommy_capital.scoring import SCORING_VERSION
+          from tommy_capital.tracking import tracking_view
+          from tommy_capital.cli import write_outputs, make_summary, clean
+          from tommy_capital.research import freeze_snapshot
+          from tommy_capital.backtest import freeze_ablation
+          repo, run_id, artifact_id, expected = (os.environ[k] for k in ('REPO_NAME','SOURCE_RUN_ID','SOURCE_ARTIFACT_ID','SOURCE_SHA256'))
+          assert re.fullmatch(r'[0-9]+', run_id) and re.fullmatch(r'[0-9]+', artifact_id)
+          assert re.fullmatch(r'[a-f0-9]{64}', expected)
+          headers = {'Authorization': 'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json'}
+          api = 'https://api.github.com/repos/'+repo
+          def request(path):
+              return urllib.request.urlopen(urllib.request.Request(api+path,headers=headers), timeout=90)
+          metadata = json.load(request('/actions/artifacts/'+artifact_id))
+          assert str(metadata['workflow_run']['id']) == run_id
+          assert metadata.get('digest') == 'sha256:'+expected and not metadata['expired']
+          data = request('/actions/artifacts/'+artifact_id+'/zip').read()
+          assert hashlib.sha256(data).hexdigest() == expected
+          root = Path('reports/latest'); root.mkdir(parents=True,exist_ok=True)
+          with zipfile.ZipFile(io.BytesIO(data)) as archive:
+              assert sum(f.file_size for f in archive.infolist()) < 512*1024*1024
+              for f in archive.infolist():
+                  assert (root/f.filename).resolve().is_relative_to(root.resolve())
+                  if f.is_dir() or Path(f.filename).name.startswith('.'): continue
+                  archive.extract(f,root)
+          report = json.loads((root/'report.json').read_text())
+          original = json.loads((root/'summary.json').read_text())
+          published = json.loads(Path('results/latest-summary.json').read_text())
+          assert report['scan_phase']=='closing' and report['scan_type']=='after_close'
+          assert report['status'] in ('complete','partial') and report['scoring_version']==SCORING_VERSION
+          assert report['workflow_run_url']==api.replace('api.github.com/repos','github.com')+'/actions/runs/'+run_id
+          assert all(original[k]==published[k] for k in ('workflow_run_url','session','generated_at','finished_at','coverage','scoring_version'))
+          assert report['top10_history']==json.loads(Path('results/top10-history.json').read_text())
+          frozen = json.loads((root/'research-snapshot.json').read_text())
+          assert freeze_snapshot(report)==frozen
+          old = report['top10_tracking']
+          report['top10_tracking']={**old,**tracking_view(report,report['top10_history'],old['preferences'])}
+          assert freeze_snapshot(report)==frozen
+          os.environ.pop('GITHUB_RUN_ID',None);os.environ.pop('GITHUB_REPOSITORY',None)
+          write_outputs(root,report)
+          (root/'summary.json').write_text(json.dumps(clean(make_summary(report)),ensure_ascii=False,indent=2,allow_nan=False))
+          (root/'ablation-snapshot.json').write_text(json.dumps(freeze_ablation(report),ensure_ascii=False,indent=2,allow_nan=False))
+          (root/'enrichment-provenance.json').write_text(json.dumps({'source_run_id':run_id,'source_artifact_id':artifact_id,'source_artifact_sha256':expected,'analysis_commit':os.environ['GITHUB_SHA'],'new_market_requests':0,'original_scan_dates_preserved':True},indent=2))
+          print(json.dumps({'source_session':report['session'],'source_generated_at':report['generated_at'],'source_finished_at':report['finished_at'],'core_snapshot_unchanged':True,'new_market_requests':0}))
+          PY
+      - name: Attach independent enterprise research and classified data gaps
+        run: env -u GITHUB_RUN_ID -u GITHUB_REPOSITORY python -m tommy_capital.investment_research
+      - name: Audit production scores, original frozen hash and every derived field
+        run: env -u GITHUB_RUN_ID -u GITHUB_REPOSITORY python -m tommy_capital.audit
+      - name: Upload the complete enriched report and auditable queues
+        uses: actions/upload-artifact@v4
+        with:
+          name: tommy-capital-enriched-audited-report
+          path: reports/latest/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Publish only if the exact source scan is still the latest report
+        run: |
+          env -u GITHUB_RUN_ID -u GITHUB_REPOSITORY python - <<'PY'
+          import base64,json,os,urllib.request
+          from pathlib import Path
+          from tommy_capital.publish import publish
+          from tommy_capital.scan_status import publish_status
+          repo,token=os.environ['REPO_NAME'],os.environ['GH_TOKEN']
+          api='https://api.github.com/repos/'+repo
+          headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'}
+          def read(path):
+              with urllib.request.urlopen(urllib.request.Request(api+path,headers=headers),timeout=45) as response:return json.load(response)
+          value=read('/contents/results/latest-summary.json')
+          if not value.get('content'):value=read('/git/blobs/'+value['sha'])
+          current=json.loads(base64.b64decode(value['content']))
+          report=json.loads(Path('reports/latest/report.json').read_text())
+          assert all(current[k]==report[k] for k in ('workflow_run_url','generated_at','finished_at','session','coverage','scoring_version')), 'A newer report exists; refusing to replace it'
+          print('published commit',publish('reports/latest',token,repo))
+          publish_status('finish',repo,token,os.environ['SOURCE_RUN_ID'],'closing',report,'success')
+          PY

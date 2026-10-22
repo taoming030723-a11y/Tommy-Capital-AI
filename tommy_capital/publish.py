@@ -110,6 +110,13 @@ def publish(directory, token, repository):
                     from .watchlist import technical_preference_view
                     technical = technical_preference_view(report["technical_reviews"], view)
                     report["technical_reviews"] = summary["technical_reviews"] = technical
+                if report.get("investment_research") is not None:
+                    from .investment_research import build_research
+                    previous_research = report["investment_research"]
+                    report["investment_research"] = summary["investment_research"] = build_research(report, previous_research.get("assumptions"), previous_research.get("policy"))
+                if report.get("data_quality") is not None:
+                    from .diagnostics import report_diagnostics
+                    report["data_quality"] = summary["data_quality"] = report_diagnostics(report)
                 markdown = render_markdown(report, github_run_url())
                 for entry in entries:
                     if entry["path"] in ("results/latest-summary.json", f"results/{day}/closing-summary.json"):
