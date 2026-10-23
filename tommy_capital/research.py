@@ -151,6 +151,10 @@ def main():
             raise DataError(value)
         return value
     checks = attach_benchmarks(checks, days, benchmark_history_for)
+    from .kd_research import evaluate_kd
+    kd_snapshots = [json.loads(p.read_text()) for p in sorted(Path("research/kd-observations").glob("*/*.json"))[-MAX_SNAPSHOTS:]]
+    kd_evaluation = evaluate_kd(kd_snapshots, days, as_of, history_for)
+    (root / "kd-forward-evaluation.json").write_text(json.dumps(kd_evaluation, ensure_ascii=False, indent=2, allow_nan=False))
     evaluation = {"evaluated_at": datetime.now(SHANGHAI).isoformat(), "as_of_session": report["session"],
         "snapshot_count": len(snapshots), "scope": f"最近{MAX_SNAPSHOTS}份冻结记录及当前记录；重叠窗口不是独立样本",
         "matured_checks": sum(r["status"] == "observed" for r in checks),
@@ -159,6 +163,7 @@ def main():
         "distinct_matured_decision_days": len({r["decision_day"] for r in checks if r["status"] == "observed"}),
         "validation_status": "unvalidated_out_of_sample", "automatic_weight_training": False,
         "benchmark_comparison": "same_window_price_indices_000300_000905", "order_execution": False,
+        "kd_state_validation": {k: v for k, v in kd_evaluation.items() if k != "checks"},
         "benchmark_observed": sum(b["status"]=="observed" for r in checks for b in r.get("benchmarks", [])),
         "benchmark_missing": sum(b["status"]=="missing" for r in checks for b in r.get("benchmarks", [])),
         "validation_summary": summarize_checks(checks),

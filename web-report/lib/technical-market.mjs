@@ -1,5 +1,6 @@
 import { codeValue } from './controls.mjs';
-import { frameSnapshot, assessTechnical, PERIODS } from './technical-review.mjs';
+import { frameSnapshot, assessTechnical, calculateIndicators, PERIODS } from './technical-review.mjs';
+import {classifyKD,unavailableKD} from './kd-state.mjs';
 import config from './technical-policy.json' with {type:'json'};
 const DAY=86400000;
 const number=x=>x!==null&&x!==''&&x!==undefined&&Number.isFinite(Number(x))?Number(x):null;
@@ -71,6 +72,29 @@ export function adjustMinuteBars(raw,daily,rawDaily,period,session,calendar){
   if(allowed.length!==rows.length||allowed.some((t,i)=>t!==rows[i].date))throw Error('分钟数据包含交易日/午休错位或内部缺根');
   return rows.map(r=>{const factor=factors.get(day(r.date));if(!(factor>0))throw Error('分时前复权因子缺失');return {...r,...Object.fromEntries(['open','high','low','close'].map(k=>[k,r[k]*factor]))};});
 }
+export function aggregate120Bars(rows,session,calendar){
+  const end=session+'T15:00:00',trading=new Set(calendar),groups=new Map();let previous=null;
+  for(const row of rows){
+    if(previous&&row.date<=previous)throw Error('60分钟源重复或乱序');previous=row.date;
+    if(row.date>end)continue;
+    const date=day(row.date),clock=row.date.slice(11,19);
+    if(!trading.has(date)||!['10:30:00','11:30:00','14:00:00','15:00:00'].includes(clock))throw Error('60分钟含非交易日或非标准半场标签');
+    const cutoff=date+(clock<'12:00:00'?'T11:30:00':'T15:00:00');
+    if(!groups.has(cutoff))groups.set(cutoff,[]);groups.get(cutoff).push(row);
+  }
+  const result=[],keys=[...groups.keys()];
+  for(const [cutoff,bars] of groups){
+    const expected=[cutoff.slice(0,10)+(cutoff.includes('11:30')?'T10:30:00':'T14:00:00'),cutoff];
+    if(bars.length!==2||bars.some((r,i)=>r.date!==expected[i])){
+      if(cutoff===keys[0])continue;throw Error('120分钟半场缺少完整60分钟组成');
+    }
+    result.push({date:cutoff,open:bars[0].open,close:bars[1].close,high:Math.max(bars[0].high,bars[1].high),low:Math.min(bars[0].low,bars[1].low),volume:bars[0].volume+bars[1].volume});
+  }
+  if(result.at(-1)?.date!==end)throw Error('120分钟最新完整半场缺失，无法判断');
+  const expected=[];for(const date of calendar)for(const clock of ['11:30:00','15:00:00']){const t=date+'T'+clock;if(t>=result[0].date&&t<=end)expected.push(t);}
+  if(expected.length!==result.length||expected.some((t,i)=>t!==result[i].date))throw Error('120分钟内部缺少完整交易半场');
+  return result;
+}
 async function minutes(code,period){
   const url=new URL('https://quotes.sina.cn/cn/api/jsonp_v2.php/=/CN_MarketDataService.getKLineData');url.search=new URLSearchParams({symbol:marketSymbol(code),scale:String(period),ma:'no',datalen:'240'});
   const text=await read(url,true),match=text.match(/=\((\[.*\])\);?/s);if(!match)throw Error('真实分钟源格式不匹配');
@@ -90,6 +114,12 @@ export async function fetchTechnicalReview(code,session,route=null){
     ...[['weekly','week',300],['monthly','month',120]].map(async([p,kind,count])=>{try{const rows=validateNativePeriod(await nativeBars(code,kind,session,'qfq',count),daily,p,session);rawFrames[p]=rows;frames[p]=frameSnapshot(rows,p,'tencent_native_qfq'+kind+';validated_daily_overlap',config);}catch(e){setError(p,e);}}),
     ...[60,30,15].map(async(period)=>{try{const rows=adjustMinuteBars(await minutes(code,period),daily,rawDaily,period,session,calendar);rawFrames[String(period)]=rows;frames[String(period)]=frameSnapshot(rows,String(period),'sina_raw;matched_raw_daily_qfq_factors',config);}catch(e){setError(String(period),e);}})
   ]);
+  // Reuse the verified 60m source; this does not add a provider request or a seventh entry gate.
+  try{
+    if(!rawFrames['60'])throw Error('60分钟缺失，不能合成120分钟');
+    const rows=aggregate120Bars(rawFrames['60'],session,calendar),source120='two_complete_qfq_60m_bars_per_half_session';
+    frames['120']={period:'120',status:'kd_observation_only',source:source120,kd_state:classifyKD(calculateIndicators(rows),'120',source120,session+'T15:00:00')};
+  }catch(e){frames['120']={period:'120',status:'unavailable',kd_state:unavailableKD('120',null,e.message)};}
   const result=assessTechnical({code,session,frames,rawFrames,config,route});
   const rawQuote=rawDaily.at(-1),adjustedQuote=daily.at(-1);
   result.current_quote={price:rawQuote.close,session:rawQuote.date.slice(0,10),source:'tencent_raw_day',basis:'当期真实未复权日线收盘，用于私人持仓市值，不混用历史成本复权'};

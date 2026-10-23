@@ -74,6 +74,18 @@ def publish(directory, token, repository):
             raise ValueError("消融决策快照与原始分项不一致，拒绝发布")
         path = "research/experiments/" + trial["decision_at"][:10] + "/" + trial["sha256"] + ".json"
         entries.append({"path": path, "mode": "100644", "type": "blob", "content": json.dumps(trial, ensure_ascii=False, indent=2)})
+    if (directory / "kd-observation-snapshot.json").is_file():
+        from .kd_research import freeze_kd, validate_kd_snapshot
+        from datetime import datetime
+        trial = json.loads((directory / "kd-observation-snapshot.json").read_text())
+        validate_kd_snapshot(trial)
+        if trial != freeze_kd(report, datetime.fromisoformat(trial["decision_at"])):
+            raise ValueError("K/D独立冻结记录与观察名单不一致")
+        entries.append({"path": "research/kd-observations/"+trial["decision_at"][:10]+"/"+trial["sha256"]+".json",
+                        "mode": "100644", "type": "blob", "content": json.dumps(trial,ensure_ascii=False,indent=2)})
+    if (directory / "kd-forward-evaluation.json").is_file():
+        entries.append({"path": "research/latest-kd-evaluation.json", "mode": "100644", "type": "blob",
+                        "content": (directory/"kd-forward-evaluation.json").read_text()})
     if report.get("top10_history") is not None and phase == "closing" and report.get("status") in ("complete", "partial"):
         from .tracking import audit_tracking
         history = audit_tracking(report)
@@ -117,6 +129,17 @@ def publish(directory, token, repository):
                 if report.get("data_quality") is not None:
                     from .diagnostics import report_diagnostics
                     report["data_quality"] = summary["data_quality"] = report_diagnostics(report)
+                if (directory / "kd-observation-snapshot.json").is_file():
+                    from .kd_research import freeze_kd
+                    old_trial = json.loads((directory / "kd-observation-snapshot.json").read_text())
+                    revised = freeze_kd(report, datetime.fromisoformat(old_trial["decision_at"]))
+                    entries[:] = [e for e in entries if not e["path"].startswith("research/kd-observations/")]
+                    if revised is not None:
+                        (directory / "kd-observation-snapshot.json").write_text(json.dumps(revised,ensure_ascii=False,indent=2))
+                        entries.append({"path": "research/kd-observations/"+revised["decision_at"][:10]+"/"+revised["sha256"]+".json",
+                                        "mode": "100644", "type": "blob", "content": json.dumps(revised,ensure_ascii=False,indent=2)})
+                    else:
+                        (directory / "kd-observation-snapshot.json").unlink()
                 markdown = render_markdown(report, github_run_url())
                 for entry in entries:
                     if entry["path"] in ("results/latest-summary.json", f"results/{day}/closing-summary.json"):

@@ -98,6 +98,12 @@ def audit(directory):
         from datetime import datetime
         trial = json.loads((root / "ablation-snapshot.json").read_text())
         assert trial == freeze_ablation(report, datetime.fromisoformat(trial["decision_at"]))
+    if (root / "kd-observation-snapshot.json").exists():
+        from .kd_research import freeze_kd, validate_kd_snapshot
+        from datetime import datetime
+        kd_snapshot = json.loads((root / "kd-observation-snapshot.json").read_text())
+        validate_kd_snapshot(kd_snapshot)
+        assert kd_snapshot == freeze_kd(report, datetime.fromisoformat(kd_snapshot["decision_at"]))
     coverage, pool = report["coverage"], report["rankings"]
     assert coverage["technical_scope"] == "all_quoted_a_shares"
     assert coverage["technical_requested"] == coverage["technical_attempted"] == coverage["universe"]

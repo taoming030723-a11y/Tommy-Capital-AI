@@ -15,6 +15,7 @@ from .positions import load_positions, locked, update_profit_observation
 from .macd_monitor import PERIODS, load_monitor_config, replay_frame, identity
 from .monitor_data import acquire_frames
 from .monitor_risk import resonance, price_structure, holding_risk
+from .kd_state import observe_acquired, combine_kd
 
 
 def monitor_scope(results_directory="results", positions=None, report=None, preferences=None, manual_watch=None):
@@ -94,8 +95,10 @@ def run_monitor(scope, provider=None, now=None, calendar=None, state=None, confi
         results={}
         structure={"fundamental_risk":"未知；未取得已验证的新基本面风险"}
         quote=None
+        kd_monitor=combine_kd({})
         try:
             acquired=frame_loader(provider,code,now,calendar)
+            kd_reused={}
             for period in PERIODS:
                 source=acquired.get(period,{"status":"unavailable","error":"数据源未返回此周期"})
                 if source["status"]!="ok":
@@ -118,13 +121,19 @@ def run_monitor(scope, provider=None, now=None, calendar=None, state=None, confi
                     transition.setdefault("observed_at",now.isoformat())
                 old["frames"][period]=updated
                 results[period]={**result,"source":source["source"],"source_last_bar":source["cutoff"],"checked_at":now.isoformat()}
+                if result.get("status")=="ok":
+                    kd_reused[period]=frame
+                else:
+                    acquired[period]={"status":"unavailable","error":"原监控历史一致性未通过，K/D也保持未知"}
             if acquired["daily"]["status"]=="ok" and len(acquired["daily"]["frame"])>=60:
                 structure=price_structure(acquired["daily"]["frame"],now.date(),config)
+            from .data import completed_session
+            kd_monitor=observe_acquired(acquired,completed_session(calendar,now),kd_reused)
         except (DataError,ValueError,KeyError) as exc:
             results={p:{"status":"unavailable","label":"数据不足，无法判断","error":str(exc),"signals":[],"events":[]} for p in PERIODS}
         combined=resonance(results)
         row={**item,"frames":results,"combined":combined,"price_structure":structure,
-             "data_complete":all(f["status"]=="ok" for f in results.values())}
+             "data_complete":all(f["status"]=="ok" for f in results.values()),"kd_monitor":kd_monitor}
         if code in position_map:
             row["holding_risk"]=holding_risk(results,structure,combined,config)
             try:

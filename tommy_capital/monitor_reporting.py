@@ -6,7 +6,7 @@ CONDITIONS={"pivot_spacing":"枢轴间距","price_extension":"价格创新高/�
             "confirmation_rebound":"右侧反弹/回落幅度","not_invalidated":"后续价格未破坏枢轴"}
 
 
-def render_monitor_section(result, valuations=None):
+def render_monitor_section(result, valuations=None, include_kd=True):
     from .reporting import table,number,cell,valuation_cells
     lines=["## 多周期MACD背离监控","","检查时间："+str(result.get("checked_at","未执行"))+
            "；柱值=2×(DIF−DEA)，仅完整K线确认。","","监控状态："+str(result.get("status","未执行"))+
@@ -27,6 +27,9 @@ def render_monitor_section(result, valuations=None):
             cutoffs.append(label+" "+(dates[0] if len(dates)==1 else dates[0]+"至"+dates[-1]))
     if cutoffs:
         lines += ["实际行情截止："+"；".join(cutoffs)+"。逐股来源与缺失状态保存在同份JSON。",""]
+    if include_kd:
+        from .kd_reporting import render_kd_rows
+        lines += render_kd_rows(result.get("rows", []))
     for row in result.get("rows",[]):
         if not any(f.get("signals") for f in row["frames"].values()) and row.get("data_complete"):
             continue

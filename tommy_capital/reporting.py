@@ -459,7 +459,8 @@ def render_dual_report(report, run_url=None):
                           "。估值行情日：" + cell(valuation.get("price_as_of") or valuation.get("session")) + "；" + cell(valuation.get("basis", "")) + "。", ""]
     if report.get("macd_monitor") is not None:
         from .monitor_reporting import render_monitor_section
-        lines += render_monitor_section(report["macd_monitor"], report.get("valuations"))
+        focused_kd = any(r.get("kd_monitor") for r in (report.get("technical_reviews") or {}).get("rows", []))
+        lines += render_monitor_section(report["macd_monitor"], report.get("valuations"), include_kd=not focused_kd)
     if report.get("technical_reviews") is not None:
         from .focused_reporting import render_technical_reviews
         lines += render_technical_reviews(report["technical_reviews"])

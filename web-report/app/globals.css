@@ -9,3 +9,8 @@
 .review-conditions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.review-conditions span{padding:5px 10px;border-radius:16px;font-size:.8rem}.condition-pass{background:#e9f4ed;color:#1b5935}.condition-wait{background:#f6ecd9;color:#79571c}
 
 .decision-workbench .watch-form textarea,.decision-workbench .watch-form select{display:block;width:100%;margin-top:6px;padding:11px 12px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink);font:inherit}.decision-workbench .watch-form textarea{min-height:90px;resize:vertical}.decision-workbench .check input{width:auto;flex:0 0 auto}.decision-workbench article{border-top:1px solid var(--line);padding:16px 0}.decision-workbench p{overflow-wrap:anywhere}.decision-workbench .table-scroll{margin-top:16px}
+/* Independent K/D observation preserves the established report layout. */
+.kd-observations { margin-top: 1.6rem; padding-top: 1.3rem; border-top: 1px solid var(--line, #dce3e0); }
+.kd-observations .section-heading label { display: flex; align-items: center; gap: .5rem; font-size: .82rem; }
+.kd-observations select { min-height: 2.5rem; max-width: 11rem; border: 1px solid var(--line, #dce3e0); border-radius: .5rem; padding: .4rem; background: var(--paper, #fff); color: inherit; }
+.kd-observations td { min-width: 7.5rem; }

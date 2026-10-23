@@ -2,8 +2,10 @@
 // parity tests compare this browser-service implementation with the Python engine.
 import monitorPolicy from './monitor-policy.json' with {type:'json'};
 import technicalPolicy from './technical-policy.json' with {type:'json'};
-export const REVIEW_VERSION = 'focused_six_period_v2';
-export const POLICY_ID = (()=>{let hash=2166136261;for(const c of JSON.stringify([technicalPolicy,monitorPolicy]))hash=Math.imul(hash^c.charCodeAt(0),16777619);return (hash>>>0).toString(16);})();
+import kdPolicy from './kd-state-policy.json' with {type:'json'};
+import {classifyKD,combineKD} from './kd-state.mjs';
+export const REVIEW_VERSION = 'focused_six_period_kd_v3';
+export const POLICY_ID = (()=>{let hash=2166136261;for(const c of JSON.stringify([technicalPolicy,monitorPolicy,kdPolicy]))hash=Math.imul(hash^c.charCodeAt(0),16777619);return (hash>>>0).toString(16);})();
 export const PERIODS = ['monthly', 'weekly', 'daily', '60', '30', '15'];
 export const PERIOD_NAMES = {monthly:'月线',weekly:'周线',daily:'日线','60':'60分钟','30':'30分钟','15':'15分钟'};
 export const MA_PERIODS = [5,13,20,55,60,144,233];
@@ -95,7 +97,7 @@ export function frameSnapshot(rows,period,source,config={}){
   const hist=r.histogram,pHist=p.histogram;
   const histogramChange=hist>0&&pHist>0&&hist<pHist?'最近红柱缩短（仅动能变化）':hist<0&&pHist<0&&Math.abs(hist)<Math.abs(pHist)?'最近绿柱缩短（仅动能变化）':'柱体未见同向缩短';
   const structure={close_qfq:r.close,low_qfq:r.low,high_qfq:r.high,previous_close_qfq:p.close,ma20_qfq:r.ma[20],ma20_rising:r.ma[20]>old.ma[20],support_qfq:min(rows.slice(-20).map(x=>x.low)),resistance_qfq:max(rows.slice(-21,-1).map(x=>x.high)),ratio20:baseline>0?r.volume/baseline:null,price_reclaimed:r.close>p.high||r.close>r.ma[20],overheated:r.j>100&&r.close>r.ma[20]*1.03,pullback_rebound:p.close>=p.ma[20]&&r.low<=r.ma[20]&&r.close>r.ma[20]&&r.close>p.close};
-  return {period,status:'ok',source,last_bar:r.date,bar_count:rows.length,required_bars:required,price:r.close,averages_qfq:r.ma,above_averages:Object.fromEntries(MA_PERIODS.map(n=>[n,finite(r.ma[n])?r.close>r.ma[n]:null])),ma20_rising:structure.ma20_rising,macd:{dif:r.dif,dea:r.dea,histogram:hist,previous_histogram:pHist,golden_cross:macdCross,histogram_change:histogramChange,wave_observations:waves},kdj:{k:r.k,d:r.d,j:r.j,previous_j:p.j,rising:r.j>p.j,golden_cross:kdjCross},structure,signals:div.signals,weak_signals:div.weak_signals,divergence_status:div.status,monthly_j_path:period==='monthly'?calc.slice(-6).map(x=>({date:x.date,j:x.j})):null,weekly_ma55:period==='weekly'?weeklyMA55(calc):null,label:div.signals.map(s=>(s.direction==='bullish'?'底':'顶')+'背离／'+s.indicator).join('、')||waves.map(w=>w.label).join('、')||'无已确认背离'};
+  return {period,status:'ok',source,kd_state:classifyKD(calc,period,source,r.date),last_bar:r.date,bar_count:rows.length,required_bars:required,price:r.close,averages_qfq:r.ma,above_averages:Object.fromEntries(MA_PERIODS.map(n=>[n,finite(r.ma[n])?r.close>r.ma[n]:null])),ma20_rising:structure.ma20_rising,macd:{dif:r.dif,dea:r.dea,histogram:hist,previous_histogram:pHist,golden_cross:macdCross,histogram_change:histogramChange,wave_observations:waves},kdj:{k:r.k,d:r.d,j:r.j,previous_j:p.j,rising:r.j>p.j,golden_cross:kdjCross},structure,signals:div.signals,weak_signals:div.weak_signals,divergence_status:div.status,monthly_j_path:period==='monthly'?calc.slice(-6).map(x=>({date:x.date,j:x.j})):null,weekly_ma55:period==='weekly'?weeklyMA55(calc):null,label:div.signals.map(s=>(s.direction==='bullish'?'底':'顶')+'背离／'+s.indicator).join('、')||waves.map(w=>w.label).join('、')||'无已确认背离'};
 }
 
 export function weeklyStructure(weekly,daily,config={}){
@@ -158,7 +160,8 @@ export function assessTechnical({code,session,frames,rawFrames={},config=technic
   const macro=['monthly_route','monthly_j_recovering','weekly_ma55','weekly_structure','daily_price_volume','monthly_trend','weekly_trend','daily_trend'].every(k=>c[k]);
   const entry=Object.values(c).every(Boolean);
   const conflicts=PERIODS.filter(p=>valid(p)&&frames[p].signals.some(s=>s.direction==='bearish'));
-  return {schema:1,version:REVIEW_VERSION,policy_id:POLICY_ID,code,session,checked_at:checkedAt,frames,data_complete:c.data_complete,missing_periods:PERIODS.filter(p=>!valid(p)),monthly_path:{route_a:pathA,route_b:pathB,rising},weekly_ma55:ma55||null,weekly_structure:weekStructure,first_breakout:breakout,conditions:c,condition_labels:labels,unmet_conditions:unmet,macro_conditions_met:macro,technical_entry_watch:entry,decision:!c.data_complete?'数据未齐，不能确认买点':entry?'技术买点观察条件齐备':macro?'大周期已确认，等待执行买点':'当前未满足原技术买点条件',conflicting_periods:conflicts,fundamental_evaluation:'复用已有基本面/估值基准，本模块不重复评估；仍需独立有效的基本面资格',orders_authorized:false,t_eligible:false,basis:'月周定方向，日线确认，60/30/15执行；任何单个小周期背离不授予新开仓或做T资格。'};
+  const kdMonitor=combineKD(Object.fromEntries(Object.entries(frames).map(([p,f])=>[p,f.kd_state])));
+  return {schema:1,version:REVIEW_VERSION,policy_id:POLICY_ID,code,session,checked_at:checkedAt,frames,kd_monitor:kdMonitor,data_complete:c.data_complete,missing_periods:PERIODS.filter(p=>!valid(p)),monthly_path:{route_a:pathA,route_b:pathB,rising},weekly_ma55:ma55||null,weekly_structure:weekStructure,first_breakout:breakout,conditions:c,condition_labels:labels,unmet_conditions:unmet,macro_conditions_met:macro,technical_entry_watch:entry,decision:!c.data_complete?'数据未齐，不能确认买点':entry?'技术买点观察条件齐备':macro?'大周期已确认，等待执行买点':'当前未满足原技术买点条件',conflicting_periods:conflicts,fundamental_evaluation:'复用已有基本面/估值基准，本模块不重复评估；仍需独立有效的基本面资格',orders_authorized:false,t_eligible:false,basis:'月周定方向，日线确认，60/30/15执行；任何单个小周期背离不授予新开仓或做T资格。'};
 }
 
 export function publicStudyStock(report,code){

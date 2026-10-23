@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "history_bars": 6,
+  "low_level": 20,
+  "high_level": 80,
+  "slope_min_points": 0.5,
+  "gap_change_min_points": 0.5,
+  "weak_cross_gap_points": 0.5,
+  "minimum_bars": {"monthly": 24, "weekly": 60, "daily": 250, "120": 60, "60": 60, "30": 60, "15": 60}
+}

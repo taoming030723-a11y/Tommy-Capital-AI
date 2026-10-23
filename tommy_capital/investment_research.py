@@ -91,6 +91,10 @@ def main():
     (root/"summary.json").write_text(json.dumps(clean(make_summary(report)),ensure_ascii=False,indent=2,allow_nan=False))
     (root/"retry-queue.json").write_text(json.dumps(report["data_quality"]["retry_queue"],ensure_ascii=False,indent=2))
     (root/"research-queue.json").write_text(json.dumps(report["investment_research"]["research_queue"],ensure_ascii=False,indent=2))
+    from .kd_research import freeze_kd
+    kd_snapshot = freeze_kd(report)
+    if kd_snapshot is not None:
+        (root/"kd-observation-snapshot.json").write_text(json.dumps(kd_snapshot,ensure_ascii=False,indent=2,allow_nan=False))
     print(json.dumps({"research_stocks": len(report["investment_research"]["rows"]), "intrinsic_completed": report["investment_research"]["intrinsic_completed"], "pending_evidence":report["investment_research"]["queue_count"]}))
 
 

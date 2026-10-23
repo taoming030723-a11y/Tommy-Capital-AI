@@ -14,6 +14,10 @@ on:
         description: Verified artifact SHA256
         required: true
         default: '472d02ef53f8df291945c27e329f1288ff7d8cf050b9d3cb8088730aa5161adf'
+      refresh_technical:
+        description: Refresh only the public focused technical pool at the source report session
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths: [.github/workflows/enrich-report.yml]
@@ -35,6 +39,7 @@ jobs:
       SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id || '12435452364' }}
       SOURCE_SHA256: ${{ inputs.source_sha256 || '472d02ef53f8df291945c27e329f1288ff7d8cf050b9d3cb8088730aa5161adf' }}
       REPORT_ARTIFACT_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      REFRESH_FOCUSED: ${{ github.event_name == 'push' || inputs.refresh_technical }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -96,9 +101,17 @@ jobs:
           write_outputs(root,report)
           (root/'summary.json').write_text(json.dumps(clean(make_summary(report)),ensure_ascii=False,indent=2,allow_nan=False))
           (root/'ablation-snapshot.json').write_text(json.dumps(freeze_ablation(report),ensure_ascii=False,indent=2,allow_nan=False))
-          (root/'enrichment-provenance.json').write_text(json.dumps({'source_run_id':run_id,'source_artifact_id':artifact_id,'source_artifact_sha256':expected,'analysis_commit':os.environ['GITHUB_SHA'],'new_market_requests':0,'original_scan_dates_preserved':True},indent=2))
-          print(json.dumps({'source_session':report['session'],'source_generated_at':report['generated_at'],'source_finished_at':report['finished_at'],'core_snapshot_unchanged':True,'new_market_requests':0}))
+          (root/'enrichment-provenance.json').write_text(json.dumps({'source_run_id':run_id,'source_artifact_id':artifact_id,'source_artifact_sha256':expected,'analysis_commit':os.environ['GITHUB_SHA'],'full_universe_market_requests':0,'focused_refresh_requested':os.environ.get('REFRESH_FOCUSED')=='true','original_scan_dates_preserved':True},indent=2))
+          print(json.dumps({'source_session':report['session'],'source_generated_at':report['generated_at'],'source_finished_at':report['finished_at'],'core_snapshot_unchanged':True,'full_universe_market_requests':0}))
           PY
+      - uses: actions/setup-node@v4
+        if: env.REFRESH_FOCUSED == 'true'
+        with:
+          node-version: '24'
+      - name: Refresh only focused technical facts and independent K-D states
+        if: env.REFRESH_FOCUSED == 'true'
+        timeout-minutes: 8
+        run: env -u GITHUB_RUN_ID -u GITHUB_REPOSITORY node web-report/scripts/attach-technical-reviews.mjs reports/latest
       - name: Attach independent enterprise research and classified data gaps
         run: env -u GITHUB_RUN_ID -u GITHUB_REPOSITORY python -m tommy_capital.investment_research
       - name: Audit production scores, original frozen hash and every derived field

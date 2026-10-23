@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useState, useRef, type FormEvent, type ReactNode } from "react";
 import { emptyPreferences, effectiveIgnored, observationScope, safeLink } from "@/lib/controls.mjs";
 import DecisionWorkbench from './decision-workbench';
+import KDObservations from './kd-observations';
 
 type Row = Record<string, any>;
 type Personal = { revision: number; preferences: ReturnType<typeof emptyPreferences> };
@@ -174,6 +175,7 @@ export default function ReportDashboard() {
         {order.map(p=>{const f=r.frames[p];return <div className="signal" key={p}><h3>{names[p]} · {f?.label||"数据不足"}</h3>{f?.status==="ok"?<p>价格 {n(f.price)}；均线MA5/13/20/55：{[5,13,20,55].map(k=>n(f.averages_qfq?.[k])).join(" / ")}；MACD柱 {n(f.macd?.histogram)}，{f.macd?.histogram_change}；KDJ {n(f.kdj?.k)}/{n(f.kdj?.d)}/{n(f.kdj?.j)}。<small>完整K线 {f.last_bar}；来源 {f.source}；{f.bar_count}根。</small></p>:<p>{f?.error||"历史不足，不能认定没有信号"}</p>}{r.ai?.status==="complete"&&<p>{r.ai.explanation.period_comments[p]}</p>}</div>})}
         {r.ai?.status==="complete"&&<div className="signal"><h3>ChatGPT综合解释 · {r.ai.model}</h3><p>{r.ai.explanation.summary}</p><p>风险：{r.ai.explanation.risks.join("；")}</p><p>后续确认：{r.ai.explanation.next_conditions.join("；")}</p></div>}
         <p>尚缺条件：{r.unmet_conditions?.map((x:Row)=>x.label).join("；")||"当前技术观察条件齐备，仍需人工核对独立的基本面资格、支撑和仓位。"}</p><p className="fineprint">{r.basis} 不下单；不因技术观察自动授予持仓做T资格。</p></details>})}
+      <KDObservations scope={scope} reviews={reviews} expectedSession={technicalSession||data?.session||""} />
     </section>;
   }
 

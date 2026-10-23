@@ -14,6 +14,8 @@ def render_technical_reviews(result):
         [str(r.get("name") or r["code"]) + "（" + r["code"] + "）",
          *[label(r.get("frames", {}).get(p, {})) for p, _ in names], r.get("decision", "未完成")]
         for r in rows] or [["暂无符合当前观察条件的股票", *["—"] * 7]])
+    from .kd_reporting import render_kd_rows
+    lines += render_kd_rows(rows)
     for row in rows:
         lines += ["**" + cell(row.get("name") or row["code"]) + "（" + row["code"] + "）**：" + cell(row.get("decision")), ""]
         for period, name in names:
