@@ -812,6 +812,83 @@
         }
       ],
       "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+    },
+    {
+      "session": "2026-10-26",
+      "generated_at": "2026-10-26T15:51:57.162267+08:00",
+      "finished_at": "2026-10-26T16:32:39.115964+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "weekly_ma55_macd_50_50_v9",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/40288325784",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-26T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "002811",
+          "name": "郑中设计",
+          "score": 71.95
+        },
+        {
+          "rank": 2,
+          "code": "300012",
+          "name": "华测检测",
+          "score": 71.75
+        },
+        {
+          "rank": 3,
+          "code": "601900",
+          "name": "南方传媒",
+          "score": 69.33
+        },
+        {
+          "rank": 4,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 69.23
+        },
+        {
+          "rank": 5,
+          "code": "600356",
+          "name": "恒丰纸业",
+          "score": 68.06
+        },
+        {
+          "rank": 6,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 64.83
+        },
+        {
+          "rank": 7,
+          "code": "688139",
+          "name": "海尔生物",
+          "score": 64.01
+        },
+        {
+          "rank": 8,
+          "code": "603351",
+          "name": "威尔药业",
+          "score": 63.1
+        },
+        {
+          "rank": 9,
+          "code": "603055",
+          "name": "台华新材",
+          "score": 62.17
+        },
+        {
+          "rank": 10,
+          "code": "002164",
+          "name": "宁波东力",
+          "score": 61.47
+        }
+      ],
+      "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
     }
   ]
 }

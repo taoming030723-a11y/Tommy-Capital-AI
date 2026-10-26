@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-26T16:32:39.115964+08:00",
+  "data_session": "2026-10-26",
+  "model_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "1a452ff1940c255e44b94ad71abd3c7ec13cd544",
+  "ranking_purpose": "strategic_research_not_entry",
+  "ranking_complete": false,
+  "source_review": null,
+  "config": {
+    "min_turnover_cny": 30000000,
+    "min_revenue_yoy_pct": 0,
+    "min_profit_yoy_pct": 0,
+    "max_pe_ttm": 60,
+    "max_pb": 8,
+    "max_industry_pe_ratio": 1.2,
+    "min_industry_pe_samples": 5,
+    "max_finance_age_days": 225,
+    "daily_history_years": 8,
+    "request_timeout_seconds": 180,
+    "request_attempts": 2,
+    "daily_volume_abnormal_ratio": 2.0,
+    "weekly_base_max_range_pct": 20.0,
+    "weekly_base_low_tolerance_pct": 3.0,
+    "weekly_base_max_volume_ratio": 1.1,
+    "daily_breakout_rvol": 1.5,
+    "daily_breakout_close_location": 0.65,
+    "daily_breakout_lookback": 20,
+    "daily_breakout_platform_range_pct": 20.0,
+    "leading_min_revenue_growth_pct": 10.0,
+    "leading_min_business_growth_pct": 30.0,
+    "leading_price_compression_pct": 20.0,
+    "max_forward_pe": 30.0,
+    "max_forward_ev_sales": 4.0,
+    "min_forward_margin_pct": 20.0,
+    "max_bear_downside_pct": 30.0,
+    "execution_support_distance_pct": 3.0,
+    "execution_volume_ratio": 1.2,
+    "technical_retry_passes": 1,
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3,
+    "weekly_ma55_entry_gate": true,
+    "weekly_ma55_min_above_count": 3,
+    "weekly_ma55_min_consecutive": 2,
+    "loss_recovery_enabled": true,
+    "loss_recovery_min_revenue_growth_pct": 0.0,
+    "loss_recovery_min_narrowing_pct": 10.0,
+    "loss_recovery_max_ps": 3.0
+  },
+  "weights": {
+    "fundamental": {
+      "revenue": 4,
+      "earnings_quality_or_leading": 14,
+      "cash_quality": 14,
+      "valuation": 14,
+      "improvement": 4
+    },
+    "technical": {
+      "monthly": 20,
+      "weekly": 30
+    }
+  },
+  "top20": [
+    {
+      "code": "002811",
+      "name": "郑中设计",
+      "score": 71.95,
+      "fundamental_score": 35.79,
+      "technical_score": 36.16,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300012",
+      "name": "华测检测",
+      "score": 71.75,
+      "fundamental_score": 39.37,
+      "technical_score": 32.38,
+      "confirmation_state": {
+        "stage": "monthly_observation",
+        "label": "月线低位观察，等待J拐头",
+        "monthly_rising": false,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "601900",
+      "name": "南方传媒",
+      "score": 69.33,
+      "fundamental_score": 41.01,
+      "technical_score": 28.32,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600354",
+      "name": "敦煌种业",
+      "score": 69.23,
+      "fundamental_score": 40.11,
+      "technical_score": 29.12,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600356",
+      "name": "恒丰纸业",
+      "score": 68.06,
+      "fundamental_score": 38.58,
+      "technical_score": 29.48,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603387",
+      "name": "基蛋生物",
+      "score": 64.83,
+      "fundamental_score": 38.71,
+      "technical_score": 26.12,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "688139",
+      "name": "海尔生物",
+      "score": 64.01,
+      "fundamental_score": 34.93,
+      "technical_score": 29.08,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "603351",
+      "name": "威尔药业",
+      "score": 63.1,
+      "fundamental_score": 34.1,
+      "technical_score": 29.0,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "603055",
+      "name": "台华新材",
+      "score": 62.17,
+      "fundamental_score": 39.54,
+      "technical_score": 22.63,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002164",
+      "name": "宁波东力",
+      "score": 61.47,
+      "fundamental_score": 26.35,
+      "technical_score": 35.12,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "300821",
+      "name": "东岳硅材",
+      "score": 59.23,
+      "fundamental_score": 34.94,
+      "technical_score": 24.29,
+      "confirmation_state": {
+        "stage": "monthly_observation",
+        "label": "月线低位观察，等待J拐头",
+        "monthly_rising": false,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    }
+  ],
+  "evaluation_basis": "决策完成之后首个交易日开盘至第1/5/20个交易日收盘；价格观察，不是下单或已验证策略收益",
+  "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+  "repository_path": "research/snapshots/2026-10-26/163239-weekly_ma55_macd_50_50_v9-f8a27ae4bcfe.json"
+}

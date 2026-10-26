@@ -1,20 +1,20 @@
 {
-  "evaluated_at": "2026-10-23T16:21:14.992107+08:00",
-  "as_of_session": "2026-10-23",
-  "snapshot_count": 10,
+  "evaluated_at": "2026-10-26T16:35:59.406290+08:00",
+  "as_of_session": "2026-10-26",
+  "snapshot_count": 11,
   "scope": "最近20份冻结记录及当前记录；重叠窗口不是独立样本",
-  "matured_checks": 270,
-  "pending_checks": 390,
+  "matured_checks": 296,
+  "pending_checks": 408,
   "missing_checks": 0,
-  "distinct_matured_decision_days": 9,
+  "distinct_matured_decision_days": 10,
   "validation_status": "unvalidated_out_of_sample",
   "automatic_weight_training": false,
   "benchmark_comparison": "same_window_price_indices_000300_000905",
   "order_execution": false,
   "kd_state_validation": {
     "version": "kd_state_observer_v1",
-    "as_of_session": "2026-10-23",
-    "snapshot_count": 1,
+    "as_of_session": "2026-10-26",
+    "snapshot_count": 2,
     "buckets": [
       {
         "period": "monthly",
@@ -22,13 +22,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
+        "requested": 4,
+        "observed": 4,
         "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": 1.445638077343514,
+        "same_pool_baseline_pct": 0.2068574942420041,
+        "difference_to_same_pool_pct": 1.23878058310151
       },
       {
         "period": "monthly",
@@ -36,13 +36,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
+        "requested": 8,
+        "observed": 8,
         "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.2618248419120367,
+        "same_pool_baseline_pct": 0.22093869864035084,
+        "difference_to_same_pool_pct": -0.48276354055238757
       },
       {
         "period": "monthly",
@@ -50,13 +50,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
+        "requested": 2,
+        "observed": 2,
         "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.4877780670542915,
+        "same_pool_baseline_pct": 0.2068574942420041,
+        "difference_to_same_pool_pct": 2.2809205728122874
       },
       {
         "period": "monthly",
@@ -64,13 +64,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 0,
+        "requested": 10,
+        "observed": 10,
         "missing": 0,
-        "pending": 5,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.3586280211191474,
+        "same_pool_baseline_pct": 0.20685749424200411,
+        "difference_to_same_pool_pct": -0.5654855153611515
       },
       {
         "period": "weekly",
@@ -78,18 +78,508 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
+        "requested": 9,
+        "observed": 9,
         "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.4478156274004497,
+        "same_pool_baseline_pct": 0.23814905957166355,
+        "difference_to_same_pool_pct": -0.6859646869721132
       },
       {
         "period": "weekly",
         "state": "bearish_turn",
         "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 9,
+        "observed": 9,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.2529318604325937,
+        "same_pool_baseline_pct": 0.21311580730793597,
+        "difference_to_same_pool_pct": 0.03981605312465772
+      },
+      {
+        "period": "weekly",
+        "state": "bullish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9720234124991567,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 0.7088411006637656
+      },
+      {
+        "period": "weekly",
+        "state": "golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9720234124991567,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.8214907358505397
+      },
+      {
+        "period": "weekly",
+        "state": "mixed",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.7044083577996352,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.5538756811510182
+      },
+      {
+        "period": "weekly",
+        "state": "momentum_weakening",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 3,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 1.394242738969209,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 1.243710062320592
+      },
+      {
+        "period": "daily",
+        "state": "bearish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 12,
+        "observed": 12,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.20046783309662264,
+        "same_pool_baseline_pct": 0.18808255504420843,
+        "difference_to_same_pool_pct": 0.012385278052414211
+      },
+      {
+        "period": "daily",
+        "state": "bearish_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9720234124991567,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.8214907358505397
+      },
+      {
+        "period": "daily",
+        "state": "early_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 7,
+        "observed": 7,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.03989367689531319,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": -0.2232886349400779
+      },
+      {
+        "period": "daily",
+        "state": "golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9720234124991567,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 0.7088411006637656
+      },
+      {
+        "period": "daily",
+        "state": "low_weak",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 2,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -1.0197325652421985,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -1.1702652418908155
+      },
+      {
+        "period": "daily",
+        "state": "mixed",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.4877780670542915,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 2.2245957552189006
+      },
+      {
+        "period": "120",
+        "state": "bearish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 8,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.14863999459792382,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -0.0018926820506932618
+      },
+      {
+        "period": "120",
+        "state": "bearish_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -2.283541026056002,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -2.434073702704619
+      },
+      {
+        "period": "120",
+        "state": "early_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 6,
+        "observed": 6,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.4512231807382416,
+        "same_pool_baseline_pct": 0.2444073726375954,
+        "difference_to_same_pool_pct": 0.20681580810064618
+      },
+      {
+        "period": "120",
+        "state": "golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 5,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9694541312834403,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 0.7062718194480492
+      },
+      {
+        "period": "120",
+        "state": "low_golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 3,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -1.142943776395644,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": -1.4061260882310351
+      },
+      {
+        "period": "120",
+        "state": "low_weak",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.045872154607764,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 1.895339477959147
+      },
+      {
+        "period": "60",
+        "state": "bearish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 6,
+        "observed": 6,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.17308006645424165,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.022547389805624568
+      },
+      {
+        "period": "60",
+        "state": "bullish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 8,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.31046391723111016,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 0.04728160539571907
+      },
+      {
+        "period": "60",
+        "state": "early_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.045872154607764,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 1.895339477959147
+      },
+      {
+        "period": "60",
+        "state": "golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.5372481813357144,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 0.2740658695003233
+      },
+      {
+        "period": "60",
+        "state": "low_golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 5,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.2209637784950247,
+        "same_pool_baseline_pct": 0.24065238479803627,
+        "difference_to_same_pool_pct": -0.019688606303011585
+      },
+      {
+        "period": "60",
+        "state": "low_weak",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 3,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.7109671559993537,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -0.8614998326479708
+      },
+      {
+        "period": "30",
+        "state": "bearish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 2,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.319039703061863,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.16850702641324594
+      },
+      {
+        "period": "30",
+        "state": "bearish_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.9720234124991567,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.8214907358505397
+      },
+      {
+        "period": "30",
+        "state": "bullish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 14,
+        "observed": 14,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.3905173006048463,
+        "same_pool_baseline_pct": 0.2551359093220501,
+        "difference_to_same_pool_pct": 0.1353813912827962
+      },
+      {
+        "period": "30",
+        "state": "early_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.24407589557160492,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.09354321892298784
+      },
+      {
+        "period": "30",
+        "state": "low_golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.7044083577996352,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 0.5538756811510182
+      },
+      {
+        "period": "30",
+        "state": "low_weak",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 5,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.5897199566934198,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -0.740252633342037
+      },
+      {
+        "period": "15",
+        "state": "bearish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 2,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.2753093389836443,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": 2.124776662335027
+      },
+      {
+        "period": "15",
+        "state": "bearish_turn",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 5,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.8078833963761879,
+        "same_pool_baseline_pct": 0.1955925307233267,
+        "difference_to_same_pool_pct": -1.0034759270995146
+      },
+      {
+        "period": "15",
+        "state": "bullish_continuation",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 11,
+        "observed": 11,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": -0.05097484538552586,
+        "same_pool_baseline_pct": 0.23245968405718,
+        "difference_to_same_pool_pct": -0.28343452944270586
+      },
+      {
+        "period": "15",
+        "state": "low_weak",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 2,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.034777040628652944,
+        "same_pool_baseline_pct": 0.15053267664861708,
+        "difference_to_same_pool_pct": -0.11575563601996414
+      },
+      {
+        "period": "15",
+        "state": "mixed",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 1,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 2.062840610912997,
+        "same_pool_baseline_pct": 0.2631823118353911,
+        "difference_to_same_pool_pct": 1.799658299077606
+      },
+      {
+        "period": "15",
+        "state": "momentum_weakening",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 3,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.998118802659668,
+        "same_pool_baseline_pct": 0.22563243343979975,
+        "difference_to_same_pool_pct": 0.7724863692198682
+      },
+      {
+        "period": "monthly",
+        "state": "bearish_continuation",
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 4,
@@ -101,9 +591,93 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "monthly",
+        "state": "bullish_continuation",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 0,
+        "missing": 0,
+        "pending": 8,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "monthly",
+        "state": "early_turn",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 0,
+        "missing": 0,
+        "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "monthly",
+        "state": "golden_cross",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 10,
+        "observed": 0,
+        "missing": 0,
+        "pending": 10,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bearish_continuation",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 9,
+        "observed": 0,
+        "missing": 0,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bearish_turn",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 9,
+        "observed": 0,
+        "missing": 0,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bullish_continuation",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "weekly",
         "state": "golden_cross",
-        "horizon_sessions": 1,
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 1,
@@ -117,7 +691,7 @@
       {
         "period": "weekly",
         "state": "mixed",
-        "horizon_sessions": 1,
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 1,
@@ -131,7 +705,7 @@
       {
         "period": "weekly",
         "state": "momentum_weakening",
-        "horizon_sessions": 1,
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 3,
@@ -145,13 +719,13 @@
       {
         "period": "daily",
         "state": "bearish_continuation",
-        "horizon_sessions": 1,
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
+        "requested": 12,
         "observed": 0,
         "missing": 0,
-        "pending": 8,
+        "pending": 12,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -159,7 +733,7 @@
       {
         "period": "daily",
         "state": "bearish_turn",
-        "horizon_sessions": 1,
+        "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 1,
@@ -172,370 +746,20 @@
       },
       {
         "period": "daily",
-        "state": "low_weak",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "bearish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
-        "observed": 0,
-        "missing": 0,
-        "pending": 8,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "bearish_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "early_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "low_weak",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "60",
-        "state": "bearish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 6,
-        "observed": 0,
-        "missing": 0,
-        "pending": 6,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "60",
-        "state": "early_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "60",
-        "state": "low_golden_cross",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "60",
-        "state": "low_weak",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
-        "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "bearish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "bearish_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "bullish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "early_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "low_golden_cross",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "30",
-        "state": "low_weak",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 0,
-        "missing": 0,
-        "pending": 5,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "15",
-        "state": "bearish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "15",
-        "state": "bearish_turn",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
-        "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "15",
-        "state": "bullish_continuation",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
-        "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "15",
-        "state": "low_weak",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "15",
-        "state": "momentum_weakening",
-        "horizon_sessions": 1,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bearish_continuation",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bullish_continuation",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
-        "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
         "state": "early_turn",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 7,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 7,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
       },
       {
-        "period": "monthly",
-        "state": "golden_cross",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 0,
-        "missing": 0,
-        "pending": 5,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "weekly",
-        "state": "bearish_continuation",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "weekly",
-        "state": "bearish_turn",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
-        "observed": 0,
-        "missing": 0,
-        "pending": 4,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "weekly",
+        "period": "daily",
         "state": "golden_cross",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
@@ -549,7 +773,21 @@
         "difference_to_same_pool_pct": null
       },
       {
-        "period": "weekly",
+        "period": "daily",
+        "state": "low_weak",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 0,
+        "missing": 0,
+        "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
         "state": "mixed",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
@@ -563,62 +801,6 @@
         "difference_to_same_pool_pct": null
       },
       {
-        "period": "weekly",
-        "state": "momentum_weakening",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 0,
-        "missing": 0,
-        "pending": 3,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "daily",
-        "state": "bearish_continuation",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
-        "observed": 0,
-        "missing": 0,
-        "pending": 8,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "daily",
-        "state": "bearish_turn",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "daily",
-        "state": "low_weak",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
         "period": "120",
         "state": "bearish_continuation",
         "horizon_sessions": 5,
@@ -652,10 +834,38 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 6,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "golden_cross",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 0,
+        "missing": 0,
+        "pending": 5,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "low_golden_cross",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 0,
+        "missing": 0,
+        "pending": 3,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -690,7 +900,35 @@
       },
       {
         "period": "60",
+        "state": "bullish_continuation",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 0,
+        "missing": 0,
+        "pending": 8,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
         "state": "early_turn",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
+        "state": "golden_cross",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -708,10 +946,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -764,10 +1002,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 14,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 14,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -834,10 +1072,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -848,10 +1086,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -866,6 +1104,20 @@
         "observed": 0,
         "missing": 0,
         "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "15",
+        "state": "mixed",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -876,34 +1128,6 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bearish_continuation",
-        "horizon_sessions": 20,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bullish_continuation",
-        "horizon_sessions": 20,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 3,
         "observed": 0,
         "missing": 0,
@@ -914,35 +1138,35 @@
       },
       {
         "period": "monthly",
-        "state": "early_turn",
+        "state": "bearish_continuation",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 4,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 4,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
       },
       {
         "period": "monthly",
-        "state": "golden_cross",
+        "state": "bullish_continuation",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
       },
       {
-        "period": "weekly",
-        "state": "bearish_continuation",
+        "period": "monthly",
+        "state": "early_turn",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -955,15 +1179,57 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "monthly",
+        "state": "golden_cross",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 10,
+        "observed": 0,
+        "missing": 0,
+        "pending": 10,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bearish_continuation",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 9,
+        "observed": 0,
+        "missing": 0,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "weekly",
         "state": "bearish_turn",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 4,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bullish_continuation",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1016,10 +1282,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
+        "requested": 12,
         "observed": 0,
         "missing": 0,
-        "pending": 8,
+        "pending": 12,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1027,6 +1293,34 @@
       {
         "period": "daily",
         "state": "bearish_turn",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "early_turn",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 7,
+        "observed": 0,
+        "missing": 0,
+        "pending": 7,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "golden_cross",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1048,6 +1342,20 @@
         "observed": 0,
         "missing": 0,
         "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "mixed",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1086,10 +1394,38 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 6,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "golden_cross",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 0,
+        "missing": 0,
+        "pending": 5,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "low_golden_cross",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 0,
+        "missing": 0,
+        "pending": 3,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1124,7 +1460,35 @@
       },
       {
         "period": "60",
+        "state": "bullish_continuation",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 0,
+        "missing": 0,
+        "pending": 8,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
         "state": "early_turn",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
+        "state": "golden_cross",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1142,10 +1506,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1198,10 +1562,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 14,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 14,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1268,10 +1632,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1282,10 +1646,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1300,6 +1664,20 @@
         "observed": 0,
         "missing": 0,
         "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "15",
+        "state": "mixed",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1310,34 +1688,6 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bearish_continuation",
-        "horizon_sessions": 60,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 0,
-        "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "monthly",
-        "state": "bullish_continuation",
-        "horizon_sessions": 60,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 3,
         "observed": 0,
         "missing": 0,
@@ -1348,35 +1698,35 @@
       },
       {
         "period": "monthly",
-        "state": "early_turn",
+        "state": "bearish_continuation",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 4,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 4,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
       },
       {
         "period": "monthly",
-        "state": "golden_cross",
+        "state": "bullish_continuation",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
       },
       {
-        "period": "weekly",
-        "state": "bearish_continuation",
+        "period": "monthly",
+        "state": "early_turn",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1389,15 +1739,57 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "monthly",
+        "state": "golden_cross",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 10,
+        "observed": 0,
+        "missing": 0,
+        "pending": 10,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bearish_continuation",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 9,
+        "observed": 0,
+        "missing": 0,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "weekly",
         "state": "bearish_turn",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 4,
+        "pending": 9,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "bullish_continuation",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1450,10 +1842,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
+        "requested": 12,
         "observed": 0,
         "missing": 0,
-        "pending": 8,
+        "pending": 12,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1461,6 +1853,34 @@
       {
         "period": "daily",
         "state": "bearish_turn",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "early_turn",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 7,
+        "observed": 0,
+        "missing": 0,
+        "pending": 7,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "golden_cross",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1482,6 +1902,20 @@
         "observed": 0,
         "missing": 0,
         "pending": 2,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "daily",
+        "state": "mixed",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1520,10 +1954,38 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 6,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "golden_cross",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 5,
+        "observed": 0,
+        "missing": 0,
+        "pending": 5,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "120",
+        "state": "low_golden_cross",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 0,
+        "missing": 0,
+        "pending": 3,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1558,7 +2020,35 @@
       },
       {
         "period": "60",
+        "state": "bullish_continuation",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 8,
+        "observed": 0,
+        "missing": 0,
+        "pending": 8,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
         "state": "early_turn",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "60",
+        "state": "golden_cross",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1576,10 +2066,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1632,10 +2122,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 14,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 14,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1702,10 +2192,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 5,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 5,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1716,10 +2206,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1740,7 +2230,7 @@
       },
       {
         "period": "15",
-        "state": "momentum_weakening",
+        "state": "mixed",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1748,6 +2238,20 @@
         "observed": 0,
         "missing": 0,
         "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "15",
+        "state": "momentum_weakening",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 3,
+        "observed": 0,
+        "missing": 0,
+        "pending": 3,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1757,29 +2261,29 @@
     "automatic_weight_training": false,
     "limitations": "同决策日同观察池基准匹配，按生产版本与K/D配置分组；前瞻价格差异不是因果增量或全市场回测。重叠窗口和相关周期不是独立样本，缺失保留，未解决幸存者偏差、完整成交约束或多重检验"
   },
-  "benchmark_observed": 540,
+  "benchmark_observed": 592,
   "benchmark_missing": 0,
   "validation_summary": {
-    "requested": 660,
-    "observed": 270,
+    "requested": 704,
+    "observed": 296,
     "missing": 0,
-    "pending": 390,
+    "pending": 408,
     "validation_status": "unvalidated_out_of_sample",
     "survivorship_bias_resolved": false,
     "overlapping_windows_are_independent": false,
     "horizons": {
       "1": {
-        "samples": 155,
-        "mean_hypothetical_net_pct": -0.7264272604152548,
-        "win_fraction": 0.36129032258064514,
-        "profit_factor": 0.5369528622452575,
+        "samples": 165,
+        "mean_hypothetical_net_pct": -0.6944287052474182,
+        "win_fraction": 0.37575757575757573,
+        "profit_factor": 0.5465388383249364,
         "worst_stock_close_drawdown_pct": -9.811046511627907
       },
       "5": {
-        "samples": 115,
-        "mean_hypothetical_net_pct": -4.126794905503298,
-        "win_fraction": 0.17391304347826086,
-        "profit_factor": 0.14322671878266202,
+        "samples": 131,
+        "mean_hypothetical_net_pct": -4.039466481183321,
+        "win_fraction": 0.1984732824427481,
+        "profit_factor": 0.1574292873651604,
         "worst_stock_close_drawdown_pct": -22.785547785547788
       },
       "20": {
@@ -1833,15 +2337,22 @@
       "to_session": "2026-10-23",
       "name_turnover": 0.09999999999999998,
       "basis": "同版本已冻结名单更替率，非实际成交金额周转率；跨版本不混比"
+    },
+    {
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "from_session": "2026-10-23",
+      "to_session": "2026-10-26",
+      "name_turnover": 0.2727272727272727,
+      "basis": "同版本已冻结名单更替率，非实际成交金额周转率；跨版本不混比"
     }
   ],
   "market_environment": {
     "000300": {
       "status": "ok",
-      "as_of": "2026-10-23",
+      "as_of": "2026-10-26",
       "price_above_ma55": false,
       "trend_healthy": false,
-      "annualized_volatility_20": 0.15999742048875734,
+      "annualized_volatility_20": 0.15112339533934085,
       "volatility_elevated": false,
       "label": "指数趋势需谨慎观察",
       "influences_ranking": false,
@@ -1849,10 +2360,10 @@
     },
     "000905": {
       "status": "ok",
-      "as_of": "2026-10-23",
+      "as_of": "2026-10-26",
       "price_above_ma55": false,
       "trend_healthy": false,
-      "annualized_volatility_20": 0.25014774325386646,
+      "annualized_volatility_20": 0.23439299438050992,
       "volatility_elevated": false,
       "label": "指数趋势需谨慎观察",
       "influences_ranking": false,
@@ -13058,11 +13569,34 @@
       "name": "敦煌种业",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -8.793969849246231,
+      "hypothetical_net_return_pct": -9.158065777991764,
+      "entry_open_qfq": 7.96,
+      "exit_close_qfq": 7.26,
+      "stock_close_max_drawdown_pct": -10.701107011070121,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -7.849962947977785,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -8.261624525749545,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13132,11 +13666,34 @@
       "name": "世龙实业",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -19.695817490494292,
+      "hypothetical_net_return_pct": -20.016393069374562,
+      "entry_open_qfq": 13.15,
+      "exit_close_qfq": 10.56,
+      "stock_close_max_drawdown_pct": -19.695817490494292,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -18.708290239360583,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -19.119951817132343,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13206,11 +13763,34 @@
       "name": "三夫户外",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -3.9864864864864846,
+      "hypothetical_net_return_pct": -4.3697739655823575,
+      "entry_open_qfq": 14.8,
+      "exit_close_qfq": 14.21,
+      "stock_close_max_drawdown_pct": -3.9864864864864846,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -3.061671135568378,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -3.473332713340138,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13280,11 +13860,34 @@
       "name": "恒丰纸业",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -7.425742574257422,
+      "hypothetical_net_return_pct": -7.7953004881326615,
+      "entry_open_qfq": 10.1,
+      "exit_close_qfq": 9.35,
+      "stock_close_max_drawdown_pct": -8.243375858684987,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -6.487197658118681,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -6.898859235890442,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13354,11 +13957,34 @@
       "name": "宝丰能源",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -2.3545091070635293,
+      "hypothetical_net_return_pct": -2.7443114659175705,
+      "entry_open_qfq": 22.51,
+      "exit_close_qfq": 21.98,
+      "stock_close_max_drawdown_pct": -9.773434029320317,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -1.4362086359035908,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -1.847870213675351,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13428,11 +14054,34 @@
       "name": "浩洋股份",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -6.606334841628958,
+      "hypothetical_net_return_pct": -6.979163844257197,
+      "entry_open_qfq": 44.2,
+      "exit_close_qfq": 41.28,
+      "stock_close_max_drawdown_pct": -10.46119235095614,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -5.671061014243218,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -6.082722592014978,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13502,11 +14151,34 @@
       "name": "绿色动力",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -4.289215686274517,
+      "hypothetical_net_return_pct": -4.671294665570835,
+      "entry_open_qfq": 8.16,
+      "exit_close_qfq": 7.81,
+      "stock_close_max_drawdown_pct": -7.107843137254899,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -3.3631918355568557,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -3.774853413328616,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13576,11 +14248,34 @@
       "name": "基蛋生物",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 1.220865704772467,
+      "hypothetical_net_return_pct": 0.8167903925777598,
+      "entry_open_qfq": 9.01,
+      "exit_close_qfq": 9.12,
+      "stock_close_max_drawdown_pct": -3.2786885245901676,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 2.1248932225917394,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 1.7132316448199791,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13650,11 +14345,34 @@
       "name": "华测检测",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 5.33159947984394,
+      "hypothetical_net_return_pct": 4.911114052778709,
+      "entry_open_qfq": 15.38,
+      "exit_close_qfq": 16.2,
+      "stock_close_max_drawdown_pct": -3.7371134020618535,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 6.219216882792688,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 5.807555305020928,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13724,11 +14442,34 @@
       "name": "兴通股份",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -5.083612040133778,
+      "hypothetical_net_return_pct": -5.462519776500507,
+      "entry_open_qfq": 14.95,
+      "exit_close_qfq": 14.19,
+      "stock_close_max_drawdown_pct": -7.290969899665556,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -4.154416946486528,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -4.5660785242582875,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13798,11 +14539,34 @@
       "name": "台华新材",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -2.711157455683,
+      "hypothetical_net_return_pct": -3.0995360686343787,
+      "entry_open_qfq": 9.59,
+      "exit_close_qfq": 9.33,
+      "stock_close_max_drawdown_pct": -4.588112617309692,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -1.791433238620399,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -2.2030948163921593,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13872,11 +14636,34 @@
       "name": "中国石化",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 1.645338208409508,
+      "hypothetical_net_return_pct": 1.2395683952022951,
+      "entry_open_qfq": 5.47,
+      "exit_close_qfq": 5.56,
+      "stock_close_max_drawdown_pct": -2.010968921389389,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 2.5476712252162748,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 2.1360096474445145,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -13946,11 +14733,34 @@
       "name": "宁波能源",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -9.467455621301779,
+      "hypothetical_net_return_pct": -9.828862984090991,
+      "entry_open_qfq": 5.07,
+      "exit_close_qfq": 4.59,
+      "stock_close_max_drawdown_pct": -9.467455621301779,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": -8.520760154077012,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": -8.932421731848772,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -14020,11 +14830,34 @@
       "name": "威尔药业",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 0.6374203224596808,
+      "hypothetical_net_return_pct": 0.23567413354768085,
+      "entry_open_qfq": 26.67,
+      "exit_close_qfq": 26.84,
+      "stock_close_max_drawdown_pct": -6.178571428571433,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 1.5437769635616605,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 1.1321153857899002,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -14094,11 +14927,34 @@
       "name": "海尔生物",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 5.0157728706624605,
+      "hypothetical_net_return_pct": 4.596548228464203,
+      "entry_open_qfq": 31.7,
+      "exit_close_qfq": 33.29,
+      "stock_close_max_drawdown_pct": -3.364943407769949,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 5.9046510584781835,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 5.492989480706423,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -14168,11 +15024,34 @@
       "name": "宁波东力",
       "horizon_sessions": 5,
       "model_version": "weekly_monthly_only_50_50_v8",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-20",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 8.168642951251659,
+      "hypothetical_net_return_pct": 7.736832001346472,
+      "entry_open_qfq": 15.18,
+      "exit_close_qfq": 16.42,
+      "stock_close_max_drawdown_pct": -7.649043869516303,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -1.3081028300139796,
+          "price_max_drawdown_pct": -2.9252536718992417,
+          "hypothetical_net_excess_pct": 9.044934831360452,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.8964412522422194,
+          "price_max_drawdown_pct": -2.7215030753759417,
+          "hypothetical_net_excess_pct": 8.63327325358869,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "59d90ca1e9bad01e5f00202cbbae5cf3241e129834ddd5f1efb08f303edbd694",
@@ -15982,11 +16861,34 @@
       "name": "华测检测",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 1.3767209011263937,
+      "hypothetical_net_return_pct": 0.9720234124991567,
+      "entry_open_qfq": 15.98,
+      "exit_close_qfq": 16.2,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.35979902993370505,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 1.619255838947331,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16033,11 +16935,34 @@
       "name": "三夫户外",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -1.4563106796116387,
+      "hypothetical_net_return_pct": -1.8496986609305655,
+      "entry_open_qfq": 14.42,
+      "exit_close_qfq": 14.21,
+      "stock_close_max_drawdown_pct": -1.4563106796116387,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -2.461923043496017,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": -1.202466234482391,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16084,11 +17009,34 @@
       "name": "敦煌种业",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -1.8918918918918948,
+      "hypothetical_net_return_pct": -2.283541026056002,
+      "entry_open_qfq": 7.4,
+      "exit_close_qfq": 7.26,
+      "stock_close_max_drawdown_pct": -1.8918918918918948,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -2.8957654086214535,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": -1.6363085996078275,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16135,11 +17083,34 @@
       "name": "恒丰纸业",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 0.6458557588805203,
+      "hypothetical_net_return_pct": 0.24407589557160492,
+      "entry_open_qfq": 9.29,
+      "exit_close_qfq": 9.35,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -0.3681484869938467,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 0.8913083220197793,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16186,11 +17157,34 @@
       "name": "基蛋生物",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 2.4719101123595433,
+      "hypothetical_net_return_pct": 2.062840610912997,
+      "entry_open_qfq": 8.9,
+      "exit_close_qfq": 9.12,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 1.4506162283475454,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 2.7100730373611714,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16237,11 +17231,34 @@
       "name": "海尔生物",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -0.6268656716417964,
+      "hypothetical_net_return_pct": -1.0235648106771578,
+      "entry_open_qfq": 33.5,
+      "exit_close_qfq": 33.29,
+      "stock_close_max_drawdown_pct": -0.6268656716417964,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -1.6357891932426094,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": -0.3763323842289834,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16288,11 +17305,34 @@
       "name": "威尔药业",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 0.9402030838661091,
+      "hypothetical_net_return_pct": 0.5372481813357144,
+      "entry_open_qfq": 26.59,
+      "exit_close_qfq": 26.84,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -0.07497620122973725,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 1.1844806077838888,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16339,11 +17379,34 @@
       "name": "台华新材",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 1.6339869281045694,
+      "hypothetical_net_return_pct": 1.2282624293895816,
+      "entry_open_qfq": 9.18,
+      "exit_close_qfq": 9.33,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.61603804682413,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 1.875494855837756,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16390,11 +17453,34 @@
       "name": "绿色动力",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": 2.898550724637672,
+      "hypothetical_net_return_pct": 2.4877780670542915,
+      "entry_open_qfq": 7.59,
+      "exit_close_qfq": 7.81,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 1.8755536844888399,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": 3.135010493502466,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16441,11 +17527,34 @@
       "name": "宁波东力",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-26",
       "exit_session": "2026-10-26",
-      "benchmarks": []
+      "gross_price_return_pct": -3.9766081871345005,
+      "hypothetical_net_return_pct": -4.35993510055911,
+      "entry_open_qfq": 17.1,
+      "exit_close_qfq": 16.42,
+      "stock_close_max_drawdown_pct": -3.9766081871345005,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.6122243825654516,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -4.972159483124561,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -0.6472324264481744,
+          "price_max_drawdown_pct": -0.6472324264481744,
+          "hypothetical_net_excess_pct": -3.7127026741109352,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "54c1354ab274f74fa875b26c571f995131c19c162160bdcbe671fd0791664177",
@@ -16478,6 +17587,567 @@
       "decision_day": "2026-10-23",
       "code": "002164",
       "name": "宁波东力",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002811",
+      "name": "郑中设计",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002811",
+      "name": "郑中设计",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002811",
+      "name": "郑中设计",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002811",
+      "name": "郑中设计",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "601900",
+      "name": "南方传媒",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "601900",
+      "name": "南方传媒",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "601900",
+      "name": "南方传媒",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "601900",
+      "name": "南方传媒",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600354",
+      "name": "敦煌种业",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "600356",
+      "name": "恒丰纸业",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603387",
+      "name": "基蛋生物",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "688139",
+      "name": "海尔生物",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603351",
+      "name": "威尔药业",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "603055",
+      "name": "台华新材",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "002164",
+      "name": "宁波东力",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300821",
+      "name": "东岳硅材",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-10-27",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300821",
+      "name": "东岳硅材",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-02",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300821",
+      "name": "东岳硅材",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-10-27",
+      "exit_session": "2026-11-23",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
+      "decision_day": "2026-10-26",
+      "code": "300821",
+      "name": "东岳硅材",
       "horizon_sessions": 60,
       "model_version": "weekly_ma55_macd_50_50_v9",
       "status": "pending",
@@ -16492,7 +18162,7 @@
       "kwargs": {},
       "rows": 8797,
       "cache_hit": true,
-      "fetched_at": "2026-10-22T17:07:28.379127+08:00",
+      "fetched_at": "2026-10-26T15:51:52.009285+08:00",
       "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
     },
     {
@@ -16500,568 +18170,568 @@
       "kwargs": {
         "symbol": "300452",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:29.452773+08:00",
-      "sha256": "f2a301f4ef2caeb00095d41766db9f402ea433e0c1e45570e907fe8fb39aae60"
+      "fetched_at": "2026-10-26T16:35:08.682373+08:00",
+      "sha256": "d60af1eb24127adce94216ed60367e4201dcd3b67d09a7f85741dbf3eb790851"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603387",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:30.522816+08:00",
-      "sha256": "6e15c74685caa2c4401860aa0edf8905cc68f044067517cd26909612bff30431"
+      "fetched_at": "2026-10-26T16:35:09.862478+08:00",
+      "sha256": "c66f43a8d9ca21b01bed16f4c503b59877cf6e69cff86398ceb7b47782c3ff07"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300833",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:31.747988+08:00",
-      "sha256": "7de6e24d9c039adddb776cae508fb45bb5a140aa3f821717ea83047a5e6c65f4"
+      "fetched_at": "2026-10-26T16:35:11.248793+08:00",
+      "sha256": "786918099fccbf641b90110b657a436842c295b2f2c4cceca94f4f35b390be59"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603351",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:32.820323+08:00",
-      "sha256": "5929b0cdbf699050ddf7245e4c67060efaf1a032510b638f1c823cb180f57532"
+      "fetched_at": "2026-10-26T16:35:12.422290+08:00",
+      "sha256": "996705499a5fc42f9b96c05c1b362aa8001cf6ce1108facc4b069bfc818f4450"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002780",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:33.911082+08:00",
-      "sha256": "ad72d16105a0e22005c7b91a7a97d905d44805c051e873d5fde5a28846e7c108"
+      "fetched_at": "2026-10-26T16:35:13.589456+08:00",
+      "sha256": "311ae2327bfdce6a0ac66a1f29856037a895e1bfe2729fab6af3b7039ab1346b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "301059",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:35.004412+08:00",
-      "sha256": "8d92bc5b944a595d15094661729dcbfae07beac466584a276d78b7ae2be3505a"
+      "fetched_at": "2026-10-26T16:35:14.758578+08:00",
+      "sha256": "f614e16f0e102aeac5851b39747e6a16b0bb7052116d54f1c8e6410e32045e0a"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920946",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:36.063487+08:00",
-      "sha256": "333e59e6172e02e21697a1c391fa8ac9c6981fdccc9ec8f2b6fe3f81ceaff871"
+      "fetched_at": "2026-10-26T16:35:15.936236+08:00",
+      "sha256": "6c2759b24233650666be43f6499c8f66aec74e38b229dbb9be45a01040e324e6"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920735",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:37.127378+08:00",
-      "sha256": "08a0a5bc9616d2c7c21293ef572e75f741a72bb708395760c401bee17e79f0ee"
+      "fetched_at": "2026-10-26T16:35:17.086226+08:00",
+      "sha256": "9442a353ae047f67346bee4443337a90d705d26cd8a70e963d33d8258dc234ea"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300450",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:38.205427+08:00",
-      "sha256": "8250d7e212b2ef25866f64fa4083c70bb04e8c0c8cd756b8c51b1925227c394b"
+      "fetched_at": "2026-10-26T16:35:18.267626+08:00",
+      "sha256": "3737d59ff9a8601b2da8030052ec74de59467d345c19abd6aec6149bae1c17cc"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920599",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:39.261719+08:00",
-      "sha256": "5b32508e165d335165bdb6ba29a2ea1569a8023e665a04d5f9de7cd5732bfe6f"
+      "fetched_at": "2026-10-26T16:35:19.424011+08:00",
+      "sha256": "81e7fd6b0c4446dd67ae441896b09e458e36e65270e22bd6f69cebe859255800"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600354",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:40.422138+08:00",
-      "sha256": "51234fd56b40b83c75aab62a3b85172843b9fe29d6f403ecdb4d96db20b54be1"
+      "fetched_at": "2026-10-26T16:35:20.614901+08:00",
+      "sha256": "e38107b4709a9424fea190b32d1841be3b37616e498a841e817e6ac735f530f9"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300457",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:41.497470+08:00",
-      "sha256": "66e9c047536acd01222957181044f3695a02f534d1291d5e13ba032b22785b7c"
+      "fetched_at": "2026-10-26T16:35:21.776239+08:00",
+      "sha256": "bd28d30d04bdfc4e376b74ac7fb742889f7343c01f6e1145b4950959829de718"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603209",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:42.574901+08:00",
-      "sha256": "e81a098b7aa77f1d77827db5ad703d8afd8009f23838364e2881ed6945688de6"
+      "fetched_at": "2026-10-26T16:35:22.955377+08:00",
+      "sha256": "9ce7ccb47e4513091fe951c592f7365f6d8baa8c4d5a40d265bf31f525f03bc0"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603998",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:43.655460+08:00",
-      "sha256": "63cb5431e4c88d0f68a8ed8c6e21676db6969a347a490f2192d83bab50f410fd"
+      "fetched_at": "2026-10-26T16:35:24.131433+08:00",
+      "sha256": "be387bffe04880dd37b71a960b7f45326e8f9890ba6f6cc2b2bd9a847ab8ddc4"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600035",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:44.689801+08:00",
-      "sha256": "3b75ff219d0543923dea935ebb34104ecddef410668370a2c147cea771ca5bd9"
+      "fetched_at": "2026-10-26T16:35:25.256254+08:00",
+      "sha256": "f715f8a4563efdc704e3ee6c1473323e01bf96489bc2562c338e779d7d364288"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002074",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:45.772762+08:00",
-      "sha256": "8b2c49174c05f0428aec2b8afdf9788286904db66d3a328f0b15cb552d9ee6a8"
+      "fetched_at": "2026-10-26T16:35:26.438710+08:00",
+      "sha256": "59b91b82029da050e4b5c40b9ba1ec893be143ec502b93e130ccec2fad382056"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300970",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:46.867929+08:00",
-      "sha256": "51cfb0b70a371b858b97918d6f268918f5de1922e68f870d66881a2df28c044a"
+      "fetched_at": "2026-10-26T16:35:27.625724+08:00",
+      "sha256": "50dc5b6882d6a80a4010cccb9484809168546bea7d1e6f3120c776a3776b900c"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603332",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:47.940942+08:00",
-      "sha256": "adab1d45e41426615e7a6bd97e112fa0d9be6e19a83611d9e152a2d690f16ef8"
+      "fetched_at": "2026-10-26T16:35:28.828307+08:00",
+      "sha256": "848e32ac1809774079fe1904b56eea14ca9564262b115c101eed0ce873a7ba4b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002748",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:49.010137+08:00",
-      "sha256": "96e6f81dd66b0c516f8f97f372cb7dfde5bea24a5b0be091b947ef151ee9e248"
+      "fetched_at": "2026-10-26T16:35:30.050910+08:00",
+      "sha256": "a65f0ef353d60d8fdcbbc7a4cccbd54b9a710e1a5fd721bb463bcb766f6b4983"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600982",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:50.085537+08:00",
-      "sha256": "704ec75cfa5d06a1e5254862eb4fffe6632b3b4161577d055ffcb4b07b686928"
+      "fetched_at": "2026-10-26T16:35:31.232201+08:00",
+      "sha256": "044b5334012249f4f49875538f97dd5bc01c84ecb012bd00f832637981c7b046"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "601330",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:51.209004+08:00",
-      "sha256": "5844533157f75e0bfdae04cb9920e459d82f4a4c08c47c581515c1ee7ead00e6"
+      "fetched_at": "2026-10-26T16:35:32.468243+08:00",
+      "sha256": "d504d8a43200b7fe57cc003aeac64afff9e2b2013b8a4b4efe11736fd946110a"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600874",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:52.276098+08:00",
-      "sha256": "0877861adf2d2c2af09b9a929787bc626e6bab9f63711fcab81d3d735f171bdd"
+      "fetched_at": "2026-10-26T16:35:33.634273+08:00",
+      "sha256": "ab453840232c660d3a7934dd1f762e075bde41eb17c53b40e90fa7ef297bf655"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002734",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:53.366624+08:00",
-      "sha256": "42a24e374642bd5ebef54b9bdcd169a01e48202ce2830dccd8a9a05010b76d92"
+      "fetched_at": "2026-10-26T16:35:34.819127+08:00",
+      "sha256": "03e07ee2529e1dc32405c63b917cb552aa21738e2e8b6e89e180db6ba8a8cdbf"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "000581",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:54.449179+08:00",
-      "sha256": "c0612cc2ae59851532472932eee6561d259e29cf9533e390e4ba9a8f1a316831"
+      "fetched_at": "2026-10-26T16:35:36.002891+08:00",
+      "sha256": "7d8ce54078e0b9ce4744d3e70b736104181b73efdf8931b20ca20026c0eef473"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002956",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:55.586307+08:00",
-      "sha256": "e53a3d2645c80b8807e712261c010d5c8061be4e1f4639251ada6f93098fa64b"
+      "fetched_at": "2026-10-26T16:35:37.293347+08:00",
+      "sha256": "ff75a9d27c6f3ceebc80ca3591d8bc87eb21feb701d0ca58d43d242ff5f95246"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300509",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:56.666822+08:00",
-      "sha256": "fc2009e0092a912d15cfec37d5f2b1ef751a3f8d4c3770930f0549e31b05c229"
+      "fetched_at": "2026-10-26T16:35:38.496259+08:00",
+      "sha256": "896992884b189a87d666803ed43389aa2792f87b25117f47f79d923aafd54d80"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600028",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:57.747391+08:00",
-      "sha256": "8bdc3875f71bfcd07b6f3de0f864d211685357d5be126472df7120239bf31b52"
+      "fetched_at": "2026-10-26T16:35:39.685770+08:00",
+      "sha256": "3ae4a526027f133a050b8078c635dfa5b064ac5ef7ddce1847c36c1fd5f7f2e8"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603055",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:58.892061+08:00",
-      "sha256": "0cf3d00dd79fc2e7cafeeea75c062175affac0e3892300bbd5547e014dddcd7a"
+      "fetched_at": "2026-10-26T16:35:40.931277+08:00",
+      "sha256": "cd1a37acf03af6ef8e101b8e627e2ccae242b385823bd8f57a8dc8089411eb21"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603345",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:20:59.968508+08:00",
-      "sha256": "79097cc645b7aeaf9efd64d1426121f7f364d3181f5875cf4d4162dde1cbfa0c"
+      "fetched_at": "2026-10-26T16:35:42.102286+08:00",
+      "sha256": "17922cc3872d745877c711ed0dc8017bc999f7e4dd80ce4fec54b72c58ca88af"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600989",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:01.045815+08:00",
-      "sha256": "3fa69bd2d166364bde68d4f132f702aae6516e656bff40c1c9f96c2e36b0244e"
+      "fetched_at": "2026-10-26T16:35:43.268337+08:00",
+      "sha256": "acc47c269287294e287ae8375da3bd86b4765e6ef331de5c2e8bc0e26708e07d"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300406",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:02.133260+08:00",
-      "sha256": "256cfb7c21bf96b5b2a3992afa7d1b7545562a63115c8e42a114fc0413952491"
+      "fetched_at": "2026-10-26T16:35:44.445596+08:00",
+      "sha256": "62f17ee479ff72b20e108728b42ad3e540cb6ec6afd0c24f86c1e76c618d962d"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600356",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:03.242297+08:00",
-      "sha256": "c369d2138dd78a7d872704628cc2b3ccd57067c304ae9db2612518100b4bd25e"
+      "fetched_at": "2026-10-26T16:35:45.662928+08:00",
+      "sha256": "6f8a61de3cf1ee5e3eacef0c3716b472292a3e059018ec3d9b979c5409dfea3d"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600378",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:04.355499+08:00",
-      "sha256": "a40750b84a9d35d415825bc9bfecd20ed17415f4a31b8c5e7e0b27e09647224f"
+      "fetched_at": "2026-10-26T16:35:46.869607+08:00",
+      "sha256": "cf98206cb487057f0a72e0b742ce27f0c9af5eed4e122d9738465e7e4449894d"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600522",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:05.436120+08:00",
-      "sha256": "a2d4e0c8e942d9f2028e8e1e19131b05136970b2f76ee2985f0583ded9ed092a"
+      "fetched_at": "2026-10-26T16:35:48.053579+08:00",
+      "sha256": "f0541515bb9f6e595e79cabbf8632c47055d887f3fe73d1609aab646f335d1f1"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603986",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:06.520051+08:00",
-      "sha256": "fa79f28c41108eed124171e8f16d4715caa5f1992df6a30c23c061a9b0bbcd24"
+      "fetched_at": "2026-10-26T16:35:49.214433+08:00",
+      "sha256": "7b0bd1cd01d64e75e6ba59518337b6b5358ba1ad469fc1463ccd11484aa2e1b2"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603993",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:07.595183+08:00",
-      "sha256": "4acff6065ba50d920100a43f643534c107d7eee0bfdd6297a89c5592f0da2699"
+      "fetched_at": "2026-10-26T16:35:50.374710+08:00",
+      "sha256": "fa6063fa67d653e5a4fdbc6b9c3d0424084ae9b9fa61ce98cea4b8868ccc683c"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300012",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:08.716675+08:00",
-      "sha256": "51d6f1cfeb4bdf1c1705601a4c3be31266d49e77ed633c72421d8313c0005419"
+      "fetched_at": "2026-10-26T16:35:51.578034+08:00",
+      "sha256": "840df65ad06fe52d994aa5cb1d6bcafe2a664adf25811481ab4ac8ba0c1e8979"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002164",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:09.813436+08:00",
-      "sha256": "fa9353539b55632ff0188ff3d5bae0c1211d1bc3e7301d3a88006665900ea984"
+      "fetched_at": "2026-10-26T16:35:52.752436+08:00",
+      "sha256": "5afed1108fcc9580f69709a85b99a60f7f86bbce0da5b20de1de35455c53c7d1"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "688139",
         "adjust": "qfq",
-        "end_date": "20261023",
-        "anchor_date": "20261023",
+        "end_date": "20261026",
+        "anchor_date": "20261026",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:10.932901+08:00",
-      "sha256": "cf9bb427b963b5f0c2398061e02a7b11e4f849daebac3429e6ca8cffc38387de"
+      "fetched_at": "2026-10-26T16:35:53.969258+08:00",
+      "sha256": "6950c1296bfa2c68d40344170033ebe9ba9478f4ec3c7a8520761fa5efbd3a5f"
     },
     {
       "function": "index_tx_daily",
       "kwargs": {
         "symbol": "000300",
-        "end_date": "2026-10-23"
+        "end_date": "2026-10-26"
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:12.117873+08:00",
-      "sha256": "631159d939a9c196cc4d7a0b287f212203e741c7a1ac960282c5d931f28cede2"
+      "fetched_at": "2026-10-26T16:35:55.279846+08:00",
+      "sha256": "6e0771b13e605d9d87017113864dc0d73096d85422afcfcb8d716a33cdf0a8a3"
     },
     {
       "function": "index_tx_daily",
       "kwargs": {
         "symbol": "000905",
-        "end_date": "2026-10-23"
+        "end_date": "2026-10-26"
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-23T16:21:13.194877+08:00",
-      "sha256": "61be6d6d459082c623dd3e93e5582766f4b46ef9399e74d63ff586bae8d577d5"
+      "fetched_at": "2026-10-26T16:35:56.411870+08:00",
+      "sha256": "2c43e1266c4721f2676b2d27a125fbc0a874e36798eee01ec0592b30880c4da7"
     }
   ]
 }
