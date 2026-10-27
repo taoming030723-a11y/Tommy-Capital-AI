@@ -889,6 +889,77 @@
         }
       ],
       "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+    },
+    {
+      "session": "2026-10-27",
+      "generated_at": "2026-10-27T15:46:59.143343+08:00",
+      "finished_at": "2026-10-27T16:26:55.868794+08:00",
+      "scan_phase": "closing",
+      "scan_type": "after_close",
+      "status": "partial",
+      "scan_complete": false,
+      "selection_rule": "dual_route_monthly_recovery",
+      "scoring_version": "weekly_ma55_macd_50_50_v9",
+      "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/40469119109",
+      "ranking_complete": false,
+      "minute15_cutoff": "2026-10-27T15:00:00",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "300012",
+          "name": "华测检测",
+          "score": 71.15
+        },
+        {
+          "rank": 2,
+          "code": "600354",
+          "name": "敦煌种业",
+          "score": 69.4
+        },
+        {
+          "rank": 3,
+          "code": "603387",
+          "name": "基蛋生物",
+          "score": 64.95
+        },
+        {
+          "rank": 4,
+          "code": "688139",
+          "name": "海尔生物",
+          "score": 63.28
+        },
+        {
+          "rank": 5,
+          "code": "300833",
+          "name": "浩洋股份",
+          "score": 63.19
+        },
+        {
+          "rank": 6,
+          "code": "603055",
+          "name": "台华新材",
+          "score": 62.38
+        },
+        {
+          "rank": 7,
+          "code": "002164",
+          "name": "宁波东力",
+          "score": 62.01
+        },
+        {
+          "rank": 8,
+          "code": "601330",
+          "name": "绿色动力",
+          "score": 61.68
+        },
+        {
+          "rank": 9,
+          "code": "002014",
+          "name": "永新股份",
+          "score": 59.94
+        }
+      ],
+      "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
     }
   ]
 }

@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-27T16:30:26.878512+08:00",
+  "data_session": "2026-10-27",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "9ba8dd9ea144e230e3d23705b40752ea08c7e983",
+  "source_decision_at": "2026-10-27T16:26:55.868794+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 9,
+  "trials": {
+    "v9": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 71.15
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "score": 69.4
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "score": 64.95
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 63.28
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "score": 63.19
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 62.379999999999995
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 62.01
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 61.68000000000001
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 59.94
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 70.03
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "score": 66.15
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 62.51
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 61.78
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "score": 61.699999999999996
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "score": 61.15
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 59.63
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 58.43000000000001
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 56.935
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 69.47
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "score": 67.9
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 63.78
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "score": 63.449999999999996
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "score": 62.755
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 62.01
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 60.88
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 60.18000000000001
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 58.8025
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 88.77000000000001
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "score": 80.905
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 80.64500000000001
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "score": 79.455
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 77.95
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 75.845
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 74.125
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "score": 72.265
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 70.64
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "0402868b35a0266b8b47f0c3ae25ce60095b84ea0e5af579b1040ce9d204c4e3"
+}
