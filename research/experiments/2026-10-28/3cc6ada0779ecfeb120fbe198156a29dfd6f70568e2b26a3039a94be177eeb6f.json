@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-28T16:38:30.182452+08:00",
+  "data_session": "2026-10-28",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "74d54baff954327ad8a2180c6b1926f4503c7414",
+  "source_decision_at": "2026-10-28T16:35:07.774644+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 2,
+  "trials": {
+    "v9": [
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 62.75
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 62.31999999999999
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 61.25
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 59.57
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 64.25
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 60.82
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 77.5
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 74.065
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "3cc6ada0779ecfeb120fbe198156a29dfd6f70568e2b26a3039a94be177eeb6f"
+}
