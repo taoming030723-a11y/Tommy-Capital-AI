@@ -400,7 +400,19 @@ def render_dual_report(report, run_url=None):
     funnel = ranking_funnel(report)
     status = {"complete": "完成", "partial": "部分完成", "failed": "失败", "running": "扫描中"}.get(report.get("status"), "未确定")
     phase = {"opening": "开盘", "closing": "收盘", "intraday": "盘中", "pre_run": "预跑", "model_review": "模型复核"}.get(report.get("scan_phase"), "扫描")
-    lines = [f"# Tommy Capital · {date_label(report.get('session'), True)} · {phase}", "", "## 扫描概况", ""]
+    lines = [f"# Tommy Capital · {date_label(report.get('session'), True)} · {phase}", ""]
+    guard = report.get("financial_integrity") or {}
+    if guard.get("status") == "degraded":
+        lines += ["## 财报数据异常：本次仅为诊断与已核验部分", "",
+                  "财报覆盖下降或批次未完成；榜单缩减不能解释为全市场合格股票减少。数据缺失不补零、不使用旧报表填充，不据此认定企业基本面恶化。", "",
+                  "保护原因："+cell("；".join(i["reason"] for i in guard.get("alerts", [])))+"。", ""]
+        ref = guard.get("reference")
+        if ref:
+            lines += [f"[此前财报覆盖正常的报告（{ref['session']}，仅作历史参照）](https://github.com/taoming030723-a11y/Tommy-Capital-AI/blob/main/{ref['report_path']})；不把其行情或分数当成本次结果。", ""]
+    elif guard.get("status") == "limited":
+        lines += ["## 评分数据待齐：部分入口股未参与排名", "",
+                  f"本次仍有{funnel['score_data_pending']}只入口合格股缺少完整评分资料，未进入榜单；不是低分淘汰，缺失项见下表。", ""]
+    lines += ["## 扫描概况", ""]
     rows = [
         ["扫描股票", f"{coverage.get('universe', '未取得')}只"],
         ["日周月有效核验 / 请求", f"{coverage.get('technical_completed', '未取得')} / {coverage.get('technical_requested', '未取得')}只"],
@@ -411,6 +423,9 @@ def render_dual_report(report, run_url=None):
          ("；已核验范围排名" if not report.get("ranking_complete", False) else "")]]
     if not failed and funnel["score_data_pending"]:
         rows.append(["入口合格但评分数据待齐（不参与排名）", f"{funnel['score_data_pending']}只；不是低分淘汰"])
+    if guard:
+        labels = {"healthy":"财报保护检查通过", "limited":"评分资料待齐，保留已核验部分", "degraded":"财报数据异常，仅发布诊断与已核验部分"}
+        rows.append(["财报保护", labels.get(guard.get("status"), "未完成")+f"；定向重取{guard.get('retry_rounds',0)}轮 / 成功重取{guard.get('successful_refetch_batch_count',0)}批"])
     quality = report.get("data_quality")
     if quality:
         rows += [["财报质量已核验", str(quality["financial"].get("quality_statement_available", 0)) + "只"],

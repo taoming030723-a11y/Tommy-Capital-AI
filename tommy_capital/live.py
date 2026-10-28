@@ -60,18 +60,21 @@ def get_json(url, params):
     return request(url, params).json()
 
 
-def financial_page(url, params):
+def financial_page(url, params, refresh=False):
     """Retain successful pages briefly so a retry repairs only missing pages."""
     key = hashlib.sha256(json.dumps([url, params], sort_keys=True).encode()).hexdigest()
     root = Path(os.environ.get("TOMMY_PAGE_CACHE", ".cache/tommy/finance-pages"))
     root.mkdir(parents=True, exist_ok=True)
     path = root / (key + ".json")
-    if path.exists():
+    if path.exists() and not refresh:
         try:
             cached = json.loads(path.read_text())
+            if (not isinstance(cached, dict) or type(cached.get("fetched_epoch")) not in (int, float)
+                    or not math.isfinite(cached["fetched_epoch"]) or not isinstance(cached.get("data"), dict)):
+                raise ValueError("财报分页缓存结构无效")
             if 0 <= time.time() - cached["fetched_epoch"] < 600:
                 return cached["data"]
-        except (ValueError, KeyError):
+        except (ValueError, KeyError, TypeError):
             pass
     item = get_json(url, params)
     if item.get("code") == 0 and item.get("result") is not None:
@@ -94,7 +97,7 @@ class FinancialPageDrift(ValueError):
     """A successful HTTP page does not prove a coherent financial snapshot."""
 
 
-def financial_rows(url, params, label):
+def financial_rows(url, params, label, refresh_pages=False):
     """Bounded coherent-batch retry, separate from transport/page repair.
 
     Ordinary transport retries retain successful pages. If page totals drift,
@@ -106,7 +109,9 @@ def financial_rows(url, params, label):
 
         def page(number):
             # Record planned pages in the parent thread before concurrent reads.
-            payload = financial_page(url, {**params, "pageNumber": number})
+            page_params = {**params, "pageNumber": number}
+            payload = (financial_page(url, page_params, refresh=True) if refresh_pages
+                       else financial_page(url, page_params))
             item = payload.get("result")
             if item is None:
                 if number == 1 and payload.get("code") == 9201:
@@ -155,13 +160,13 @@ def financial_rows(url, params, label):
     raise AssertionError("unreachable")
 
 
-def finance(date, schema_version=2):
+def finance(date, schema_version=2, refresh_pages=False):
     period = pd.Timestamp(date).strftime("%Y-%m-%d")
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
     params = {"reportName": "RPT_LICO_FN_CPD", "columns": "ALL", "pageSize": 500,
               "sortColumns": "UPDATE_DATE,SECURITY_CODE", "sortTypes": "-1,-1", "source": "WEB", "client": "WEB",
               "filter": f"(REPORTDATE='{period}')"}
-    rows = financial_rows(url, params, "财报")
+    rows = financial_rows(url, params, "财报", refresh_pages)
     if not rows:
         return pd.DataFrame(columns=FIN_FIELDS.values())
     raw = pd.DataFrame(rows)
@@ -175,7 +180,7 @@ def finance(date, schema_version=2):
     return raw.rename(columns=FIN_FIELDS)[list(FIN_FIELDS.values())]
 
 
-def finance_quality(date, statement):
+def finance_quality(date, statement, refresh_pages=False):
     """Received statement totals, never CFO/share divided by a different EPS basis."""
     report, fields = {
         "income": ("RPT_DMSK_FN_INCOME", {"DEDUCT_PARENT_NETPROFIT": "core_profit_ytd",
@@ -188,7 +193,7 @@ def finance_quality(date, statement):
               "source": "WEB", "client": "WEB", "filter": f"(REPORT_DATE='{period}')"}
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
     columns = ["code", "period", "quality_announced_at", *fields.values()]
-    rows = financial_rows(url, params, "财务质量报表")
+    rows = financial_rows(url, params, "财务质量报表", refresh_pages)
     if not rows:
         return pd.DataFrame(columns=columns)
     raw = pd.DataFrame(rows)

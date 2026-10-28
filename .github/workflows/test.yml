@@ -24,3 +24,11 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -e '.[test,ui]'
       - run: python -m pytest -q
+      - name: Read-only replay of the genuine October 28 financial-data failure
+        run: python -m tommy_capital.financial_integrity --replay-summary results/2026-10-28/closing-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: financial-integrity-historical-fault-replay
+          path: reports/financial-guard-replay/
+          retention-days: 14
+          if-no-files-found: error

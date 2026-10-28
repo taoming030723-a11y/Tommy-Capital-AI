@@ -31,29 +31,47 @@ class Provider:
         self.timeout, self.retries, self.refresh = timeout, retries, refresh
         self.lineage = []
 
-    def fetch(self, function, ttl=300, allow_empty=False, **kwargs):
+    def fetch(self, function, ttl=300, allow_empty=False, force_refresh=False, budget_seconds=None, **kwargs):
+        if budget_seconds is not None and (type(budget_seconds) not in (int, float) or not math.isfinite(budget_seconds) or budget_seconds <= 0):
+            raise DataError("请求时间预算必须为有限正数")
+        deadline = time.monotonic()+budget_seconds if budget_seconds is not None else None
         request = {"function": function, "kwargs": kwargs}
         key = hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()
         path = self.cache / f"{key}.json"
         cache_hit = False
         payload = None
-        if path.exists() and not self.refresh:
+        frame = None
+        if path.exists() and not (self.refresh or force_refresh):
             try:
                 candidate = json.loads(path.read_text(encoding="utf-8"))
+                if (not isinstance(candidate, dict) or type(candidate.get("fetched_epoch")) not in (int, float)
+                        or not math.isfinite(candidate["fetched_epoch"]) or not isinstance(candidate.get("data"), str)):
+                    raise ValueError("缓存结构无效")
                 age = time.time() - candidate["fetched_epoch"]
                 if 0 <= age < ttl:
-                    payload, cache_hit = candidate, True
-            except (ValueError, KeyError):
+                    cached_frame = pd.read_json(io.StringIO(candidate["data"]), orient="split", dtype=False)
+                    if cached_frame.empty and not allow_empty:
+                        raise ValueError("缓存为空，不作为有效源结果")
+                    payload, cache_hit, frame = candidate, True, cached_frame
+            except (ValueError, KeyError, TypeError):
                 pass
         if payload is None:
             last_error = ""
+            worker_request = request
+            if (force_refresh or self.refresh) and function in {"finance_em_named", "finance_quality_em"}:
+                # Keep the canonical cache key, but force *all* nested pages
+                # fresh. Bypassing just the outer cache would replay old pages.
+                worker_request = {**request, "kwargs": {**kwargs, "refresh_pages": True}}
             for attempt in range(self.retries):
                 LOG.info("抓取 %s %s (%s/%s)", function, kwargs, attempt + 1, self.retries)
                 try:
+                    remaining = deadline-time.monotonic() if deadline is not None else self.timeout
+                    if remaining <= 0:
+                        raise DataError("请求时间预算已耗尽")
                     proc = subprocess.run(
                         [sys.executable, "-m", "tommy_capital.worker"],
-                        input=json.dumps(request), text=True, capture_output=True,
-                        timeout=self.timeout, check=True,
+                        input=json.dumps(worker_request), text=True, capture_output=True,
+                        timeout=min(self.timeout, remaining), check=True,
                     )
                     frame = pd.read_json(io.StringIO(proc.stdout), orient="split", dtype=False)
                     if frame.empty and not allow_empty:
@@ -68,15 +86,20 @@ class Provider:
                     last_error = (exc.stderr[-600:] if isinstance(exc, subprocess.CalledProcessError)
                                   else str(exc))
                     if attempt + 1 < self.retries:
-                        time.sleep(1 + attempt)
+                        remaining = deadline-time.monotonic() if deadline is not None else 1+attempt
+                        if remaining <= 0:
+                            break
+                        time.sleep(min(1+attempt, remaining))
             if payload is None:
                 raise DataError(f"{function} 失败（未使用模拟数据）：{last_error}")
-        frame = pd.read_json(io.StringIO(payload["data"]), orient="split", dtype=False)
+        if frame is None:
+            frame = pd.read_json(io.StringIO(payload["data"]), orient="split", dtype=False)
         if frame.empty and not allow_empty:
             raise DataError(f"{function} 缓存为空")
         self.lineage.append({**request, "rows": len(frame), "cache_hit": cache_hit,
                              "fetched_at": datetime.fromtimestamp(payload["fetched_epoch"], SHANGHAI).isoformat(),
-                             "sha256": hashlib.sha256(payload["data"].encode()).hexdigest()})
+                             "sha256": hashlib.sha256(payload["data"].encode()).hexdigest(),
+                             **({"forced_refresh": True, "financial_pages_refreshed": function in {"finance_em_named", "finance_quality_em"}} if force_refresh or self.refresh else {})})
         return frame
 
 

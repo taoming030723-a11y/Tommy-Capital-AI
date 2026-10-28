@@ -15,6 +15,8 @@ def audit(directory):
     root = Path(directory)
     report = json.loads((root / "report.json").read_text())
     summary = json.loads((root / "summary.json").read_text())
+    from .financial_integrity import validate_integrity
+    validate_integrity(report, (root/"report.md").read_text())
     assert report["status"] in ("complete", "partial", "failed")
     if report["status"] == "failed":
         assert report["scan_complete"] is False and not report["rankings"]

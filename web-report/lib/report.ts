@@ -47,6 +47,7 @@ export async function latestReport() {
     valuations: summary.valuations || {}, valuation_coverage: summary.valuation_coverage || null,
     technical_reviews: summary.technical_reviews || null,
     investment_research: summary.investment_research || null, data_quality: summary.data_quality || null,
+    financial_integrity: summary.financial_integrity || null,
     freshness: reportFreshness(summary,status),
     tracking: summary.top10_tracking?.all_rows ?? summary.top10_tracking?.rows ?? [],
     public_ignored: preferences.ignored_codes ?? [], monitor: summary.macd_monitor ?? null,

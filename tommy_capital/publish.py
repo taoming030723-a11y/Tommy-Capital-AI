@@ -23,13 +23,15 @@ def publish(directory, token, repository):
     for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
-    for key in ("investment_research", "data_quality"):
+    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required"):
         if summary.get(key) != report.get(key):
             raise ValueError(f"研究附加字段{key}与机器摘要不一致")
     if report.get("investment_research") is not None:
         from .investment_research import validate_public_research
         validate_public_research(report["investment_research"])
     markdown = render_markdown(report, github_run_url())
+    from .financial_integrity import validate_integrity
+    validate_integrity(report, markdown)
     (directory / "report.md").write_text(markdown, encoding="utf-8")
     base = "https://api.github.com/repos/" + repository
     headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
