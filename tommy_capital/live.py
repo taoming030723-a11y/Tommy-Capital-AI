@@ -90,40 +90,80 @@ FIN_FIELDS = {
 }
 
 
+class FinancialPageDrift(ValueError):
+    """A successful HTTP page does not prove a coherent financial snapshot."""
+
+
+def financial_rows(url, params, label):
+    """Bounded coherent-batch retry, separate from transport/page repair.
+
+    Ordinary transport retries retain successful pages. If page totals drift,
+    clear only this query's pages, then refetch the whole batch once. Never
+    pad missing rows or return an incoherent partial statement as complete.
+    """
+    for attempt in range(2):
+        touched = set()
+
+        def page(number):
+            # Record planned pages in the parent thread before concurrent reads.
+            payload = financial_page(url, {**params, "pageNumber": number})
+            item = payload.get("result")
+            if item is None:
+                if number == 1 and payload.get("code") == 9201:
+                    return None
+                raise FinancialPageDrift(f"{label}API未返回结果：{payload.get('code')} {payload.get('message')}")
+            return item
+
+        try:
+            touched.add(1)
+            first = page(1)
+            if first is None:
+                return []
+            pages, count = int(first["pages"]), int(first["count"])
+            if not 1 <= pages <= 100 or count <= 0:
+                raise FinancialPageDrift(f"{label}分页数量或声明行数异常")
+            touched.update(range(2, pages + 1))
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                chunks = [first, *executor.map(page, range(2, pages + 1))]
+            rows, seen = [], set()
+            for chunk in chunks:
+                if chunk is None or int(chunk["pages"]) != pages or int(chunk["count"]) != count:
+                    raise FinancialPageDrift(f"{label}分页数量或声明行数在抓取中变化")
+                records = chunk["data"]
+                if not records:
+                    raise FinancialPageDrift(f"{label}分页为空，不能声称全市场覆盖")
+                for record in records:
+                    key = hashlib.sha256(json.dumps(record, sort_keys=True).encode()).hexdigest()
+                    if key in seen:
+                        raise FinancialPageDrift(f"{label}分页记录重复，不能声称全市场覆盖")
+                    seen.add(key)
+                rows.extend(records)
+            if len(rows) != count:
+                raise FinancialPageDrift(f"{label}实际行数与源声明不符：实际{len(rows)}，声明{count}")
+            return rows
+        except (FinancialPageDrift, KeyError, TypeError, ValueError) as exc:
+            # The 600-second page cache otherwise makes the next worker retry
+            # deterministically replay the same inconsistent successful pages.
+            root = Path(os.environ.get("TOMMY_PAGE_CACHE", ".cache/tommy/finance-pages"))
+            for number in touched:
+                key = hashlib.sha256(json.dumps([url, {**params, "pageNumber": number}], sort_keys=True).encode()).hexdigest()
+                (root / (key + ".json")).unlink(missing_ok=True)
+            if attempt:
+                raise ValueError(f"{label}整组重新获取后仍不完整，拒绝部分报表：{exc}") from exc
+            # Transport exceptions deliberately escape without invalidation:
+            # the existing worker retry can repair just the unavailable page.
+    raise AssertionError("unreachable")
+
+
 def finance(date, schema_version=2):
     period = pd.Timestamp(date).strftime("%Y-%m-%d")
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
     params = {"reportName": "RPT_LICO_FN_CPD", "columns": "ALL", "pageSize": 500,
               "sortColumns": "UPDATE_DATE,SECURITY_CODE", "sortTypes": "-1,-1", "source": "WEB", "client": "WEB",
               "filter": f"(REPORTDATE='{period}')"}
-    first = financial_page(url, {**params, "pageNumber": 1})
-    result = first.get("result")
-    if result is None:
-        # This API explicitly distinguishes a valid query with no records.
-        if first.get("code") == 9201:
-            return pd.DataFrame(columns=FIN_FIELDS.values())
-        raise ValueError(f"财报API未返回结果：{first.get('code')} {first.get('message')}")
-    pages = int(result["pages"])
-    if not 1 <= pages <= 100:
-        raise ValueError("财报分页数量异常")
-    rows = list(result["data"])
-    seen = {hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()}
-    def page(number):
-        item = financial_page(url, {**params, "pageNumber": number})["result"]
-        if int(item["pages"]) != pages:
-            raise ValueError("财报数据在分页中变化，请重试")
-        return item["data"]
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        for items in executor.map(page, range(2, pages + 1)):
-            digest = hashlib.sha256(json.dumps(items, sort_keys=True).encode()).hexdigest()
-            if not items or digest in seen:
-                raise ValueError("财报分页为空或重复，不能声称全市场覆盖")
-            seen.add(digest)
-            rows.extend(items)
-    if result.get("count") is not None and len(rows) != int(result["count"]):
-        raise ValueError("财报分页总行数与API声明不符")
+    rows = financial_rows(url, params, "财报")
     if not rows:
-        raise ValueError("非空财报分页返回空数据")
+        return pd.DataFrame(columns=FIN_FIELDS.values())
     raw = pd.DataFrame(rows)
     if not set(FIN_FIELDS).issubset(raw.columns) or "REPORTDATE" not in raw:
         raise ValueError("财报字段变化")
@@ -147,31 +187,10 @@ def finance_quality(date, statement):
               "sortColumns": "NOTICE_DATE,SECURITY_CODE", "sortTypes": "-1,-1",
               "source": "WEB", "client": "WEB", "filter": f"(REPORT_DATE='{period}')"}
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
-    first = financial_page(url, {**params, "pageNumber": 1})
-    result = first.get("result")
     columns = ["code", "period", "quality_announced_at", *fields.values()]
-    if result is None:
-        if first.get("code") == 9201:
-            return pd.DataFrame(columns=columns)
-        raise ValueError(f"财务质量报表未返回结果：{first.get('code')} {first.get('message')}")
-    pages = int(result["pages"])
-    if not 1 <= pages <= 100:
-        raise ValueError("财务质量报表分页异常")
-    rows, seen = [], set()
-    def page(number):
-        item = result if number == 1 else financial_page(url, {**params, "pageNumber": number}).get("result")
-        if not item or int(item["pages"]) != pages:
-            raise ValueError("财务质量分页数量变化")
-        return item["data"]
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        for records in executor.map(page, range(1, pages + 1)):
-            digest = hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
-            if not records or digest in seen:
-                raise ValueError("财务质量分页为空或重复")
-            seen.add(digest)
-            rows.extend(records)
-    if len(rows) != int(result["count"]):
-        raise ValueError("财务质量报表实际行数与源声明不符")
+    rows = financial_rows(url, params, "财务质量报表")
+    if not rows:
+        return pd.DataFrame(columns=columns)
     raw = pd.DataFrame(rows)
     required = {"SECURITY_CODE", "SECUCODE", "REPORT_DATE", "NOTICE_DATE", *fields}
     if not required.issubset(raw):

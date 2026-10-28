@@ -396,6 +396,8 @@ def render_dual_report(report, run_url=None):
     pool = report.get("rankings", [])
     failed = report.get("status") == "failed"
     displayed = [] if failed else ranked_top20(pool)
+    from .diagnostics import ranking_funnel
+    funnel = ranking_funnel(report)
     status = {"complete": "完成", "partial": "部分完成", "failed": "失败", "running": "扫描中"}.get(report.get("status"), "未确定")
     phase = {"opening": "开盘", "closing": "收盘", "intraday": "盘中", "pre_run": "预跑", "model_review": "模型复核"}.get(report.get("scan_phase"), "扫描")
     lines = [f"# Tommy Capital · {date_label(report.get('session'), True)} · {phase}", "", "## 扫描概况", ""]
@@ -407,6 +409,8 @@ def render_dual_report(report, run_url=None):
         ["扫描时间", f"扫描启动：{date_label(report.get('generated_at'))}；扫描完成：{date_label(report.get('finished_at'))}"],
         ["数据状态", status + f"；scan_complete={str(report.get('scan_complete', False)).lower()}；ranking_complete={str(report.get('ranking_complete', False)).lower()}" +
          ("；已核验范围排名" if not report.get("ranking_complete", False) else "")]]
+    if not failed and funnel["score_data_pending"]:
+        rows.append(["入口合格但评分数据待齐（不参与排名）", f"{funnel['score_data_pending']}只；不是低分淘汰"])
     quality = report.get("data_quality")
     if quality:
         rows += [["财报质量已核验", str(quality["financial"].get("quality_statement_available", 0)) + "只"],
@@ -447,6 +451,19 @@ def render_dual_report(report, run_url=None):
         headers += ["企业研究类别", "证据内在价值"]
     lines += table(headers,
         top_rows or [["—", "扫描未完成，无法判断" if failed else "暂无评分齐全的合格股票", *["—"] * (len(headers)-2)]])
+    if not failed and funnel["pending_rows"]:
+        labels = {"core_profit_ttm":"TTM扣非利润", "core_profit_ytd":"本期累计扣非利润",
+                  "previous_same_core_profit_ytd":"上年同期扣非利润", "cfo_ytd":"本期累计经营现金流",
+                  "cfo_ttm":"TTM经营现金流", "previous_same_cfo_ytd":"上年同期经营现金流"}
+        lines += ["## 入口合格、评分数据待齐（不参与排名）", "", "评分数据缺失不代表低分，也不能据此认定企业基本面恶化；补齐后重新核验，不用旧值或零值凑榜。", ""]
+        lines += table(["股票（代码）", "缺失评分数据"], [
+            [str(row.get("name") or row["code"])+"（"+row["code"]+"）",
+             "、".join(labels.get(k.removeprefix("fundamental."),k) for k in row["missing_inputs"]) or "完整评分校验未通过，详见附件"]
+            for row in funnel["pending_rows"][:20]])
+        if len(funnel["pending_rows"]) > 20:
+            lines += ["其余待齐记录见完整JSON附件；以上不是综合前20候选的填充。", ""]
+        if funnel["failed_financial_batches"]:
+            lines += ["未完成财报批次："+cell("；".join(funnel["failed_financial_batches"]))+"。", ""]
     tracking = report.get("top10_tracking", {})
     lines += render_tracking_section(tracking, report.get("config"), report.get("valuations"))
     if displayed:
