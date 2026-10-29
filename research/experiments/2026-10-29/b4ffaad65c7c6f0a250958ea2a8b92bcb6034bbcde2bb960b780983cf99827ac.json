@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-29T19:50:57.091650+08:00",
+  "data_session": "2026-10-29",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "584a06f81b78b7ba7d32c150ecce59a53ded2a62",
+  "source_decision_at": "2026-10-29T19:47:21.130846+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 8,
+  "trials": {
+    "v9": [
+      {
+        "code": "002811",
+        "name": "郑中设计",
+        "score": 72.69999999999999
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 71.5
+      },
+      {
+        "code": "601900",
+        "name": "南方传媒",
+        "score": 69.15
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 66.94
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 64.34
+      },
+      {
+        "code": "300454",
+        "name": "深信服",
+        "score": 64.13
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 61.989999999999995
+      },
+      {
+        "code": "300821",
+        "name": "东岳硅材",
+        "score": 60.64
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "002811",
+        "name": "郑中设计",
+        "score": 73.45
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 70.38
+      },
+      {
+        "code": "601900",
+        "name": "南方传媒",
+        "score": 66.015
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 65.44
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 62.83999999999999
+      },
+      {
+        "code": "300454",
+        "name": "深信服",
+        "score": 60.89
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 59.24
+      },
+      {
+        "code": "300821",
+        "name": "东岳硅材",
+        "score": 58.155
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "002811",
+        "name": "郑中设计",
+        "score": 72.7
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 69.82
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 68.44
+      },
+      {
+        "code": "601900",
+        "name": "南方传媒",
+        "score": 68.1975
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 64.83999999999999
+      },
+      {
+        "code": "300821",
+        "name": "东岳硅材",
+        "score": 61.78750000000001
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 60.49
+      },
+      {
+        "code": "300454",
+        "name": "深信服",
+        "score": 59.14
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 89.12
+      },
+      {
+        "code": "601900",
+        "name": "南方传媒",
+        "score": 84.58
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 81.69
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "score": 79.00999999999999
+      },
+      {
+        "code": "002811",
+        "name": "郑中设计",
+        "score": 77.16499999999999
+      },
+      {
+        "code": "300821",
+        "name": "东岳硅材",
+        "score": 76.975
+      },
+      {
+        "code": "300454",
+        "name": "深信服",
+        "score": 74.775
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 73.735
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "b4ffaad65c7c6f0a250958ea2a8b92bcb6034bbcde2bb960b780983cf99827ac"
+}
