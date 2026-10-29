@@ -1,7 +1,9 @@
 """Gate recurring Actions scans with the real A-share trading calendar."""
 import argparse
+import hashlib
 import json
 import os
+import re
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -83,6 +85,16 @@ def validate_close_request(request, now):
         raise DataError("补启动仅允许当天收盘扫描，旧日期请求不执行")
     if type(request.get("attempt")) is not int or not 1 <= request["attempt"] <= 2:
         raise DataError("独立补启动每日最多两次")
+    purpose = request.get("purpose")
+    if purpose not in (None, "financial_recovery"):
+        raise DataError("无法识别补启动用途")
+    if purpose == "financial_recovery":
+        digest = request.get("expected_report_sha256")
+        run_url = request.get("expected_report_run_url")
+        if (not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest) or
+                not isinstance(run_url, str) or not re.fullmatch(
+                    r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/actions/runs/[0-9]+", run_url)):
+            raise DataError("财报修复请求必须绑定原报告SHA256和实际运行链接")
     try:
         requested = datetime.fromisoformat(request["requested_at"])
     except (KeyError, ValueError, TypeError) as exc:
@@ -93,6 +105,27 @@ def validate_close_request(request, now):
     if (requested.date() != now.date() or not timedelta(0) <= now-requested <= timedelta(hours=2)
             or (requested.hour, requested.minute) < (15, 5) or not 15 <= now.hour < 20):
         raise DataError("补启动请求已过期、含未来时间或尚未收盘")
+
+
+def financial_recovery_matches(results_directory, request):
+    """One explicit repair may supersede an exact, financially broken partial.
+
+    A new publication invalidates the old request. Ordinary partial reports,
+    including genuine history shortfalls, still suppress duplicate scans.
+    """
+    if results_directory is None:
+        return False
+    try:
+        raw = (Path(results_directory) / "latest-summary.json").read_bytes()
+        if hashlib.sha256(raw).hexdigest() != request["expected_report_sha256"]:
+            return False
+        summary = json.loads(raw)
+        return (summary.get("workflow_run_url") == request["expected_report_run_url"] and
+                summary.get("status") == "partial" and summary.get("scan_complete") is False and
+                any(isinstance(error, str) and error.startswith(("财报 ", "财务质量 "))
+                    for error in summary.get("errors", [])))
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 def decision(event, schedule, phase, now, provider, results_directory=None, request=None):
@@ -116,8 +149,14 @@ def decision(event, schedule, phase, now, provider, results_directory=None, requ
         # Refresh the real calendar once, without guessing weekdays/holidays.
         calendar = provider.fetch("tool_trade_date_hist_sina", ttl=0)
         trading = calendar_contains_today(calendar, now)
-    if trading and phase == "closing" and results_directory is not None and published_closing_report(results_directory, now):
-        return False, phase, "当天有效收盘报告已发布（含如实标记的部分结果），跳过重复扫描"
+    if trading and phase == "closing":
+        published = results_directory is not None and published_closing_report(results_directory, now)
+        if event == "push" and request.get("purpose") == "financial_recovery":
+            if published and financial_recovery_matches(results_directory, request):
+                return True, phase, "已核对原报告财报故障及SHA256，执行明确请求的有界修复重扫"
+            return False, phase, "财报修复对应的报告已变化、不完整或无财报故障，跳过旧请求"
+        if published:
+            return False, phase, "当天有效收盘报告已发布（含如实标记的部分结果），跳过重复扫描"
     return trading, phase, "今日为A股交易日" if trading else "今日A股休市，保留上一交易日报告"
 
 

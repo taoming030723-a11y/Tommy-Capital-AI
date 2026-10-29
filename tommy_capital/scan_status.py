@@ -37,6 +37,8 @@ def status_entries(state, markdown):
             f"[查看当前 Actions 运行和进度]({state['run_url']}) · "
             f"[查看最近发布的中文报告](latest-report.md)\n\n"
             "启动状态不代表选股已完成；行情、候选数和完整性以审计后的最终报告为准。\n")
+    if state.get('financial_integrity_status') == 'degraded':
+        text += "\n**财报数据异常：本次仅发布诊断与已核验部分，不能把榜单缩减解释为全市场机会减少。**\n"
     entries = [{"path": "results/scan-status.json", "mode": "100644", "type": "blob",
                 "content": json.dumps(state, ensure_ascii=False, indent=2, allow_nan=False)},
                {"path": "results/scan-status.md", "mode": "100644", "type": "blob", "content": text}]
@@ -74,6 +76,9 @@ def updated_state(action, previous, run_id, repository, phase, now, summary, rep
             state.update(status=report['status'], report_generated_at=report['generated_at'],
                          report_finished_at=report['finished_at'], report_session=report.get('session'),
                          scan_complete=report['scan_complete'])
+            guard = report.get('financial_integrity')
+            if guard:
+                state['financial_integrity_status'] = guard['status']
     else:
         state['status'] = 'publish_failed'
     return state

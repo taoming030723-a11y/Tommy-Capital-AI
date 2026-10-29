@@ -114,6 +114,8 @@ def write_outputs(out, report):
     out.mkdir(parents=True, exist_ok=True)
     report = clean(report)
     (out / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    if report.get("financial_integrity") is not None:
+        (out/"financial-integrity.json").write_text(json.dumps(report["financial_integrity"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     if report.get("top10_history") is not None:
         (out / "top10-history.json").write_text(json.dumps(report["top10_history"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     for key, filename in [("rankings", "rankings.csv"), ("observations", "observations.csv"), ("excluded", "excluded.csv"), ("divergences", "divergences.csv")]:
@@ -192,7 +194,8 @@ def run(args, provider=None, now=None):
     provider = provider or Provider(timeout=config["request_timeout_seconds"], retries=config["request_attempts"], refresh=args.refresh)
     report = {"system": "Tommy Capital 2.0", "selection_rule": SELECTION_RULE, "mode": "live", "generated_at": now.isoformat(),
               "scoring_version": SCORING_VERSION, "score_weights": SCORE_WEIGHTS, "display_limit": DISPLAY_LIMIT,
-              "status": "failed", "scan_complete": False, "config": config, "errors": [], "warnings": [],
+              "status": "failed", "scan_complete": False, "config": config,
+              "financial_integrity_required": "financial_integrity_v1", "errors": [], "warnings": [],
               "rankings": [], "observations": [], "excluded": [], "divergences": [], "lineage": [],
               "data_gaps": [], "ranking_complete": False, "ranking_incomplete_reasons": [],
               "ranking_policy": RANKING_POLICY,
@@ -245,40 +248,21 @@ def run(args, provider=None, now=None):
                 raise DataError(f"收盘报价时刻异常 {rejected}/{len(spot)}，不能发布为当日收盘扫描")
             if rejected:
                 report["errors"].append(f"{rejected}只报价时刻未确认收盘时段，已排除；已检查股票另与当天完整日线收盘价核对")
-        histories, financial_period_counts = [], {}
-        def load_period(period):
-            ttl = 900 if period == report_periods(today)[0] else 86400
-            raw = provider.fetch("finance_em_named", ttl=ttl, allow_empty=True, date=period.strftime("%Y%m%d"), schema_version=2)
-            return normalize_finance(raw, period, today) if not raw.empty else raw
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            futures = {executor.submit(load_period, p): p for p in report_periods(today)}
-            for future in as_completed(futures):
-                period = futures[future]
-                try:
-                    frame = future.result()
-                    financial_period_counts[period.isoformat()] = len(frame)
-                    if not frame.empty:
-                        histories.append(frame)
-                except DataError as exc:
-                    report["errors"].append(f"财报 {period}: {exc}")
-        if not histories:
-            raise DataError("没有可用已公告财报，停止排名")
-        quality = {"income": [], "cashflow": []}
-        quality_counts = {}
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            futures = {executor.submit(provider.fetch, "finance_quality_em", ttl=900,
-                       allow_empty=True, date=p.strftime("%Y%m%d"), statement=kind): (kind, p)
-                       for p in report_periods(today) for kind in quality}
-            for future in as_completed(futures):
-                kind, p = futures[future]
-                try:
-                    frame = future.result()
-                    quality_counts[f"{kind}:{p}"] = len(frame)
-                    if not frame.empty:
-                        quality[kind].append(frame)
-                except DataError as exc:
-                    report["errors"].append(f"财务质量 {kind} {p}: {exc}")
-        financial_history = merge_finance_quality(pd.concat(histories, ignore_index=True), quality, today)
+        from .financial_integrity import load_policy as integrity_policy, reference_report, load_financial_data
+        policy = integrity_policy(getattr(args, "financial_integrity_config", None) or Path(__file__).resolve().parents[1]/"financial-integrity-config.json")
+        reference = reference_report(getattr(args, "financial_reference_directory", "results"), session.isoformat(), policy)
+        financial_history, financial_collection = load_financial_data(provider, report_periods(today), today, spot.code.tolist(), reference, policy)
+        financial_period_counts = financial_collection["financial_period_counts"]
+        quality_counts = financial_collection["quality_period_counts"]
+        report["errors"].extend(financial_collection["errors"])
+        if financial_collection["retry_rounds"]:
+            report["warnings"].append(f"财报定向重取{financial_collection['retry_rounds']}轮，成功重取{financial_collection['successful_refetch_batch_count']}批；最终质量以保护状态为准，未重复全市场技术扫描")
+        if financial_collection["remaining_issues"]:
+            text = "；".join(i["reason"] for i in financial_collection["remaining_issues"])
+            LOG.warning("财报数据异常，保留缺口并继续逐股核验：%s", text)
+            if os.environ.get("TOMMY_FINANCIAL_GUARD_ANNOTATIONS") == "1":
+                escaped = text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+                print("::warning title=财报覆盖异常，禁止解释为机会减少::"+escaped)
         finance = latest_finance(financial_history)
         universe = prepare_universe(spot, finance, config)
         evidence, evidence_stats = load_evidence(getattr(args, "leading_evidence", None), today)
@@ -309,6 +293,7 @@ def run(args, provider=None, now=None):
         report["coverage"] = {"source_universe": len(spot_raw), "universe": len(universe),
                               "financial_period_counts": financial_period_counts, "quality_period_counts": quality_counts,
                               "quality_statement_available": int(universe.get("quality_statement_matched", pd.Series(False)).sum()),
+                              "quality_ttm_available": financial_collection["quality_ttm_available"],
                               "financially_evaluated": len(universe), "financial_data_available": int(universe.period.notna().sum()),
                               "financially_eligible": sum(r["financial_routes"]["route_a_passed"] or r["financial_routes"]["route_b_passed"] for r in eligible_rows),
                               "route_a_fundamental_passed": route_a_count, "route_b_prequalified": route_b_pre_count,
@@ -479,6 +464,8 @@ def run(args, provider=None, now=None):
         report["ranking_complete"], report["ranking_incomplete_reasons"] = ranking_completeness(report)
         report["scan_complete"] = scan_is_complete(report)
         report["status"] = "complete" if report["scan_complete"] else "partial"
+        from .financial_integrity import attach_integrity
+        attach_integrity(report, financial_collection)
     except DataError as exc:
         report["errors"].append(str(exc))
     finally:
@@ -502,7 +489,7 @@ def scan_is_complete(report):
 
 def make_summary(report):
     summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]}
-    for key in ("investment_research", "data_quality"):
+    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required"):
         if key in report:
             summary[key] = report[key]
     summary["top_candidates"] = [{k: clean(r.get(k)) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible", "confirmation_state", "ranking_purpose", "strategy_reasons", "t_reasons", "price", "pe_ttm", "pb", "profit_ttm", "core_profit_ttm", "cfo_ttm", "industry", "industry_pe_median", "industry_pe_samples", "period", "announced_at", "leading", "market_cap", "revenue_ttm"]} for r in ranked_top20(report["rankings"])]
@@ -539,6 +526,8 @@ def run_with_closing_retries(args):
 def main():
     parser = argparse.ArgumentParser(description="Tommy Capital 真实沪深北A股扫描；开盘后使用完整15分钟K线")
     parser.add_argument("--config", help="JSON阈值配置")
+    parser.add_argument("--financial-integrity-config", help="独立财报恢复/覆盖保护阈值；不改变选股评分")
+    parser.add_argument("--financial-reference-directory", default="results", help="此前正式收盘报告目录，仅作覆盖参照，不填补财报")
     parser.add_argument("--holdings", help="确认持仓JSON")
     parser.add_argument("--leading-evidence", default="evidence/leading-inflections.json", help="官方领先指标与已复核三情景估值证据文件")
     parser.add_argument("--scan-phase", choices=["auto", "opening", "intraday", "closing", "pre_run"], default="auto")
