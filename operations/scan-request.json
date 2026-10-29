@@ -1,8 +1,11 @@
 {
   "schema": 1,
   "scan_phase": "closing",
-  "requested_for": "2026-10-13",
-  "requested_at": "2026-10-13T15:17:06.841736+08:00",
+  "requested_for": "2026-10-29",
+  "requested_at": "2026-10-29T19:08:06.315664+08:00",
   "attempt": 1,
-  "reason": "今日15:05定时尚未进入排队或运行，且尚无当天有效收盘报告，独立补启动"
+  "purpose": "financial_recovery",
+  "expected_report_sha256": "739e057f668ed56beb0b410625dd7a780f0680150c68f4dd7cd7603a06a7f21a",
+  "expected_report_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/40838937809",
+  "reason": "用户明确要求修复10月29日财报故障：入口8只而评分齐全1只，2026-09-30现金流批次行数校验失败；已合并经517项Python及61项网页测试的修复，对原报告绑定重扫，不降低标准"
 }
