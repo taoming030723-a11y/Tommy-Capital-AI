@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-29T16:44:13.639110+08:00",
+  "data_session": "2026-10-29",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "615a17d392520183d0c2361f1de93dc08653b65b",
+  "source_decision_at": "2026-10-29T16:41:08.224080+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 1,
+  "trials": {
+    "v9": [
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 61.989999999999995
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 59.24
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 60.49
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 73.735
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "d4cfe410e8902f4f02ca06ee3575d56a9022bffd6fa287c1bdb95223e7dc2064"
+}
