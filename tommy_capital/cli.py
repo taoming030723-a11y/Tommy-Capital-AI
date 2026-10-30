@@ -116,6 +116,8 @@ def write_outputs(out, report):
     (out / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     if report.get("financial_integrity") is not None:
         (out/"financial-integrity.json").write_text(json.dumps(report["financial_integrity"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    if report.get("reversal_opportunities") is not None:
+        (out/"reversal-opportunities.json").write_text(json.dumps(report["reversal_opportunities"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     if report.get("top10_history") is not None:
         (out / "top10-history.json").write_text(json.dumps(report["top10_history"], ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     for key, filename in [("rankings", "rankings.csv"), ("observations", "observations.csv"), ("excluded", "excluded.csv"), ("divergences", "divergences.csv")]:
@@ -207,6 +209,13 @@ def run(args, provider=None, now=None):
                               "远期盈利/分部/EV-Sales三情景为研究假设，证据缺失不通过；扣非、负债、股本仍需复核",
                               "公开接口可能限流/滞后；抓取时间不是交易所逐股报价时间",
                               "15分钟与日线背离只作观察；做T提示仅用于确认持仓且通过战略规则的股票"]}
+    try:
+        from .reversal_opportunity import load_policy
+        opportunity_policy = load_policy(getattr(args, "reversal_config", None) or Path(__file__).resolve().parents[1]/"reversal-opportunity-config.json")
+        report["reversal_policy"] = opportunity_policy
+    except (OSError, ValueError) as exc:
+        opportunity_policy = None
+        report["reversal_configuration_error"] = str(exc)
     try:
         calendar = provider.fetch("tool_trade_date_hist_sina", ttl=86400)
         session = completed_session(calendar, now)
@@ -353,7 +362,7 @@ def run(args, provider=None, now=None):
                     with monthly_counts_lock:
                         report["warnings"].append(f"{row['code']} 独立长历史月线：{monthly_error}；保留可核验日线聚合历史，未补造月份")
             focused=row["code"] in focus_codes
-            technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, execution_focus=focused)
+            technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, execution_focus=focused, opportunity_policy=opportunity_policy)
             technical["monthly_history_error"] = monthly_error
             decision = evaluate(row, technical, config, today)
             if decision["eligible"]:
@@ -363,7 +372,7 @@ def run(args, provider=None, now=None):
                     weekly_history = extended_weekly_history(stock_provider, row["code"], daily, period_cutoff, today)
                     with monthly_counts_lock:
                         report["coverage"]["extended_weekly_completed"] = report["coverage"].get("extended_weekly_completed", 0) + 1
-                    technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, weekly_history, execution_focus=focused)
+                    technical = strategic_technical(daily, session, period_cutoff, config, monthly_history, weekly_history, execution_focus=focused, opportunity_policy=opportunity_policy)
                     technical["monthly_history_error"] = monthly_error
                     decision = evaluate(row, technical, config, today)
                 except DataError as exc:
@@ -472,6 +481,8 @@ def run(args, provider=None, now=None):
         report["finished_at"] = datetime.now(SHANGHAI).isoformat()
         report["lineage"] = provider.lineage + report.get("leading_evidence_coverage", {}).get("lineage", [])
         attach_tracking(report)
+        from .reversal_opportunity import attach_pool
+        attach_pool(report, opportunity_policy)
         write_outputs(Path(args.output), report)
     LOG.info("状态 %s；候选 %s；报告 %s/report.html", report["status"], len(report["rankings"]), args.output)
     summary = make_summary(report)
@@ -489,7 +500,7 @@ def scan_is_complete(report):
 
 def make_summary(report):
     summary = {k: report.get(k) for k in ["system", "selection_rule", "status", "scan_complete", "scan_type", "scan_phase", "generated_at", "finished_at", "session", "minute15_cutoff", "coverage", "config", "leading_evidence_coverage", "workflow_run_url", "source_commit", "quote_clock_validation", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_validation", "model_review", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]}
-    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required"):
+    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required", "reversal_opportunities", "reversal_research"):
         if key in report:
             summary[key] = report[key]
     summary["top_candidates"] = [{k: clean(r.get(k)) for k in ["code", "name", "route", "score", "fundamental_score", "technical_score", "score_breakdown", "score_inputs_complete", "score_missing_inputs", "profit_status", "strategic_eligible", "t_trend_confirmed", "technical", "minute15", "minute_frames", "execution", "tactical", "confirmed_holding", "fundamental_quality", "ranking_eligible", "confirmation_state", "ranking_purpose", "strategy_reasons", "t_reasons", "price", "pe_ttm", "pb", "profit_ttm", "core_profit_ttm", "cfo_ttm", "industry", "industry_pe_median", "industry_pe_samples", "period", "announced_at", "leading", "market_cap", "revenue_ttm"]} for r in ranked_top20(report["rankings"])]
@@ -528,6 +539,7 @@ def main():
     parser.add_argument("--config", help="JSON阈值配置")
     parser.add_argument("--financial-integrity-config", help="独立财报恢复/覆盖保护阈值；不改变选股评分")
     parser.add_argument("--financial-reference-directory", default="results", help="此前正式收盘报告目录，仅作覆盖参照，不填补财报")
+    parser.add_argument("--reversal-config", help="独立Route C研究配置；不改变A/B评分或资格")
     parser.add_argument("--holdings", help="确认持仓JSON")
     parser.add_argument("--leading-evidence", default="evidence/leading-inflections.json", help="官方领先指标与已复核三情景估值证据文件")
     parser.add_argument("--scan-phase", choices=["auto", "opening", "intraday", "closing", "pre_run"], default="auto")
