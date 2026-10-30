@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "decision_at": "2026-10-30T16:38:01.844106+08:00",
+  "data_session": "2026-10-30",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "9ff1664e83ff34fb6dd7882f888943e0f801214d",
+  "source_decision_at": "2026-10-30T16:33:33.243186+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 8,
+  "trials": {
+    "v9": [
+      {
+        "code": "300406",
+        "name": "九强生物",
+        "score": 69.7
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 68.75999999999999
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 67.84
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 66.85
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 62.150000000000006
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 61.480000000000004
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 59.69
+      },
+      {
+        "code": "001286",
+        "name": "陕西能源",
+        "score": 57.36
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "300406",
+        "name": "九强生物",
+        "score": 70.7
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 67.14
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 63.84
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 63.00999999999999
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 61.480000000000004
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 59.400000000000006
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 56.535
+      },
+      {
+        "code": "001286",
+        "name": "陕西能源",
+        "score": 54.955
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "300406",
+        "name": "九强生物",
+        "score": 69.7
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 66.34
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 66.325
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 62.08999999999999
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 61.480000000000004
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 60.650000000000006
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 58.707499999999996
+      },
+      {
+        "code": "001286",
+        "name": "陕西能源",
+        "score": 52.8775
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "score": 89.93
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 88.41
+      },
+      {
+        "code": "002014",
+        "name": "永新股份",
+        "score": 84.97999999999999
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "score": 77.75
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "score": 74.69
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "score": 73.89500000000001
+      },
+      {
+        "code": "300406",
+        "name": "九强生物",
+        "score": 73.45
+      },
+      {
+        "code": "001286",
+        "name": "陕西能源",
+        "score": 70.255
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "4a7f5212bdcce33b5f27571fcdc19647089293ccda1ecc5e95fe881d1b7db002"
+}
