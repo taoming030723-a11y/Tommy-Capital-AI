@@ -1,0 +1,4392 @@
+{
+  "schema": 1,
+  "version": "right_side_reversal_v1",
+  "policy": {
+    "schema": 1,
+    "enabled": true,
+    "macd": [
+      12,
+      26,
+      9
+    ],
+    "macd_histogram_multiplier": 2,
+    "kdj": [
+      9,
+      3,
+      3
+    ],
+    "minimum_bars": {
+      "daily": 250,
+      "weekly": 60,
+      "monthly": 24
+    },
+    "structure_months": [
+      6,
+      12,
+      18
+    ],
+    "minimum_decline_pct": 20,
+    "minimum_decline_months": 3,
+    "pivot_right_months": 2,
+    "kd_min_change": 0.5,
+    "low_tolerance_pct": 2,
+    "first_leg_sessions": 60,
+    "first_leg_advance_pct": 15,
+    "consolidation_sessions": 10,
+    "maximum_pullback_pct": 15,
+    "maximum_ma_gap_pct": 4,
+    "breakout_rvol": 1.5,
+    "breakout_clv_location": 0.65,
+    "retest_rvol": 1,
+    "maximum_extension_pct": 12,
+    "maximum_extension_atr": 2,
+    "risk_review_max_age_days": 90
+  },
+  "policy_sha256": "54d8d6a1ea97568bb8d1403e4be69c0979a4052e43809e2bab0c7d0def72bb4e",
+  "algorithm_sha256": "999751e3fd2f0937f26afb4927363373422a00f67662b19106535a913f595cec",
+  "generated_at": "2026-10-30T17:28:11.931072+08:00",
+  "kind": "retrospective_small_survivor_sample_price_study",
+  "validation_status": "unvalidated_out_of_sample",
+  "production_ab_comparison": {
+    "status": "unavailable",
+    "reason": "缺少历史全市场成分/退市股与当时已披露财报、估值证据；不能用今天财报回填A/B"
+  },
+  "lookahead_protection": "每个信号仅对当时完整K线前缀重新计算；未来价格只用于独立的事后窗口观察",
+  "limitations": [
+    "当前前复权历史不是历史实时留存锚点",
+    "仅当前存续小样本，存在幸存者偏差",
+    "不模拟实际成交，涨跌停/流动性及成本模型不能保证可执行",
+    "小样本与重叠市场环境不足以证明增量价值"
+  ],
+  "source_manifest_sha256": "b14e8ab9cc692008ec72151ee401b494ba6d68ccae4b730f1e138cb262cea6d2",
+  "suppressed_overlapping_signals": 50,
+  "decision_checks": [
+    {
+      "code": "000333",
+      "anchor_session": "2025-03-24",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-04-23",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-05-27",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-06-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-07-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-08-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-09-23",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-10-30",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-11-28",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-12-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-01-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-03-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-04-08",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-05-12",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-06-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-07-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-08-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-09-08",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-10-15",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-03-24",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-04-23",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-05-27",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-06-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-07-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-08-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-09-23",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-10-30",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-11-28",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-12-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-01-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-03-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-04-08",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-05-12",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-06-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-07-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-08-10",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-09-08",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-10-15",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-03-21",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-04-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-05-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-06-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-07-24",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-08-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-09-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-10-29",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-11-27",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-12-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-01-28",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-03-06",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-04-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-05-11",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-06-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-07-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-08-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-09-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-10-14",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-03-21",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-04-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-05-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-06-25",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-07-24",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-08-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-09-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-10-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-11-27",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-12-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-01-28",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-03-06",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-04-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-05-11",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-06-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-07-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-08-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-09-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-10-14",
+      "status": "ok",
+      "stage": 2,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-03-21",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-04-22",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-05-26",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-06-25",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-07-24",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-08-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-09-22",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-10-29",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-11-27",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-12-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-01-28",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-03-06",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-04-07",
+      "status": "ok",
+      "stage": 5,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-05-11",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-06-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-07-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-08-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-09-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-10-14",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-03-21",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-04-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-05-26",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-06-25",
+      "status": "ok",
+      "stage": 2,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-07-24",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-08-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-09-22",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-10-29",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-11-27",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-12-26",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-01-28",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-03-06",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-04-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-05-11",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-06-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-07-09",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-08-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-09-07",
+      "status": "ok",
+      "stage": null,
+      "reason": null
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-10-14",
+      "status": "ok",
+      "stage": 1,
+      "reason": null
+    }
+  ],
+  "unknown_decision_count": 0,
+  "records": [
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2025-03-24",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-03-31",
+          "price_observation": {
+            "price_return_pct": 2.44502314814814,
+            "price_max_drawdown_pct": -0.5204568454532321
+          },
+          "hypothetical_net_return_pct": 2.0360609798920626,
+          "close_max_drawdown_pct": -0.5204568454532321,
+          "adverse_low_vs_entry_pct": -1.6348379629629761
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-04-08",
+          "price_observation": {
+            "price_return_pct": -9.519675925925931,
+            "price_max_drawdown_pct": -15.986442592854122
+          },
+          "hypothetical_net_return_pct": -9.880874824425224,
+          "close_max_drawdown_pct": -15.986442592854122,
+          "adverse_low_vs_entry_pct": -15.610532407407419
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-04-22",
+          "price_observation": {
+            "price_return_pct": -7.364004629629639,
+            "price_max_drawdown_pct": -15.986442592854122
+          },
+          "hypothetical_net_return_pct": -7.733809002365632,
+          "close_max_drawdown_pct": -15.986442592854122,
+          "adverse_low_vs_entry_pct": -15.610532407407419
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-06-23",
+          "price_observation": {
+            "price_return_pct": -2.329282407407407,
+            "price_max_drawdown_pct": -15.986442592854122
+          },
+          "hypothetical_net_return_pct": -2.719185471649288,
+          "close_max_drawdown_pct": -15.986442592854122,
+          "adverse_low_vs_entry_pct": -15.610532407407419
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2025-06-26",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-03",
+          "price_observation": {
+            "price_return_pct": -0.24691358024689913,
+            "price_max_drawdown_pct": -1.3798111837327376
+          },
+          "hypothetical_net_return_pct": -0.6451294940981955,
+          "close_max_drawdown_pct": -1.3798111837327376,
+          "adverse_low_vs_entry_pct": -1.8300653594771066
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-10",
+          "price_observation": {
+            "price_return_pct": -2.0043572984749347,
+            "price_max_drawdown_pct": -2.5985275010827147
+          },
+          "hypothetical_net_return_pct": -2.3955574689401016,
+          "close_max_drawdown_pct": -2.5985275010827147,
+          "adverse_low_vs_entry_pct": -2.512708787218576
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-24",
+          "price_observation": {
+            "price_return_pct": 0.6535947712418277,
+            "price_max_drawdown_pct": -2.5985275010827147
+          },
+          "hypothetical_net_return_pct": 0.2517840136720073,
+          "close_max_drawdown_pct": -2.5985275010827147,
+          "adverse_low_vs_entry_pct": -2.512708787218576
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-09-18",
+          "price_observation": {
+            "price_return_pct": 0.9876543209876631,
+            "price_max_drawdown_pct": -4.790764790764779
+          },
+          "hypothetical_net_return_pct": 0.5845099923609709,
+          "close_max_drawdown_pct": -4.790764790764779,
+          "adverse_low_vs_entry_pct": -4.618736383442257
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2025-09-23",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-09-30",
+          "price_observation": {
+            "price_return_pct": -1.2265512265512202,
+            "price_max_drawdown_pct": -2.200314330618647
+          },
+          "hypothetical_net_return_pct": -1.6208564112755508,
+          "close_max_drawdown_pct": -2.200314330618647,
+          "adverse_low_vs_entry_pct": -1.3852813852813783
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-10-15",
+          "price_observation": {
+            "price_return_pct": -0.8513708513708584,
+            "price_max_drawdown_pct": -3.4147735390770095
+          },
+          "hypothetical_net_return_pct": -1.2471737621438272,
+          "close_max_drawdown_pct": -3.4147735390770095,
+          "adverse_low_vs_entry_pct": -3.5930735930735813
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-10-29",
+          "price_observation": {
+            "price_return_pct": 1.2842712842712878,
+            "price_max_drawdown_pct": -3.4147735390770095
+          },
+          "hypothetical_net_return_pct": 0.8799428559907785,
+          "close_max_drawdown_pct": -3.4147735390770095,
+          "adverse_low_vs_entry_pct": -3.5930735930735813
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-12-24",
+          "price_observation": {
+            "price_return_pct": 8.340548340548338,
+            "price_max_drawdown_pct": -4.368870207616871
+          },
+          "hypothetical_net_return_pct": 7.908051141584083,
+          "close_max_drawdown_pct": -4.368870207616871,
+          "adverse_low_vs_entry_pct": -3.5930735930735813
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2025-12-29",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-07",
+          "price_observation": {
+            "price_return_pct": 1.6254701773240399,
+            "price_max_drawdown_pct": -0.931718354851574
+          },
+          "hypothetical_net_return_pct": 1.21977967761413,
+          "close_max_drawdown_pct": -0.931718354851574,
+          "adverse_low_vs_entry_pct": -1.0343901128425537
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-14",
+          "price_observation": {
+            "price_return_pct": -1.356797420741529,
+            "price_max_drawdown_pct": -4.694280078895452
+          },
+          "hypothetical_net_return_pct": -1.7505826605788921,
+          "close_max_drawdown_pct": -4.694280078895452,
+          "adverse_low_vs_entry_pct": -3.0225685115529255
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-28",
+          "price_observation": {
+            "price_return_pct": -3.7882858678129905,
+            "price_max_drawdown_pct": -5.825115055884278
+          },
+          "hypothetical_net_return_pct": -4.172364566943498,
+          "close_max_drawdown_pct": -5.825115055884278,
+          "adverse_low_vs_entry_pct": -4.245029554003221
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-04-02",
+          "price_observation": {
+            "price_return_pct": -1.0612573885007914,
+            "price_max_drawdown_pct": -10.882314609670285
+          },
+          "hypothetical_net_return_pct": -1.456222428866072,
+          "close_max_drawdown_pct": -10.882314609670285,
+          "adverse_low_vs_entry_pct": -8.584094572810319
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2026-04-08",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-04-15",
+          "price_observation": {
+            "price_return_pct": 1.4997248211337189,
+            "price_max_drawdown_pct": -1.0164835164835129
+          },
+          "hypothetical_net_return_pct": 1.0945362988936669,
+          "close_max_drawdown_pct": -1.0164835164835129,
+          "adverse_low_vs_entry_pct": -1.2383048981838285
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-04-22",
+          "price_observation": {
+            "price_return_pct": 3.9900935608145227,
+            "price_max_drawdown_pct": -1.0164835164835129
+          },
+          "hypothetical_net_return_pct": 3.574963446799284,
+          "close_max_drawdown_pct": -1.0164835164835129,
+          "adverse_low_vs_entry_pct": -1.2383048981838285
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-05-11",
+          "price_observation": {
+            "price_return_pct": 5.875068794716554,
+            "price_max_drawdown_pct": -1.93323881943549
+          },
+          "hypothetical_net_return_pct": 5.4524138294681945,
+          "close_max_drawdown_pct": -1.93323881943549,
+          "adverse_low_vs_entry_pct": -1.2383048981838285
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-07-07",
+          "price_observation": {
+            "price_return_pct": 8.860759493670889,
+            "price_max_drawdown_pct": -10.84160235207644
+          },
+          "hypothetical_net_return_pct": 8.426185603476588,
+          "close_max_drawdown_pct": -10.84160235207644,
+          "adverse_low_vs_entry_pct": -1.2383048981838285
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2026-07-10",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-07-13",
+          "exit_session": "2026-07-17",
+          "price_observation": {
+            "price_return_pct": 5.363057324840748,
+            "price_max_drawdown_pct": -1.0523769202854805
+          },
+          "hypothetical_net_return_pct": 4.942446317555982,
+          "close_max_drawdown_pct": -1.0523769202854805,
+          "adverse_low_vs_entry_pct": -0.10191082802547546
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-07-13",
+          "exit_session": "2026-07-24",
+          "price_observation": {
+            "price_return_pct": 7.643312101910826,
+            "price_max_drawdown_pct": -1.0523769202854805
+          },
+          "hypothetical_net_return_pct": 7.2135982811447175,
+          "close_max_drawdown_pct": -1.0523769202854805,
+          "adverse_low_vs_entry_pct": -0.10191082802547546
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-07-13",
+          "exit_session": "2026-08-07",
+          "price_observation": {
+            "price_return_pct": 6.369426751592355,
+            "price_max_drawdown_pct": -6.127037661607648
+          },
+          "hypothetical_net_return_pct": 5.944798301486198,
+          "close_max_drawdown_pct": -6.127037661607648,
+          "adverse_low_vs_entry_pct": -0.10191082802547546
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-07-13",
+          "exit_session": "2026-10-12",
+          "price_observation": {
+            "price_return_pct": 6.369426751592355,
+            "price_max_drawdown_pct": -9.949409780775731
+          },
+          "hypothetical_net_return_pct": 5.944798301486198,
+          "close_max_drawdown_pct": -9.949409780775731,
+          "adverse_low_vs_entry_pct": -0.2547770700636942
+        }
+      ]
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "anchor_session": "2026-10-15",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-10-16",
+          "exit_session": "2026-10-22",
+          "price_observation": {
+            "price_return_pct": 0.9349112426035644,
+            "price_max_drawdown_pct": -3.0968338340651824
+          },
+          "hypothetical_net_return_pct": 0.5319774651879827,
+          "close_max_drawdown_pct": -3.0968338340651824,
+          "adverse_low_vs_entry_pct": -1.7751479289940808
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-10-16",
+          "exit_session": "2026-10-29",
+          "price_observation": {
+            "price_return_pct": 3.526627218934908,
+            "price_max_drawdown_pct": -3.0968338340651824
+          },
+          "hypothetical_net_return_pct": 3.113347269957134,
+          "close_max_drawdown_pct": -3.0968338340651824,
+          "adverse_low_vs_entry_pct": -1.7751479289940808
+        },
+        {
+          "horizon": 20,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        },
+        {
+          "horizon": 60,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2025-03-24",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-03-31",
+          "price_observation": {
+            "price_return_pct": -1.9560403510210822,
+            "price_max_drawdown_pct": -2.662541220534953
+          },
+          "hypothetical_net_return_pct": -2.3474334035120226,
+          "close_max_drawdown_pct": -2.662541220534953,
+          "adverse_low_vs_entry_pct": -2.2922988600016403
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-04-08",
+          "price_observation": {
+            "price_return_pct": -15.85335848437629,
+            "price_max_drawdown_pct": -18.01897162398729
+          },
+          "hypothetical_net_return_pct": -16.189273220965607,
+          "close_max_drawdown_pct": -18.01897162398729,
+          "adverse_low_vs_entry_pct": -19.929467727384576
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-04-22",
+          "price_observation": {
+            "price_return_pct": -9.21840400229641,
+            "price_max_drawdown_pct": -19.57822741521801
+          },
+          "hypothetical_net_return_pct": -9.580805583125562,
+          "close_max_drawdown_pct": -19.57822741521801,
+          "adverse_low_vs_entry_pct": -19.929467727384576
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-25",
+          "exit_session": "2025-06-23",
+          "price_observation": {
+            "price_return_pct": -5.560567538751748,
+            "price_max_drawdown_pct": -19.57822741521801
+          },
+          "hypothetical_net_return_pct": -5.9375712611519305,
+          "close_max_drawdown_pct": -19.57822741521801,
+          "adverse_low_vs_entry_pct": -19.929467727384576
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2025-06-26",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-03",
+          "price_observation": {
+            "price_return_pct": 2.463691896921394,
+            "price_max_drawdown_pct": -2.4475100125409655
+          },
+          "hypothetical_net_return_pct": 2.0546552027221,
+          "close_max_drawdown_pct": -2.4475100125409655,
+          "adverse_low_vs_entry_pct": -2.9572393705247
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-10",
+          "price_observation": {
+            "price_return_pct": 6.270480197418982,
+            "price_max_drawdown_pct": -2.4475100125409655
+          },
+          "hypothetical_net_return_pct": 5.846246743537087,
+          "close_max_drawdown_pct": -2.4475100125409655,
+          "adverse_low_vs_entry_pct": -2.9572393705247
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-07-24",
+          "price_observation": {
+            "price_return_pct": 11.6105020429629,
+            "price_max_drawdown_pct": -2.893144010049864
+          },
+          "hypothetical_net_return_pct": 11.164951136603761,
+          "close_max_drawdown_pct": -2.893144010049864,
+          "adverse_low_vs_entry_pct": -2.9572393705247
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-27",
+          "exit_session": "2025-09-18",
+          "price_observation": {
+            "price_return_pct": 45.06250252841944,
+            "price_max_drawdown_pct": -10.183710311139427
+          },
+          "hypothetical_net_return_pct": 44.48341070195867,
+          "close_max_drawdown_pct": -10.183710311139427,
+          "adverse_low_vs_entry_pct": -2.9572393705247
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2025-09-23",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-09-30",
+          "price_observation": {
+            "price_return_pct": 8.547244203038407,
+            "price_max_drawdown_pct": -3.23763457637698
+          },
+          "hypothetical_net_return_pct": 8.113921870890572,
+          "close_max_drawdown_pct": -3.23763457637698,
+          "adverse_low_vs_entry_pct": -1.362044721387412
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-10-15",
+          "price_observation": {
+            "price_return_pct": -0.4687198433924289,
+            "price_max_drawdown_pct": -12.92146023208327
+          },
+          "hypothetical_net_return_pct": -0.8660503030994304,
+          "close_max_drawdown_pct": -12.92146023208327,
+          "adverse_low_vs_entry_pct": -4.4776530921723845
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-10-29",
+          "price_observation": {
+            "price_return_pct": 7.995809093164952,
+            "price_max_drawdown_pct": -12.92146023208327
+          },
+          "hypothetical_net_return_pct": 7.5646880987810805,
+          "close_max_drawdown_pct": -12.92146023208327,
+          "adverse_low_vs_entry_pct": -4.4776530921723845
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-24",
+          "exit_session": "2025-12-24",
+          "price_observation": {
+            "price_return_pct": 1.2683007527089396,
+            "price_max_drawdown_pct": -12.92146023208327
+          },
+          "hypothetical_net_return_pct": 0.8640360790454382,
+          "close_max_drawdown_pct": -12.92146023208327,
+          "adverse_low_vs_entry_pct": -4.4776530921723845
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2025-10-30",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-31",
+          "exit_session": "2025-11-06",
+          "price_observation": {
+            "price_return_pct": -0.8519592496599837,
+            "price_max_drawdown_pct": -4.8885011162719145
+          },
+          "hypothetical_net_return_pct": -1.2477598115375854,
+          "close_max_drawdown_pct": -4.8885011162719145,
+          "adverse_low_vs_entry_pct": -6.671970027457719
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-31",
+          "exit_session": "2025-11-13",
+          "price_observation": {
+            "price_return_pct": 4.5164104801252325,
+            "price_max_drawdown_pct": -4.8885011162719145
+          },
+          "hypothetical_net_return_pct": 4.099179300563871,
+          "close_max_drawdown_pct": -4.8885011162719145,
+          "adverse_low_vs_entry_pct": -6.671970027457719
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-31",
+          "exit_session": "2025-11-27",
+          "price_observation": {
+            "price_return_pct": -6.877261412917967,
+            "price_max_drawdown_pct": -11.195953743033227
+          },
+          "hypothetical_net_return_pct": -7.249008872347429,
+          "close_max_drawdown_pct": -11.195953743033227,
+          "adverse_low_vs_entry_pct": -7.908850624855656
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-31",
+          "exit_session": "2026-01-26",
+          "price_observation": {
+            "price_return_pct": -14.357566270625366,
+            "price_max_drawdown_pct": -18.05838591666872
+          },
+          "hypothetical_net_return_pct": -14.699452233616883,
+          "close_max_drawdown_pct": -18.05838591666872,
+          "adverse_low_vs_entry_pct": -15.011932561779872
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2025-12-29",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-07",
+          "price_observation": {
+            "price_return_pct": 1.089773962485019,
+            "price_max_drawdown_pct": -1.7579024350605432
+          },
+          "hypothetical_net_return_pct": 0.6862219706188055,
+          "close_max_drawdown_pct": -1.7579024350605432,
+          "adverse_low_vs_entry_pct": -0.15050586694167478
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-14",
+          "price_observation": {
+            "price_return_pct": -3.6567351375456414,
+            "price_max_drawdown_pct": -6.370703431837265
+          },
+          "hypothetical_net_return_pct": -4.041338989291976,
+          "close_max_drawdown_pct": -6.370703431837265,
+          "adverse_low_vs_entry_pct": -4.303352936257976
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-01-28",
+          "price_observation": {
+            "price_return_pct": -7.555951949608408,
+            "price_max_drawdown_pct": -10.319889487797617
+          },
+          "hypothetical_net_return_pct": -7.924990065578042,
+          "close_max_drawdown_pct": -10.319889487797617,
+          "adverse_low_vs_entry_pct": -9.501379637113638
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-30",
+          "exit_session": "2026-04-02",
+          "price_observation": {
+            "price_return_pct": 9.495805345745412,
+            "price_max_drawdown_pct": -10.455321108372384
+          },
+          "hypothetical_net_return_pct": 9.058696342369178,
+          "close_max_drawdown_pct": -10.455321108372384,
+          "adverse_low_vs_entry_pct": -9.501379637113638
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2026-04-08",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-04-15",
+          "price_observation": {
+            "price_return_pct": 9.564789133984796,
+            "price_max_drawdown_pct": -1.0653464319966832
+          },
+          "hypothetical_net_return_pct": 9.127404746224377,
+          "close_max_drawdown_pct": -1.0653464319966832,
+          "adverse_low_vs_entry_pct": -1.9285103294538475
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-04-22",
+          "price_observation": {
+            "price_return_pct": 12.742683843541824,
+            "price_max_drawdown_pct": -4.819709650638371
+          },
+          "hypothetical_net_return_pct": 12.292613249356021,
+          "close_max_drawdown_pct": -4.819709650638371,
+          "adverse_low_vs_entry_pct": -1.9285103294538475
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-05-11",
+          "price_observation": {
+            "price_return_pct": 15.27255760906192,
+            "price_max_drawdown_pct": -5.015263846489315
+          },
+          "hypothetical_net_return_pct": 14.812387718406983,
+          "close_max_drawdown_pct": -5.015263846489315,
+          "adverse_low_vs_entry_pct": -1.9285103294538475
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-04-09",
+          "exit_session": "2026-07-07",
+          "price_observation": {
+            "price_return_pct": -3.810363150937046,
+            "price_max_drawdown_pct": -19.081988661142613
+          },
+          "hypothetical_net_return_pct": -4.194353717200783,
+          "close_max_drawdown_pct": -19.081988661142613,
+          "adverse_low_vs_entry_pct": -4.455792011197801
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2026-05-12",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-13",
+          "exit_session": "2026-05-19",
+          "price_observation": {
+            "price_return_pct": -3.0469495589022677,
+            "price_max_drawdown_pct": -3.887669016526063
+          },
+          "hypothetical_net_return_pct": -3.433987684415629,
+          "close_max_drawdown_pct": -3.887669016526063,
+          "adverse_low_vs_entry_pct": -5.635343683806249
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-13",
+          "exit_session": "2026-05-26",
+          "price_observation": {
+            "price_return_pct": -6.636251483903999,
+            "price_max_drawdown_pct": -7.292268577371996
+          },
+          "hypothetical_net_return_pct": -7.008961058818564,
+          "close_max_drawdown_pct": -7.292268577371996,
+          "adverse_low_vs_entry_pct": -7.218174623495721
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-13",
+          "exit_session": "2026-06-09",
+          "price_observation": {
+            "price_return_pct": -7.334559251414074,
+            "price_max_drawdown_pct": -9.483416156246383
+          },
+          "hypothetical_net_return_pct": -7.704481170570099,
+          "close_max_drawdown_pct": -9.483416156246383,
+          "adverse_low_vs_entry_pct": -10.011405693535991
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-13",
+          "exit_session": "2026-08-05",
+          "price_observation": {
+            "price_return_pct": -6.007774493144947,
+            "price_max_drawdown_pct": -19.713394198543853
+          },
+          "hypothetical_net_return_pct": -6.382992958242162,
+          "close_max_drawdown_pct": -19.713394198543853,
+          "adverse_low_vs_entry_pct": -19.75047135774307
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "anchor_session": "2026-08-10",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-08-11",
+          "exit_session": "2026-08-17",
+          "price_observation": {
+            "price_return_pct": 1.2607594936708821,
+            "price_max_drawdown_pct": -1.1645569620253204
+          },
+          "hypothetical_net_return_pct": 0.8565249248338791,
+          "close_max_drawdown_pct": -1.1645569620253204,
+          "adverse_low_vs_entry_pct": -1.8936708860759488
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-08-11",
+          "exit_session": "2026-08-24",
+          "price_observation": {
+            "price_return_pct": -1.8000000000000016,
+            "price_max_drawdown_pct": -3.74518725936297
+          },
+          "hypothetical_net_return_pct": -2.192015968063876,
+          "close_max_drawdown_pct": -3.74518725936297,
+          "adverse_low_vs_entry_pct": -3.025316455696203
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-08-11",
+          "exit_session": "2026-09-07",
+          "price_observation": {
+            "price_return_pct": -11.848101265822786,
+            "price_max_drawdown_pct": -12.945647282364126
+          },
+          "hypothetical_net_return_pct": -12.200005053184771,
+          "close_max_drawdown_pct": -12.945647282364126,
+          "adverse_low_vs_entry_pct": -12.531645569620252
+        },
+        {
+          "horizon": 60,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "anchor_session": "2025-03-21",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-03-28",
+          "price_observation": {
+            "price_return_pct": -2.3872679045092937,
+            "price_max_drawdown_pct": -3.715332286760864
+          },
+          "hypothetical_net_return_pct": -2.776939489720842,
+          "close_max_drawdown_pct": -3.715332286760864,
+          "adverse_low_vs_entry_pct": -3.4482758620689724
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-07",
+          "price_observation": {
+            "price_return_pct": -9.018567639257313,
+            "price_max_drawdown_pct": -10.256410256410264
+          },
+          "hypothetical_net_return_pct": -9.38176697003873,
+          "close_max_drawdown_pct": -10.256410256410264,
+          "adverse_low_vs_entry_pct": -11.724137931034484
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-21",
+          "price_observation": {
+            "price_return_pct": -2.493368700265264,
+            "price_max_drawdown_pct": -10.256410256410264
+          },
+          "hypothetical_net_return_pct": -2.882616729405929,
+          "close_max_drawdown_pct": -10.256410256410264,
+          "adverse_low_vs_entry_pct": -11.724137931034484
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-06-20",
+          "price_observation": {
+            "price_return_pct": -9.814323607427067,
+            "price_max_drawdown_pct": -11.488250652741517
+          },
+          "hypothetical_net_return_pct": -10.174346267676848,
+          "close_max_drawdown_pct": -11.488250652741517,
+          "adverse_low_vs_entry_pct": -11.724137931034484
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "anchor_session": "2025-06-25",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-02",
+          "price_observation": {
+            "price_return_pct": 1.142204454597362,
+            "price_max_drawdown_pct": -1.5419760137064698
+          },
+          "hypothetical_net_return_pct": 0.7384431593694396,
+          "close_max_drawdown_pct": -1.5419760137064698,
+          "adverse_low_vs_entry_pct": -2.0559680182752893
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-09",
+          "price_observation": {
+            "price_return_pct": 6.339234723015408,
+            "price_max_drawdown_pct": -1.5419760137064698
+          },
+          "hypothetical_net_return_pct": 5.91472679996945,
+          "close_max_drawdown_pct": -1.5419760137064698,
+          "adverse_low_vs_entry_pct": -2.0559680182752893
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-23",
+          "price_observation": {
+            "price_return_pct": 11.93603655054254,
+            "price_max_drawdown_pct": -5.451037144235404
+          },
+          "hypothetical_net_return_pct": 11.489186105230997,
+          "close_max_drawdown_pct": -5.451037144235404,
+          "adverse_low_vs_entry_pct": -2.0559680182752893
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-09-17",
+          "price_observation": {
+            "price_return_pct": 16.96173615077099,
+            "price_max_drawdown_pct": -7.621804148576949
+          },
+          "hypothetical_net_return_pct": 16.49482303240464,
+          "close_max_drawdown_pct": -7.621804148576949,
+          "adverse_low_vs_entry_pct": -2.0559680182752893
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "anchor_session": "2025-09-22",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-09-29",
+          "price_observation": {
+            "price_return_pct": 5.987741631305976,
+            "price_max_drawdown_pct": -0.4595588235294157
+          },
+          "hypothetical_net_return_pct": 5.564636874294782,
+          "close_max_drawdown_pct": -0.4595588235294157,
+          "adverse_low_vs_entry_pct": -2.3573785950023574
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-14",
+          "price_observation": {
+            "price_return_pct": 6.317774634606321,
+            "price_max_drawdown_pct": -1.626373626373634
+          },
+          "hypothetical_net_return_pct": 5.893352380575956,
+          "close_max_drawdown_pct": -1.626373626373634,
+          "adverse_low_vs_entry_pct": -2.3573785950023574
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-28",
+          "price_observation": {
+            "price_return_pct": 2.640264026402628,
+            "price_max_drawdown_pct": -6.926036767849508
+          },
+          "hypothetical_net_return_pct": 2.2305224534429513,
+          "close_max_drawdown_pct": -6.926036767849508,
+          "adverse_low_vs_entry_pct": -2.3573785950023574
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-12-23",
+          "price_observation": {
+            "price_return_pct": -3.3474776049033483,
+            "price_max_drawdown_pct": -14.749893116716539
+          },
+          "hypothetical_net_return_pct": -3.733316017658228,
+          "close_max_drawdown_pct": -14.749893116716539,
+          "adverse_low_vs_entry_pct": -6.789250353606791
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "anchor_session": "2025-12-26",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-06",
+          "price_observation": {
+            "price_return_pct": 3.3333333333333215,
+            "price_max_drawdown_pct": -2.1904761904761982
+          },
+          "hypothetical_net_return_pct": 2.9208250166333993,
+          "close_max_drawdown_pct": -2.1904761904761982,
+          "adverse_low_vs_entry_pct": -2.523809523809528
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-13",
+          "price_observation": {
+            "price_return_pct": 6.857142857142873,
+            "price_max_drawdown_pct": -2.1904761904761982
+          },
+          "hypothetical_net_return_pct": 6.430567436555457,
+          "close_max_drawdown_pct": -2.1904761904761982,
+          "adverse_low_vs_entry_pct": -2.523809523809528
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-27",
+          "price_observation": {
+            "price_return_pct": 7.857142857142851,
+            "price_max_drawdown_pct": -2.317290552584672
+          },
+          "hypothetical_net_return_pct": 7.426575420587378,
+          "close_max_drawdown_pct": -2.317290552584672,
+          "adverse_low_vs_entry_pct": -2.523809523809528
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-04-01",
+          "price_observation": {
+            "price_return_pct": -4.190476190476189,
+            "price_max_drawdown_pct": -22.394957983193287
+          },
+          "hypothetical_net_return_pct": -4.57294933941641,
+          "close_max_drawdown_pct": -22.394957983193287,
+          "adverse_low_vs_entry_pct": -13.0
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "anchor_session": "2026-05-11",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-12",
+          "exit_session": "2026-05-18",
+          "price_observation": {
+            "price_return_pct": -10.692701069270106,
+            "price_max_drawdown_pct": -10.692701069270106
+          },
+          "hypothetical_net_return_pct": -11.04921723266622,
+          "close_max_drawdown_pct": -10.692701069270106,
+          "adverse_low_vs_entry_pct": -11.529521152952116
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-12",
+          "exit_session": "2026-05-25",
+          "price_observation": {
+            "price_return_pct": -13.29614132961414,
+            "price_max_drawdown_pct": -13.29614132961414
+          },
+          "hypothetical_net_return_pct": -13.642264517919067,
+          "close_max_drawdown_pct": -13.29614132961414,
+          "adverse_low_vs_entry_pct": -13.947001394700143
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-12",
+          "exit_session": "2026-06-08",
+          "price_observation": {
+            "price_return_pct": -10.13482101348212,
+            "price_max_drawdown_pct": -17.61971176197119
+          },
+          "hypothetical_net_return_pct": -10.49356424296921,
+          "close_max_drawdown_pct": -17.61971176197119,
+          "adverse_low_vs_entry_pct": -20.037192003719206
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-05-12",
+          "exit_session": "2026-08-04",
+          "price_observation": {
+            "price_return_pct": -9.205020920502093,
+            "price_max_drawdown_pct": -20.502092050209207
+          },
+          "hypothetical_net_return_pct": -9.567475926807468,
+          "close_max_drawdown_pct": -20.502092050209207,
+          "adverse_low_vs_entry_pct": -23.291492329149243
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2025-03-21",
+      "variant": "simple_weekly_ma55",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-03-28",
+          "price_observation": {
+            "price_return_pct": -3.2815198618307395,
+            "price_max_drawdown_pct": -5.916727538349164
+          },
+          "hypothetical_net_return_pct": -3.6676215789491873,
+          "close_max_drawdown_pct": -5.916727538349164,
+          "adverse_low_vs_entry_pct": -4.786577843572659
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-07",
+          "price_observation": {
+            "price_return_pct": -9.178386380458914,
+            "price_max_drawdown_pct": -10.372534696859015
+          },
+          "hypothetical_net_return_pct": -9.54094771227345,
+          "close_max_drawdown_pct": -10.372534696859015,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-21",
+          "price_observation": {
+            "price_return_pct": -5.600789538613382,
+            "price_max_drawdown_pct": -11.273435597759928
+          },
+          "hypothetical_net_return_pct": -5.977632694147861,
+          "close_max_drawdown_pct": -11.273435597759928,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-06-20",
+          "price_observation": {
+            "price_return_pct": 3.55292376017764,
+            "price_max_drawdown_pct": -11.273435597759928
+          },
+          "hypothetical_net_return_pct": 3.139538834987321,
+          "close_max_drawdown_pct": -11.273435597759928,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2025-03-21",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-03-28",
+          "price_observation": {
+            "price_return_pct": -3.2815198618307395,
+            "price_max_drawdown_pct": -5.916727538349164
+          },
+          "hypothetical_net_return_pct": -3.6676215789491873,
+          "close_max_drawdown_pct": -5.916727538349164,
+          "adverse_low_vs_entry_pct": -4.786577843572659
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-07",
+          "price_observation": {
+            "price_return_pct": -9.178386380458914,
+            "price_max_drawdown_pct": -10.372534696859015
+          },
+          "hypothetical_net_return_pct": -9.54094771227345,
+          "close_max_drawdown_pct": -10.372534696859015,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-21",
+          "price_observation": {
+            "price_return_pct": -5.600789538613382,
+            "price_max_drawdown_pct": -11.273435597759928
+          },
+          "hypothetical_net_return_pct": -5.977632694147861,
+          "close_max_drawdown_pct": -11.273435597759928,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-06-20",
+          "price_observation": {
+            "price_return_pct": 3.55292376017764,
+            "price_max_drawdown_pct": -11.273435597759928
+          },
+          "hypothetical_net_return_pct": 3.139538834987321,
+          "close_max_drawdown_pct": -11.273435597759928,
+          "adverse_low_vs_entry_pct": -12.731310140636577
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2025-06-25",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-02",
+          "price_observation": {
+            "price_return_pct": -1.357257878996998,
+            "price_max_drawdown_pct": -4.4003647970816235
+          },
+          "hypothetical_net_return_pct": -1.7510412806776454,
+          "close_max_drawdown_pct": -4.4003647970816235,
+          "adverse_low_vs_entry_pct": -3.956751782838741
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-09",
+          "price_observation": {
+            "price_return_pct": -0.8281573498964745,
+            "price_max_drawdown_pct": -4.4003647970816235
+          },
+          "hypothetical_net_return_pct": -1.2240529293380042,
+          "close_max_drawdown_pct": -4.4003647970816235,
+          "adverse_low_vs_entry_pct": -3.956751782838741
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-23",
+          "price_observation": {
+            "price_return_pct": -0.851161720726934,
+            "price_max_drawdown_pct": -4.4003647970816235
+          },
+          "hypothetical_net_return_pct": -1.2469654663527674,
+          "close_max_drawdown_pct": -4.4003647970816235,
+          "adverse_low_vs_entry_pct": -3.956751782838741
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-09-17",
+          "price_observation": {
+            "price_return_pct": -8.58063031976075,
+            "price_max_drawdown_pct": -10.153776571687024
+          },
+          "hypothetical_net_return_pct": -8.945577903314582,
+          "close_max_drawdown_pct": -10.153776571687024,
+          "adverse_low_vs_entry_pct": -8.810674028065325
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2025-09-22",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-09-29",
+          "price_observation": {
+            "price_return_pct": -0.7700205338809107,
+            "price_max_drawdown_pct": -2.2008601062484257
+          },
+          "hypothetical_net_return_pct": -1.1661481964203135,
+          "close_max_drawdown_pct": -2.2008601062484257,
+          "adverse_low_vs_entry_pct": -1.7453798767967155
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-14",
+          "price_observation": {
+            "price_return_pct": 0.7186858316221789,
+            "price_max_drawdown_pct": -3.6428029344801383
+          },
+          "hypothetical_net_return_pct": 0.31661522949995025,
+          "close_max_drawdown_pct": -3.6428029344801383,
+          "adverse_low_vs_entry_pct": -3.285420944558526
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-28",
+          "price_observation": {
+            "price_return_pct": 1.591375770020531,
+            "price_max_drawdown_pct": -3.6428029344801383
+          },
+          "hypothetical_net_return_pct": 1.1858213757290237,
+          "close_max_drawdown_pct": -3.6428029344801383,
+          "adverse_low_vs_entry_pct": -3.285420944558526
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-12-23",
+          "price_observation": {
+            "price_return_pct": 2.3870636550308078,
+            "price_max_drawdown_pct": -4.658460053101621
+          },
+          "hypothetical_net_return_pct": 1.9783328619967566,
+          "close_max_drawdown_pct": -4.658460053101621,
+          "adverse_low_vs_entry_pct": -3.285420944558526
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2025-12-26",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-06",
+          "price_observation": {
+            "price_return_pct": 2.6992936427850722,
+            "price_max_drawdown_pct": -0.44709388971684305
+          },
+          "hypothetical_net_return_pct": 2.2893164226541973,
+          "close_max_drawdown_pct": -0.44709388971684305,
+          "adverse_low_vs_entry_pct": -0.6054490413723523
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-13",
+          "price_observation": {
+            "price_return_pct": -1.3370332996972767,
+            "price_max_drawdown_pct": -3.9548022598870025
+          },
+          "hypothetical_net_return_pct": -1.7308974382214348,
+          "close_max_drawdown_pct": -3.9548022598870025,
+          "adverse_low_vs_entry_pct": -1.6649848637739773
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-01-27",
+          "price_observation": {
+            "price_return_pct": -6.40766902119071,
+            "price_max_drawdown_pct": -10.341439449766643
+          },
+          "hypothetical_net_return_pct": -6.781291100946429,
+          "close_max_drawdown_pct": -10.341439449766643,
+          "adverse_low_vs_entry_pct": -8.400605449041365
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-12-29",
+          "exit_session": "2026-04-01",
+          "price_observation": {
+            "price_return_pct": -2.068617558022201,
+            "price_max_drawdown_pct": -10.341439449766643
+          },
+          "hypothetical_net_return_pct": -2.459561200505145,
+          "close_max_drawdown_pct": -10.341439449766643,
+          "adverse_low_vs_entry_pct": -8.400605449041365
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "anchor_session": "2026-09-07",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-09-08",
+          "exit_session": "2026-09-14",
+          "price_observation": {
+            "price_return_pct": 1.9995123140697402,
+            "price_max_drawdown_pct": -0.5292278085157531
+          },
+          "hypothetical_net_return_pct": 1.5923286321772423,
+          "close_max_drawdown_pct": -0.5292278085157531,
+          "adverse_low_vs_entry_pct": -0.6339917093391767
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-09-08",
+          "exit_session": "2026-09-21",
+          "price_observation": {
+            "price_return_pct": 0.0731528895391298,
+            "price_max_drawdown_pct": -2.9643796318431614
+          },
+          "hypothetical_net_return_pct": -0.3263407347703917,
+          "close_max_drawdown_pct": -2.9643796318431614,
+          "adverse_low_vs_entry_pct": -1.584979273347964
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-09-08",
+          "exit_session": "2026-10-13",
+          "price_observation": {
+            "price_return_pct": 4.3647890758351515,
+            "price_max_drawdown_pct": -3.155629930671766
+          },
+          "hypothetical_net_return_pct": 3.9481631713408127,
+          "close_max_drawdown_pct": -3.155629930671766,
+          "adverse_low_vs_entry_pct": -1.9263594245305993
+        },
+        {
+          "horizon": 60,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "anchor_session": "2025-03-21",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-03-28",
+          "price_observation": {
+            "price_return_pct": -1.2295081967212962,
+            "price_max_drawdown_pct": -2.8225806451612767
+          },
+          "hypothetical_net_return_pct": -1.6238015771735115,
+          "close_max_drawdown_pct": -2.8225806451612767,
+          "adverse_low_vs_entry_pct": -1.3466042154566593
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-07",
+          "price_observation": {
+            "price_return_pct": -16.978922716627633,
+            "price_max_drawdown_pct": -18.317972350230416
+          },
+          "hypothetical_net_return_pct": -17.310344182828707,
+          "close_max_drawdown_pct": -18.317972350230416,
+          "adverse_low_vs_entry_pct": -16.978922716627633
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-21",
+          "price_observation": {
+            "price_return_pct": -12.939110070257609,
+            "price_max_drawdown_pct": -18.317972350230416
+          },
+          "hypothetical_net_return_pct": -13.286658533050987,
+          "close_max_drawdown_pct": -18.317972350230416,
+          "adverse_low_vs_entry_pct": -17.974238875878214
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-06-20",
+          "price_observation": {
+            "price_return_pct": -16.62763466042153,
+            "price_max_drawdown_pct": -18.317972350230416
+          },
+          "hypothetical_net_return_pct": -16.960458474152386,
+          "close_max_drawdown_pct": -18.317972350230416,
+          "adverse_low_vs_entry_pct": -17.974238875878214
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "anchor_session": "2025-07-24",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-07-25",
+          "exit_session": "2025-07-31",
+          "price_observation": {
+            "price_return_pct": -6.635071090047385,
+            "price_max_drawdown_pct": -6.635071090047385
+          },
+          "hypothetical_net_return_pct": -7.007785377113073,
+          "close_max_drawdown_pct": -6.635071090047385,
+          "adverse_low_vs_entry_pct": -7.109004739336489
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-07-25",
+          "exit_session": "2025-08-07",
+          "price_observation": {
+            "price_return_pct": -6.16113744075829,
+            "price_max_drawdown_pct": -6.635071090047385
+          },
+          "hypothetical_net_return_pct": -6.535743678519735,
+          "close_max_drawdown_pct": -6.635071090047385,
+          "adverse_low_vs_entry_pct": -7.642180094786721
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-07-25",
+          "exit_session": "2025-08-21",
+          "price_observation": {
+            "price_return_pct": -4.028436018957349,
+            "price_max_drawdown_pct": -7.819905213270129
+          },
+          "hypothetical_net_return_pct": -4.4115560348497285,
+          "close_max_drawdown_pct": -7.819905213270129,
+          "adverse_low_vs_entry_pct": -8.175355450236966
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-07-25",
+          "exit_session": "2025-10-24",
+          "price_observation": {
+            "price_return_pct": 11.611374407582954,
+            "price_max_drawdown_pct": -10.000000000000009
+          },
+          "hypothetical_net_return_pct": 11.1658200187303,
+          "close_max_drawdown_pct": -10.000000000000009,
+          "adverse_low_vs_entry_pct": -8.175355450236966
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "anchor_session": "2025-09-22",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-09-29",
+          "price_observation": {
+            "price_return_pct": 6.22356495468277,
+            "price_max_drawdown_pct": -1.5709969788519684
+          },
+          "hypothetical_net_return_pct": 5.799518787198998,
+          "close_max_drawdown_pct": -1.5709969788519684,
+          "adverse_low_vs_entry_pct": -2.9003021148036323
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-14",
+          "price_observation": {
+            "price_return_pct": 16.495468277945612,
+            "price_max_drawdown_pct": -3.972457627118642
+          },
+          "hypothetical_net_return_pct": 16.03041650837298,
+          "close_max_drawdown_pct": -3.972457627118642,
+          "adverse_low_vs_entry_pct": -2.9003021148036323
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-10-28",
+          "price_observation": {
+            "price_return_pct": 14.19939577039273,
+            "price_max_drawdown_pct": -7.30864197530865
+          },
+          "hypothetical_net_return_pct": 13.743509958934075,
+          "close_max_drawdown_pct": -7.30864197530865,
+          "adverse_low_vs_entry_pct": -2.9003021148036323
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-09-23",
+          "exit_session": "2025-12-23",
+          "price_observation": {
+            "price_return_pct": 8.882175226586098,
+            "price_max_drawdown_pct": -23.42105263157894
+          },
+          "hypothetical_net_return_pct": 8.44751584444403,
+          "close_max_drawdown_pct": -23.42105263157894,
+          "adverse_low_vs_entry_pct": -2.9003021148036323
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "anchor_session": "2025-10-29",
+      "variant": "simple_weekly_ma55",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-30",
+          "exit_session": "2025-11-05",
+          "price_observation": {
+            "price_return_pct": 3.9980961446929975,
+            "price_max_drawdown_pct": -1.8841911764705843
+          },
+          "hypothetical_net_return_pct": 3.5829340842351343,
+          "close_max_drawdown_pct": -1.8841911764705843,
+          "adverse_low_vs_entry_pct": -1.3326987148976732
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-30",
+          "exit_session": "2025-11-12",
+          "price_observation": {
+            "price_return_pct": -1.0471204188481797,
+            "price_max_drawdown_pct": -8.815789473684221
+          },
+          "hypothetical_net_return_pct": -1.4421418942220376,
+          "close_max_drawdown_pct": -8.815789473684221,
+          "adverse_low_vs_entry_pct": -3.7601142313184344
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-30",
+          "exit_session": "2025-11-26",
+          "price_observation": {
+            "price_return_pct": -10.471204188481686,
+            "price_max_drawdown_pct": -17.719298245614034
+          },
+          "hypothetical_net_return_pct": -10.828604570962808,
+          "close_max_drawdown_pct": -17.719298245614034,
+          "adverse_low_vs_entry_pct": -11.899095668729176
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-10-30",
+          "exit_session": "2026-01-23",
+          "price_observation": {
+            "price_return_pct": -7.900999524036179,
+            "price_max_drawdown_pct": -24.473684210526326
+          },
+          "hypothetical_net_return_pct": -8.268660204578937,
+          "close_max_drawdown_pct": -24.473684210526326,
+          "adverse_low_vs_entry_pct": -18.610185625892427
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "anchor_session": "2026-01-28",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-01-29",
+          "exit_session": "2026-02-04",
+          "price_observation": {
+            "price_return_pct": 3.372591006423975,
+            "price_max_drawdown_pct": -6.020245071923281
+          },
+          "hypothetical_net_return_pct": 2.959925972466193,
+          "close_max_drawdown_pct": -6.020245071923281,
+          "adverse_low_vs_entry_pct": -5.728051391862953
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-01-29",
+          "exit_session": "2026-02-11",
+          "price_observation": {
+            "price_return_pct": -0.48179871520342976,
+            "price_max_drawdown_pct": -6.020245071923281
+          },
+          "hypothetical_net_return_pct": -0.8790769638453266,
+          "close_max_drawdown_pct": -6.020245071923281,
+          "adverse_low_vs_entry_pct": -5.728051391862953
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-01-29",
+          "exit_session": "2026-03-05",
+          "price_observation": {
+            "price_return_pct": -4.925053533190571,
+            "price_max_drawdown_pct": -8.544795442775754
+          },
+          "hypothetical_net_return_pct": -5.304594237648896,
+          "close_max_drawdown_pct": -8.544795442775754,
+          "adverse_low_vs_entry_pct": -5.888650963597442
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-01-29",
+          "exit_session": "2026-05-06",
+          "price_observation": {
+            "price_return_pct": -11.40256959314775,
+            "price_max_drawdown_pct": -14.759192128430854
+          },
+          "hypothetical_net_return_pct": -11.756251950061337,
+          "close_max_drawdown_pct": -14.759192128430854,
+          "adverse_low_vs_entry_pct": -15.310492505353313
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "anchor_session": "2025-03-21",
+      "variant": "simple_weekly_ma55",
+      "stage": null,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-03-28",
+          "price_observation": {
+            "price_return_pct": -3.327877795962897,
+            "price_max_drawdown_pct": -3.4858387799564294
+          },
+          "hypothetical_net_return_pct": -3.7137944514680554,
+          "close_max_drawdown_pct": -3.4858387799564294,
+          "adverse_low_vs_entry_pct": -3.3824331696671983
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-07",
+          "price_observation": {
+            "price_return_pct": -10.365521003818866,
+            "price_max_drawdown_pct": -10.755024443237371
+          },
+          "hypothetical_net_return_pct": -10.72334327526071,
+          "close_max_drawdown_pct": -10.755024443237371,
+          "adverse_low_vs_entry_pct": -10.801963993453334
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-04-21",
+          "price_observation": {
+            "price_return_pct": -2.782324058919794,
+            "price_max_drawdown_pct": -10.755024443237371
+          },
+          "hypothetical_net_return_pct": -3.170418573654654,
+          "close_max_drawdown_pct": -10.755024443237371,
+          "adverse_low_vs_entry_pct": -12.875068194217121
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-03-24",
+          "exit_session": "2025-06-20",
+          "price_observation": {
+            "price_return_pct": 12.165848336061114,
+            "price_max_drawdown_pct": -10.755024443237371
+          },
+          "hypothetical_net_return_pct": 11.718080478432125,
+          "close_max_drawdown_pct": -10.755024443237371,
+          "adverse_low_vs_entry_pct": -12.875068194217121
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "anchor_session": "2025-05-26",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-05-27",
+          "exit_session": "2025-06-03",
+          "price_observation": {
+            "price_return_pct": 3.539823008849563,
+            "price_max_drawdown_pct": -3.1526548672566213
+          },
+          "hypothetical_net_return_pct": 3.126490382067737,
+          "close_max_drawdown_pct": -3.1526548672566213,
+          "adverse_low_vs_entry_pct": -4.756637168141586
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-05-27",
+          "exit_session": "2025-06-10",
+          "price_observation": {
+            "price_return_pct": 15.32079646017701,
+            "price_max_drawdown_pct": -3.1526548672566213
+          },
+          "hypothetical_net_return_pct": 14.86043399925816,
+          "close_max_drawdown_pct": -3.1526548672566213,
+          "adverse_low_vs_entry_pct": -4.756637168141586
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-05-27",
+          "exit_session": "2025-06-24",
+          "price_observation": {
+            "price_return_pct": 13.938053097345149,
+            "price_max_drawdown_pct": -8.605614358030378
+          },
+          "hypothetical_net_return_pct": 13.483210570010451,
+          "close_max_drawdown_pct": -8.605614358030378,
+          "adverse_low_vs_entry_pct": -4.756637168141586
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-05-27",
+          "exit_session": "2025-08-19",
+          "price_observation": {
+            "price_return_pct": -0.05530973451326471,
+            "price_max_drawdown_pct": -19.788311090658084
+          },
+          "hypothetical_net_return_pct": -0.45429053397627595,
+          "close_max_drawdown_pct": -19.788311090658084,
+          "adverse_low_vs_entry_pct": -4.756637168141586
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "anchor_session": "2025-06-25",
+      "variant": "simple_weekly_ma55",
+      "stage": 2,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-02",
+          "price_observation": {
+            "price_return_pct": -2.394014962593516,
+            "price_max_drawdown_pct": -5.5045871559633035
+          },
+          "hypothetical_net_return_pct": -2.783659613441447,
+          "close_max_drawdown_pct": -5.5045871559633035,
+          "adverse_low_vs_entry_pct": -2.9925187032418976
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-09",
+          "price_observation": {
+            "price_return_pct": -6.683291770573563,
+            "price_max_drawdown_pct": -9.657170449058427
+          },
+          "hypothetical_net_return_pct": -7.055813559912593,
+          "close_max_drawdown_pct": -9.657170449058427,
+          "adverse_low_vs_entry_pct": -7.381546134663342
+        },
+        {
+          "horizon": 20,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-07-23",
+          "price_observation": {
+            "price_return_pct": -8.428927680798015,
+            "price_max_drawdown_pct": -12.506035731530663
+          },
+          "hypothetical_net_return_pct": -8.794480863708987,
+          "close_max_drawdown_pct": -12.506035731530663,
+          "adverse_low_vs_entry_pct": -10.423940149625931
+        },
+        {
+          "horizon": 60,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2025-06-26",
+          "exit_session": "2025-09-17",
+          "price_observation": {
+            "price_return_pct": -18.15461346633417,
+            "price_max_drawdown_pct": -20.762916465475623
+          },
+          "hypothetical_net_return_pct": -18.48134155628892,
+          "close_max_drawdown_pct": -20.762916465475623,
+          "adverse_low_vs_entry_pct": -18.75311720698255
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "anchor_session": "2026-10-14",
+      "variant": "route_c_technical_pool",
+      "stage": 1,
+      "kind": "retrospective_price_only_replay_not_historical_live_signal",
+      "outcomes": [
+        {
+          "horizon": 5,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-10-15",
+          "exit_session": "2026-10-21",
+          "price_observation": {
+            "price_return_pct": 1.7482517482517501,
+            "price_max_drawdown_pct": -1.937716262975775
+          },
+          "hypothetical_net_return_pct": 1.3420711025501353,
+          "close_max_drawdown_pct": -1.937716262975775,
+          "adverse_low_vs_entry_pct": -2.3076923076923106
+        },
+        {
+          "horizon": 10,
+          "status": "observed",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true,
+          "entry_session": "2026-10-15",
+          "exit_session": "2026-10-28",
+          "price_observation": {
+            "price_return_pct": 2.0979020979020824,
+            "price_max_drawdown_pct": -2.785326086956519
+          },
+          "hypothetical_net_return_pct": 1.690325642421442,
+          "close_max_drawdown_pct": -2.785326086956519,
+          "adverse_low_vs_entry_pct": -2.3076923076923106
+        },
+        {
+          "horizon": 20,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        },
+        {
+          "horizon": 60,
+          "status": "pending",
+          "assumed_cost_bps_per_side": 20,
+          "execution_feasibility": "unknown_not_actual_trade",
+          "returns_are_hypothetical": true
+        }
+      ]
+    }
+  ],
+  "ex_post_cases": [
+    {
+      "code": "000333",
+      "anchor_session": "2025-03-24",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -2.719185471649288,
+      "close_drawdown_60_pct": -15.986442592854122,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-04-23",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 6.17312739688296,
+      "close_drawdown_60_pct": -6.446211804102142,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-05-27",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": -4.981760423605019,
+      "close_drawdown_60_pct": -7.887756526594991,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-06-26",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": 0.5845099923609709,
+      "close_drawdown_60_pct": -4.790764790764779,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-07-25",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": 2.591290236899768,
+      "close_drawdown_60_pct": -7.359188707688102,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-08-25",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 7.7487788814234015,
+      "close_drawdown_60_pct": -7.359188707688102,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-09-23",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 7.908051141584083,
+      "close_drawdown_60_pct": -4.368870207616871,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-10-30",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": 1.9017606426813938,
+      "close_drawdown_60_pct": -7.680550248376006,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-11-28",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -5.1645394804502365,
+      "close_drawdown_60_pct": -8.775952108011719,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2025-12-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -1.456222428866072,
+      "close_drawdown_60_pct": -10.882314609670285,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-01-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 2.5801942406470157,
+      "close_drawdown_60_pct": -10.882314609670285,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-03-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 7.814441919991744,
+      "close_drawdown_60_pct": -7.193268186753543,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-04-08",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 8.426185603476588,
+      "close_drawdown_60_pct": -10.84160235207644,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-05-12",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 11.65897481008602,
+      "close_drawdown_60_pct": -10.84160235207644,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-06-10",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 8.708652247668791,
+      "close_drawdown_60_pct": -10.84160235207644,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "000333",
+      "anchor_session": "2026-07-10",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 5.944798301486198,
+      "close_drawdown_60_pct": -9.949409780775731,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-03-24",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -5.9375712611519305,
+      "close_drawdown_60_pct": -19.57822741521801,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-04-23",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 22.67099532450707,
+      "close_drawdown_60_pct": -13.018846546058837,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-05-27",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 9.544702717990706,
+      "close_drawdown_60_pct": -10.183710311139427,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-06-26",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 44.48341070195867,
+      "close_drawdown_60_pct": -10.183710311139427,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-07-25",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 37.50375833040363,
+      "close_drawdown_60_pct": -12.92146023208327,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-08-25",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 30.098204795962257,
+      "close_drawdown_60_pct": -12.92146023208327,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-09-23",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 0.8640360790454382,
+      "close_drawdown_60_pct": -12.92146023208327,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-10-30",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 1,
+      "net_60_pct": -14.699452233616883,
+      "close_drawdown_60_pct": -18.05838591666872,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-11-28",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 1,
+      "net_60_pct": -10.145919104620615,
+      "close_drawdown_60_pct": -13.951430281891774,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2025-12-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 9.058696342369178,
+      "close_drawdown_60_pct": -10.455321108372384,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-01-29",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 31.859988453215003,
+      "close_drawdown_60_pct": -10.058221786919152,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-03-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 9.083096454014438,
+      "close_drawdown_60_pct": -12.538159616223288,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-04-08",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -4.194353717200783,
+      "close_drawdown_60_pct": -19.081988661142613,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-05-12",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 1,
+      "net_60_pct": -6.382992958242162,
+      "close_drawdown_60_pct": -19.713394198543853,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-06-10",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -9.719178790611116,
+      "close_drawdown_60_pct": -14.775013494283328,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "300750",
+      "anchor_session": "2026-07-10",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -14.502628804531337,
+      "close_drawdown_60_pct": -28.987122337790982,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-03-21",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -10.174346267676848,
+      "close_drawdown_60_pct": -11.488250652741517,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-04-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 4.372422555769506,
+      "close_drawdown_60_pct": -11.488250652741517,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-05-26",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 10.338223048568796,
+      "close_drawdown_60_pct": -7.621804148576949,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-06-25",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 16.49482303240464,
+      "close_drawdown_60_pct": -7.621804148576949,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-07-24",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 14.397480935047557,
+      "close_drawdown_60_pct": -6.433301797540203,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-08-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -2.7900032867534175,
+      "close_drawdown_60_pct": -14.15134672937154,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-09-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -3.733316017658228,
+      "close_drawdown_60_pct": -14.749893116716539,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-10-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 5,
+      "net_60_pct": 2.7555748232042543,
+      "close_drawdown_60_pct": -10.703090013434824,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-11-27",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 10.272312517821502,
+      "close_drawdown_60_pct": -7.52100840336134,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2025-12-26",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -4.57294933941641,
+      "close_drawdown_60_pct": -22.394957983193287,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-01-28",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.286728742783854,
+      "close_drawdown_60_pct": -22.394957983193287,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-03-06",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -16.759872530416132,
+      "close_drawdown_60_pct": -19.71001359311283,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-04-07",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -6.916536557255126,
+      "close_drawdown_60_pct": -21.052631578947366,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-05-11",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -9.567475926807468,
+      "close_drawdown_60_pct": -20.502092050209207,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-06-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -0.9542212434300534,
+      "close_drawdown_60_pct": -13.373860182370812,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600031",
+      "anchor_session": "2026-07-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.847514577831227,
+      "close_drawdown_60_pct": -18.626980316850695,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-03-21",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 1,
+      "net_60_pct": 3.139538834987321,
+      "close_drawdown_60_pct": -11.273435597759928,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-04-22",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 11.439451295945213,
+      "close_drawdown_60_pct": -4.4003647970816235,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-05-26",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": 3.6068636984452507,
+      "close_drawdown_60_pct": -6.648575305291715,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-06-25",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -8.945577903314582,
+      "close_drawdown_60_pct": -10.153776571687024,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-07-24",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.121441376937865,
+      "close_drawdown_60_pct": -11.889891279204246,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-08-22",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": -2.0632343062059855,
+      "close_drawdown_60_pct": -8.984468339307039,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-09-22",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": 1.9783328619967566,
+      "close_drawdown_60_pct": -4.658460053101621,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-10-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -6.255050497252013,
+      "close_drawdown_60_pct": -11.899589669321742,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-11-27",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.4304166739549204,
+      "close_drawdown_60_pct": -11.899589669321742,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2025-12-26",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -2.459561200505145,
+      "close_drawdown_60_pct": -10.341439449766643,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-01-28",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": -0.07512090785890546,
+      "close_drawdown_60_pct": -5.419222903885479,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-03-06",
+      "ex_post_label": "sideways",
+      "stage_at_anchor": null,
+      "net_60_pct": -2.5015931198289376,
+      "close_drawdown_60_pct": -8.128834355828218,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-04-07",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -4.978251289628533,
+      "close_drawdown_60_pct": -11.333847340015414,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-05-11",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 5.7955478982543385,
+      "close_drawdown_60_pct": -10.015649452269182,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-06-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 8.696518844820345,
+      "close_drawdown_60_pct": -10.015649452269182,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "600036",
+      "anchor_session": "2026-07-09",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 12.686836106535914,
+      "close_drawdown_60_pct": -5.795314426633769,
+      "failed_breakout_at_anchor": true
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-03-21",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -16.960458474152386,
+      "close_drawdown_60_pct": -18.317972350230416,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-04-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 5,
+      "net_60_pct": 9.393200131723066,
+      "close_drawdown_60_pct": -8.893154190658992,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-05-26",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 5,
+      "net_60_pct": 6.681740476123532,
+      "close_drawdown_60_pct": -7.819905213270129,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-06-25",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": 5,
+      "net_60_pct": 18.10101524162093,
+      "close_drawdown_60_pct": -7.819905213270129,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-07-24",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 11.1658200187303,
+      "close_drawdown_60_pct": -10.000000000000009,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-08-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 13.105991407016493,
+      "close_drawdown_60_pct": -17.719298245614034,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-09-22",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 1,
+      "net_60_pct": 8.44751584444403,
+      "close_drawdown_60_pct": -23.42105263157894,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-10-29",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 1,
+      "net_60_pct": -8.268660204578937,
+      "close_drawdown_60_pct": -24.473684210526326,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-11-27",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 1,
+      "net_60_pct": -3.0925709424849512,
+      "close_drawdown_60_pct": -10.452418096723882,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2025-12-26",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -6.365828511133287,
+      "close_drawdown_60_pct": -10.452418096723882,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-01-28",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -11.756251950061337,
+      "close_drawdown_60_pct": -14.759192128430854,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-03-06",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -26.22572733489158,
+      "close_drawdown_60_pct": -29.93697478991596,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-04-07",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 5,
+      "net_60_pct": -27.300835680884106,
+      "close_drawdown_60_pct": -30.147058823529417,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-05-11",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -21.814868760976537,
+      "close_drawdown_60_pct": -30.691299165673424,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-06-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.994545500194583,
+      "close_drawdown_60_pct": -17.400568181818176,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "601012",
+      "anchor_session": "2026-07-09",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -5.844156934239175,
+      "close_drawdown_60_pct": -18.599397590361434,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-03-21",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 11.718080478432125,
+      "close_drawdown_60_pct": -10.755024443237371,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-04-22",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 1.6073058136664375,
+      "close_drawdown_60_pct": -16.612977450529222,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-05-26",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": 1,
+      "net_60_pct": -0.45429053397627595,
+      "close_drawdown_60_pct": -19.788311090658084,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-06-25",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 2,
+      "net_60_pct": -18.48134155628892,
+      "close_drawdown_60_pct": -20.762916465475623,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-07-24",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": 1,
+      "net_60_pct": -14.558927379489816,
+      "close_drawdown_60_pct": -17.808219178082197,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-08-22",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -14.699708826877933,
+      "close_drawdown_60_pct": -15.72783045175683,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-09-22",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -10.41424202484057,
+      "close_drawdown_60_pct": -15.176470588235292,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-10-29",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": 0.10542562752899887,
+      "close_drawdown_60_pct": -16.294117647058826,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-11-27",
+      "ex_post_label": "mixed",
+      "stage_at_anchor": null,
+      "net_60_pct": -9.736776447105788,
+      "close_drawdown_60_pct": -12.287334593572774,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2025-12-26",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -11.133803334667647,
+      "close_drawdown_60_pct": -22.36925015752993,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-01-28",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -12.132452500690205,
+      "close_drawdown_60_pct": -19.582245430809397,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-03-06",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -18.169388096054597,
+      "close_drawdown_60_pct": -19.030390738060788,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-04-07",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -13.400527189895007,
+      "close_drawdown_60_pct": -24.491279069767437,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-05-11",
+      "ex_post_label": "failed_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": -7.363768703195117,
+      "close_drawdown_60_pct": -21.8796992481203,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-06-09",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 16.65448701867667,
+      "close_drawdown_60_pct": -10.508182601205851,
+      "failed_breakout_at_anchor": false
+    },
+    {
+      "code": "603883",
+      "anchor_session": "2026-07-09",
+      "ex_post_label": "successful_price_recovery",
+      "stage_at_anchor": null,
+      "net_60_pct": 22.1757753758123,
+      "close_drawdown_60_pct": -8.97155361050328,
+      "failed_breakout_at_anchor": false
+    }
+  ],
+  "production_weights_changed": false,
+  "parameters_trained": false,
+  "descriptive_summaries": [
+    {
+      "variant": "simple_weekly_ma55",
+      "horizon": 5,
+      "signals": 29,
+      "observed": 29,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": 0.3502935003361338,
+      "mean_close_max_drawdown_pct": -2.7924247954207906
+    },
+    {
+      "variant": "simple_weekly_ma55",
+      "horizon": 10,
+      "signals": 29,
+      "observed": 29,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": -2.3365369040435886,
+      "mean_close_max_drawdown_pct": -6.711406717520909
+    },
+    {
+      "variant": "simple_weekly_ma55",
+      "horizon": 20,
+      "signals": 29,
+      "observed": 28,
+      "pending": 1,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": -1.5156829585055571,
+      "mean_close_max_drawdown_pct": -8.950212787979035
+    },
+    {
+      "variant": "simple_weekly_ma55",
+      "horizon": 60,
+      "signals": 29,
+      "observed": 26,
+      "pending": 3,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": 0.48226967959630496,
+      "mean_close_max_drawdown_pct": -13.126654280129511
+    },
+    {
+      "variant": "route_c_technical_pool",
+      "horizon": 5,
+      "signals": 6,
+      "observed": 6,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": 0.3197851994857448,
+      "mean_close_max_drawdown_pct": -3.559044296705251
+    },
+    {
+      "variant": "route_c_technical_pool",
+      "horizon": 10,
+      "signals": 6,
+      "observed": 6,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": 3.3550744465874067,
+      "mean_close_max_drawdown_pct": -5.4106238286391175
+    },
+    {
+      "variant": "route_c_technical_pool",
+      "horizon": 20,
+      "signals": 6,
+      "observed": 5,
+      "pending": 1,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": 1.2591195583758275,
+      "mean_close_max_drawdown_pct": -9.573412366075713
+    },
+    {
+      "variant": "route_c_technical_pool",
+      "horizon": 60,
+      "signals": 6,
+      "observed": 5,
+      "pending": 1,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": -1.9899362092807942,
+      "mean_close_max_drawdown_pct": -18.450915887041905
+    },
+    {
+      "variant": "monthly_weekly_daily_confirmation",
+      "horizon": 5,
+      "signals": 0,
+      "observed": 0,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": null,
+      "mean_close_max_drawdown_pct": null
+    },
+    {
+      "variant": "monthly_weekly_daily_confirmation",
+      "horizon": 10,
+      "signals": 0,
+      "observed": 0,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": null,
+      "mean_close_max_drawdown_pct": null
+    },
+    {
+      "variant": "monthly_weekly_daily_confirmation",
+      "horizon": 20,
+      "signals": 0,
+      "observed": 0,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": null,
+      "mean_close_max_drawdown_pct": null
+    },
+    {
+      "variant": "monthly_weekly_daily_confirmation",
+      "horizon": 60,
+      "signals": 0,
+      "observed": 0,
+      "pending": 0,
+      "unavailable": 0,
+      "mean_hypothetical_net_pct": null,
+      "mean_close_max_drawdown_pct": null
+    }
+  ]
+}

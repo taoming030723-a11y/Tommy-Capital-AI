@@ -489,6 +489,9 @@ def render_dual_report(report, run_url=None):
             if valuation:
                 lines += ["估值：" + cell(valuation.get("label")) + "；" + cell("；".join(valuation.get("reasons", []))) +
                           "。估值行情日：" + cell(valuation.get("price_as_of") or valuation.get("session")) + "；" + cell(valuation.get("basis", "")) + "。", ""]
+    if report.get("reversal_opportunities") is not None:
+        from .reversal_reporting import render_pool
+        lines += render_pool(report["reversal_opportunities"])
     if report.get("macd_monitor") is not None:
         from .monitor_reporting import render_monitor_section
         focused_kd = any(r.get("kd_monitor") for r in (report.get("technical_reviews") or {}).get("rows", []))

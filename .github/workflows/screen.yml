@@ -100,6 +100,10 @@ jobs:
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
         continue-on-error: true
         run: python -m tommy_capital.investment_research
+      - name: Independent right-side reversal research and actual-time snapshot
+        if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
+        continue-on-error: true
+        run: python -m tommy_capital.reversal_research --attach reports/latest
       - name: Audit coverage, research ranking and execution gates before publishing
         id: audit
         if: always() && steps.trading.outputs.run == 'true' && hashFiles('reports/latest/report.json') != ''
