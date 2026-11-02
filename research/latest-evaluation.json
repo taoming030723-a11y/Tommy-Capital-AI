@@ -1,20 +1,20 @@
 {
-  "evaluated_at": "2026-10-30T16:38:01.825029+08:00",
-  "as_of_session": "2026-10-30",
-  "snapshot_count": 16,
+  "evaluated_at": "2026-11-02T17:01:41.373256+08:00",
+  "as_of_session": "2026-11-02",
+  "snapshot_count": 17,
   "scope": "最近20份冻结记录及当前记录；重叠窗口不是独立样本",
-  "matured_checks": 360,
-  "pending_checks": 455,
+  "matured_checks": 379,
+  "pending_checks": 440,
   "missing_checks": 1,
-  "distinct_matured_decision_days": 14,
+  "distinct_matured_decision_days": 15,
   "validation_status": "unvalidated_out_of_sample",
   "automatic_weight_training": false,
   "benchmark_comparison": "same_window_price_indices_000300_000905",
   "order_execution": false,
   "kd_state_validation": {
     "version": "kd_state_observer_v1",
-    "as_of_session": "2026-10-30",
-    "snapshot_count": 7,
+    "as_of_session": "2026-11-02",
+    "snapshot_count": 8,
     "buckets": [
       {
         "period": "monthly",
@@ -22,13 +22,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 14,
+        "requested": 16,
+        "observed": 16,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.01905635214671797,
-        "same_pool_baseline_pct": -0.34688338786490597,
-        "difference_to_same_pool_pct": 0.36593974001162394
+        "mean_hypothetical_net_pct": -0.03446989973650422,
+        "same_pool_baseline_pct": -0.26671685505669684,
+        "difference_to_same_pool_pct": 0.23224695532019263
       },
       {
         "period": "monthly",
@@ -36,13 +36,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 38,
-        "observed": 38,
+        "requested": 44,
+        "observed": 44,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.0301325721934074,
-        "same_pool_baseline_pct": -0.40220743768703404,
-        "difference_to_same_pool_pct": -0.6279251345063733
+        "mean_hypothetical_net_pct": -0.7935636264457202,
+        "same_pool_baseline_pct": -0.30720884964778844,
+        "difference_to_same_pool_pct": -0.48635477679793176
       },
       {
         "period": "monthly",
@@ -50,13 +50,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
-        "observed": 7,
+        "requested": 8,
+        "observed": 8,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.736427083692015,
-        "same_pool_baseline_pct": -0.34688338786490597,
-        "difference_to_same_pool_pct": 1.083310471556921
+        "mean_hypothetical_net_pct": 0.5476098858302205,
+        "same_pool_baseline_pct": -0.26671685505669684,
+        "difference_to_same_pool_pct": 0.8143267408869174
       },
       {
         "period": "monthly",
@@ -64,13 +64,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 40,
-        "observed": 40,
+        "requested": 46,
+        "observed": 46,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.09569979571572633,
-        "same_pool_baseline_pct": -0.3745704319702515,
-        "difference_to_same_pool_pct": 0.2788706362545252
+        "mean_hypothetical_net_pct": -0.04450171878945401,
+        "same_pool_baseline_pct": -0.2873070441566404,
+        "difference_to_same_pool_pct": 0.24280532536718635
       },
       {
         "period": "weekly",
@@ -78,13 +78,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 49,
-        "observed": 49,
+        "requested": 60,
+        "observed": 60,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.3112275798058366,
-        "same_pool_baseline_pct": -0.420241797799221,
-        "difference_to_same_pool_pct": -0.8909857820066156
+        "mean_hypothetical_net_pct": -1.0007613808453226,
+        "same_pool_baseline_pct": -0.28921517452588985,
+        "difference_to_same_pool_pct": -0.7115462063194328
       },
       {
         "period": "weekly",
@@ -106,17 +106,17 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
-        "observed": 11,
+        "requested": 12,
+        "observed": 12,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 2.155786581711352,
-        "same_pool_baseline_pct": -0.4927831904764826,
-        "difference_to_same_pool_pct": 2.6485697721878347
+        "mean_hypothetical_net_pct": 2.0297586490047856,
+        "same_pool_baseline_pct": -0.42718051838671184,
+        "difference_to_same_pool_pct": 2.4569391673914973
       },
       {
         "period": "weekly",
-        "state": "golden_cross",
+        "state": "early_turn",
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -124,9 +124,23 @@
         "observed": 1,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.9720234124991567,
-        "same_pool_baseline_pct": 0.15053267664861708,
-        "difference_to_same_pool_pct": 0.8214907358505397
+        "mean_hypothetical_net_pct": 1.3102972014417347,
+        "same_pool_baseline_pct": 0.2944488746007671,
+        "difference_to_same_pool_pct": 1.0158483268409677
+      },
+      {
+        "period": "weekly",
+        "state": "golden_cross",
+        "horizon_sessions": 1,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 2,
+        "observed": 2,
+        "missing": 0,
+        "pending": 0,
+        "mean_hypothetical_net_pct": 0.6795719541747847,
+        "same_pool_baseline_pct": 0.22249077562469208,
+        "difference_to_same_pool_pct": 0.45708117855009256
       },
       {
         "period": "weekly",
@@ -148,13 +162,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
-        "observed": 3,
+        "requested": 4,
+        "observed": 4,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 1.394242738969209,
-        "same_pool_baseline_pct": 0.15053267664861708,
-        "difference_to_same_pool_pct": 1.243710062320592
+        "mean_hypothetical_net_pct": 0.5135309224069434,
+        "same_pool_baseline_pct": 0.18651172613665457,
+        "difference_to_same_pool_pct": 0.32701919627028886
       },
       {
         "period": "daily",
@@ -162,13 +176,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 30,
-        "observed": 30,
+        "requested": 35,
+        "observed": 35,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.01628529022800421,
-        "same_pool_baseline_pct": -0.04112116853466498,
-        "difference_to_same_pool_pct": 0.02483587830666077
+        "mean_hypothetical_net_pct": 0.03716566374400445,
+        "same_pool_baseline_pct": 0.006817409056111027,
+        "difference_to_same_pool_pct": 0.03034825468789342
       },
       {
         "period": "daily",
@@ -190,13 +204,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 14,
+        "requested": 18,
+        "observed": 18,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.3822189365187586,
-        "same_pool_baseline_pct": -0.3703067521660504,
-        "difference_to_same_pool_pct": -0.011912184352708188
+        "mean_hypothetical_net_pct": -0.15805794770423087,
+        "same_pool_baseline_pct": -0.22258327955120208,
+        "difference_to_same_pool_pct": 0.0645253318469712
       },
       {
         "period": "daily",
@@ -218,13 +232,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
-        "observed": 11,
+        "requested": 13,
+        "observed": 13,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.2858066830956673,
-        "same_pool_baseline_pct": -1.2995831265656268,
-        "difference_to_same_pool_pct": 1.5853898096612942
+        "mean_hypothetical_net_pct": -0.057824996602730765,
+        "same_pool_baseline_pct": -1.0543474340784893,
+        "difference_to_same_pool_pct": 0.9965224374757585
       },
       {
         "period": "daily",
@@ -246,13 +260,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 9,
-        "observed": 9,
+        "requested": 11,
+        "observed": 11,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.7445107702395193,
-        "same_pool_baseline_pct": -0.25456465687390206,
-        "difference_to_same_pool_pct": -1.489946113365617
+        "mean_hypothetical_net_pct": -1.430892958235529,
+        "same_pool_baseline_pct": -0.15474401478759858,
+        "difference_to_same_pool_pct": -1.2761489434479305
       },
       {
         "period": "daily",
@@ -260,13 +274,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 5,
+        "requested": 6,
+        "observed": 6,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.9976966646201233,
-        "same_pool_baseline_pct": -0.6378306570793866,
-        "difference_to_same_pool_pct": -1.3598660075407367
+        "mean_hypothetical_net_pct": -1.4018125301011597,
+        "same_pool_baseline_pct": -0.4824507351326943,
+        "difference_to_same_pool_pct": -0.9193617949684654
       },
       {
         "period": "daily",
@@ -274,13 +288,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 1,
+        "requested": 2,
+        "observed": 2,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 1.4859870165032651,
-        "same_pool_baseline_pct": 0.6104368936939738,
-        "difference_to_same_pool_pct": 0.8755501228092913
+        "mean_hypothetical_net_pct": 1.9822785404386756,
+        "same_pool_baseline_pct": 0.45244288414737044,
+        "difference_to_same_pool_pct": 1.5298356562913051
       },
       {
         "period": "120",
@@ -288,13 +302,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 25,
-        "observed": 25,
+        "requested": 29,
+        "observed": 29,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.21338217083801503,
-        "same_pool_baseline_pct": 0.037740619316547014,
-        "difference_to_same_pool_pct": -0.25112279015456207
+        "mean_hypothetical_net_pct": -0.13490192151657215,
+        "same_pool_baseline_pct": 0.07314865452816358,
+        "difference_to_same_pool_pct": -0.20805057604473573
       },
       {
         "period": "120",
@@ -302,13 +316,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
-        "observed": 7,
+        "requested": 9,
+        "observed": 9,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.2976072300973489,
-        "same_pool_baseline_pct": 0.4060045271143585,
-        "difference_to_same_pool_pct": -0.10839729701700962
+        "mean_hypothetical_net_pct": 0.6524575418330293,
+        "same_pool_baseline_pct": 0.3812143821113382,
+        "difference_to_same_pool_pct": 0.2712431597216911
       },
       {
         "period": "120",
@@ -316,13 +330,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 35,
-        "observed": 35,
+        "requested": 38,
+        "observed": 38,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.7807788242450396,
-        "same_pool_baseline_pct": -0.9198541006486293,
-        "difference_to_same_pool_pct": 0.13907527640358963
+        "mean_hypothetical_net_pct": -0.8047212086639912,
+        "same_pool_baseline_pct": -0.8239880762868349,
+        "difference_to_same_pool_pct": 0.019266867622843686
       },
       {
         "period": "120",
@@ -386,13 +400,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
-        "observed": 8,
+        "requested": 9,
+        "observed": 9,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.7765609282292099,
-        "same_pool_baseline_pct": -0.6917315634351574,
-        "difference_to_same_pool_pct": -0.08482936479405245
+        "mean_hypothetical_net_pct": -0.6177297680830196,
+        "same_pool_baseline_pct": -0.5821559592089435,
+        "difference_to_same_pool_pct": -0.03557380887407613
       },
       {
         "period": "120",
@@ -400,13 +414,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 1,
+        "requested": 2,
+        "observed": 2,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.9556306381650059,
-        "same_pool_baseline_pct": -0.24916366132282133,
-        "difference_to_same_pool_pct": -0.7064669768421846
+        "mean_hypothetical_net_pct": 0.3109887521643262,
+        "same_pool_baseline_pct": 0.02264260663897287,
+        "difference_to_same_pool_pct": 0.2883461455253533
       },
       {
         "period": "120",
@@ -414,13 +428,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 2,
-        "observed": 2,
+        "requested": 6,
+        "observed": 6,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.2158972928440528,
-        "same_pool_baseline_pct": 0.6104368936939738,
-        "difference_to_same_pool_pct": -0.8263341865380266
+        "mean_hypothetical_net_pct": -0.034117975731181215,
+        "same_pool_baseline_pct": 0.39977821429850263,
+        "difference_to_same_pool_pct": -0.4338961900296838
       },
       {
         "period": "60",
@@ -428,13 +442,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
-        "observed": 27,
+        "requested": 31,
+        "observed": 31,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.20485703045450054,
-        "same_pool_baseline_pct": 0.12249041823639432,
-        "difference_to_same_pool_pct": 0.08236661221810622
+        "mean_hypothetical_net_pct": 0.29551620209800356,
+        "same_pool_baseline_pct": 0.14467860615437791,
+        "difference_to_same_pool_pct": 0.15083759594362564
       },
       {
         "period": "60",
@@ -442,13 +456,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
-        "observed": 4,
+        "requested": 8,
+        "observed": 8,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.5167565606977935,
-        "same_pool_baseline_pct": -0.6481837605538822,
-        "difference_to_same_pool_pct": -0.8685728001439114
+        "mean_hypothetical_net_pct": -0.3962943066412248,
+        "same_pool_baseline_pct": -0.17686744297655754,
+        "difference_to_same_pool_pct": -0.21942686366466724
       },
       {
         "period": "60",
@@ -456,13 +470,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 33,
-        "observed": 33,
+        "requested": 35,
+        "observed": 35,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.6573050505104443,
-        "same_pool_baseline_pct": -1.0795332144202625,
-        "difference_to_same_pool_pct": 0.4222281639098182
+        "mean_hypothetical_net_pct": -0.7310475753352144,
+        "same_pool_baseline_pct": -1.0010199521904894,
+        "difference_to_same_pool_pct": 0.2699723768552751
       },
       {
         "period": "60",
@@ -540,13 +554,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 6,
-        "observed": 6,
+        "requested": 11,
+        "observed": 11,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.9240766842865946,
-        "same_pool_baseline_pct": -0.2286435424712635,
-        "difference_to_same_pool_pct": -1.695433141815331
+        "mean_hypothetical_net_pct": -0.8871511590225629,
+        "same_pool_baseline_pct": 0.009125738016023115,
+        "difference_to_same_pool_pct": -0.896276897038586
       },
       {
         "period": "30",
@@ -554,13 +568,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 20,
-        "observed": 20,
+        "requested": 28,
+        "observed": 28,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -1.093559112821122,
-        "same_pool_baseline_pct": -1.0519540916057677,
-        "difference_to_same_pool_pct": -0.041605021215354254
+        "mean_hypothetical_net_pct": -0.6234378463377876,
+        "same_pool_baseline_pct": -0.6672675298324721,
+        "difference_to_same_pool_pct": 0.04382968349468441
       },
       {
         "period": "30",
@@ -568,13 +582,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 14,
+        "requested": 17,
+        "observed": 17,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.04130997731155201,
-        "same_pool_baseline_pct": -0.5705969932368532,
-        "difference_to_same_pool_pct": 0.6119069705484053
+        "mean_hypothetical_net_pct": 0.35064128531435174,
+        "same_pool_baseline_pct": -0.4179418400890379,
+        "difference_to_same_pool_pct": 0.7685831254033897
       },
       {
         "period": "30",
@@ -582,13 +596,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
-        "observed": 27,
+        "requested": 28,
+        "observed": 28,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": 0.1522881547485831,
-        "same_pool_baseline_pct": -0.07862614143070425,
-        "difference_to_same_pool_pct": 0.23091429617928733
+        "mean_hypothetical_net_pct": 0.16067502407364845,
+        "same_pool_baseline_pct": -0.06530203371529456,
+        "difference_to_same_pool_pct": 0.225977057788943
       },
       {
         "period": "30",
@@ -666,13 +680,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 5,
+        "requested": 8,
+        "observed": 8,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.9647618614053677,
-        "same_pool_baseline_pct": -1.3810517943035647,
-        "difference_to_same_pool_pct": 0.41628993289819705
+        "mean_hypothetical_net_pct": -1.3239601763515476,
+        "same_pool_baseline_pct": -0.7527390434644403,
+        "difference_to_same_pool_pct": -0.5712211328871073
       },
       {
         "period": "15",
@@ -680,13 +694,13 @@
         "horizon_sessions": 1,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 36,
-        "observed": 36,
+        "requested": 51,
+        "observed": 51,
         "missing": 0,
         "pending": 0,
-        "mean_hypothetical_net_pct": -0.7756670553659797,
-        "same_pool_baseline_pct": -1.0300294884720937,
-        "difference_to_same_pool_pct": 0.25436243310611406
+        "mean_hypothetical_net_pct": -0.46092707596399535,
+        "same_pool_baseline_pct": -0.6404770287447817,
+        "difference_to_same_pool_pct": 0.1795499527807864
       },
       {
         "period": "15",
@@ -820,13 +834,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 4,
+        "requested": 16,
+        "observed": 6,
         "missing": 0,
         "pending": 10,
-        "mean_hypothetical_net_pct": -0.1889157570730826,
-        "same_pool_baseline_pct": -3.1816536138093516,
-        "difference_to_same_pool_pct": 2.992737856736269
+        "mean_hypothetical_net_pct": -0.5360589199093528,
+        "same_pool_baseline_pct": -2.9789526832346205,
+        "difference_to_same_pool_pct": 2.4428937633252676
       },
       {
         "period": "monthly",
@@ -834,13 +848,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 38,
-        "observed": 8,
+        "requested": 44,
+        "observed": 14,
         "missing": 0,
         "pending": 30,
-        "mean_hypothetical_net_pct": -3.4401347166355842,
-        "same_pool_baseline_pct": -3.109302909550552,
-        "difference_to_same_pool_pct": -0.330831807085032
+        "mean_hypothetical_net_pct": -3.654601585212631,
+        "same_pool_baseline_pct": -2.8796948720653837,
+        "difference_to_same_pool_pct": -0.7749067131472471
       },
       {
         "period": "monthly",
@@ -848,13 +862,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
-        "observed": 2,
+        "requested": 8,
+        "observed": 3,
         "missing": 0,
         "pending": 5,
-        "mean_hypothetical_net_pct": 3.800041550627342,
-        "same_pool_baseline_pct": -3.1816536138093516,
-        "difference_to_same_pool_pct": 6.981695164436694
+        "mean_hypothetical_net_pct": 2.8667088124385494,
+        "same_pool_baseline_pct": -2.9789526832346205,
+        "difference_to_same_pool_pct": 5.84566149567317
       },
       {
         "period": "monthly",
@@ -862,13 +876,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 40,
-        "observed": 10,
+        "requested": 46,
+        "observed": 16,
         "missing": 0,
         "pending": 30,
-        "mean_hypothetical_net_pct": -5.510422343723171,
-        "same_pool_baseline_pct": -3.1816536138093516,
-        "difference_to_same_pool_pct": -2.3287687299138193
+        "mean_hypothetical_net_pct": -4.2877183845946325,
+        "same_pool_baseline_pct": -2.9536150669127794,
+        "difference_to_same_pool_pct": -1.334103317681853
       },
       {
         "period": "weekly",
@@ -876,13 +890,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 49,
-        "observed": 9,
+        "requested": 60,
+        "observed": 17,
         "missing": 0,
-        "pending": 40,
-        "mean_hypothetical_net_pct": -5.4164573344611995,
-        "same_pool_baseline_pct": -3.02087427101202,
-        "difference_to_same_pool_pct": -2.3955830634491795
+        "pending": 43,
+        "mean_hypothetical_net_pct": -5.3152623271216966,
+        "same_pool_baseline_pct": -2.81036911857585,
+        "difference_to_same_pool_pct": -2.5048932085458464
       },
       {
         "period": "weekly",
@@ -891,12 +905,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 34,
-        "observed": 9,
+        "observed": 14,
         "missing": 0,
-        "pending": 25,
-        "mean_hypothetical_net_pct": -2.796631484101999,
-        "same_pool_baseline_pct": -3.149497745249885,
-        "difference_to_same_pool_pct": 0.3528662611478861
+        "pending": 20,
+        "mean_hypothetical_net_pct": -2.2462699844277076,
+        "same_pool_baseline_pct": -2.9438024155481974,
+        "difference_to_same_pool_pct": 0.6975324311204898
       },
       {
         "period": "weekly",
@@ -904,13 +918,27 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
-        "observed": 1,
+        "requested": 12,
+        "observed": 3,
         "missing": 0,
-        "pending": 10,
-        "mean_hypothetical_net_pct": -3.8272641200702617,
-        "same_pool_baseline_pct": -2.892250796774155,
-        "difference_to_same_pool_pct": -0.9350133232961069
+        "pending": 9,
+        "mean_hypothetical_net_pct": 1.8196378415467687,
+        "same_pool_baseline_pct": -2.679784146981491,
+        "difference_to_same_pool_pct": 4.49942198852826
+      },
+      {
+        "period": "weekly",
+        "state": "early_turn",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
       },
       {
         "period": "weekly",
@@ -918,10 +946,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 1,
         "missing": 0,
-        "pending": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": -3.8272641200702617,
         "same_pool_baseline_pct": -3.471056430844548,
         "difference_to_same_pool_pct": -0.3562076892257138
@@ -946,10 +974,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 4,
         "observed": 3,
         "missing": 0,
-        "pending": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": 0.04026445210951005,
         "same_pool_baseline_pct": -3.471056430844548,
         "difference_to_same_pool_pct": 3.511320882954058
@@ -960,13 +988,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 30,
-        "observed": 12,
+        "requested": 35,
+        "observed": 14,
         "missing": 0,
-        "pending": 18,
-        "mean_hypothetical_net_pct": -0.840250107399204,
-        "same_pool_baseline_pct": -3.27812121948775,
-        "difference_to_same_pool_pct": 2.437871112088546
+        "pending": 21,
+        "mean_hypothetical_net_pct": -1.678402624936877,
+        "same_pool_baseline_pct": -3.177468305573094,
+        "difference_to_same_pool_pct": 1.499065680636217
       },
       {
         "period": "daily",
@@ -975,12 +1003,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 12,
-        "observed": 1,
+        "observed": 2,
         "missing": 0,
-        "pending": 11,
-        "mean_hypothetical_net_pct": -3.8272641200702617,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": -0.3562076892257138
+        "pending": 10,
+        "mean_hypothetical_net_pct": 5.1700755247952035,
+        "same_pool_baseline_pct": -3.0223036264648533,
+        "difference_to_same_pool_pct": 8.192379151260056
       },
       {
         "period": "daily",
@@ -988,13 +1016,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 0,
+        "requested": 18,
+        "observed": 2,
         "missing": 0,
-        "pending": 14,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 16,
+        "mean_hypothetical_net_pct": -5.584677552888184,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -3.011126730803025
       },
       {
         "period": "daily",
@@ -1003,12 +1031,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 16,
-        "observed": 7,
+        "observed": 10,
         "missing": 0,
-        "pending": 9,
-        "mean_hypothetical_net_pct": -5.876362480015975,
-        "same_pool_baseline_pct": -2.8922507967741544,
-        "difference_to_same_pool_pct": -2.9841116832418204
+        "pending": 6,
+        "mean_hypothetical_net_pct": -4.493937680828836,
+        "same_pool_baseline_pct": -2.796640804367456,
+        "difference_to_same_pool_pct": -1.6972968764613796
       },
       {
         "period": "daily",
@@ -1016,13 +1044,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
-        "observed": 1,
+        "requested": 13,
+        "observed": 5,
         "missing": 0,
-        "pending": 10,
-        "mean_hypothetical_net_pct": -3.8272641200702617,
-        "same_pool_baseline_pct": -2.892250796774155,
-        "difference_to_same_pool_pct": -0.9350133232961069
+        "pending": 8,
+        "mean_hypothetical_net_pct": -1.396555232855743,
+        "same_pool_baseline_pct": -2.6372908170229583,
+        "difference_to_same_pool_pct": 1.2407355841672154
       },
       {
         "period": "daily",
@@ -1031,12 +1059,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 1,
-        "observed": 0,
+        "observed": 1,
         "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 0,
+        "mean_hypothetical_net_pct": -8.769906994521614,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -6.196356172436455
       },
       {
         "period": "daily",
@@ -1044,13 +1072,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 9,
-        "observed": 2,
+        "requested": 11,
+        "observed": 3,
         "missing": 0,
-        "pending": 7,
-        "mean_hypothetical_net_pct": -10.354427879469291,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": -6.883371448624743
+        "pending": 8,
+        "mean_hypothetical_net_pct": -9.897327964637833,
+        "same_pool_baseline_pct": -3.171887894591418,
+        "difference_to_same_pool_pct": -6.725440070046416
       },
       {
         "period": "daily",
@@ -1058,13 +1086,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 1,
+        "requested": 6,
+        "observed": 2,
         "missing": 0,
         "pending": 4,
-        "mean_hypothetical_net_pct": 3.800041550627342,
-        "same_pool_baseline_pct": -2.892250796774155,
-        "difference_to_same_pool_pct": 6.692292347401497
+        "mean_hypothetical_net_pct": 0.16337061883650028,
+        "same_pool_baseline_pct": -2.732900809429657,
+        "difference_to_same_pool_pct": 2.8962714282661572
       },
       {
         "period": "daily",
@@ -1072,10 +1100,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 2,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1086,13 +1114,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 25,
-        "observed": 8,
+        "requested": 29,
+        "observed": 9,
         "missing": 0,
-        "pending": 17,
-        "mean_hypothetical_net_pct": -4.526966277194537,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": -1.0559098463499894
+        "pending": 20,
+        "mean_hypothetical_net_pct": -2.4498127830995142,
+        "same_pool_baseline_pct": -3.371333585426838,
+        "difference_to_same_pool_pct": 0.9215208023273238
       },
       {
         "period": "120",
@@ -1100,10 +1128,10 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
+        "requested": 9,
         "observed": 1,
         "missing": 0,
-        "pending": 6,
+        "pending": 8,
         "mean_hypothetical_net_pct": -11.839833845821879,
         "same_pool_baseline_pct": -3.471056430844548,
         "difference_to_same_pool_pct": -8.36877741497733
@@ -1114,13 +1142,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 35,
-        "observed": 0,
+        "requested": 38,
+        "observed": 10,
         "missing": 0,
-        "pending": 35,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 28,
+        "mean_hypothetical_net_pct": -2.939865764226799,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -0.36631494214163984
       },
       {
         "period": "120",
@@ -1129,12 +1157,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 11,
-        "observed": 6,
+        "observed": 7,
         "missing": 0,
-        "pending": 5,
-        "mean_hypothetical_net_pct": 1.1917715801566826,
-        "same_pool_baseline_pct": -2.9887184024525535,
-        "difference_to_same_pool_pct": 4.180489982609236
+        "pending": 4,
+        "mean_hypothetical_net_pct": 1.1965364588125218,
+        "same_pool_baseline_pct": -2.9294087481143545,
+        "difference_to_same_pool_pct": 4.125945206926876
       },
       {
         "period": "120",
@@ -1157,12 +1185,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 6,
-        "observed": 5,
+        "observed": 6,
         "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": -4.51291776276201,
-        "same_pool_baseline_pct": -2.892250796774155,
-        "difference_to_same_pool_pct": -1.620666965987855
+        "pending": 0,
+        "mean_hypothetical_net_pct": -5.533521929018973,
+        "same_pool_baseline_pct": -2.8391341343259886,
+        "difference_to_same_pool_pct": -2.6943877946929846
       },
       {
         "period": "120",
@@ -1184,31 +1212,17 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
-        "observed": 1,
+        "requested": 9,
+        "observed": 3,
         "missing": 0,
-        "pending": 7,
-        "mean_hypothetical_net_pct": 4.203290170561402,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": 7.674346601405951
+        "pending": 6,
+        "mean_hypothetical_net_pct": -3.2524375528508096,
+        "same_pool_baseline_pct": -2.872719358338289,
+        "difference_to_same_pool_pct": -0.37971819451252076
       },
       {
         "period": "120",
         "state": "mixed",
-        "horizon_sessions": 5,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "momentum_weakening",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -1221,18 +1235,32 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "120",
+        "state": "momentum_weakening",
+        "horizon_sessions": 5,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 6,
+        "observed": 0,
+        "missing": 0,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "60",
         "state": "bearish_continuation",
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
-        "observed": 6,
+        "requested": 31,
+        "observed": 7,
         "missing": 0,
-        "pending": 21,
-        "mean_hypothetical_net_pct": -5.9217098301973605,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": -2.4506533993528126
+        "pending": 24,
+        "mean_hypothetical_net_pct": -3.0518348302176412,
+        "same_pool_baseline_pct": -3.342841343878921,
+        "difference_to_same_pool_pct": 0.2910065136612796
       },
       {
         "period": "60",
@@ -1240,13 +1268,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
-        "observed": 0,
+        "requested": 8,
+        "observed": 1,
         "missing": 0,
-        "pending": 4,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 7,
+        "mean_hypothetical_net_pct": -4.977474694138917,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -2.403923872053758
       },
       {
         "period": "60",
@@ -1254,13 +1282,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 33,
-        "observed": 8,
+        "requested": 35,
+        "observed": 19,
         "missing": 0,
-        "pending": 25,
-        "mean_hypothetical_net_pct": -2.9006724266100905,
-        "same_pool_baseline_pct": -2.892250796774155,
-        "difference_to_same_pool_pct": -0.00842162983593564
+        "pending": 16,
+        "mean_hypothetical_net_pct": -3.148906690205447,
+        "same_pool_baseline_pct": -2.707740285112105,
+        "difference_to_same_pool_pct": -0.44116640509334193
       },
       {
         "period": "60",
@@ -1325,12 +1353,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 2,
-        "observed": 0,
+        "observed": 1,
         "missing": 0,
-        "pending": 2,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 1,
+        "mean_hypothetical_net_pct": -4.8812375249501,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -2.307686702864941
       },
       {
         "period": "60",
@@ -1338,13 +1366,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 6,
-        "observed": 0,
+        "requested": 11,
+        "observed": 1,
         "missing": 0,
-        "pending": 6,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 10,
+        "mean_hypothetical_net_pct": -6.288117580826269,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -3.7145667587411095
       },
       {
         "period": "30",
@@ -1352,13 +1380,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 20,
-        "observed": 2,
+        "requested": 28,
+        "observed": 9,
         "missing": 0,
-        "pending": 18,
-        "mean_hypothetical_net_pct": -3.272712814372419,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": 0.19834361647212884
+        "pending": 19,
+        "mean_hypothetical_net_pct": -3.1373921647715552,
+        "same_pool_baseline_pct": -2.772996512920579,
+        "difference_to_same_pool_pct": -0.36439565185097633
       },
       {
         "period": "30",
@@ -1366,13 +1394,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
-        "observed": 1,
+        "requested": 17,
+        "observed": 4,
         "missing": 0,
         "pending": 13,
-        "mean_hypothetical_net_pct": -3.8272641200702617,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": -0.3562076892257138
+        "mean_hypothetical_net_pct": 1.082756810720803,
+        "same_pool_baseline_pct": -2.797927224275006,
+        "difference_to_same_pool_pct": 3.8806840349958094
       },
       {
         "period": "30",
@@ -1380,13 +1408,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
-        "observed": 14,
+        "requested": 28,
+        "observed": 15,
         "missing": 0,
         "pending": 13,
-        "mean_hypothetical_net_pct": -2.3854264419644724,
-        "same_pool_baseline_pct": -2.9335940563506115,
-        "difference_to_same_pool_pct": 0.5481676143861391
+        "mean_hypothetical_net_pct": -2.9355008631870936,
+        "same_pool_baseline_pct": -2.9095911740662483,
+        "difference_to_same_pool_pct": -0.025909689120845236
       },
       {
         "period": "30",
@@ -1451,12 +1479,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 8,
-        "observed": 0,
+        "observed": 2,
         "missing": 0,
-        "pending": 8,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 6,
+        "mean_hypothetical_net_pct": -8.876517564748266,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -6.302966742663107
       },
       {
         "period": "30",
@@ -1464,13 +1492,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
-        "observed": 0,
+        "requested": 8,
+        "observed": 2,
         "missing": 0,
-        "pending": 5,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 6,
+        "mean_hypothetical_net_pct": 1.659564024884308,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": 4.2331148469694675
       },
       {
         "period": "15",
@@ -1478,13 +1506,13 @@
         "horizon_sessions": 5,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 36,
-        "observed": 2,
+        "requested": 51,
+        "observed": 14,
         "missing": 0,
-        "pending": 34,
-        "mean_hypothetical_net_pct": -0.8175777355298117,
-        "same_pool_baseline_pct": -3.471056430844548,
-        "difference_to_same_pool_pct": 2.6534786953147362
+        "pending": 37,
+        "mean_hypothetical_net_pct": -1.0236163804451455,
+        "same_pool_baseline_pct": -2.7017659090507857,
+        "difference_to_same_pool_pct": 1.6781495286056403
       },
       {
         "period": "15",
@@ -1521,12 +1549,12 @@
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
         "requested": 8,
-        "observed": 0,
+        "observed": 3,
         "missing": 0,
-        "pending": 8,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
+        "pending": 5,
+        "mean_hypothetical_net_pct": -8.635929492034991,
+        "same_pool_baseline_pct": -2.573550822085159,
+        "difference_to_same_pool_pct": -6.062378669949832
       },
       {
         "period": "15",
@@ -1618,10 +1646,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 16,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 16,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1632,10 +1660,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 38,
+        "requested": 44,
         "observed": 0,
         "missing": 0,
-        "pending": 38,
+        "pending": 44,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1646,10 +1674,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 7,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1660,10 +1688,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 40,
+        "requested": 46,
         "observed": 0,
         "missing": 0,
-        "pending": 40,
+        "pending": 46,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1674,10 +1702,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 49,
+        "requested": 60,
         "observed": 0,
         "missing": 0,
-        "pending": 49,
+        "pending": 60,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1702,10 +1730,24 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
+        "requested": 12,
         "observed": 0,
         "missing": 0,
-        "pending": 11,
+        "pending": 12,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "early_turn",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1716,10 +1758,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 2,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1744,10 +1786,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 4,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 4,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1758,10 +1800,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 30,
+        "requested": 35,
         "observed": 0,
         "missing": 0,
-        "pending": 30,
+        "pending": 35,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1786,10 +1828,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 18,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 18,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1814,10 +1856,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
+        "requested": 13,
         "observed": 0,
         "missing": 0,
-        "pending": 11,
+        "pending": 13,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1842,10 +1884,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 9,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 9,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1856,10 +1898,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 6,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 6,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1870,10 +1912,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 2,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1884,10 +1926,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 25,
+        "requested": 29,
         "observed": 0,
         "missing": 0,
-        "pending": 25,
+        "pending": 29,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1898,10 +1940,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 7,
+        "pending": 9,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1912,10 +1954,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 35,
+        "requested": 38,
         "observed": 0,
         "missing": 0,
-        "pending": 35,
+        "pending": 38,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1982,10 +2024,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 8,
+        "pending": 9,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -1993,20 +2035,6 @@
       {
         "period": "120",
         "state": "mixed",
-        "horizon_sessions": 20,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "momentum_weakening",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -2019,15 +2047,29 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "120",
+        "state": "momentum_weakening",
+        "horizon_sessions": 20,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 6,
+        "observed": 0,
+        "missing": 0,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "60",
         "state": "bearish_continuation",
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
+        "requested": 31,
         "observed": 0,
         "missing": 0,
-        "pending": 27,
+        "pending": 31,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2038,10 +2080,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 4,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2052,10 +2094,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 33,
+        "requested": 35,
         "observed": 0,
         "missing": 0,
-        "pending": 33,
+        "pending": 35,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2136,10 +2178,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 6,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 6,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2150,10 +2192,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 20,
+        "requested": 28,
         "observed": 0,
         "missing": 0,
-        "pending": 20,
+        "pending": 28,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2164,10 +2206,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 17,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 17,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2178,10 +2220,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
+        "requested": 28,
         "observed": 0,
         "missing": 0,
-        "pending": 27,
+        "pending": 28,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2262,10 +2304,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2276,10 +2318,10 @@
         "horizon_sessions": 20,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 36,
+        "requested": 51,
         "observed": 0,
         "missing": 0,
-        "pending": 36,
+        "pending": 51,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2416,10 +2458,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 16,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 16,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2430,10 +2472,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 38,
+        "requested": 44,
         "observed": 0,
         "missing": 0,
-        "pending": 38,
+        "pending": 44,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2444,10 +2486,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 7,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2458,10 +2500,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 40,
+        "requested": 46,
         "observed": 0,
         "missing": 0,
-        "pending": 40,
+        "pending": 46,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2472,10 +2514,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 49,
+        "requested": 60,
         "observed": 0,
         "missing": 0,
-        "pending": 49,
+        "pending": 60,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2500,10 +2542,24 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
+        "requested": 12,
         "observed": 0,
         "missing": 0,
-        "pending": 11,
+        "pending": 12,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
+        "period": "weekly",
+        "state": "early_turn",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 1,
+        "observed": 0,
+        "missing": 0,
+        "pending": 1,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2514,10 +2570,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 2,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2542,10 +2598,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 3,
+        "requested": 4,
         "observed": 0,
         "missing": 0,
-        "pending": 3,
+        "pending": 4,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2556,10 +2612,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 30,
+        "requested": 35,
         "observed": 0,
         "missing": 0,
-        "pending": 30,
+        "pending": 35,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2584,10 +2640,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 18,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 18,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2612,10 +2668,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 11,
+        "requested": 13,
         "observed": 0,
         "missing": 0,
-        "pending": 11,
+        "pending": 13,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2640,10 +2696,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 9,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 9,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2654,10 +2710,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 6,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 6,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2668,10 +2724,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
+        "requested": 2,
         "observed": 0,
         "missing": 0,
-        "pending": 1,
+        "pending": 2,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2682,10 +2738,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 25,
+        "requested": 29,
         "observed": 0,
         "missing": 0,
-        "pending": 25,
+        "pending": 29,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2696,10 +2752,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 7,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 7,
+        "pending": 9,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2710,10 +2766,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 35,
+        "requested": 38,
         "observed": 0,
         "missing": 0,
-        "pending": 35,
+        "pending": 38,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2780,10 +2836,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 8,
+        "requested": 9,
         "observed": 0,
         "missing": 0,
-        "pending": 8,
+        "pending": 9,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2791,20 +2847,6 @@
       {
         "period": "120",
         "state": "mixed",
-        "horizon_sessions": 60,
-        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
-        "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 1,
-        "observed": 0,
-        "missing": 0,
-        "pending": 1,
-        "mean_hypothetical_net_pct": null,
-        "same_pool_baseline_pct": null,
-        "difference_to_same_pool_pct": null
-      },
-      {
-        "period": "120",
-        "state": "momentum_weakening",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
@@ -2817,15 +2859,29 @@
         "difference_to_same_pool_pct": null
       },
       {
+        "period": "120",
+        "state": "momentum_weakening",
+        "horizon_sessions": 60,
+        "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
+        "production_version": "weekly_ma55_macd_50_50_v9",
+        "requested": 6,
+        "observed": 0,
+        "missing": 0,
+        "pending": 6,
+        "mean_hypothetical_net_pct": null,
+        "same_pool_baseline_pct": null,
+        "difference_to_same_pool_pct": null
+      },
+      {
         "period": "60",
         "state": "bearish_continuation",
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
+        "requested": 31,
         "observed": 0,
         "missing": 0,
-        "pending": 27,
+        "pending": 31,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2836,10 +2892,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 4,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 4,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2850,10 +2906,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 33,
+        "requested": 35,
         "observed": 0,
         "missing": 0,
-        "pending": 33,
+        "pending": 35,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2934,10 +2990,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 6,
+        "requested": 11,
         "observed": 0,
         "missing": 0,
-        "pending": 6,
+        "pending": 11,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2948,10 +3004,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 20,
+        "requested": 28,
         "observed": 0,
         "missing": 0,
-        "pending": 20,
+        "pending": 28,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2962,10 +3018,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 14,
+        "requested": 17,
         "observed": 0,
         "missing": 0,
-        "pending": 14,
+        "pending": 17,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -2976,10 +3032,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 27,
+        "requested": 28,
         "observed": 0,
         "missing": 0,
-        "pending": 27,
+        "pending": 28,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -3060,10 +3116,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 5,
+        "requested": 8,
         "observed": 0,
         "missing": 0,
-        "pending": 5,
+        "pending": 8,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -3074,10 +3130,10 @@
         "horizon_sessions": 60,
         "kd_policy_sha256": "f8008dd035fe0d86c91d431cc5e550ba47e4455a05537ed840c44b717e69ef0a",
         "production_version": "weekly_ma55_macd_50_50_v9",
-        "requested": 36,
+        "requested": 51,
         "observed": 0,
         "missing": 0,
-        "pending": 36,
+        "pending": 51,
         "mean_hypothetical_net_pct": null,
         "same_pool_baseline_pct": null,
         "difference_to_same_pool_pct": null
@@ -3213,30 +3269,30 @@
     "automatic_weight_training": false,
     "limitations": "同决策日同观察池基准匹配，按生产版本与K/D配置分组；前瞻价格差异不是因果增量或全市场回测。重叠窗口和相关周期不是独立样本，缺失保留，未解决幸存者偏差、完整成交约束或多重检验"
   },
-  "benchmark_observed": 720,
+  "benchmark_observed": 758,
   "benchmark_missing": 0,
   "validation_summary": {
-    "requested": 816,
-    "observed": 360,
+    "requested": 820,
+    "observed": 379,
     "missing": 1,
-    "pending": 455,
+    "pending": 440,
     "validation_status": "unvalidated_out_of_sample",
     "survivorship_bias_resolved": false,
     "overlapping_windows_are_independent": false,
     "horizons": {
       "1": {
-        "samples": 195,
-        "mean_hypothetical_net_pct": -0.7937872779986952,
-        "win_fraction": 0.37435897435897436,
-        "profit_factor": 0.5178405993657398,
+        "samples": 203,
+        "mean_hypothetical_net_pct": -0.7725623677444095,
+        "win_fraction": 0.3842364532019704,
+        "profit_factor": 0.5221757859037575,
         "worst_stock_close_drawdown_pct": -9.811046511627907
       },
       "5": {
-        "samples": 165,
-        "mean_hypothetical_net_pct": -4.003540261548224,
-        "win_fraction": 0.21818181818181817,
-        "profit_factor": 0.17133925090400387,
-        "worst_stock_close_drawdown_pct": -22.785547785547788
+        "samples": 176,
+        "mean_hypothetical_net_pct": -4.088649155437231,
+        "win_fraction": 0.2215909090909091,
+        "profit_factor": 0.17652086538426826,
+        "worst_stock_close_drawdown_pct": -23.081534772182255
       },
       "20": {
         "samples": 0,
@@ -3324,15 +3380,22 @@
       "to_session": "2026-10-30",
       "name_turnover": 0.625,
       "basis": "同版本已冻结名单更替率，非实际成交金额周转率；跨版本不混比"
+    },
+    {
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "from_session": "2026-10-30",
+      "to_session": "2026-11-02",
+      "name_turnover": 0.875,
+      "basis": "同版本已冻结名单更替率，非实际成交金额周转率；跨版本不混比"
     }
   ],
   "market_environment": {
     "000300": {
       "status": "ok",
-      "as_of": "2026-10-30",
+      "as_of": "2026-11-02",
       "price_above_ma55": false,
       "trend_healthy": false,
-      "annualized_volatility_20": 0.15197754747153017,
+      "annualized_volatility_20": 0.14511368129793484,
       "volatility_elevated": false,
       "label": "指数趋势需谨慎观察",
       "influences_ranking": false,
@@ -3340,10 +3403,10 @@
     },
     "000905": {
       "status": "ok",
-      "as_of": "2026-10-30",
+      "as_of": "2026-11-02",
       "price_above_ma55": false,
       "trend_healthy": false,
-      "annualized_volatility_20": 0.27682518546662743,
+      "annualized_volatility_20": 0.2918934077287618,
       "volatility_elevated": false,
       "label": "指数趋势需谨慎观察",
       "influences_ranking": false,
@@ -19399,11 +19462,34 @@
       "name": "郑中设计",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -8.257372654155493,
+      "hypothetical_net_return_pct": -8.623610687472238,
+      "entry_open_qfq": 18.65,
+      "exit_close_qfq": 17.11,
+      "stock_close_max_drawdown_pct": -22.6752859273993,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -6.466493858258615,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -3.7984771212999036,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19473,11 +19559,34 @@
       "name": "华测检测",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -4.5000000000000036,
+      "hypothetical_net_return_pct": -4.8812375249501,
+      "entry_open_qfq": 16.0,
+      "exit_close_qfq": 15.28,
+      "stock_close_max_drawdown_pct": -4.5000000000000036,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -2.7241206957364765,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -0.05610395877776497,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19547,11 +19656,34 @@
       "name": "南方传媒",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 2.684563758389258,
+      "hypothetical_net_return_pct": 2.274645340192105,
+      "entry_open_qfq": 14.9,
+      "exit_close_qfq": 15.3,
+      "stock_close_max_drawdown_pct": -3.3557046979865723,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": 4.4317621694057285,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": 7.09977890636444,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19621,11 +19753,34 @@
       "name": "敦煌种业",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -8.618331053351568,
+      "hypothetical_net_return_pct": -8.983128134974915,
+      "entry_open_qfq": 7.31,
+      "exit_close_qfq": 6.68,
+      "stock_close_max_drawdown_pct": -10.396716826265385,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -6.826011305761292,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -4.157994568802581,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19695,11 +19850,34 @@
       "name": "恒丰纸业",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -8.404255319148945,
+      "hypothetical_net_return_pct": -8.769906994521614,
+      "entry_open_qfq": 9.4,
+      "exit_close_qfq": 8.61,
+      "stock_close_max_drawdown_pct": -9.57446808510639,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -6.612790165307991,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -3.9447734283492792,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19769,11 +19947,34 @@
       "name": "基蛋生物",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -7.4316939890710305,
+      "hypothetical_net_return_pct": -7.801228144803285,
+      "entry_open_qfq": 9.15,
+      "exit_close_qfq": 8.47,
+      "stock_close_max_drawdown_pct": -7.650273224043724,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -5.644111315589662,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -2.97609457863095,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19843,11 +20044,34 @@
       "name": "海尔生物",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -5.912518853695314,
+      "hypothetical_net_return_pct": -6.288117580826269,
+      "entry_open_qfq": 33.15,
+      "exit_close_qfq": 31.19,
+      "stock_close_max_drawdown_pct": -7.4509803921568585,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -4.131000751612645,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -1.4629840146539337,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19917,11 +20141,34 @@
       "name": "威尔药业",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 1.630837657524098,
+      "hypothetical_net_return_pct": 1.225125730747556,
+      "entry_open_qfq": 26.98,
+      "exit_close_qfq": 27.42,
+      "stock_close_max_drawdown_pct": -3.595255744996284,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": 3.3822425599611794,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": 6.050259296919891,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -19991,11 +20238,34 @@
       "name": "台华新材",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -10.278372591006413,
+      "hypothetical_net_return_pct": -10.63654276030379,
+      "entry_open_qfq": 9.34,
+      "exit_close_qfq": 8.38,
+      "stock_close_max_drawdown_pct": -10.374331550802129,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -8.479425931090166,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -5.811409194131455,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -20065,11 +20335,34 @@
       "name": "宁波东力",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 14.625,
+      "hypothetical_net_return_pct": 14.167415169660668,
+      "entry_open_qfq": 16.0,
+      "exit_close_qfq": 18.34,
+      "stock_close_max_drawdown_pct": -4.0000000000000036,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": 16.324531998874292,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": 18.992548735833005,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -20139,11 +20432,34 @@
       "name": "东岳硅材",
       "horizon_sessions": 5,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-10-27",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -20.383693045563554,
+      "hypothetical_net_return_pct": -20.701522614243927,
+      "entry_open_qfq": 16.68,
+      "exit_close_qfq": 13.28,
+      "stock_close_max_drawdown_pct": -23.081534772182255,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": -2.1571168292136234,
+          "price_max_drawdown_pct": -2.9224353790543223,
+          "hypothetical_net_excess_pct": -18.544405785030303,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": -4.825133566172335,
+          "price_max_drawdown_pct": -7.1086555623417595,
+          "hypothetical_net_excess_pct": -15.876389048071593,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "f8a27ae4bcfef74947ba4f9e2ee41fb6b06c3ef7581f3e3b472e94f6762c5561",
@@ -21635,11 +21951,34 @@
       "name": "九强生物",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 0.8744038155802825,
+      "hypothetical_net_return_pct": 0.4717115847795661,
+      "entry_open_qfq": 12.58,
+      "exit_close_qfq": 12.69,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.19761861284288695,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -1.288744640771844,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21686,11 +22025,34 @@
       "name": "永新股份",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 1.5665796344647598,
+      "hypothetical_net_return_pct": 1.1611242267423272,
+      "entry_open_qfq": 11.49,
+      "exit_close_qfq": 11.67,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.887031254805648,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -0.5993319988090828,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21737,11 +22099,34 @@
       "name": "绿色动力",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -0.37641154328732496,
+      "hypothetical_net_return_pct": -0.7741104992023407,
+      "entry_open_qfq": 7.97,
+      "exit_close_qfq": 7.94,
+      "stock_close_max_drawdown_pct": -0.37641154328732496,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -1.0482034711390198,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -2.5345667247537507,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21788,11 +22173,34 @@
       "name": "华测检测",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -1.7363344051447016,
+      "hypothetical_net_return_pct": -2.1286045272798537,
+      "entry_open_qfq": 15.55,
+      "exit_close_qfq": 15.28,
+      "stock_close_max_drawdown_pct": -1.7363344051447016,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -2.402697499216533,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -3.8890607528312637,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21839,11 +22247,34 @@
       "name": "台华新材",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": -3.8990825688073327,
+      "hypothetical_net_return_pct": -4.282718965738253,
+      "entry_open_qfq": 8.72,
+      "exit_close_qfq": 8.38,
+      "stock_close_max_drawdown_pct": -3.8990825688073327,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -4.556811937674932,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -6.043175191289663,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21890,11 +22321,34 @@
       "name": "宁波东力",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 1.0468319559228778,
+      "hypothetical_net_return_pct": 0.6434513892325633,
+      "entry_open_qfq": 18.15,
+      "exit_close_qfq": 18.34,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.36935841729588414,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -1.1170048363188467,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21941,11 +22395,34 @@
       "name": "威尔药业",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 2.8893058161350904,
+      "hypothetical_net_return_pct": 2.478570064374086,
+      "entry_open_qfq": 26.65,
+      "exit_close_qfq": 27.42,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 2.204477092437407,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.718113838822676,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -21992,11 +22469,34 @@
       "name": "陕西能源",
       "horizon_sessions": 1,
       "model_version": "weekly_ma55_macd_50_50_v9",
-      "status": "pending",
+      "status": "observed",
       "cost_bps_per_side": 20.0,
       "entry_session": "2026-11-02",
       "exit_session": "2026-11-02",
-      "benchmarks": []
+      "gross_price_return_pct": 0.7912957467853587,
+      "hypothetical_net_return_pct": 0.38893528472234706,
+      "entry_open_qfq": 10.11,
+      "exit_close_qfq": 10.19,
+      "stock_close_max_drawdown_pct": 0.0,
+      "price_basis": "同次真实前复权价格；净值为每边成本假设，非实际成交收益",
+      "benchmarks": [
+        {
+          "code": "000300",
+          "status": "observed",
+          "price_return_pct": 0.27409297193667914,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": 0.11484231278566792,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        },
+        {
+          "code": "000905",
+          "status": "observed",
+          "price_return_pct": 1.76045622555141,
+          "price_max_drawdown_pct": 0.0,
+          "hypothetical_net_excess_pct": -1.371520940829063,
+          "basis": "股票前复权价格与价格指数的观察比较，指数未含现金分红；非完整总回报alpha"
+        }
+      ]
     },
     {
       "snapshot_sha256": "01a9723d1e556a9900eee7e399ecd7078ccb1c45c7792ac57027ae016619f8bc",
@@ -22029,6 +22529,57 @@
       "decision_day": "2026-10-30",
       "code": "001286",
       "name": "陕西能源",
+      "horizon_sessions": 60,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "reason": "日历尚未覆盖完整窗口",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "32e8b93bb9361bc9e9ce79acd2f8267befa38457eaa552691ac5111dc82ec9e6",
+      "decision_day": "2026-11-02",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 1,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-11-03",
+      "exit_session": "2026-11-03",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "32e8b93bb9361bc9e9ce79acd2f8267befa38457eaa552691ac5111dc82ec9e6",
+      "decision_day": "2026-11-02",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 5,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-11-03",
+      "exit_session": "2026-11-09",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "32e8b93bb9361bc9e9ce79acd2f8267befa38457eaa552691ac5111dc82ec9e6",
+      "decision_day": "2026-11-02",
+      "code": "300012",
+      "name": "华测检测",
+      "horizon_sessions": 20,
+      "model_version": "weekly_ma55_macd_50_50_v9",
+      "status": "pending",
+      "cost_bps_per_side": 20.0,
+      "entry_session": "2026-11-03",
+      "exit_session": "2026-11-30",
+      "benchmarks": []
+    },
+    {
+      "snapshot_sha256": "32e8b93bb9361bc9e9ce79acd2f8267befa38457eaa552691ac5111dc82ec9e6",
+      "decision_day": "2026-11-02",
+      "code": "300012",
+      "name": "华测检测",
       "horizon_sessions": 60,
       "model_version": "weekly_ma55_macd_50_50_v9",
       "status": "pending",
@@ -22043,7 +22594,7 @@
       "kwargs": {},
       "rows": 8797,
       "cache_hit": true,
-      "fetched_at": "2026-10-29T16:41:26.357517+08:00",
+      "fetched_at": "2026-11-02T16:26:55.150192+08:00",
       "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
     },
     {
@@ -22051,638 +22602,652 @@
       "kwargs": {
         "symbol": "300452",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:06.776718+08:00",
-      "sha256": "74c786cab3d7e86cf11048fde5b4c634edec220c9175016849c79dbae7982177"
+      "fetched_at": "2026-11-02T17:00:45.701022+08:00",
+      "sha256": "237a12b963ba3a835ee3ed1ff0e44e9330b659cb6bed4f7ddb470bdc698b8839"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603387",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:08.134694+08:00",
-      "sha256": "896a5a621dc0a426d1462927a895bb309e422640409902bf73dc71affb2a82f4"
+      "fetched_at": "2026-11-02T17:00:46.808055+08:00",
+      "sha256": "5ce3434e9169c1dc8765fab11178da76bd6a7d12ed28a056bcbd634a9d803d50"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300833",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:09.252402+08:00",
-      "sha256": "d9bfcbd28e7f89433c70fcafec88fdfa82a2dc0f7b01a47553339924936b752c"
+      "fetched_at": "2026-11-02T17:00:48.151084+08:00",
+      "sha256": "78e458f6044665d1b054c426824c366398a7b25a5cdc0bc8ab7b9faf925e51f2"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603351",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:10.358912+08:00",
-      "sha256": "3df72556ca18cdb2a2029b4f78aa18e5cd82f164ebc105e373f62289dbdedd40"
+      "fetched_at": "2026-11-02T17:00:49.232335+08:00",
+      "sha256": "7496b900a84157041dfee0a06e54fc757c92f4d78ddaf3a333d118cc9f14fd81"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002780",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:11.517569+08:00",
-      "sha256": "a2fc03c837e017ced51838c1f3397d0aa60e3791ff3f9fa7ba0207d60eaf1beb"
+      "fetched_at": "2026-11-02T17:00:50.333700+08:00",
+      "sha256": "4e0bd418aa3f809d0eafe381c3b88222cacae762330879f06dbedab60d774284"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "301059",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:12.659245+08:00",
-      "sha256": "61af6f713dfb1e60f7b688e60ded868cb3ab0e2b82e02823701a92ac3ec85b9d"
+      "fetched_at": "2026-11-02T17:00:51.426395+08:00",
+      "sha256": "db9309cdfc19b1953b1e5d9bceaec2c1caa2f2c9f835e4c39ab8ee45aae6a665"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920946",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:13.788194+08:00",
-      "sha256": "907a65cd6070631ec44b15bd316f5795d5d0cc266ec06f293cedb59fcfb41d2c"
+      "fetched_at": "2026-11-02T17:00:52.523447+08:00",
+      "sha256": "2bbdd5a2ca5b0c97b0e984ac36173d42af7ba190b7bb134fb598f621f3049d11"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920735",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:14.905412+08:00",
-      "sha256": "0d897459600596ee27aa790e951ecc7f202f26fa0c5de5a7a43b72abb410cbba"
+      "fetched_at": "2026-11-02T17:00:53.632585+08:00",
+      "sha256": "75be7e48848aa8b6e5cd5b2664298a1599aff57efce9304eed0a2283afedbe59"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300450",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:16.067059+08:00",
-      "sha256": "9da965becc0e5dcb8e794ec3850441ea4c742c916f98e80eab63c971c61a26fb"
+      "fetched_at": "2026-11-02T17:00:54.783147+08:00",
+      "sha256": "53f421f2a84b4b3d7b62b372c45eaed14ac0950b04c7dc0cdc6b05ebb3942b78"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "920599",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:17.192478+08:00",
-      "sha256": "b6858b6d62c2132d98168f2d8e055773cecee9482ea561ba0116ccf7325d33b8"
+      "fetched_at": "2026-11-02T17:00:55.898838+08:00",
+      "sha256": "be6fa1433b9aaae0c9fa3f2817043f58d35b8e18e1cc333ff0c037e5ac03c7b6"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600354",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:18.335565+08:00",
-      "sha256": "4b18d9de1d402090efaf1efa977d462f195d0ef9a521306f9991cbcdc018b458"
+      "fetched_at": "2026-11-02T17:00:57.046332+08:00",
+      "sha256": "6b8024812fa7a55a2cd8dd5bae6089aff9600abb2e76bd8070517573649cf472"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300457",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:19.459521+08:00",
-      "sha256": "67d03cbf84d3397c3a8891f85f8b582074306c78f02fbdf19bf095fd6eeb720a"
+      "fetched_at": "2026-11-02T17:00:58.170580+08:00",
+      "sha256": "447ddb3419e519ccca4d28e6240e3e724c99aa2eaed42d5989a3188a1b3a72ab"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603209",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:20.588374+08:00",
-      "sha256": "6477935008cbd42f3af5866c0d4379dcc894b979d46d61e4f065af926ebb04ba"
+      "fetched_at": "2026-11-02T17:00:59.273536+08:00",
+      "sha256": "744748c2a6b6da040744549223a513efaa7e7e82a25fd66af444a9f632fb0024"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603998",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:21.730693+08:00",
-      "sha256": "889b3199766f8a7f399b151d5cfea21f743eb782154954dd4bb1649be8e21cbe"
+      "fetched_at": "2026-11-02T17:01:00.392399+08:00",
+      "sha256": "d864fb5c87d1f8cf9f509abd079e7142aa50262bb6ef999ef60aef3c05a98e55"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600035",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:22.828368+08:00",
-      "sha256": "0ba52e7cc24d70f3fc67ddab152cee379b93ad7f42e47ff6b63caca574b450c7"
+      "fetched_at": "2026-11-02T17:01:01.509417+08:00",
+      "sha256": "a47a8eb56125904c79e207477801a4d2c4cd3b8a1f03556ffa5924a6d5d82b87"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002074",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:23.999339+08:00",
-      "sha256": "bc49bf63e505b3f4f2e4fde8a6eb496ffb5e3964b0a56fe37e8d5d610e2cc771"
+      "fetched_at": "2026-11-02T17:01:02.645388+08:00",
+      "sha256": "c065497dc45956a2933e8c00c001283670c384558fb0dc8de77747e09ca6c351"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300970",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:25.135459+08:00",
-      "sha256": "0dc676d8825050369846f2b5e87b05aa431b7d09db131859b36cfde04c18fff7"
+      "fetched_at": "2026-11-02T17:01:03.780099+08:00",
+      "sha256": "d14b9567418a4286aae4914e0660805504fc13aca8a29d03fb26a5035ccd0179"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603332",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:26.257344+08:00",
-      "sha256": "a4de5b23ee7e120a0b018bf782606fc87d93498ad91c49bdb9b04d2e319d7a5e"
+      "fetched_at": "2026-11-02T17:01:04.875195+08:00",
+      "sha256": "7d9971dea357d13c2e7cbf3853d0cfcc3cb34e25efeeed14e892ebffe6a1652f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002748",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:27.381048+08:00",
-      "sha256": "30927c3d61edafba6a4e73ccdf564e7a9463ae612d5979f49780f6ae16c24407"
+      "fetched_at": "2026-11-02T17:01:05.963034+08:00",
+      "sha256": "5f73da13a27c99838c354e4e34bca36990dc1eeddc133b170064da8433c6b766"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600982",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:28.531320+08:00",
-      "sha256": "5bec37fdcf69a54f551eb3e0cc6f6285ed2df7f3b9cba7c083996d0ae3014e5c"
+      "fetched_at": "2026-11-02T17:01:07.064024+08:00",
+      "sha256": "e7c1087bd00bb74f569286a7b53d4e0382b983bc40d91803f90e17cc4907605d"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "601330",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:29.669779+08:00",
-      "sha256": "b301f94dba5e8a292e43d03448b406424cd62955dc19338c4e091148f728e9d9"
+      "fetched_at": "2026-11-02T17:01:08.251961+08:00",
+      "sha256": "a88294bbb07cf856fd9c1ce8636b57e434a46a25dcd19fcf740baa695cba9148"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600874",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:30.771185+08:00",
-      "sha256": "829ddb0383f01371785538531de87931a1e9beb52151e153c4bc841c409d163b"
+      "fetched_at": "2026-11-02T17:01:09.392725+08:00",
+      "sha256": "aebfd033a6d75d9e70651165b7c43e0f33959a0a1b278d421e8f7e8013cee42b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002734",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:31.910417+08:00",
-      "sha256": "38d6dae580b39d5819db72ba275f7a32ea500c103bc88fb623d05ac473c5aef4"
+      "fetched_at": "2026-11-02T17:01:10.539257+08:00",
+      "sha256": "233e23b0d33b7d0e5889dfeb68139aaa91630271e417d03eb0973085352a7a36"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "000581",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:33.049358+08:00",
-      "sha256": "825289e4c19d38ed9ebd17430923ff9be8c2ed22e3f8acec31bb518d23a8f850"
+      "fetched_at": "2026-11-02T17:01:11.652530+08:00",
+      "sha256": "61d17c58276d88eef2c07e20a61692777d7b1590bd5195499d51fdeb027f9664"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002956",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:34.238235+08:00",
-      "sha256": "78dd72c08ff4bf60398d1a22f0763f9f461135e4ca5f2de9ff58bc068486152a"
+      "fetched_at": "2026-11-02T17:01:12.819206+08:00",
+      "sha256": "bdcb223ad36f0e5acdc58c9c45bab73b283fb0a5d83e3df23494c8fb14fb9da3"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300509",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:35.391027+08:00",
-      "sha256": "f38ebbb86e03d0498258392e8f9631c166b8d14fdce60d777c11826f1ae2d922"
+      "fetched_at": "2026-11-02T17:01:13.962347+08:00",
+      "sha256": "7ce0272cd64e8bbfc7b5bffd1c94463f4f16da0abee440126b2ea31db25ab52b"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600028",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:36.532700+08:00",
-      "sha256": "888f446197c231fc27d19942b62135dc3f713ba3aae01367b829ede3c90a2588"
+      "fetched_at": "2026-11-02T17:01:15.129311+08:00",
+      "sha256": "04df2d62e3af556e4481a5ef2540c3d9208651db06627049561019ac045bd766"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603055",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:37.770312+08:00",
-      "sha256": "368018e1aa446a959d61bac8786355c657475f5c155954453ed035ef1f715298"
+      "fetched_at": "2026-11-02T17:01:16.309626+08:00",
+      "sha256": "28e6c57cfea1d9dfecf2b5b00111762193425bafcd4e9d48ff1de60ced94e2a9"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603345",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:38.926580+08:00",
-      "sha256": "917713f601499c72dcddd0b47003ebf2e15173971846a8a8bd9742dd2e8aab34"
+      "fetched_at": "2026-11-02T17:01:17.455299+08:00",
+      "sha256": "da4e9383c9e720b590bd1514d79dbec43c462c2edd0fb9394d757d80f7d05ee5"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600989",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:40.059798+08:00",
-      "sha256": "ffcc57acff87e9717be5dae41abef5a4b391da235e08ccda28778cc1a15bdee9"
+      "fetched_at": "2026-11-02T17:01:18.623007+08:00",
+      "sha256": "9e4f176d918f8a2d2bf7408a043a80a8cfdaf282496f3b4941a3ec6a59f166bc"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300406",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:41.191240+08:00",
-      "sha256": "61425e97d9f64d87217d69db1e21fb05992d9c52c57e0448f86b0151741bc7bf"
+      "fetched_at": "2026-11-02T17:01:19.750554+08:00",
+      "sha256": "ed3a91bd0fe63fee4b0d9bd9856b29d23c1c69d544e3d63a9c12ef59660ed59e"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600356",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:42.354537+08:00",
-      "sha256": "a2ac93b4f9e75961a04c004e638eee8ac53d9afe4f4f04054a276808b1ad5503"
+      "fetched_at": "2026-11-02T17:01:20.888771+08:00",
+      "sha256": "cd42634f780a570074fc4d29ba537b95334f64e07eda7bb56eb2cc41b6734461"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600378",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:43.502800+08:00",
-      "sha256": "3323bdf95f2238e78322f375fc476ae25c98a34cda474388bd8f7793a661f6e2"
+      "fetched_at": "2026-11-02T17:01:22.080798+08:00",
+      "sha256": "26a50bcc04ae3a4eb29abc373a24104187c2625fde9659162dd707aaa692747e"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "600522",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:44.646983+08:00",
-      "sha256": "45987020e70cf78f8551d9bdf2b5f015752c3508811031b0b6d32411bc3fd4cb"
+      "fetched_at": "2026-11-02T17:01:23.240131+08:00",
+      "sha256": "8455871d438278bdd2f156641047face20745184e20cae51e9a727a68012843f"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603986",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:45.786600+08:00",
-      "sha256": "7a0c4465a7a473ba69d5437fd94cf944d01f6a4fd85be373607ab0f5e570d194"
+      "fetched_at": "2026-11-02T17:01:24.359369+08:00",
+      "sha256": "7d497531ebd4b3f273d6b944c40b3fc2f026b59c14002e127a9437e10b477b57"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "603993",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:46.922909+08:00",
-      "sha256": "92b5b1a233503c7baccd2fa0734325a1ca6f17cb00f5de1fb2a126f0c040fff7"
+      "fetched_at": "2026-11-02T17:01:25.501023+08:00",
+      "sha256": "e703b6bd413fadc39bbc8dca0baee8b0e1914883a00dbfa96fc0c0b5c7e69433"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300012",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:48.087110+08:00",
-      "sha256": "db21d7156b5d4865182204c6c47af2f89d41735ffbe39cb88b9de76f561a088f"
+      "fetched_at": "2026-11-02T17:01:26.649699+08:00",
+      "sha256": "9c63b0ca91d2463fd5fa03f4c518f8b9791dc18f03ea29238911916417bb1791"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002164",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:49.222965+08:00",
-      "sha256": "ff7b24b08233780f2e973ea06262ad45985f28520a14a8a371b2380e31ed4794"
+      "fetched_at": "2026-11-02T17:01:27.764468+08:00",
+      "sha256": "9816c82d638d57e19174a73d84525ec8d59c526c7649e45caa186ff43d3c03aa"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "688139",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:50.414506+08:00",
-      "sha256": "c756677355716d201bdd62b69494d3875b2ce31e5a6a84b90cc4c76a83054972"
+      "fetched_at": "2026-11-02T17:01:28.949146+08:00",
+      "sha256": "9a0664d3c36fc7f6ab53102044d6115e25175600da2519dc793f3f572a5506ff"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002811",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:51.708736+08:00",
-      "sha256": "c21591e4574e68a624207f3cedacb5ab297acb5c4774db344baa9f6c7b6dcff1"
+      "fetched_at": "2026-11-02T17:01:30.190051+08:00",
+      "sha256": "199fe6cc5b2ec130978219e37d85ec0af789044ff09b0f57b9ec138277ffed67"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "601900",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:52.875538+08:00",
-      "sha256": "9777d72d057ac20793419660c959eca356d182c67689727bcd40098bf1f7d8e0"
+      "fetched_at": "2026-11-02T17:01:31.319173+08:00",
+      "sha256": "b38f12b8b9aa1882b26a96239447b14a73ef0b627ce5d21c0a0d00f3fc60d6e6"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300821",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:54.036077+08:00",
-      "sha256": "7fc32d9e2161be97533a6e163475b202a94ae255331b6a23982bd11253775c61"
+      "fetched_at": "2026-11-02T17:01:32.434152+08:00",
+      "sha256": "80388c1658eb363f3bb49a754292c88db202f82e92ae4c49bed5641ae89ff8d6"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "002014",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
-      "rows": 641,
+      "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:55.205582+08:00",
-      "sha256": "7013522da361461fb70acf0d8d9fe11e08cbfd99ad69fca4772ab903070734d4"
+      "fetched_at": "2026-11-02T17:01:33.537269+08:00",
+      "sha256": "ab237717f28aeb1451031f959a885ccf15b0e5f833b091ee18a1fdddf813d608"
     },
     {
       "function": "daily_tx_recent",
       "kwargs": {
         "symbol": "300454",
         "adjust": "qfq",
-        "end_date": "20261030",
-        "anchor_date": "20261030",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
         "include_current_session": true
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:56.403636+08:00",
-      "sha256": "e8a96c5b9017cd4be9679141b96391629c0e8ac3114b819c2dbb1ee146384dbd"
+      "fetched_at": "2026-11-02T17:01:34.665825+08:00",
+      "sha256": "eba818abee9b1526d7bd9550d3c45136f328a7516075f9438d020251fcc59693"
+    },
+    {
+      "function": "daily_tx_recent",
+      "kwargs": {
+        "symbol": "001286",
+        "adjust": "qfq",
+        "end_date": "20261102",
+        "anchor_date": "20261102",
+        "include_current_session": true
+      },
+      "rows": 640,
+      "cache_hit": false,
+      "fetched_at": "2026-11-02T17:01:35.768329+08:00",
+      "sha256": "03dcd16e1ddbf123696bec61bdd970bc34e37f4634bf6f8b6fdc1081d1b21e36"
     },
     {
       "function": "index_tx_daily",
       "kwargs": {
         "symbol": "000300",
-        "end_date": "2026-10-30"
+        "end_date": "2026-11-02"
       },
-      "rows": 640,
+      "rows": 641,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:57.586649+08:00",
-      "sha256": "c0043883127b9212d5e40262b4c00e8e1b592c57b858f245c8d6e7a871cfb969"
+      "fetched_at": "2026-11-02T17:01:36.891035+08:00",
+      "sha256": "de0181438001302b97b462609c6ebb9e523e589b30342eb134935478d6d7064e"
     },
     {
       "function": "index_tx_daily",
       "kwargs": {
         "symbol": "000905",
-        "end_date": "2026-10-30"
+        "end_date": "2026-11-02"
       },
       "rows": 640,
       "cache_hit": false,
-      "fetched_at": "2026-10-30T16:37:58.717204+08:00",
-      "sha256": "85ab6bb5e4fdedb51a99eba868f894bb612be7a800c8bc9e6eeeb356c05abad5"
+      "fetched_at": "2026-11-02T17:01:37.955621+08:00",
+      "sha256": "670894c53c143c3d994bf4f4c347bc723daa5506a6aadf6c3a3817f3bece5081"
     }
   ]
 }
