@@ -267,7 +267,7 @@ def extended_weekly_history(provider, code, daily, period_cutoff, anchor_date):
                                     "W-FRI", "weekly", 60, (300, 180))
 
 
-def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None, weekly_history=None, execution_focus=True):
+def strategic_technical(daily, session, period_cutoff=None, config=None, monthly_history=None, weekly_history=None, execution_focus=True, opportunity_policy=None):
     if len(daily) < 250:
         raise DataError(f"日线历史不足250根（实际{len(daily)}根）")
     if daily.index[-1].date() != session:
@@ -296,7 +296,7 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
     breakout = first_volume_breakout(daily, config.get("daily_breakout_rvol", 1.5),
         config.get("daily_breakout_close_location", 0.65), config.get("daily_breakout_lookback", 20),
         config.get("daily_breakout_platform_range_pct", 20.0))
-    return {"daily_trend": daily_ok, "weekly_trend": weekly_ok, "monthly_trend": monthly_ok,
+    result = {"daily_trend": daily_ok, "weekly_trend": weekly_ok, "monthly_trend": monthly_ok,
             "average_turnover20_cny": float(pd.to_numeric(daily.amount, errors="coerce").tail(20).mean())
                                       if "amount" in daily and daily.amount.tail(20).notna().all() else None,
             "monthly_j": float(last_m.j), "monthly_bar_date": m.index[-1].date().isoformat(),
@@ -315,6 +315,11 @@ def strategic_technical(daily, session, period_cutoff=None, config=None, monthly
                            "daily": timeframe_observation(d, config, "daily") if execution_focus else {"status":"not_requested","signals":[],"purpose":"仅重点观察/持仓运行日线MACD"}},
             "price_compression": compression_observation(daily, config.get("leading_price_compression_pct", 20.0)),
             "volume_ratio20": volume["ratio20"]}
+    if opportunity_policy is not None:
+        from .reversal_opportunity import safe_observe, PARAMETERS
+        result["reversal_features"] = safe_observe(d, w, m, session, cutoff, opportunity_policy, parameters=PARAMETERS)
+        result["reversal_features"]["sources"] = {"daily":"validated_qfq_daily", "weekly":result["weekly_history_source"], "monthly":result["monthly_history_source"]}
+    return result
 
 
 def confirmed_divergences(frame, window=60, radius=3, config=None):
