@@ -1,0 +1,2544 @@
+{
+  "system": "Tommy Capital 2.0",
+  "selection_rule": "dual_route_monthly_recovery",
+  "status": "failed",
+  "scan_complete": false,
+  "scan_type": "closed_session",
+  "scan_phase": "closing",
+  "generated_at": "2026-11-10T01:26:38.618178+08:00",
+  "finished_at": "2026-11-10T01:26:38.643264+08:00",
+  "session": "2026-11-09",
+  "minute15_cutoff": "2026-11-09T15:00:00",
+  "coverage": null,
+  "config": {
+    "min_turnover_cny": 30000000,
+    "min_revenue_yoy_pct": 0,
+    "min_profit_yoy_pct": 0,
+    "max_pe_ttm": 60,
+    "max_pb": 8,
+    "max_industry_pe_ratio": 1.2,
+    "min_industry_pe_samples": 5,
+    "max_finance_age_days": 225,
+    "daily_history_years": 8,
+    "request_timeout_seconds": 180,
+    "request_attempts": 2,
+    "daily_volume_abnormal_ratio": 2.0,
+    "weekly_base_max_range_pct": 20.0,
+    "weekly_base_low_tolerance_pct": 3.0,
+    "weekly_base_max_volume_ratio": 1.1,
+    "daily_breakout_rvol": 1.5,
+    "daily_breakout_close_location": 0.65,
+    "daily_breakout_lookback": 20,
+    "daily_breakout_platform_range_pct": 20.0,
+    "leading_min_revenue_growth_pct": 10.0,
+    "leading_min_business_growth_pct": 30.0,
+    "leading_price_compression_pct": 20.0,
+    "max_forward_pe": 30.0,
+    "max_forward_ev_sales": 4.0,
+    "min_forward_margin_pct": 20.0,
+    "max_bear_downside_pct": 30.0,
+    "execution_support_distance_pct": 3.0,
+    "execution_volume_ratio": 1.2,
+    "technical_retry_passes": 1,
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3,
+    "weekly_ma55_entry_gate": true,
+    "weekly_ma55_min_above_count": 3,
+    "weekly_ma55_min_consecutive": 2,
+    "loss_recovery_enabled": true,
+    "loss_recovery_min_revenue_growth_pct": 0.0,
+    "loss_recovery_min_narrowing_pct": 10.0,
+    "loss_recovery_max_ps": 3.0
+  },
+  "leading_evidence_coverage": null,
+  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/42664113714",
+  "source_commit": "2bba33f93957eec3deec16abc057400c452847ff",
+  "quote_clock_validation": null,
+  "scoring_version": "weekly_ma55_macd_50_50_v9",
+  "score_weights": {
+    "fundamental": {
+      "revenue": 4,
+      "earnings_quality_or_leading": 14,
+      "cash_quality": 14,
+      "valuation": 14,
+      "improvement": 4
+    },
+    "technical": {
+      "monthly": 20,
+      "weekly": 30
+    }
+  },
+  "display_limit": 20,
+  "ranking_complete": false,
+  "ranking_incomplete_reasons": [],
+  "ranking_policy": "monthly_research_pool_macro_gated_execution",
+  "ranking_purpose": "strategic_research_not_entry",
+  "model_validation": {
+    "status": "unvalidated_out_of_sample",
+    "automatic_weight_training": false
+  },
+  "model_review": null,
+  "forward_evaluation": null,
+  "top10_tracking": {
+    "schema": 1,
+    "threshold": 3,
+    "as_of_session": "2026-11-09",
+    "counted_sessions": 21,
+    "first_counted_session": "2026-10-08",
+    "basis": "正式交易日收盘综合前10；跨版本保留实际原榜，同日重跑只计一次，模型复核/预跑/失败不计",
+    "daily_volume_basis": "最新完整交易日量/此前20个完整交易日均量；排除当日；仅跟踪，不加排名分",
+    "rows": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "appearance_count": 14,
+        "appearances": [
+          {
+            "session": "2026-10-16",
+            "rank": 8,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 9,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 9,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 3,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 2,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 2,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 4,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          },
+          {
+            "session": "2026-11-02",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "71a9e7178ff5f9f9f3796307253c43ab0feb3f3a0c9db5d03a0b05acef55601f"
+          },
+          {
+            "session": "2026-11-03",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "6a812f6614c1bb9272b161bdd38838cb1ec86e7430ee392f43f40ea699ff3d75"
+          },
+          {
+            "session": "2026-11-04",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "7f4560346d8efa6092d200b4d14cc4afa7c29a0139ad82dd2021929644360966"
+          },
+          {
+            "session": "2026-11-05",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "d05a63e993a070be9a6e2b09d32989771273ef13106630c692c402f2bd68d2a8"
+          },
+          {
+            "session": "2026-11-06",
+            "rank": 4,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "c32fd2fcedc66e040686c5e201166494880358702abfea42d59015cd984b2ae9"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 11,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 11,
+        "first_session": "2026-10-16",
+        "last_session": "2026-11-06",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "appearance_count": 13,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-09",
+            "rank": 2,
+            "name": "基蛋生物",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 3,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 9,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 7,
+            "name": "基蛋生物",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 6,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 9,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 8,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 8,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 6,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 3,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "macro_launch_50_50_v5": 1,
+          "quality_50_50_v2": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "appearance_count": 11,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 8,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 10,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 5,
+            "name": "敦煌种业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 1,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 1,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 3,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 4,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 9,
+            "name": "绿色动力",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 5,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 4,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 9,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 8,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 3,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "research_stage_50_50_v3": 1,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-09",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 4,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 5,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "quality_50_50_v2": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 1,
+        "first_session": "2026-10-09",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002780",
+        "name": "三夫户外",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 6,
+            "name": "三夫户外",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 1,
+            "name": "三夫户外",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 2,
+            "name": "三夫户外",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 1,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-23",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "appearance_count": 8,
+        "appearances": [
+          {
+            "session": "2026-10-15",
+            "rank": 10,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 6,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 8,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 9,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 6,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-28",
+            "rank": 2,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "a3bd45389fd6b365508b0200d1ed2c639c30d7190f8a7657503405201d862c20"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 7,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 5,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 7
+        },
+        "current_model_appearances": 7,
+        "first_session": "2026-10-15",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "appearance_count": 7,
+        "appearances": [
+          {
+            "session": "2026-10-09",
+            "rank": 4,
+            "name": "威尔药业",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 8,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-28",
+            "rank": 1,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "a3bd45389fd6b365508b0200d1ed2c639c30d7190f8a7657503405201d862c20"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 4,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "quality_50_50_v2": 1,
+          "weekly_ma55_macd_50_50_v9": 6
+        },
+        "current_model_appearances": 6,
+        "first_session": "2026-10-09",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600356",
+        "name": "恒丰纸业",
+        "appearance_count": 7,
+        "appearances": [
+          {
+            "session": "2026-10-15",
+            "rank": 7,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 2,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 5,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 3,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 3,
+        "first_session": "2026-10-15",
+        "last_session": "2026-10-26",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002748",
+        "name": "世龙实业",
+        "appearance_count": 6,
+        "appearances": [
+          {
+            "session": "2026-10-13",
+            "rank": 2,
+            "name": "世龙实业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 8,
+            "name": "世龙实业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 3,
+            "name": "世龙实业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 1,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 2,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 1,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 1,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-13",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-22",
+            "rank": 9,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 10,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 10,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 7,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 6,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 5
+        },
+        "current_model_appearances": 5,
+        "first_session": "2026-10-22",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-22",
+            "rank": 8,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 6,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 7,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 4,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 5,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 5
+        },
+        "current_model_appearances": 5,
+        "first_session": "2026-10-22",
+        "last_session": "2026-10-29",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603209",
+        "name": "兴通股份",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 2,
+            "name": "兴通股份",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 5,
+            "name": "兴通股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "research_stage_50_50_v3": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600989",
+        "name": "宝丰能源",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 6,
+            "name": "宝丰能源",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600035",
+        "name": "楚天高速",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 2,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 4,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 1,
+            "name": "楚天高速",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 8,
+            "name": "楚天高速",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      }
+    ],
+    "all_rows": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "appearance_count": 14,
+        "appearances": [
+          {
+            "session": "2026-10-16",
+            "rank": 8,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 9,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 9,
+            "name": "华测检测",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 3,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 2,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 2,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 4,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          },
+          {
+            "session": "2026-11-02",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "71a9e7178ff5f9f9f3796307253c43ab0feb3f3a0c9db5d03a0b05acef55601f"
+          },
+          {
+            "session": "2026-11-03",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "6a812f6614c1bb9272b161bdd38838cb1ec86e7430ee392f43f40ea699ff3d75"
+          },
+          {
+            "session": "2026-11-04",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "7f4560346d8efa6092d200b4d14cc4afa7c29a0139ad82dd2021929644360966"
+          },
+          {
+            "session": "2026-11-05",
+            "rank": 1,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "d05a63e993a070be9a6e2b09d32989771273ef13106630c692c402f2bd68d2a8"
+          },
+          {
+            "session": "2026-11-06",
+            "rank": 4,
+            "name": "华测检测",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "c32fd2fcedc66e040686c5e201166494880358702abfea42d59015cd984b2ae9"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 11,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 11,
+        "first_session": "2026-10-16",
+        "last_session": "2026-11-06",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603387",
+        "name": "基蛋生物",
+        "appearance_count": 13,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-09",
+            "rank": 2,
+            "name": "基蛋生物",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 3,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 9,
+            "name": "基蛋生物",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 7,
+            "name": "基蛋生物",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 6,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 9,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 8,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 8,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 5,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 6,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 3,
+            "name": "基蛋生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "macro_launch_50_50_v5": 1,
+          "quality_50_50_v2": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600354",
+        "name": "敦煌种业",
+        "appearance_count": 11,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 8,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 10,
+            "name": "敦煌种业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 5,
+            "name": "敦煌种业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 1,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 1,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 3,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 4,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 2,
+            "name": "敦煌种业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "601330",
+        "name": "绿色动力",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 9,
+            "name": "绿色动力",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 5,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 7,
+            "name": "绿色动力",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 4,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 9,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 8,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 3,
+            "name": "绿色动力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "research_stage_50_50_v3": 1,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 4,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 4,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "300833",
+        "name": "浩洋股份",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-09",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 1,
+            "name": "浩洋股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 3,
+            "name": "浩洋股份",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 4,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 6,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 5,
+            "name": "浩洋股份",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "quality_50_50_v2": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 1,
+        "first_session": "2026-10-09",
+        "last_session": "2026-10-27",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002780",
+        "name": "三夫户外",
+        "appearance_count": 9,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-12",
+            "rank": 4,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 6,
+            "name": "三夫户外",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 1,
+            "name": "三夫户外",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 3,
+            "name": "三夫户外",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 2,
+            "name": "三夫户外",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 1,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-23",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603055",
+        "name": "台华新材",
+        "appearance_count": 8,
+        "appearances": [
+          {
+            "session": "2026-10-15",
+            "rank": 10,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 6,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 8,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 9,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 6,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-28",
+            "rank": 2,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "a3bd45389fd6b365508b0200d1ed2c639c30d7190f8a7657503405201d862c20"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 7,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 5,
+            "name": "台华新材",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 7
+        },
+        "current_model_appearances": 7,
+        "first_session": "2026-10-15",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603351",
+        "name": "威尔药业",
+        "appearance_count": 7,
+        "appearances": [
+          {
+            "session": "2026-10-09",
+            "rank": 4,
+            "name": "威尔药业",
+            "scoring_version": "quality_50_50_v2",
+            "decision_sha256": "08e19f062c3bf5ea2466e9fb7bf19a7f5aefcab2082e0de3205d3504bdf19fb1"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 8,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-28",
+            "rank": 1,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "a3bd45389fd6b365508b0200d1ed2c639c30d7190f8a7657503405201d862c20"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 4,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 7,
+            "name": "威尔药业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "quality_50_50_v2": 1,
+          "weekly_ma55_macd_50_50_v9": 6
+        },
+        "current_model_appearances": 6,
+        "first_session": "2026-10-09",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600356",
+        "name": "恒丰纸业",
+        "appearance_count": 7,
+        "appearances": [
+          {
+            "session": "2026-10-15",
+            "rank": 7,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          },
+          {
+            "session": "2026-10-22",
+            "rank": 2,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 4,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 5,
+            "name": "恒丰纸业",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_ma55_macd_50_50_v9": 3,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 3,
+        "first_session": "2026-10-15",
+        "last_session": "2026-10-26",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002748",
+        "name": "世龙实业",
+        "appearance_count": 6,
+        "appearances": [
+          {
+            "session": "2026-10-13",
+            "rank": 2,
+            "name": "世龙实业",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 8,
+            "name": "世龙实业",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 3,
+            "name": "世龙实业",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 1,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 2,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 1,
+            "name": "世龙实业",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 1,
+          "weekly_ma55_50_50_v6": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-13",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "002164",
+        "name": "宁波东力",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-22",
+            "rank": 9,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 10,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 10,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 7,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-30",
+            "rank": 6,
+            "name": "宁波东力",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "570437ba602c9a43b7e3bfe3faaa4cdfa8bf25890a8476987b5f0d82b409a89a"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 5
+        },
+        "current_model_appearances": 5,
+        "first_session": "2026-10-22",
+        "last_session": "2026-10-30",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "688139",
+        "name": "海尔生物",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-22",
+            "rank": 8,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "31c6a467ae25a81bebd4a1af5d75ab48c5365482ee378d08cdfffd3516e6c8cd"
+          },
+          {
+            "session": "2026-10-23",
+            "rank": 6,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "ebde6ea061dbd3e17c212d30a3ce65cedde0812eefb1096bde0002be24170694"
+          },
+          {
+            "session": "2026-10-26",
+            "rank": 7,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "8ed6ec08986df3213f142325113099c3443615cbd6ca81f0a8d9a24e00b70423"
+          },
+          {
+            "session": "2026-10-27",
+            "rank": 4,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "f78a5a759629ebb7863be44a71a1d69da545a1e9505f2de6f9e9f92e42d89e48"
+          },
+          {
+            "session": "2026-10-29",
+            "rank": 5,
+            "name": "海尔生物",
+            "scoring_version": "weekly_ma55_macd_50_50_v9",
+            "decision_sha256": "247c08a058433cbb978290cda47a530f67f677aa68ca3945a9c2cb20a4e22488"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "weekly_ma55_macd_50_50_v9": 5
+        },
+        "current_model_appearances": 5,
+        "first_session": "2026-10-22",
+        "last_session": "2026-10-29",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "603209",
+        "name": "兴通股份",
+        "appearance_count": 5,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 2,
+            "name": "兴通股份",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 5,
+            "name": "兴通股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 10,
+            "name": "兴通股份",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "research_stage_50_50_v3": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600989",
+        "name": "宝丰能源",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-08",
+            "rank": 6,
+            "name": "宝丰能源",
+            "scoring_version": "balanced_50_50_v1",
+            "decision_sha256": "51b664573a7e49c6817933c120f34182bb53a6ee097a41b9eeee069e9cf17d85"
+          },
+          {
+            "session": "2026-10-16",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "02b4e60620c4609eb48fd3aabe72f1bda9e47dde541c26fc978f1823b04b9a40"
+          },
+          {
+            "session": "2026-10-19",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "0f1777145a1089ce5ada15bab847de55ddfabd6da4f5e5c39f7f971ee769c308"
+          },
+          {
+            "session": "2026-10-20",
+            "rank": 5,
+            "name": "宝丰能源",
+            "scoring_version": "weekly_monthly_only_50_50_v8",
+            "decision_sha256": "e2fa9d3cdfa9eb43ece0951bf203a82abcf6dd90aef8afcad1740875a2b5ab55"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "balanced_50_50_v1": 1,
+          "weekly_monthly_only_50_50_v8": 3
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-08",
+        "last_session": "2026-10-20",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "600035",
+        "name": "楚天高速",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 2,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 4,
+            "name": "楚天高速",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 1,
+            "name": "楚天高速",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 8,
+            "name": "楚天高速",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "920599",
+        "name": "同力股份",
+        "appearance_count": 4,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 7,
+            "name": "同力股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 8,
+            "name": "同力股份",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 2,
+            "name": "同力股份",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          },
+          {
+            "session": "2026-10-15",
+            "rank": 9,
+            "name": "同力股份",
+            "scoring_version": "weekly_ma55_50_50_v6",
+            "decision_sha256": "498d5455804a0a0fe3d4d0beb510eabf0a62dec1c66f3beb31c0b67df5e5cd99"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2,
+          "weekly_ma55_50_50_v6": 1
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-15",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      },
+      {
+        "code": "920946",
+        "name": "森萱医药",
+        "appearance_count": 3,
+        "appearances": [
+          {
+            "session": "2026-10-12",
+            "rank": 5,
+            "name": "森萱医药",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "d61d88e16693a0a151159f648f1b2b9d4c89b18a1c4def1b438b04432b309807"
+          },
+          {
+            "session": "2026-10-13",
+            "rank": 6,
+            "name": "森萱医药",
+            "scoring_version": "research_stage_50_50_v3",
+            "decision_sha256": "06a534402d95be7825741ad24a5aa50517b59de00937c136bd7abbddcebb0553"
+          },
+          {
+            "session": "2026-10-14",
+            "rank": 10,
+            "name": "森萱医药",
+            "scoring_version": "macro_launch_50_50_v5",
+            "decision_sha256": "75abd5aa520b1575aea455ffc1a2ec29ff5104036af96bb5f329ee5f01f10329"
+          }
+        ],
+        "appearance_counts_by_model": {
+          "macro_launch_50_50_v5": 1,
+          "research_stage_50_50_v3": 2
+        },
+        "current_model_appearances": 0,
+        "first_session": "2026-10-12",
+        "last_session": "2026-10-14",
+        "current_rank": null,
+        "currently_qualified": false,
+        "daily_volume": {
+          "status": "unavailable",
+          "ratio20": null,
+          "confirmed_at": null,
+          "reason": "本次完整日线或此前20日均量未核验；不沿用旧日量"
+        }
+      }
+    ],
+    "preferences": {
+      "schema": 1,
+      "ignored_codes": [
+        "920599",
+        "920946"
+      ]
+    },
+    "preferences_sha256": "352eb3a6ec517f06829225906a0accab5bb9a5b29f9f96cf9b36b9874f079329",
+    "preferences_status": "ok",
+    "suppressed_count": 2,
+    "history_status": "ok",
+    "history_issues": []
+  },
+  "macd_monitor": null,
+  "valuations": null,
+  "valuation_coverage": null,
+  "technical_reviews": null,
+  "financial_integrity_required": "financial_integrity_v1",
+  "top_candidates": [],
+  "execution_candidates": [],
+  "candidate_count": 0,
+  "ranking_eligible_count": 0,
+  "observation_count": 0,
+  "divergences": [],
+  "errors": [
+    "收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果"
+  ]
+}
