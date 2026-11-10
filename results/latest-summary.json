@@ -5,8 +5,8 @@
   "scan_complete": false,
   "scan_type": "closed_session",
   "scan_phase": "closing",
-  "generated_at": "2026-11-11T00:16:14.369817+08:00",
-  "finished_at": "2026-11-11T00:16:14.393620+08:00",
+  "generated_at": "2026-11-11T00:22:52.865921+08:00",
+  "finished_at": "2026-11-11T00:22:52.891237+08:00",
   "session": "2026-11-10",
   "minute15_cutoff": "2026-11-10T15:00:00",
   "coverage": null,
@@ -54,8 +54,8 @@
     "loss_recovery_max_ps": 3.0
   },
   "leading_evidence_coverage": null,
-  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/42847639119",
-  "source_commit": "660cf4b1a422fd195d4457923d93d61b27df7b52",
+  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/42853414247",
+  "source_commit": "d0d85ea5e7ef5d4edfa5f648d925c02fad10b8dc",
   "quote_clock_validation": null,
   "scoring_version": "weekly_ma55_macd_50_50_v9",
   "score_weights": {
