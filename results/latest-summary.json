@@ -3,12 +3,12 @@
   "selection_rule": "dual_route_monthly_recovery",
   "status": "failed",
   "scan_complete": false,
-  "scan_type": "closed_session",
+  "scan_type": "after_close",
   "scan_phase": "closing",
-  "generated_at": "2026-11-11T00:22:52.865921+08:00",
-  "finished_at": "2026-11-11T00:22:52.891237+08:00",
-  "session": "2026-11-10",
-  "minute15_cutoff": "2026-11-10T15:00:00",
+  "generated_at": "2026-11-11T23:07:36.426390+08:00",
+  "finished_at": "2026-11-11T23:08:01.915269+08:00",
+  "session": "2026-11-11",
+  "minute15_cutoff": "2026-11-11T15:00:00",
   "coverage": null,
   "config": {
     "min_turnover_cny": 30000000,
@@ -54,8 +54,8 @@
     "loss_recovery_max_ps": 3.0
   },
   "leading_evidence_coverage": null,
-  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/42853414247",
-  "source_commit": "d0d85ea5e7ef5d4edfa5f648d925c02fad10b8dc",
+  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/43044498273",
+  "source_commit": "7a051f9478143dee0f8e1c8c8aa0617fc61328e6",
   "quote_clock_validation": null,
   "scoring_version": "weekly_ma55_macd_50_50_v9",
   "score_weights": {
@@ -85,7 +85,7 @@
   "top10_tracking": {
     "schema": 1,
     "threshold": 3,
-    "as_of_session": "2026-11-10",
+    "as_of_session": "2026-11-11",
     "counted_sessions": 21,
     "first_counted_session": "2026-10-08",
     "basis": "正式交易日收盘综合前10；跨版本保留实际原榜，同日重跑只计一次，模型复核/预跑/失败不计",
@@ -2526,7 +2526,8 @@
     "suppressed_count": 2,
     "history_status": "partial",
     "history_issues": [
-      "results/2026-11-10/closing-summary.json未通过收盘日期/状态/名单校验，未计次数"
+      "results/2026-11-10/closing-summary.json未通过收盘日期/状态/名单校验，未计次数",
+      "results/2026-11-11/closing-summary.json未通过收盘日期/状态/名单校验，未计次数"
     ]
   },
   "macd_monitor": null,
@@ -2541,6 +2542,6 @@
   "observation_count": 0,
   "divergences": [],
   "errors": [
-    "收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果"
+    "spot_sina_full 失败（未使用模拟数据）：module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/live.py\", line 228, in spot_sina\n    raise ValueError(f\"行情覆盖不全：{len(raw)}/{count}，请重试\")\nValueError: 行情覆盖不全：5350/5341，请重试\n"
   ]
 }
