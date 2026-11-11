@@ -3,10 +3,10 @@
   "selection_rule": "dual_route_monthly_recovery",
   "status": "failed",
   "scan_complete": false,
-  "scan_type": "after_close",
+  "scan_type": "closed_session",
   "scan_phase": "closing",
-  "generated_at": "2026-11-11T23:39:05.632822+08:00",
-  "finished_at": "2026-11-11T23:39:30.700822+08:00",
+  "generated_at": "2026-11-12T00:02:47.925595+08:00",
+  "finished_at": "2026-11-12T00:02:47.945695+08:00",
   "session": "2026-11-11",
   "minute15_cutoff": "2026-11-11T15:00:00",
   "coverage": null,
@@ -54,8 +54,8 @@
     "loss_recovery_max_ps": 3.0
   },
   "leading_evidence_coverage": null,
-  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/43049796706",
-  "source_commit": "0c74dc10834dbee2888d707b3420c4897f773adc",
+  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/43053830891",
+  "source_commit": "b9c7cd8e17e2c1f34f32e712758f9a0b345a0776",
   "quote_clock_validation": null,
   "scoring_version": "weekly_ma55_macd_50_50_v9",
   "score_weights": {
@@ -2542,6 +2542,6 @@
   "observation_count": 0,
   "divergences": [],
   "errors": [
-    "spot_sina_full 失败（未使用模拟数据）：module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Tommy-Capital-AI/Tommy-Capital-AI/tommy_capital/live.py\", line 228, in spot_sina\n    raise ValueError(f\"行情覆盖不全：{len(raw)}/{count}，请重试\")\nValueError: 行情覆盖不全：5350/5341，请重试\n"
+    "收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果"
   ]
 }
