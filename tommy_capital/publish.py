@@ -23,7 +23,7 @@ def publish(directory, token, repository):
     for key in ["selection_rule", "scan_phase", "scan_type", "session", "minute15_cutoff", "scan_complete", "coverage", "scoring_version", "score_weights", "display_limit", "ranking_complete", "ranking_incomplete_reasons", "ranking_policy", "ranking_purpose", "model_review", "model_validation", "forward_evaluation", "top10_tracking","macd_monitor", "valuations", "valuation_coverage", "technical_reviews"]:
         if summary.get(key) != report.get(key):
             raise ValueError(f"中文报告与机器摘要的{key}不一致")
-    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required"):
+    for key in ("investment_research", "data_quality", "financial_integrity", "financial_integrity_required", "reversal_opportunities", "reversal_research"):
         if summary.get(key) != report.get(key):
             raise ValueError(f"研究附加字段{key}与机器摘要不一致")
     if report.get("investment_research") is not None:
@@ -32,6 +32,8 @@ def publish(directory, token, repository):
     markdown = render_markdown(report, github_run_url())
     from .financial_integrity import validate_integrity
     validate_integrity(report, markdown)
+    from .reversal_research import validate_pool, validate_snapshot, validate_event_state, freeze_pool
+    validate_pool(report)
     (directory / "report.md").write_text(markdown, encoding="utf-8")
     base = "https://api.github.com/repos/" + repository
     headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
@@ -65,6 +67,18 @@ def publish(directory, token, repository):
         snapshot = json.loads((directory / "research-snapshot.json").read_text())
         entries.append({"path": snapshot["repository_path"], "mode": "100644", "type": "blob",
                         "content": json.dumps(snapshot, ensure_ascii=False, indent=2, allow_nan=False)})
+    if (directory/'reversal-snapshot.json').is_file():
+        snapshot=json.loads((directory/'reversal-snapshot.json').read_text())
+        validate_snapshot(snapshot)
+        from datetime import datetime
+        if snapshot!=freeze_pool(report,datetime.fromisoformat(snapshot['observed_at'])):
+            raise ValueError('Route C快照与本次研究名单不一致')
+        entries.append({'path':snapshot['repository_path'],'mode':'100644','type':'blob',
+                        'content':json.dumps(snapshot,ensure_ascii=False,indent=2,allow_nan=False)})
+    if (directory/'reversal-event-state.json').is_file() and report.get('reversal_opportunities',{}).get('status') not in ('unavailable','disabled'):
+        validate_event_state(json.loads((directory/'reversal-event-state.json').read_text()))
+        entries.append({'path':'results/reversal-event-state.json','mode':'100644','type':'blob',
+                        'content':(directory/'reversal-event-state.json').read_text()})
     if (directory / "forward-evaluation.json").is_file():
         entries.append({"path": "research/latest-evaluation.json", "mode": "100644", "type": "blob",
                         "content": (directory / "forward-evaluation.json").read_text()})

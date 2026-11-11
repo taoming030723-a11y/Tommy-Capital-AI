@@ -1,0 +1,765 @@
+{
+  "schema": 1,
+  "captured_at": "2026-10-30T16:49:58.931624+08:00",
+  "samples": [
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "file": "000333.csv",
+      "sha256": "bcc71df78d9a1cea13666e3e4f09582236ab52bb9d87122ef2654e5bf94ec3cb",
+      "rows": 640,
+      "first": "2024-03-11",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:33",
+      "quote_price": 89.18,
+      "fetched_at": "2026-10-30T16:49:26.554202+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "000333"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:00.447272+08:00",
+          "sha256": "96b3ca59800e5bb7e0b63371feb041dffb6b83dd783cc368bc22d5395e3a22dd"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "000333",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 640,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:26.524709+08:00",
+          "sha256": "ae6b830e563eb7931a8b137982d3e84ac84c2fa19612e9ac7ecf96e4c1954988"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "000333-monthly.csv",
+        "sha256": "417eda61f4832e4059eb39d5746f2a3a153fd7f78ee587ae88ea9a039fb671a4",
+        "rows": 119,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 120,
+          "long_history_attempt_errors": [
+            "300周期：K线含异常价格/成交量"
+          ]
+        }
+      },
+      "weekly": {
+        "file": "000333-weekly.csv",
+        "sha256": "310b74df5a1891f60261cd996a2f1c1545c285ad37c1f6afe34e73a1c54d4b36",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 136,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "000333",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 157,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:53:53.278238+08:00",
+          "sha256": "375f57d3e310a130d7ad85bf3159b290af425e0d108b87148a26f832b904bf76"
+        },
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "000333",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 120
+          },
+          "rows": 119,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:01.406097+08:00",
+          "sha256": "7f5d40e76877d593181f70c6ca5bc2e56c105fed3e9182c4a5519010030da02e"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "000333",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:09.467823+08:00",
+          "sha256": "ada24282051fb7caf5d4af061c054a8293fd0ba957690f230d2f34ea81b207c9"
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "file": "300750.csv",
+      "sha256": "84de1afcb93c88afcad5e98d3a459a9a13dbbe1727cf7d48234132cf2c2ecb9a",
+      "rows": 640,
+      "first": "2024-03-11",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:45",
+      "quote_price": 232.92,
+      "fetched_at": "2026-10-30T16:49:58.327371+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "300750"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:34.645973+08:00",
+          "sha256": "d4913b53e4d51ac5dbb332b4c8fa88435aca2a268102da08b5fac50286f64485"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "300750",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 640,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:58.314472+08:00",
+          "sha256": "b45e93e1fa20e03be2d203df05266461b91a901164babe8f087776e180e94545"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "300750-monthly.csv",
+        "sha256": "f1e717bca15c0779d554ca2959e7ec3b27c161eaed39fcd803fa037acfd4d6ea",
+        "rows": 100,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "weekly": {
+        "file": "300750-weekly.csv",
+        "sha256": "b5f4ad775d1cf01fc9b1cbc71c885adce4fe9e8b7fe06bdf8d43c32b38b38d0a",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 136,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "300750",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 100,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:53:53.073236+08:00",
+          "sha256": "f3b1d1d1d504933a3ab60a51bccffee21e3a22278f886dea7b283d2facd8f96c"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "300750",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:01.646873+08:00",
+          "sha256": "6c6db2aa61ca1dea7b450128b9e06701888a66983b015f797e8363cf898a4f91"
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "file": "600031.csv",
+      "sha256": "661bd7abf9da911c864447f2f10d490790fec0386a94b390c78ea91b8e79bd71",
+      "rows": 641,
+      "first": "2024-03-08",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:50",
+      "quote_price": 17.76,
+      "fetched_at": "2026-10-30T16:49:26.440942+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "600031"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:00.704848+08:00",
+          "sha256": "516cd79b4c54c85ead486a9cb5549d7483665219ab84d6b0efd28c17b8fdc151"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "600031",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 641,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:26.430153+08:00",
+          "sha256": "4f32b32f0c5e276d6a47c99d1c87732b78bd585c8029bba68be01fa688f59d1c"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "600031-monthly.csv",
+        "sha256": "359f85cf7b5b62b9ca0b3423a3b63e4079cf78c9c06a84b6b698691c8c672851",
+        "rows": 119,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 120,
+          "long_history_attempt_errors": [
+            "300周期：K线含异常价格/成交量"
+          ]
+        }
+      },
+      "weekly": {
+        "file": "600031-weekly.csv",
+        "sha256": "c5103030e9adf2e2782084966c47d2e217f0e74e99748d0a5eab9887ce0fdecf",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 137,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "600031",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 279,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:09.715544+08:00",
+          "sha256": "fd2dc5a71d61004bb94e2c960e9e7d9efcfcd3c200382c83d860f6a14310b4a4"
+        },
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "600031",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 120
+          },
+          "rows": 119,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:17.960029+08:00",
+          "sha256": "2827864ff945fd50da9ac0976d0a9e4ba2f38dbbd659d4d24ad4b813238da1d9"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "600031",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:25.012909+08:00",
+          "sha256": "b6a32059e2b0bf83a0b8655d0c0323fe4f670513e536a4e5dfc3547a8f886cdf"
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "file": "600036.csv",
+      "sha256": "49527989616560ea03bb4d0c107a44299b4c6b57d05e4be16c105e04f0dfa709",
+      "rows": 641,
+      "first": "2024-03-08",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:48",
+      "quote_price": 43.55,
+      "fetched_at": "2026-10-30T16:48:52.379582+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "600036"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:48:23.897827+08:00",
+          "sha256": "c39ea7d593462311fe402597ca5528f69cad5bcbb21524b414360ddf87203e81"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "600036",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 641,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:48:52.353129+08:00",
+          "sha256": "19b528657f93226283d38884cdb5234006f88bb7133daaccb6bf75089dcb6481"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "600036-monthly.csv",
+        "sha256": "c909f43a6047f0f96ca78cb18c4a7150121cd040bdaa8c8d2840a98972a689c9",
+        "rows": 119,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 120,
+          "long_history_attempt_errors": [
+            "300周期：K线含异常价格/成交量"
+          ]
+        }
+      },
+      "weekly": {
+        "file": "600036-weekly.csv",
+        "sha256": "877f5f8d8ec820568670e70aa638b9319b9ffa0030d9b46dcfb5ee6eb610f33f",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 137,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "600036",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 294,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:17.749114+08:00",
+          "sha256": "a41919d29b381da96ea35abbd1354e331f52f14892b6002541d1189beb38cfdb"
+        },
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "600036",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 120
+          },
+          "rows": 119,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:24.278949+08:00",
+          "sha256": "f0b22c24ae2b48d2d2812d7e5731b64cd200f13eb408a0688a1dd78bfaec07a2"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "600036",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:32.653238+08:00",
+          "sha256": "f4be7bc1f79ff441626ae86c29dffa70f6e73635607c7a8ac9e12505da67ca3f"
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "file": "601012.csv",
+      "sha256": "7ea6fe20df601978b4de09c08abe282cdcc5f8210a40325fabdf27444f8c6a98",
+      "rows": 641,
+      "first": "2024-03-08",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:55",
+      "quote_price": 11.0,
+      "fetched_at": "2026-10-30T16:49:58.931221+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "601012"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:35.319021+08:00",
+          "sha256": "ca80d1a39fff0cf94bb3093b860f4abc478a0de027d722559a71c591f00bf26c"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "601012",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 641,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:49:58.920969+08:00",
+          "sha256": "dfbb751d3800a1e608a1deac919c064f69425112a3ae3171064b95bd15271ac4"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "601012-monthly.csv",
+        "sha256": "583b1f1f7adc8c9a26aba5edfa13e921eb9eb37a6755174c54878fbd13dd24e9",
+        "rows": 119,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 120,
+          "long_history_attempt_errors": [
+            "300周期：K线含异常价格/成交量"
+          ]
+        }
+      },
+      "weekly": {
+        "file": "601012-weekly.csv",
+        "sha256": "c3ba2d495fb6cda8d4d4e1d775ffcaa77e33671198e011c87ee75c63852b4a98",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 137,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "601012",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 174,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:32.628683+08:00",
+          "sha256": "80c629710f822f1659b28c84f7f97f8e0a42a43066383c2c2c3d93a32dac7c82"
+        },
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "601012",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 120
+          },
+          "rows": 119,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:40.785647+08:00",
+          "sha256": "23ebd64bf024d1ec17aeb027a818cebaa4eb0c21d135f78d72e48c13478a9966"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "601012",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:48.950635+08:00",
+          "sha256": "77f57749dec166bccbcdf47976c3708087e19eaa1573113c73c62a895ba76dde"
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "file": "603883.csv",
+      "sha256": "5d1aacbc71fbc6633df46e54ba1fedd6dd9bb15f38a998339bc6d9e54f3fcd4b",
+      "rows": 641,
+      "first": "2024-03-08",
+      "last": "2026-10-30",
+      "quote_at": "2026-10-30 16:14:41",
+      "quote_price": 14.95,
+      "fetched_at": "2026-10-30T16:48:52.275059+08:00",
+      "source": "daily_tx_recent",
+      "adjust": "qfq",
+      "anchor_date": "2026-10-30",
+      "lineage": [
+        {
+          "function": "quote_tx_one",
+          "kwargs": {
+            "symbol": "603883"
+          },
+          "rows": 1,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:48:23.900304+08:00",
+          "sha256": "94c828997e2409a2960bc81d20f7d3546b23539899004634369a18dec878b15c"
+        },
+        {
+          "function": "daily_tx_recent",
+          "kwargs": {
+            "symbol": "603883",
+            "start_date": "20150101",
+            "end_date": "20261030",
+            "anchor_date": "20261030",
+            "adjust": "qfq",
+            "include_current_session": true
+          },
+          "rows": 641,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:48:52.256983+08:00",
+          "sha256": "7b4780b80a526ebc1b31a6b592a8b4e17ef46abecb2b93a6d274d51f7ad4a65c"
+        }
+      ],
+      "failed_sources": [
+        "daily_sina_adjusted:  _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/worker.py\", line 21, in main\n    frame = native[request[\"function\"]](**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/tommy_capital/live.py\", line 352, in daily_sina\n    raise ValueError(\"新浪未提供可验证的前复权因子\")\nValueError: 新浪未提供可验证的前复权因子\n",
+        "stock_zh_a_hist: ])(**request[\"kwargs\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/akshare/stock_feature/stock_hist_em.py\", line 993, in stock_zh_a_hist\n    data_json = r.json()\n                ^^^^^^^^\n  File \"/workspace/scratch/bc208ee89c42/Tommy-Capital-AI-route-c/.venv-route-c/lib/python3.12/site-packages/requests/models.py\", line 1120, in json\n    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)\nrequests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+      ],
+      "monthly": {
+        "file": "603883-monthly.csv",
+        "sha256": "8c4360d09f81edfa5c01e121527317fd92c26d3267e926366c91ace0f5f27385",
+        "rows": 135,
+        "validation": {
+          "matched_complete_months": 30,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-09-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "weekly": {
+        "file": "603883-weekly.csv",
+        "sha256": "9a4eb64945b2f4f5e695a0018e99caa967395663776b53f5d34f685d226419f6",
+        "rows": 300,
+        "validation": {
+          "matched_complete_weeks": 137,
+          "columns": [
+            "open",
+            "close",
+            "high",
+            "low"
+          ],
+          "tolerance_cny": 0.011,
+          "latest_complete_period": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "forming_period_excluded": true,
+          "requested_periods_used": 300,
+          "long_history_attempt_errors": []
+        }
+      },
+      "period_lineage": [
+        {
+          "function": "monthly_tx_qfq",
+          "kwargs": {
+            "symbol": "603883",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 135,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:40.722643+08:00",
+          "sha256": "8df286e3df0aadbdfac31a7a5628d17ed9ce41299a26801812e21e7daa935c00"
+        },
+        {
+          "function": "weekly_tx_qfq",
+          "kwargs": {
+            "symbol": "603883",
+            "end_date": "2026-10-30",
+            "anchor_date": "2026-10-30",
+            "max_periods": 300
+          },
+          "rows": 300,
+          "cache_hit": false,
+          "fetched_at": "2026-10-30T16:54:48.953753+08:00",
+          "sha256": "a0dafd19079225049255b486d4fb9e8dc214eb7581aee0f94176cc2eb57156c2"
+        }
+      ]
+    }
+  ],
+  "selection": "预先固定的跨行业小样本；并非按回报筛选；仅含当前存续公司，有幸存者偏差，不代表全A股",
+  "price_basis": "同次来源、同一当前前复权锚点的真实历史；不是历史时点留存的复权/财报快照，不能证明PIT策略收益",
+  "calendar_sha256": "51837ba2f297180ffa06cc933a523635a076fcfefeecfe1f1792cd716dedcaa7",
+  "calendar_lineage": [
+    {
+      "function": "tool_trade_date_hist_sina",
+      "kwargs": {},
+      "rows": 8797,
+      "cache_hit": false,
+      "fetched_at": "2026-10-30T16:53:44.447290+08:00",
+      "sha256": "239eb4bad1a6463a3b5bbf365e90bf3bdfbf261cdaabc366410b15a49757c4e2"
+    }
+  ],
+  "periods_captured_at": "2026-10-30T16:54:48.981040+08:00",
+  "calendar_scope": "真实源交易日历的2024–2027日期子集；原始源响应哈希保留于calendar_lineage，无推算日期"
+}

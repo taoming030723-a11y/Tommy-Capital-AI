@@ -200,3 +200,20 @@ Windows安装Python 3.11+、更新或下载本仓库后，双击根目录 **`Sta
 收盘扫描结束后，`screen.yml`独立步骤仅监控公开累计Top10≥3且未忽略的股票，联合发布新增中文“多周期MACD背离监控”和机器JSON；原Top20与累计观察表保留。云端不增加高频全市场扫描或新定时。本机手动立即刷新独立进行，不依赖Actions排队。重要信号显示匹配价格枢轴、柱波峰值、DIF、首次/确认时间、失效事件及后续条件；配置见`monitor-config.json`，与排名无关。
 
 离线演示：`python -m tommy_capital.monitor_example`，重放已冻结收到的昭衍新药历史日线。样例未附分钟数据，四个分钟周期明确不可判断；不伪造实时行情、不回填Top10历史。完整定义、数据限制和验证记录见[监控与v8说明](docs/macd-monitor-v8.md)。
+
+## 独立Route C：多周期右侧反转机会池
+
+新增`right_side_reversal_v1`研究路线，与原综合Top20并列展示，不修改A/B月J入口、基本面50/月线20/周线30、周MA55的16分、Top10累计/忽略或持仓/T规则。研究关注“长期调整→完整月KD/MACD修复→周线率先转强→日线整理等待再次启动”。月J已超过80本身不排除，也不重复给J和K−D加分。
+
+Route C复用已取得的日周月OHLC和原指标计算；不会另扫一遍全市场、不增加分钟请求。日线MACD在此仅作独立研究，原重点观察/持仓背离与T资格保持不变。周MA55下降时即使价格站在线上也最多为早期观察，不能冒充MA55上行或买点确认。未知财报、估值、债务、商誉及诉讼均不默认通过。
+
+主扫描生成独立`reversal-opportunities.json`；收盘工作流在原估值附加之后冻结独立研究快照和去重事件，再统一审计与发布。默认配置见`reversal-opportunity-config.json`，`--reversal-config`可指定研究配置，不能改变MACD/KDJ口径或降低原历史长度。新模块不可用时单独标“无法判断”，不把有效A/B扫描判失败。
+
+```bash
+python -m pytest -q
+python scripts/validate-reversal.py --out reports/reversal-validation
+python -m tommy_capital.reversal_capture --codes 603883,600036,600031,000333,300750,601012 --out reports/my-real-samples
+python -m tommy_capital.reversal_research --study-manifest reports/my-real-samples/manifest.json --out reports/my-price-study
+```
+
+第一条真实验证命令重放已冻结的真实六股样本，离线可复现；抓取命令须在真实交易日收盘后显式运行，六个代码只是输入案例，不是算法例外。Route C仍标`unvalidated_out_of_sample`；小样本价格观察不能替代含历史财报/退市股票/真实成交约束的策略验证。完整算法、操作和边界见[Route C说明](docs/right-side-reversal.md)；[10月30日真实验证](docs/validation-route-c-2026-10-30.md)。

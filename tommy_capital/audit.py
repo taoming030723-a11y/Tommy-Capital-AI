@@ -17,6 +17,15 @@ def audit(directory):
     summary = json.loads((root / "summary.json").read_text())
     from .financial_integrity import validate_integrity
     validate_integrity(report, (root/"report.md").read_text())
+    from .reversal_research import validate_pool, validate_snapshot, freeze_pool, validate_event_state
+    validate_pool(report)
+    if (root/'reversal-snapshot.json').exists():
+        snapshot=json.loads((root/'reversal-snapshot.json').read_text())
+        validate_snapshot(snapshot)
+        from datetime import datetime
+        assert snapshot==freeze_pool(report,datetime.fromisoformat(snapshot['observed_at']))
+    if (root/'reversal-event-state.json').exists():
+        validate_event_state(json.loads((root/'reversal-event-state.json').read_text()))
     assert report["status"] in ("complete", "partial", "failed")
     if report["status"] == "failed":
         assert report["scan_complete"] is False and not report["rankings"]
