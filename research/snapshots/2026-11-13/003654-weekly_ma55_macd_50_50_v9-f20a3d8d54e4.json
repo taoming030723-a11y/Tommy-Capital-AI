@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "decision_at": "2026-11-13T00:36:54.971424+08:00",
+  "data_session": "2026-11-12",
+  "model_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "68cdb675f1f5bb0478e7ebb4fc1ce913ca1b104f",
+  "ranking_purpose": "strategic_research_not_entry",
+  "ranking_complete": false,
+  "source_review": null,
+  "config": {
+    "min_turnover_cny": 30000000,
+    "min_revenue_yoy_pct": 0,
+    "min_profit_yoy_pct": 0,
+    "max_pe_ttm": 60,
+    "max_pb": 8,
+    "max_industry_pe_ratio": 1.2,
+    "min_industry_pe_samples": 5,
+    "max_finance_age_days": 225,
+    "daily_history_years": 8,
+    "request_timeout_seconds": 180,
+    "request_attempts": 2,
+    "daily_volume_abnormal_ratio": 2.0,
+    "weekly_base_max_range_pct": 20.0,
+    "weekly_base_low_tolerance_pct": 3.0,
+    "weekly_base_max_volume_ratio": 1.1,
+    "daily_breakout_rvol": 1.5,
+    "daily_breakout_close_location": 0.65,
+    "daily_breakout_lookback": 20,
+    "daily_breakout_platform_range_pct": 20.0,
+    "leading_min_revenue_growth_pct": 10.0,
+    "leading_min_business_growth_pct": 30.0,
+    "leading_price_compression_pct": 20.0,
+    "max_forward_pe": 30.0,
+    "max_forward_ev_sales": 4.0,
+    "min_forward_margin_pct": 20.0,
+    "max_bear_downside_pct": 30.0,
+    "execution_support_distance_pct": 3.0,
+    "execution_volume_ratio": 1.2,
+    "technical_retry_passes": 1,
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3,
+    "weekly_ma55_entry_gate": true,
+    "weekly_ma55_min_above_count": 3,
+    "weekly_ma55_min_consecutive": 2,
+    "loss_recovery_enabled": true,
+    "loss_recovery_min_revenue_growth_pct": 0.0,
+    "loss_recovery_min_narrowing_pct": 10.0,
+    "loss_recovery_max_ps": 3.0
+  },
+  "weights": {
+    "fundamental": {
+      "revenue": 4,
+      "earnings_quality_or_leading": 14,
+      "cash_quality": 14,
+      "valuation": 14,
+      "improvement": 4
+    },
+    "technical": {
+      "monthly": 20,
+      "weekly": 30
+    }
+  },
+  "top20": [
+    {
+      "code": "002956",
+      "name": "西麦食品",
+      "score": 72.47,
+      "fundamental_score": 39.62,
+      "technical_score": 32.85,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "688073",
+      "name": "毕得医药",
+      "score": 72.2,
+      "fundamental_score": 38.87,
+      "technical_score": 33.33,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600285",
+      "name": "羚锐制药",
+      "score": 71.63,
+      "fundamental_score": 38.62,
+      "technical_score": 33.01,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "300012",
+      "name": "华测检测",
+      "score": 71.53,
+      "fundamental_score": 39.18,
+      "technical_score": 32.35,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "600028",
+      "name": "中国石化",
+      "score": 71.02,
+      "fundamental_score": 35.99,
+      "technical_score": 35.03,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    }
+  ],
+  "evaluation_basis": "决策完成之后首个交易日开盘至第1/5/20个交易日收盘；价格观察，不是下单或已验证策略收益",
+  "snapshot_sha256": "f20a3d8d54e4c825823e71d3f3934a88e7ff141da4b43b51221000d1ddd1e592",
+  "repository_path": "research/snapshots/2026-11-13/003654-weekly_ma55_macd_50_50_v9-f20a3d8d54e4.json"
+}

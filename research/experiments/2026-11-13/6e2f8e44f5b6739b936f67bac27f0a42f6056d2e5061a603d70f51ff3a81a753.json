@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "decision_at": "2026-11-13T00:40:20.888356+08:00",
+  "data_session": "2026-11-12",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "68cdb675f1f5bb0478e7ebb4fc1ce913ca1b104f",
+  "source_decision_at": "2026-11-13T00:36:54.971424+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 5,
+  "trials": {
+    "v9": [
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 72.47
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 72.19999999999999
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 71.63
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 71.53
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 71.02000000000001
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 72.97
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 72.63
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 70.67
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 70.0
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 69.75
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 72.47
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 71.63
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 71.405
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 68.86
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 68.74000000000001
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 89.18
+      },
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 83.37
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 79.74000000000001
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 76.37
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 76.12
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "6e2f8e44f5b6739b936f67bac27f0a42f6056d2e5061a603d70f51ff3a81a753"
+}
