@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "decision_at": "2026-11-14T00:02:19.681458+08:00",
+  "data_session": "2026-11-13",
+  "model_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "d835e9ea70dcfafe2e384725dc767b5f957e168f",
+  "ranking_purpose": "strategic_research_not_entry",
+  "ranking_complete": false,
+  "source_review": null,
+  "config": {
+    "min_turnover_cny": 30000000,
+    "min_revenue_yoy_pct": 0,
+    "min_profit_yoy_pct": 0,
+    "max_pe_ttm": 60,
+    "max_pb": 8,
+    "max_industry_pe_ratio": 1.2,
+    "min_industry_pe_samples": 5,
+    "max_finance_age_days": 225,
+    "daily_history_years": 8,
+    "request_timeout_seconds": 180,
+    "request_attempts": 2,
+    "daily_volume_abnormal_ratio": 2.0,
+    "weekly_base_max_range_pct": 20.0,
+    "weekly_base_low_tolerance_pct": 3.0,
+    "weekly_base_max_volume_ratio": 1.1,
+    "daily_breakout_rvol": 1.5,
+    "daily_breakout_close_location": 0.65,
+    "daily_breakout_lookback": 20,
+    "daily_breakout_platform_range_pct": 20.0,
+    "leading_min_revenue_growth_pct": 10.0,
+    "leading_min_business_growth_pct": 30.0,
+    "leading_price_compression_pct": 20.0,
+    "max_forward_pe": 30.0,
+    "max_forward_ev_sales": 4.0,
+    "min_forward_margin_pct": 20.0,
+    "max_bear_downside_pct": 30.0,
+    "execution_support_distance_pct": 3.0,
+    "execution_volume_ratio": 1.2,
+    "technical_retry_passes": 1,
+    "macd_min_pivot_spacing": 5,
+    "macd_min_price_extension_pct": 0.2,
+    "macd_min_price_extension_atr": 0.15,
+    "macd_min_dif_improvement_atr": 0.1,
+    "macd_min_confirmation_rebound_atr": 0.3,
+    "weekly_ma55_entry_gate": true,
+    "weekly_ma55_min_above_count": 3,
+    "weekly_ma55_min_consecutive": 2,
+    "loss_recovery_enabled": true,
+    "loss_recovery_min_revenue_growth_pct": 0.0,
+    "loss_recovery_min_narrowing_pct": 10.0,
+    "loss_recovery_max_ps": 3.0
+  },
+  "weights": {
+    "fundamental": {
+      "revenue": 4,
+      "earnings_quality_or_leading": 14,
+      "cash_quality": 14,
+      "valuation": 14,
+      "improvement": 4
+    },
+    "technical": {
+      "monthly": 20,
+      "weekly": 30
+    }
+  },
+  "top20": [
+    {
+      "code": "600285",
+      "name": "羚锐制药",
+      "score": 69.16,
+      "fundamental_score": 38.48,
+      "technical_score": 30.68,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002956",
+      "name": "西麦食品",
+      "score": 68.51,
+      "fundamental_score": 39.66,
+      "technical_score": 28.85,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "688073",
+      "name": "毕得医药",
+      "score": 68.32,
+      "fundamental_score": 39.1,
+      "technical_score": 29.22,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600028",
+      "name": "中国石化",
+      "score": 68.01,
+      "fundamental_score": 35.94,
+      "technical_score": 32.07,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "300012",
+      "name": "华测检测",
+      "score": 67.19,
+      "fundamental_score": 39.11,
+      "technical_score": 28.08,
+      "confirmation_state": {
+        "stage": "confirmed",
+        "label": "周日量价已确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": true,
+        "execution_score_enabled": true
+      }
+    },
+    {
+      "code": "603345",
+      "name": "安井食品",
+      "score": 66.52,
+      "fundamental_score": 39.52,
+      "technical_score": 27.0,
+      "confirmation_state": {
+        "stage": "wait_weekly",
+        "label": "等待周线确认",
+        "monthly_rising": true,
+        "weekly_confirmed": false,
+        "daily_confirmed": true,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "002472",
+      "name": "双环传动",
+      "score": 64.6,
+      "fundamental_score": 32.17,
+      "technical_score": 32.43,
+      "confirmation_state": {
+        "stage": "wait_daily",
+        "label": "等待日线量价确认",
+        "monthly_rising": true,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    },
+    {
+      "code": "600710",
+      "name": "苏美达",
+      "score": 62.57,
+      "fundamental_score": 33.7,
+      "technical_score": 28.87,
+      "confirmation_state": {
+        "stage": "monthly_observation",
+        "label": "月线低位观察，等待J拐头",
+        "monthly_rising": false,
+        "weekly_confirmed": true,
+        "daily_confirmed": false,
+        "execution_score_enabled": false
+      }
+    }
+  ],
+  "evaluation_basis": "决策完成之后首个交易日开盘至第1/5/20个交易日收盘；价格观察，不是下单或已验证策略收益",
+  "snapshot_sha256": "0cfe575351f9d7c7b363ec62e7fd80778228270372c10e9c2842ffde9a2415d0",
+  "repository_path": "research/snapshots/2026-11-14/000219-weekly_ma55_macd_50_50_v9-0cfe575351f9.json"
+}

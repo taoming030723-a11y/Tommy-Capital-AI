@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "decision_at": "2026-11-14T00:06:03.573542+08:00",
+  "data_session": "2026-11-13",
+  "production_version": "weekly_ma55_macd_50_50_v9",
+  "source_commit": "d835e9ea70dcfafe2e384725dc767b5f957e168f",
+  "source_decision_at": "2026-11-14T00:02:19.681458+08:00",
+  "universe_scope": "verified_candidate_pool_only",
+  "point_in_time_universe_complete": false,
+  "candidate_count": 8,
+  "trials": {
+    "v9": [
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 69.16
+      },
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 68.50999999999999
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 68.32
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 68.00999999999999
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 67.19
+      },
+      {
+        "code": "603345",
+        "name": "安井食品",
+        "score": 66.52000000000001
+      },
+      {
+        "code": "002472",
+        "name": "双环传动",
+        "score": 64.6
+      },
+      {
+        "code": "600710",
+        "name": "苏美达",
+        "score": 62.57000000000001
+      }
+    ],
+    "ma55_12": [
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 66.00999999999999
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 65.19
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 65.175
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 64.82000000000001
+      },
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 64.50999999999999
+      },
+      {
+        "code": "002472",
+        "name": "双环传动",
+        "score": 63.31
+      },
+      {
+        "code": "603345",
+        "name": "安井食品",
+        "score": 63.03
+      },
+      {
+        "code": "600710",
+        "name": "苏美达",
+        "score": 61.07000000000001
+      }
+    ],
+    "without_weekly_histogram": [
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 68.50999999999999
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 68.32000000000001
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 67.69
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 64.1775
+      },
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 63.50999999999999
+      },
+      {
+        "code": "002472",
+        "name": "双环传动",
+        "score": 61.910000000000004
+      },
+      {
+        "code": "603345",
+        "name": "安井食品",
+        "score": 61.53
+      },
+      {
+        "code": "600710",
+        "name": "苏美达",
+        "score": 59.57000000000001
+      }
+    ],
+    "fundamental_ma55_only": [
+      {
+        "code": "002956",
+        "name": "西麦食品",
+        "score": 89.66
+      },
+      {
+        "code": "300012",
+        "name": "华测检测",
+        "score": 89.11
+      },
+      {
+        "code": "600285",
+        "name": "羚锐制药",
+        "score": 88.47999999999999
+      },
+      {
+        "code": "600028",
+        "name": "中国石化",
+        "score": 85.94
+      },
+      {
+        "code": "603345",
+        "name": "安井食品",
+        "score": 83.27000000000001
+      },
+      {
+        "code": "688073",
+        "name": "毕得医药",
+        "score": 82.85
+      },
+      {
+        "code": "600710",
+        "name": "苏美达",
+        "score": 77.45
+      },
+      {
+        "code": "002472",
+        "name": "双环传动",
+        "score": 75.92
+      }
+    ]
+  },
+  "precision_basis": "变体按已冻结分项精度重分配；基准直接保留原始生产总分，不以四舍五入分项反推",
+  "status": "prospective_experiment_not_validated",
+  "production_weights_changed": false,
+  "sha256": "ae0c4a364010aa3a6b14b021b250322ebe0fff62a1bc81e9a0829bb2984dada1"
+}
