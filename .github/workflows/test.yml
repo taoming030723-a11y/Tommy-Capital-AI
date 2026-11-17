@@ -26,6 +26,14 @@ jobs:
       - run: python -m pytest -q
       - name: Read-only replay of the genuine October 28 financial-data failure
         run: python -m tommy_capital.financial_integrity --replay-summary results/2026-10-28/closing-summary.json
+      - name: Reproduce Route C on frozen real OHLC, calendar and study samples
+        run: python scripts/validate-reversal.py --out reports/reversal-validation
+      - uses: actions/upload-artifact@v4
+        with:
+          name: route-c-frozen-real-validation
+          path: reports/reversal-validation/
+          retention-days: 14
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: financial-integrity-historical-fault-replay
