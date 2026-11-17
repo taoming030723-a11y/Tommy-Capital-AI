@@ -14,12 +14,12 @@
 | 日周月有效核验 / 请求 | 未取得 / 未取得只 |
 | 符合入口 / 评分齐全 | 未完成，候选数量无法判断 |
 | 综合前20实际展示 | 未完成，候选数量无法判断 |
-| 扫描时间 | 扫描启动：2026-11-18 00:53:28；扫描完成：2026-11-18 00:53:28 |
+| 扫描时间 | 扫描启动：2026-11-18 01:05:12；扫描完成：2026-11-18 01:05:12 |
 | 数据状态 | 失败；scan_complete=false；ranking_complete=false；已核验范围排名 |
 | 目标日线日期（未完成逐股核验） | 2026-11-17 |
 | 目标15分钟截止（未完成逐股核验） | 2026-11-17 15:00:00 |
 | 停止原因 | 收盘任务缺少当天完整日线或15:00分时，不能将旧行情发布为收盘结果 |
-| 完整数据 | [本次扫描](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44130243496) · [完整数据附件](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44130243496/artifacts/14350041499) |
+| 完整数据 | [本次扫描](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44132454170) · [完整数据附件](https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44132454170/artifacts/14351261096) |
 
 ## 综合前20（基本面50分＋技术面50分）
 
