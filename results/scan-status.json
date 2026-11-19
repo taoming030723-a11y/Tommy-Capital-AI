@@ -1,15 +1,11 @@
 {
   "schema": 1,
-  "run_id": "44569682527",
-  "run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44569682527",
+  "run_id": "44574945621",
+  "run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44574945621",
   "session": "2026-11-20",
   "scan_phase": "closing",
-  "started_at": "2026-11-20T00:46:41.690019+08:00",
+  "started_at": "2026-11-20T01:14:57.414005+08:00",
   "previous_report_session": "2026-11-19",
-  "updated_at": "2026-11-20T00:49:17.720806+08:00",
-  "status": "failed",
-  "report_generated_at": "2026-11-20T00:48:47.403754+08:00",
-  "report_finished_at": "2026-11-20T00:48:47.422925+08:00",
-  "report_session": "2026-11-19",
-  "scan_complete": false
+  "updated_at": "2026-11-20T01:14:57.414005+08:00",
+  "status": "running"
 }
