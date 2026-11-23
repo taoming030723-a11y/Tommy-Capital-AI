@@ -5,10 +5,10 @@
   "scan_complete": false,
   "scan_type": "closed_session",
   "scan_phase": "closing",
-  "generated_at": "2026-11-20T01:17:03.265690+08:00",
-  "finished_at": "2026-11-20T01:17:03.289879+08:00",
-  "session": "2026-11-19",
-  "minute15_cutoff": "2026-11-19T15:00:00",
+  "generated_at": "2026-11-24T03:13:01.913287+08:00",
+  "finished_at": "2026-11-24T03:13:01.937381+08:00",
+  "session": "2026-11-23",
+  "minute15_cutoff": "2026-11-23T15:00:00",
   "coverage": null,
   "config": {
     "min_turnover_cny": 30000000,
@@ -54,8 +54,8 @@
     "loss_recovery_max_ps": 3.0
   },
   "leading_evidence_coverage": null,
-  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/44574945621",
-  "source_commit": "7633396dc9c0df8d684dc91875ce82538f08801a",
+  "workflow_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/45246056101",
+  "source_commit": "ca4293f73a83b17dd8793e12b74d05372f600cea",
   "quote_clock_validation": null,
   "scoring_version": "weekly_ma55_macd_50_50_v9",
   "score_weights": {
@@ -85,7 +85,7 @@
   "top10_tracking": {
     "schema": 1,
     "threshold": 3,
-    "as_of_session": "2026-11-19",
+    "as_of_session": "2026-11-23",
     "counted_sessions": 21,
     "first_counted_session": "2026-10-08",
     "basis": "正式交易日收盘综合前10；跨版本保留实际原榜，同日重跑只计一次，模型复核/预跑/失败不计",
@@ -2532,7 +2532,8 @@
       "results/2026-11-13/closing-summary.json未通过收盘日期/状态/名单校验，未计次数",
       "results/2026-11-17/closing-summary.json未通过收盘日期/状态/名单校验，未计次数",
       "results/2026-11-18/closing-summary.json未通过收盘日期/状态/名单校验，未计次数",
-      "results/2026-11-19/closing-summary.json未通过收盘日期/状态/名单校验，未计次数"
+      "results/2026-11-19/closing-summary.json未通过收盘日期/状态/名单校验，未计次数",
+      "results/2026-11-20/closing-summary.json未通过收盘日期/状态/名单校验，未计次数"
     ]
   },
   "macd_monitor": null,
