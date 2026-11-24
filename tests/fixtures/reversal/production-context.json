@@ -1,0 +1,821 @@
+{
+  "schema": 1,
+  "kind": "actual_production_report_projection_not_complete_scan",
+  "source_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/41023384953",
+  "source_artifact_sha256": "5843f518854c085a46903d966bcec900a27a4ba9a858d4b4890cc7a8ae2fcd7b",
+  "source_generated_at": "2026-10-30T15:59:50.359504+08:00",
+  "source_finished_at": "2026-10-30T16:33:33.243186+08:00",
+  "source_session": "2026-10-30",
+  "source_selection_rule": "dual_route_monthly_recovery",
+  "source_scoring_version": "weekly_ma55_macd_50_50_v9",
+  "source_quote_count": 5576,
+  "source_technical_verified": 5247,
+  "source_production_top20": [
+    {
+      "code": "300406",
+      "name": "九强生物",
+      "score": 69.7
+    },
+    {
+      "code": "002014",
+      "name": "永新股份",
+      "score": 68.76
+    },
+    {
+      "code": "601330",
+      "name": "绿色动力",
+      "score": 67.84
+    },
+    {
+      "code": "300012",
+      "name": "华测检测",
+      "score": 66.85
+    },
+    {
+      "code": "603055",
+      "name": "台华新材",
+      "score": 62.15
+    },
+    {
+      "code": "002164",
+      "name": "宁波东力",
+      "score": 61.48
+    },
+    {
+      "code": "603351",
+      "name": "威尔药业",
+      "score": 59.69
+    },
+    {
+      "code": "001286",
+      "name": "陕西能源",
+      "score": 57.36
+    }
+  ],
+  "rows": [
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "price": 232.92,
+      "market_cap": 1077778996863.1,
+      "turnover": 10305968277,
+      "pb": 2.786,
+      "pe_ttm": 12.679731274141943,
+      "profit_ttm": 85000145000.0,
+      "core_profit_ttm": 76323696000.0,
+      "profit_ytd": 43284002000.0,
+      "revenue_ytd": 276916580000.0,
+      "revenue_ttm": 521732161000.0,
+      "core_profit_ytd": 39013299000.0,
+      "cfo_ttm": 134749767000.0,
+      "cfo_ytd": 60216851000.0,
+      "previous_same_cfo_ytd": 58687066000.0,
+      "cfo_per_share_ytd": 13.0152135962,
+      "previous_same_cfo_per_share_ytd": 12.8719183385,
+      "revenue_yoy": 54.8003691485,
+      "profit_yoy": 41.98,
+      "industry_pe_samples": 79.0,
+      "industry_pe_ratio": 0.43882743615233827,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-07-25T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：核心业务改善证据或毛利率同比改善代理未确认",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：非已核验TTM亏损",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：未满足B路线近6月月J恢复路径",
+        "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+      ],
+      "financial_routes": {
+        "route_a_passed": true,
+        "route_a_reasons": [],
+        "route_b_prequalified": true,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "核心业务改善证据或毛利率同比改善代理未确认",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "非已核验TTM亏损",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "非已核验TTM亏损",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": 20737710000.0,
+              "prior_profit": 13962558000.0,
+              "core_profit": 18092638000.0,
+              "prior_core_profit": 11829172000.0,
+              "revenue": 129131041000.0,
+              "prior_revenue": 84704589000.0,
+              "cfo": 33680852000.0,
+              "prior_cfo": 32868257000.0,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": 43284002000.0,
+              "prior_profit": 30485139000.0,
+              "core_profit": 39013299000.0,
+              "prior_core_profit": 27197468000.0,
+              "revenue": 276916580000.0,
+              "prior_revenue": 178886253000.0,
+              "cfo": 60216851000.0,
+              "prior_cfo": 58687066000.0,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -1,
+          "ps_ttm": 2.0657706720577265,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "核心业务改善证据或毛利率同比改善代理未确认",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": false,
+          "core_financial_proxy": false,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利为正，领先拐点路线"
+        }
+      },
+      "leading_evidence": {}
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "price": 43.55,
+      "market_cap": 1098324275923.5,
+      "turnover": 4441649958,
+      "pb": 0.9590000000000001,
+      "pe_ttm": 7.240298201162193,
+      "profit_ttm": 151696000000.0,
+      "core_profit_ttm": 151527000000.0,
+      "profit_ytd": 76445000000.0,
+      "revenue_ytd": 178181000000.0,
+      "revenue_ttm": 345744000000.0,
+      "core_profit_ytd": 76339000000.0,
+      "cfo_ttm": 621607000000.0,
+      "cfo_ytd": 304611000000.0,
+      "previous_same_cfo_ytd": 134461000000.0,
+      "cfo_per_share_ytd": 12.0781522601,
+      "previous_same_cfo_per_share_ytd": 5.33,
+      "revenue_yoy": 4.8314692679,
+      "profit_yoy": 2.02,
+      "industry_pe_samples": 42.0,
+      "industry_pe_ratio": 1.11566175275321,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-08-29T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：未满足A路线完整月J超卖/近3月恢复路径",
+        "B：营收同比未超过领先拐点门槛",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：核心业务改善证据或毛利率同比改善代理未确认",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：非已核验TTM亏损",
+        "B：真实市值/TTM营收估值未通过；不把PS冒充EV/Sales",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：近126交易日价格压缩未达门槛"
+      ],
+      "financial_routes": {
+        "route_a_passed": true,
+        "route_a_reasons": [],
+        "route_b_prequalified": false,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "营收同比未超过领先拐点门槛",
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "核心业务改善证据或毛利率同比改善代理未确认",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "非已核验TTM亏损",
+          "真实市值/TTM营收估值未通过；不把PS冒充EV/Sales",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "非已核验TTM亏损",
+            "真实市值/TTM营收估值未通过；不把PS冒充EV/Sales",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": 37852000000.0,
+              "prior_profit": 37286000000.0,
+              "core_profit": 37795000000.0,
+              "prior_core_profit": 37136000000.0,
+              "revenue": 86940000000.0,
+              "prior_revenue": 83751000000.0,
+              "cfo": 125849000000.0,
+              "prior_cfo": 95026000000.0,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": 76445000000.0,
+              "prior_profit": 74930000000.0,
+              "core_profit": 76339000000.0,
+              "prior_core_profit": 74819000000.0,
+              "revenue": 178181000000.0,
+              "prior_revenue": 169969000000.0,
+              "cfo": 304611000000.0,
+              "prior_cfo": 134461000000.0,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -1,
+          "ps_ttm": 3.1766980075532762,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "核心业务改善证据或毛利率同比改善代理未确认",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": false,
+          "core_financial_proxy": false,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利为正，领先拐点路线"
+        }
+      },
+      "leading_evidence": {}
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "price": 17.76,
+      "market_cap": 163303278801.12,
+      "turnover": 1303269264,
+      "pb": 1.733,
+      "pe_ttm": 18.381364664671207,
+      "profit_ttm": 8884176000.0,
+      "core_profit_ttm": 7493608000.0,
+      "profit_ytd": 5690229000.0,
+      "revenue_ytd": 53506463000.0,
+      "revenue_ttm": 98425763000.0,
+      "core_profit_ytd": 4681837000.0,
+      "cfo_ttm": 19608565000.0,
+      "cfo_ytd": 9767583000.0,
+      "previous_same_cfo_ytd": 10134279000.0,
+      "cfo_per_share_ytd": 1.0622706635,
+      "previous_same_cfo_per_share_ytd": 1.1957882369,
+      "revenue_yoy": 19.4868647877,
+      "profit_yoy": 9.13,
+      "industry_pe_samples": 31.0,
+      "industry_pe_ratio": 0.7787647079245765,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-08-31T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+        "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：非已核验TTM亏损",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：未满足B路线近6月月J恢复路径",
+        "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+      ],
+      "financial_routes": {
+        "route_a_passed": false,
+        "route_a_reasons": [
+          "经营现金流/股低于上年同期；不比较相邻累计季度"
+        ],
+        "route_b_prequalified": true,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "非已核验TTM亏损",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "非已核验TTM亏损",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": 2480743000.0,
+              "prior_profit": 2469401000.0,
+              "core_profit": 2013124000.0,
+              "prior_core_profit": 2403303000.0,
+              "revenue": 24146971000.0,
+              "prior_revenue": 21176768000.0,
+              "cfo": 3540722000.0,
+              "prior_cfo": 4412691000.0,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": 5690229000.0,
+              "prior_profit": 5214110000.0,
+              "core_profit": 4681837000.0,
+              "prior_core_profit": 5409442000.0,
+              "revenue": 53506463000.0,
+              "prior_revenue": 44780205000.0,
+              "cfo": 9767583000.0,
+              "prior_cfo": 10134279000.0,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -1,
+          "ps_ttm": 1.6591517690456714,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": true,
+          "core_financial_proxy": true,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利为正，领先拐点路线"
+        }
+      },
+      "leading_evidence": {}
+    },
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "price": 89.18,
+      "market_cap": 680470664287.96,
+      "turnover": 3301720446,
+      "pb": 3.059,
+      "pe_ttm": 15.333597165678356,
+      "profit_ttm": 44377758000.0,
+      "core_profit_ttm": 34627013000.0,
+      "profit_ytd": 26446037000.0,
+      "revenue_ytd": 261052379000.0,
+      "revenue_ttm": 467223292000.0,
+      "core_profit_ytd": 19595179000.0,
+      "cfo_ttm": 53617005000.0,
+      "cfo_ytd": 37552090000.0,
+      "previous_same_cfo_ytd": 37281015000.0,
+      "cfo_per_share_ytd": 4.9323426641,
+      "previous_same_cfo_per_share_ytd": 4.8630662781,
+      "revenue_yoy": 3.4561222865,
+      "profit_yoy": 1.6600000000000001,
+      "industry_pe_samples": 9.0,
+      "industry_pe_ratio": 1.2621331553998683,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-08-29T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：industry_pe_ratio 超过上限 1.2",
+        "A：未满足A路线完整月J超卖/近3月恢复路径",
+        "B：营收同比未超过领先拐点门槛",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：核心业务改善证据或毛利率同比改善代理未确认",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：非已核验TTM亏损",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：未满足B路线近6月月J恢复路径",
+        "B：近126交易日价格压缩未达门槛"
+      ],
+      "financial_routes": {
+        "route_a_passed": false,
+        "route_a_reasons": [
+          "industry_pe_ratio 超过上限 1.2"
+        ],
+        "route_b_prequalified": false,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "营收同比未超过领先拐点门槛",
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "核心业务改善证据或毛利率同比改善代理未确认",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "非已核验TTM亏损",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "非已核验TTM亏损",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": 12674556000.0,
+              "prior_profit": 12422233000.0,
+              "core_profit": 10961722000.0,
+              "prior_core_profit": 12749867000.0,
+              "revenue": 131580870000.0,
+              "prior_revenue": 128428421000.0,
+              "cfo": 14529165000.0,
+              "prior_cfo": 14320968000.0,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": 26446037000.0,
+              "prior_profit": 26013690000.0,
+              "core_profit": 19595179000.0,
+              "prior_core_profit": 26235399000.0,
+              "revenue": 261052379000.0,
+              "prior_revenue": 252331494000.0,
+              "cfo": 37552090000.0,
+              "prior_cfo": 37281015000.0,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -1,
+          "ps_ttm": 1.4564142583198956,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "核心业务改善证据或毛利率同比改善代理未确认",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": false,
+          "core_financial_proxy": false,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利为正，领先拐点路线"
+        }
+      },
+      "leading_evidence": {}
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "price": 11.0,
+      "market_cap": 83358768163.0,
+      "turnover": 830871663,
+      "pb": 1.7309999999999999,
+      "pe_ttm": null,
+      "profit_ttm": -7534302920.850001,
+      "core_profit_ttm": -8089619717.24,
+      "profit_ytd": -3684104428.05,
+      "revenue_ytd": 27045209097.55,
+      "revenue_ttm": 64579112649.29,
+      "core_profit_ytd": -4031797081.95,
+      "cfo_ttm": -974078951.3099995,
+      "cfo_ytd": -5817794006.91,
+      "previous_same_cfo_ytd": -484332299.83,
+      "cfo_per_share_ytd": -0.7677145581,
+      "previous_same_cfo_per_share_ytd": -0.063912522,
+      "revenue_yoy": -17.5781292993,
+      "profit_yoy": -43.3861659096,
+      "industry_pe_samples": 27.0,
+      "industry_pe_ratio": null,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-08-31T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：profit_ytd 未达下限 0",
+        "A：profit_ttm 未达下限 0",
+        "A：revenue_yoy 未达下限 0",
+        "A：profit_yoy 未达下限 0",
+        "A：cfo_per_share_ytd 未达下限 0",
+        "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+        "A：pe_ttm 缺失",
+        "A：pe_ttm 缺失",
+        "A：industry_pe_ratio 缺失",
+        "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+        "B：营收同比未超过领先拐点门槛",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：营收同比未达收窄路线要求",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：未满足B路线近6月月J恢复路径",
+        "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+      ],
+      "financial_routes": {
+        "route_a_passed": false,
+        "route_a_reasons": [
+          "profit_ytd 未达下限 0",
+          "profit_ttm 未达下限 0",
+          "revenue_yoy 未达下限 0",
+          "profit_yoy 未达下限 0",
+          "cfo_per_share_ytd 未达下限 0",
+          "经营现金流/股低于上年同期；不比较相邻累计季度",
+          "pe_ttm 缺失",
+          "pe_ttm 缺失",
+          "industry_pe_ratio 缺失"
+        ],
+        "route_b_prequalified": false,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "营收同比未超过领先拐点门槛",
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "营收同比未达收窄路线要求",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "营收同比未达收窄路线要求",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": -1919902418.4,
+              "prior_profit": -1430653676.59,
+              "core_profit": -2134583913.86,
+              "prior_core_profit": -1977793624.14,
+              "revenue": 11191552278.54,
+              "prior_revenue": 13652473612.63,
+              "cfo": -2448622879.29,
+              "prior_cfo": -1747336782.35,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": -3684104428.05,
+              "prior_profit": -2569358351.05,
+              "core_profit": -4031797081.95,
+              "prior_core_profit": -3304141348.99,
+              "revenue": 27045209097.55,
+              "prior_revenue": 32813146398.68,
+              "cfo": -5817794006.91,
+              "prior_cfo": -484332299.83,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -0.43386165909649976,
+          "ps_ttm": 1.2908007673579651,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": true,
+          "core_financial_proxy": true,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利尚未兑现"
+        }
+      },
+      "leading_evidence": {}
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "price": 14.95,
+      "market_cap": 11461254485.2,
+      "turnover": 331743792,
+      "pb": 1.716,
+      "pe_ttm": 26.606658593644532,
+      "profit_ttm": 430766398.0,
+      "core_profit_ttm": 401829308.0,
+      "profit_ytd": 446783698.0,
+      "revenue_ytd": 10997668613.0,
+      "revenue_ttm": 22459971445.0,
+      "core_profit_ytd": 436320515.0,
+      "cfo_ttm": 2920565337.0,
+      "cfo_ytd": 1403976757.0,
+      "previous_same_cfo_ytd": 1626045169.0,
+      "cfo_per_share_ytd": 1.8500392947000002,
+      "previous_same_cfo_per_share_ytd": 2.1392639836,
+      "revenue_yoy": 2.0730426901,
+      "profit_yoy": 12.3,
+      "industry_pe_samples": 24.0,
+      "industry_pe_ratio": 1.100739358811071,
+      "period": "2026-06-30T00:00:00",
+      "announced_at": "2026-08-28T00:00:00",
+      "quality_statement_matched": true,
+      "eligible": false,
+      "reasons": [
+        "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+        "A：未满足A路线完整月J超卖/近3月恢复路径",
+        "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+        "B：营收同比未超过领先拐点门槛",
+        "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+        "B：核心业务改善证据或毛利率同比改善代理未确认",
+        "B：未来6个月明确催化缺失/已发生/日期未核实",
+        "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+        "B：非已核验TTM亏损",
+        "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+        "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+      ],
+      "financial_routes": {
+        "route_a_passed": false,
+        "route_a_reasons": [
+          "经营现金流/股低于上年同期；不比较相邻累计季度"
+        ],
+        "route_b_prequalified": false,
+        "route_b_passed": false,
+        "route_b_reasons": [
+          "营收同比未超过领先拐点门槛",
+          "缺少已核对的销量/订单增长>30%或规模交付证据",
+          "核心业务改善证据或毛利率同比改善代理未确认",
+          "未来6个月明确催化缺失/已发生/日期未核实",
+          "缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "非已核验TTM亏损",
+          "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+        ],
+        "route_b_loss_recovery": {
+          "passed": false,
+          "reasons": [
+            "非已核验TTM亏损",
+            "2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+            "2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善"
+          ],
+          "variant": "loss_recovery",
+          "periods": [
+            {
+              "period": "2026-03-31",
+              "same_period": "2025-03-31",
+              "profit": 263855661.0,
+              "prior_profit": 250636310.0,
+              "core_profit": 260493540.0,
+              "prior_core_profit": 243498304.0,
+              "revenue": 5481296988.0,
+              "prior_revenue": 5435220089.0,
+              "cfo": 858596944.0,
+              "prior_cfo": 804266875.0,
+              "quality_matched": true
+            },
+            {
+              "period": "2026-06-30",
+              "same_period": "2025-06-30",
+              "profit": 446783698.0,
+              "prior_profit": 397863893.0,
+              "core_profit": 436320515.0,
+              "prior_core_profit": 381121690.0,
+              "revenue": 10997668613.0,
+              "prior_revenue": 10774312515.0,
+              "cfo": 1403976757.0,
+              "prior_cfo": 1626045169.0,
+              "quality_matched": true
+            }
+          ],
+          "min_reduction_fraction": -1,
+          "ps_ttm": 0.5102969303975444,
+          "max_ps": 3.0,
+          "max_pb": 8,
+          "valuation_basis": "市值/实际TTM营收PS与PB限制；盈利尚未兑现，不声称正常化PE估值通过"
+        },
+        "leading": {
+          "passed": false,
+          "status": "pending_evidence",
+          "reasons": [
+            "缺少已核对的销量/订单增长>30%或规模交付证据",
+            "核心业务改善证据或毛利率同比改善代理未确认",
+            "未来6个月明确催化缺失/已发生/日期未核实",
+            "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+          ],
+          "leading_indicator_confirmed": false,
+          "core_improving": false,
+          "core_financial_proxy": false,
+          "future_catalyst_confirmed": false,
+          "catalyst": null,
+          "valuation": {
+            "status": "missing",
+            "passed": false,
+            "reasons": [
+              "缺少已复核的远期盈利/SOTP/EV-Sales估值模型"
+            ]
+          },
+          "records": [],
+          "profit_label": "盈利为正，领先拐点路线"
+        }
+      },
+      "leading_evidence": {}
+    }
+  ]
+}

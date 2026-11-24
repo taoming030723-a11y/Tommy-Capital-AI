@@ -1,0 +1,825 @@
+{
+  "version": "right_side_reversal_v1",
+  "kind": "frozen_real_sample_validation_not_production_scan",
+  "policy_sha256": "54d8d6a1ea97568bb8d1403e4be69c0979a4052e43809e2bab0c7d0def72bb4e",
+  "source_manifest_sha256": "b14e8ab9cc692008ec72151ee401b494ba6d68ccae4b730f1e138cb262cea6d2",
+  "samples": [
+    {
+      "code": "000333",
+      "name": "美的集团",
+      "source_sha256": "bcc71df78d9a1cea13666e3e4f09582236ab52bb9d87122ef2654e5bf94ec3cb",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 72.83828888911727,
+            "d": 74.44762538213152,
+            "j": 69.61961590308874,
+            "dif": 6.308570119333481,
+            "dea": 5.8770689500459,
+            "ma55_distance_pct": 39.795898939512185
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 77.24945454545455,
+            "direction": "rising",
+            "slope_3w_atr": 0.18435845344168722,
+            "above_count": 6,
+            "consecutive_above": 6,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 82.21,
+            "resistance_qfq": 87.18
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 72.83828888911727,
+            "d": 74.44762538213152,
+            "j": 69.61961590308874,
+            "dif": 6.308570119333481,
+            "dea": 5.8770689500459,
+            "ma55_distance_pct": 39.795898939512185
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 77.62636363636364,
+            "direction": "rising",
+            "slope_3w_atr": 0.2252720619683508,
+            "above_count": 6,
+            "consecutive_above": 6,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 83.0,
+            "resistance_qfq": 87.58
+          }
+        }
+      ]
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "source_sha256": "84de1afcb93c88afcad5e98d3a459a9a13dbbe1727cf7d48234132cf2c2ecb9a",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 34.26765681473715,
+            "d": 53.31655328771325,
+            "j": -3.830136131215042,
+            "dif": 36.83713247481978,
+            "dea": 43.13225412881161,
+            "ma55_distance_pct": 16.7837345003647
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 370.1752727272727,
+            "direction": "falling",
+            "slope_3w_atr": -0.1608696813483274,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 216.51,
+            "resistance_qfq": 282.01
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 34.26765681473715,
+            "d": 53.31655328771325,
+            "j": -3.830136131215042,
+            "dif": 36.83713247481978,
+            "dea": 43.13225412881161,
+            "ma55_distance_pct": 16.7837345003647
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 367.2521818181818,
+            "direction": "falling",
+            "slope_3w_atr": -0.2726274461373816,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 216.51,
+            "resistance_qfq": 282.0
+          }
+        }
+      ]
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "source_sha256": "661bd7abf9da911c864447f2f10d490790fec0386a94b390c78ea91b8e79bd71",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": 5,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 29.472876332822118,
+            "d": 35.793042493991415,
+            "j": 16.832544010483517,
+            "dif": 0.5358008247406154,
+            "dea": 0.8999754441786871,
+            "ma55_distance_pct": 4.943052888811295
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 20.104181818181818,
+            "direction": "falling",
+            "slope_3w_atr": -0.16794432784712157,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 17.39,
+            "resistance_qfq": 18.38
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": 5,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 29.472876332822118,
+            "d": 35.793042493991415,
+            "j": 16.832544010483517,
+            "dif": 0.5358008247406154,
+            "dea": 0.8999754441786871,
+            "ma55_distance_pct": 4.943052888811295
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 20.013454545454547,
+            "direction": "falling",
+            "slope_3w_atr": -0.1984508764777785,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 17.39,
+            "resistance_qfq": 18.38
+          }
+        }
+      ]
+    },
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "source_sha256": "49527989616560ea03bb4d0c107a44299b4c6b57d05e4be16c105e04f0dfa709",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": 1,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 63.8813415280994,
+            "d": 45.46522594030783,
+            "j": 100.71357270368253,
+            "dif": 1.6517696549720213,
+            "dea": 1.859284331054232,
+            "ma55_distance_pct": 27.855090427629705
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 38.90309090909091,
+            "direction": "rising",
+            "slope_3w_atr": 0.09419077654372011,
+            "above_count": 6,
+            "consecutive_above": 6,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 41.42,
+            "resistance_qfq": 43.16
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": 2,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 63.8813415280994,
+            "d": 45.46522594030783,
+            "j": 100.71357270368253,
+            "dif": 1.6517696549720213,
+            "dea": 1.859284331054232,
+            "ma55_distance_pct": 27.855090427629705
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 38.99690909090909,
+            "direction": "rising",
+            "slope_3w_atr": 0.14613726194753945,
+            "above_count": 6,
+            "consecutive_above": 6,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 41.42,
+            "resistance_qfq": 43.16
+          }
+        }
+      ]
+    },
+    {
+      "code": "601012",
+      "name": "隆基绿能",
+      "source_sha256": "7ea6fe20df601978b4de09c08abe282cdcc5f8210a40325fabdf27444f8c6a98",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 10.342198173611536,
+            "d": 17.429722394277967,
+            "j": -3.8328502677213265,
+            "dif": -2.60515349111677,
+            "dea": -2.511807434477846,
+            "ma55_distance_pct": -56.8939600506184
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 15.87509090909091,
+            "direction": "falling",
+            "slope_3w_atr": -0.4951319648093849,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 10.53,
+            "resistance_qfq": 11.71
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": null,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 10.342198173611536,
+            "d": 17.429722394277967,
+            "j": -3.8328502677213265,
+            "dif": -2.60515349111677,
+            "dea": -2.511807434477846,
+            "ma55_distance_pct": -56.8939600506184
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 15.747818181818182,
+            "direction": "falling",
+            "slope_3w_atr": -0.547572024839661,
+            "above_count": 0,
+            "consecutive_above": 0,
+            "latest_week_above": false
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": false,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 10.53,
+            "resistance_qfq": 11.71
+          }
+        }
+      ]
+    },
+    {
+      "code": "603883",
+      "name": "老百姓",
+      "source_sha256": "5d1aacbc71fbc6633df46e54ba1fedd6dd9bb15f38a998339bc6d9e54f3fcd4b",
+      "checks": [
+        {
+          "as_of": "2026-10-30T14:34:00+08:00",
+          "status": "ok",
+          "stage": 2,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 34.23998424581001,
+            "d": 23.09521268570964,
+            "j": 56.52952736601074,
+            "dif": -1.848687988599858,
+            "dea": -1.7992391798905123,
+            "ma55_distance_pct": -31.224288221248354
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 13.628545454545453,
+            "direction": "falling",
+            "slope_3w_atr": -0.1456419868791033,
+            "above_count": 2,
+            "consecutive_above": 2,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-29T00:00:00",
+            "consolidation": true,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 13.97,
+            "resistance_qfq": 15.33
+          }
+        },
+        {
+          "as_of": "2026-10-30T15:05:00+08:00",
+          "status": "ok",
+          "stage": 2,
+          "reason": null,
+          "monthly": {
+            "last_bar": "2026-09-30T00:00:00",
+            "k": 34.23998424581001,
+            "d": 23.09521268570964,
+            "j": 56.52952736601074,
+            "dif": -1.848687988599858,
+            "dea": -1.7992391798905123,
+            "ma55_distance_pct": -31.224288221248354
+          },
+          "weekly_ma55": {
+            "ma55_qfq": 13.615272727272728,
+            "direction": "falling",
+            "slope_3w_atr": -0.0895081967213108,
+            "above_count": 3,
+            "consecutive_above": 3,
+            "latest_week_above": true
+          },
+          "daily": {
+            "last_bar": "2026-10-30T00:00:00",
+            "consolidation": true,
+            "breakout": false,
+            "retest": false,
+            "failed_breakout": false,
+            "support_qfq": 13.97,
+            "resistance_qfq": 15.33
+          }
+        }
+      ]
+    }
+  ],
+  "sample_size": 6,
+  "twelve_prefix_observations_seconds": 0.5429302610000377,
+  "core_provider_requests_added": 0,
+  "out_of_sample_validated": false,
+  "production_report_updated": false,
+  "cpu_comparison": {
+    "core_seconds": 0.9684660670000085,
+    "core_plus_route_c_seconds": 1.4579836900002192,
+    "repetitions": 3,
+    "stocks_per_repetition": 6,
+    "kind": "local_cpu_sample_only_not_full_market_latency_guarantee",
+    "additional_provider_requests": 0
+  },
+  "actual_report_comparison": {
+    "source_run_url": "https://github.com/taoming030723-a11y/Tommy-Capital-AI/actions/runs/41023384953",
+    "data_session": "2026-10-30",
+    "original_technical_verified": 5247,
+    "route_c_features_observed": 6,
+    "route_c_candidate_count": 2,
+    "route_c_unknown_count": 5241,
+    "production_top20_and_scores_unchanged": true,
+    "coverage_and_top10_history_unchanged": true,
+    "not_full_market_route_c_validation": true,
+    "sample_ab": [
+      {
+        "code": "300750",
+        "name": "宁德时代",
+        "eligible": false,
+        "reasons": [
+          "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：核心业务改善证据或毛利率同比改善代理未确认",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：非已核验TTM亏损",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：未满足B路线近6月月J恢复路径",
+          "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+        ]
+      },
+      {
+        "code": "600036",
+        "name": "招商银行",
+        "eligible": false,
+        "reasons": [
+          "A：未满足A路线完整月J超卖/近3月恢复路径",
+          "B：营收同比未超过领先拐点门槛",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：核心业务改善证据或毛利率同比改善代理未确认",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：非已核验TTM亏损",
+          "B：真实市值/TTM营收估值未通过；不把PS冒充EV/Sales",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：近126交易日价格压缩未达门槛"
+        ]
+      },
+      {
+        "code": "600031",
+        "name": "三一重工",
+        "eligible": false,
+        "reasons": [
+          "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+          "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：非已核验TTM亏损",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：未满足B路线近6月月J恢复路径",
+          "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+        ]
+      },
+      {
+        "code": "000333",
+        "name": "美的集团",
+        "eligible": false,
+        "reasons": [
+          "A：industry_pe_ratio 超过上限 1.2",
+          "A：未满足A路线完整月J超卖/近3月恢复路径",
+          "B：营收同比未超过领先拐点门槛",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：核心业务改善证据或毛利率同比改善代理未确认",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：非已核验TTM亏损",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：未满足B路线近6月月J恢复路径",
+          "B：近126交易日价格压缩未达门槛"
+        ]
+      },
+      {
+        "code": "601012",
+        "name": "隆基绿能",
+        "eligible": false,
+        "reasons": [
+          "A：profit_ytd 未达下限 0",
+          "A：profit_ttm 未达下限 0",
+          "A：revenue_yoy 未达下限 0",
+          "A：profit_yoy 未达下限 0",
+          "A：cfo_per_share_ytd 未达下限 0",
+          "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+          "A：pe_ttm 缺失",
+          "A：pe_ttm 缺失",
+          "A：industry_pe_ratio 缺失",
+          "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+          "B：营收同比未超过领先拐点门槛",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：营收同比未达收窄路线要求",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：未满足B路线近6月月J恢复路径",
+          "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+        ]
+      },
+      {
+        "code": "603883",
+        "name": "老百姓",
+        "eligible": false,
+        "reasons": [
+          "A：经营现金流/股低于上年同期；不比较相邻累计季度",
+          "A：未满足A路线完整月J超卖/近3月恢复路径",
+          "A：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住",
+          "B：营收同比未超过领先拐点门槛",
+          "B：缺少已核对的销量/订单增长>30%或规模交付证据",
+          "B：核心业务改善证据或毛利率同比改善代理未确认",
+          "B：未来6个月明确催化缺失/已发生/日期未核实",
+          "B：缺少已复核的远期盈利/SOTP/EV-Sales估值模型",
+          "B：非已核验TTM亏损",
+          "B：2026-03-31归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：2026-06-30归母/扣非亏损、利润率或同比现金流未同步改善",
+          "B：周MA55强化门槛未通过：非下行、周/日在线上、近6周至少3次且连续2周守住"
+        ]
+      }
+    ]
+  },
+  "live_smoke_and_recorded_input_replay": {
+    "kind": "final_code_replay_of_same_day_actual_network_scan",
+    "live_started_at": "2026-10-30T17:14:12.176680+08:00",
+    "live_finished_at": "2026-10-30T17:20:55.335146+08:00",
+    "quotes": 5576,
+    "scope_limit": 6,
+    "technical_completed": 6,
+    "unscanned": 5570,
+    "original_card_facts_unchanged": true,
+    "additional_network_requests": 0,
+    "route_c_status": "partial",
+    "route_c_unknown": 0,
+    "route_c_count": 0,
+    "route_c_states": [
+      {
+        "code": "600109",
+        "status": "invalidated",
+        "stage": 5,
+        "reason": null
+      },
+      {
+        "code": "600236",
+        "status": "not_detected",
+        "stage": null,
+        "reason": null
+      },
+      {
+        "code": "600958",
+        "status": "invalidated",
+        "stage": 5,
+        "reason": null
+      },
+      {
+        "code": "600918",
+        "status": "invalidated",
+        "stage": 5,
+        "reason": null
+      },
+      {
+        "code": "601066",
+        "status": "invalidated",
+        "stage": 5,
+        "reason": null
+      },
+      {
+        "code": "601058",
+        "status": "invalidated",
+        "stage": 5,
+        "reason": null
+      }
+    ],
+    "source_inputs": [
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "600109",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "488c4dfc9457fb18a71d89881cb8eb31e8ee8c5b11cda7af2309093eaf51c3ab",
+        "fetched_at": "2026-10-30T17:19:57.101108+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600109",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "a2c8fa3321e8712f423a44ad3b188a8e14d7a37da823ad75503fe4ee1c562145",
+        "fetched_at": "2026-10-30T17:20:05.574676+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600109",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 120
+        },
+        "sha256": "d31f68601f39f74c69f1904b7dcf187280489d8c942015b08a7e2ea3bd0b085a",
+        "fetched_at": "2026-10-30T17:20:13.349862+08:00"
+      },
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "600236",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "425ac28753f3ce56096276c447bad7849f39e18a4ba9184d5ebfc12ce07324fd",
+        "fetched_at": "2026-10-30T17:19:57.006381+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600236",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "f6dd886b322a9469eafc9e35204225eaf920f915f796023245b01838be298a30",
+        "fetched_at": "2026-10-30T17:20:05.274047+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600236",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 120
+        },
+        "sha256": "7563fa92ef9aae84a87e47da2b832947898a2a55281454b7e2a731d67b436261",
+        "fetched_at": "2026-10-30T17:20:13.567174+08:00"
+      },
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "600958",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "6c900bd8a6c10f06fc7c38dc759e20d083781198789ec27e155230b91994f929",
+        "fetched_at": "2026-10-30T17:20:21.773848+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600958",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "84833aadeef75fb18f4726ce038773b00b47c0c4000c607ab690077a88672d19",
+        "fetched_at": "2026-10-30T17:20:30.134909+08:00"
+      },
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "600918",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "9a5c6e27ab097f82fc2f4eea8378171b060314a99d3e55c29f85163fd8117511",
+        "fetched_at": "2026-10-30T17:20:21.801302+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "600918",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "9cc3e3e63abccac1fc6319eb474cd280ab40ea198f5df1ab317559feef5c0a2a",
+        "fetched_at": "2026-10-30T17:20:30.367462+08:00"
+      },
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "601066",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "585a00afb8fc66012eb69b1dd0ac31c4eb39255e348c9b272ba92d087446255f",
+        "fetched_at": "2026-10-30T17:20:38.667270+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "601066",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "1785d808aa6330d334abb510117169d296116b3606fd904e1f9c7ac9f6eaee9d",
+        "fetched_at": "2026-10-30T17:20:46.696293+08:00"
+      },
+      {
+        "function": "daily_tx_recent",
+        "kwargs": {
+          "symbol": "601058",
+          "adjust": "qfq",
+          "end_date": "20261030",
+          "anchor_date": "20261030",
+          "include_current_session": true,
+          "start_date": "20180101"
+        },
+        "sha256": "24364a0b38978672d3752253a8c8fd2931b0694a9bfd641229b482f5dd43e593",
+        "fetched_at": "2026-10-30T17:20:38.740370+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "601058",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 300
+        },
+        "sha256": "076f5ec2d529602dfd2c1c08af2c09c261fab05acf4bdb0c891201d3fa7209d1",
+        "fetched_at": "2026-10-30T17:20:46.882421+08:00"
+      },
+      {
+        "function": "monthly_tx_qfq",
+        "kwargs": {
+          "symbol": "601058",
+          "end_date": "2026-10-30",
+          "anchor_date": "2026-10-30",
+          "max_periods": 120
+        },
+        "sha256": "5ce6046c81b053baa48d5a2e7da49359fef1dd04cbc6204d6188545fac2b5935",
+        "fetched_at": "2026-10-30T17:20:55.019338+08:00"
+      }
+    ]
+  },
+  "checks": {
+    "python": {
+      "passed": 563,
+      "seconds": 33.92
+    },
+    "node": {
+      "passed": 61
+    },
+    "actual_full_baseline_audit_passed": true,
+    "all_original_companion_snapshots_validated": true,
+    "production_main_written": false,
+    "original_production_displayed_count": 8
+  },
+  "source_artifact": {
+    "run_id": 41023384953,
+    "artifact_id": 12964118276,
+    "sha256": "5843f518854c085a46903d966bcec900a27a4ba9a858d4b4890cc7a8ae2fcd7b"
+  }
+}
