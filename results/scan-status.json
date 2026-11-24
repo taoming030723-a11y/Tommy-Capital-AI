@@ -6,6 +6,10 @@
   "scan_phase": "closing",
   "started_at": "2026-11-25T03:04:34.629017+08:00",
   "previous_report_session": "2026-11-24",
-  "updated_at": "2026-11-25T03:04:34.629017+08:00",
-  "status": "running"
+  "updated_at": "2026-11-25T03:08:09.563426+08:00",
+  "status": "failed",
+  "report_generated_at": "2026-11-25T03:06:41.047430+08:00",
+  "report_finished_at": "2026-11-25T03:06:41.071963+08:00",
+  "report_session": "2026-11-24",
+  "scan_complete": false
 }
