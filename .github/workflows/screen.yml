@@ -1,16 +1,7 @@
 name: A-share live screen
 on:
-  push:
-    branches: [main]
-    paths: ['operations/scan-request.json']
-  schedule:
-    # Keep the requested one-time opening scan; recurring close is 15:05 UTC+8.
-    # 15:35 / 16:05 catch missed triggers. Valid daily reports suppress duplicates.
-    # Holidays are checked against the real calendar after dependency install.
-    - cron: '50 1 8 10 *'
-    - cron: '5 7 * * 1-5'
-    - cron: '35 7 * * 1-5'
-    - cron: '5 8 * * 1-5'
+  # Automatic scanning paused by the owner on 2026-11-25 (UTC+8).
+  # Resume scans only through an explicit manual workflow dispatch.
   workflow_dispatch:
     inputs:
       phase:
