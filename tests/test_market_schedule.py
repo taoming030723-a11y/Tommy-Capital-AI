@@ -200,7 +200,8 @@ def test_current_archive_with_stale_latest_page_does_not_suppress_repair(tmp_pat
     assert decision('schedule', CLOSING_FALLBACK_CRONS[0], 'auto', now, CalendarSource(), tmp_path)[0]
 
 
-def test_workflow_and_calendar_gate_keep_the_same_primary_and_recovery_crons():
+def test_paused_workflow_keeps_only_explicit_manual_scans():
     workflow = (Path(__file__).parents[1] / '.github/workflows/screen.yml').read_text()
-    assert set(re.findall(r"cron: '([^']+)'", workflow)) == {OPENING_CRON, CLOSING_CRON, *CLOSING_FALLBACK_CRONS}
+    triggers = workflow.split('\non:\n', 1)[1].split('\npermissions:', 1)[0]
+    assert re.findall(r"^  ([a-z_]+):", triggers, flags=re.MULTILINE) == ['workflow_dispatch']
     assert 'ref: main' in workflow and 'cancel-in-progress: false' in workflow
